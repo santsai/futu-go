@@ -1,0 +1,45 @@
+syntax = "proto2";
+package futupb;
+option java_package = "com.futu.openapi.pb";
+option go_package = "github.com/santsai/futu-go/pb";
+
+import "Common.proto";
+import "Qot_Common.proto";
+
+message QotGetSuspendRequest
+{
+	repeated Security securityList = 1; //股票
+	required string beginTime = 2; //开始时间字符串
+	required string endTime = 3; //结束时间字符串
+}
+
+message Suspend
+{
+	required string time = 1; //时间字符串
+	optional double timestamp = 2; //时间戳
+}
+
+message SecuritySuspend
+{
+    required Security security = 1; //股票
+	repeated Suspend suspendList = 2; //交易日
+}
+
+message QotGetSuspendResponse
+{
+	repeated SecuritySuspend SecuritySuspendList = 1; //多支股票的交易日
+}
+
+message QotGetSuspendRequest_Internal
+{
+	required QotGetSuspendRequest payload = 1;
+}
+
+message QotGetSuspendResponse_Internal
+{
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+
+	optional QotGetSuspendResponse payload = 4;
+}

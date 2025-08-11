@@ -1,0 +1,33 @@
+syntax = "proto2";
+package futupb;
+option java_package = "com.futu.openapi.pb";
+option go_package = "github.com/santsai/futu-go/pb";
+
+import "Common.proto";
+import "Qot_Common.proto";
+
+message QotGetSubInfoRequest
+{
+	optional bool isReqAllConn = 1; //是否返回所有连接的订阅状态,不传或者传false只返回当前连接数据
+}
+
+message QotGetSubInfoResponse
+{
+	repeated ConnSubInfo connSubInfoList = 1; //订阅订阅信息
+	required int32 totalUsedQuota = 2; //FutuOpenD已使用的订阅额度
+	required int32 remainQuota = 3; //FutuOpenD剩余订阅额度
+}
+
+message QotGetSubInfoRequest_Internal
+{
+	required QotGetSubInfoRequest payload = 1;
+}
+
+message QotGetSubInfoResponse_Internal
+{
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+
+	optional QotGetSubInfoResponse payload = 4;
+}

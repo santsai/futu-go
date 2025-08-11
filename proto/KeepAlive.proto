@@ -1,0 +1,30 @@
+syntax = "proto2";
+package futupb;
+option java_package = "com.futu.openapi.pb";
+option go_package = "github.com/santsai/futu-go/pb";
+
+import "Common.proto";
+
+message KeepAliveRequest
+{
+	required int64 time = 1; //客户端发包时的格林威治时间戳，单位秒
+}
+
+message KeepAliveResponse
+{
+	required int64 time = 1; //服务器回包时的格林威治时间戳，单位秒
+}
+
+message KeepAliveRequest_Internal
+{
+	required KeepAliveRequest payload = 1;
+}
+
+message KeepAliveResponse_Internal
+{
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+
+	optional KeepAliveResponse payload = 4;
+}

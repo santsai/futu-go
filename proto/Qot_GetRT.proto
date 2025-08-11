@@ -1,0 +1,33 @@
+syntax = "proto2";
+package futupb;
+option java_package = "com.futu.openapi.pb";
+option go_package = "github.com/santsai/futu-go/pb";
+
+import "Common.proto";
+import "Qot_Common.proto";
+
+message QotGetRTRequest
+{
+	required Security security = 1; //股票
+}
+
+message QotGetRTResponse
+{
+	required Security security = 1; //股票
+	optional string name = 3; //股票名称
+	repeated TimeShare rtList = 2; //分时点
+}
+
+message QotGetRTRequest_Internal
+{
+	required QotGetRTRequest payload = 1;
+}
+
+message QotGetRTResponse_Internal
+{
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+
+	optional QotGetRTResponse payload = 4;
+}

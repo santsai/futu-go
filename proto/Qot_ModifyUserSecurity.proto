@@ -1,0 +1,41 @@
+syntax = "proto2";
+package futupb;
+option java_package = "com.futu.openapi.pb";
+option go_package = "github.com/santsai/futu-go/pb";
+
+import "Common.proto";
+import "Qot_Common.proto";
+
+enum ModifyUserSecurityOp
+{
+	ModifyUserSecurityOp_Unknown = 0;
+	ModifyUserSecurityOp_Add = 1; //新增
+	ModifyUserSecurityOp_Del = 2; //删除自选
+	ModifyUserSecurityOp_MoveOut = 3; //移出分组
+}
+
+message QotModifyUserSecurityRequest
+{
+	required string groupName = 1; //分组名,有同名的返回排序的首个
+	required int32 op = 2; //ModifyUserSecurityOp,操作类型
+	repeated Security securityList = 3; //新增、删除或移出该分组下的股票
+}
+
+message QotModifyUserSecurityResponse
+{
+
+}
+
+message QotModifyUserSecurityRequest_Internal
+{
+	required QotModifyUserSecurityRequest payload = 1;
+}
+
+message QotModifyUserSecurityResponse_Internal
+{
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+
+	optional QotModifyUserSecurityResponse payload = 4;
+}
