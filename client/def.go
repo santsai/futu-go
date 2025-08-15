@@ -1,6 +1,7 @@
 package client
 
 import "errors"
+import "github.com/santsai/futu-go/pb"
 
 const (
 	// ClientVersion is the version of the client.
@@ -19,9 +20,13 @@ type futuHeader struct {
 }
 
 type response struct {
-	ProtoID  uint32
+	ProtoID  pb.ProtoId
 	SerialNo uint32
 	Body     []byte
+}
+
+func (r *response) respId() uint64 {
+	return (uint64(r.ProtoID) << 32) | uint64(r.SerialNo)
 }
 
 var (

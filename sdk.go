@@ -4,38 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/hyperjiang/futu/adapt"
-	"github.com/hyperjiang/futu/client"
-	"github.com/hyperjiang/futu/pb/getglobalstate"
-	"github.com/hyperjiang/futu/pb/qotcommon"
-	"github.com/hyperjiang/futu/pb/qotgetbroker"
-	"github.com/hyperjiang/futu/pb/qotgetcapitaldistribution"
-	"github.com/hyperjiang/futu/pb/qotgetcapitalflow"
-	"github.com/hyperjiang/futu/pb/qotgetfutureinfo"
-	"github.com/hyperjiang/futu/pb/qotgetipolist"
-	"github.com/hyperjiang/futu/pb/qotgetkl"
-	"github.com/hyperjiang/futu/pb/qotgetmarketstate"
-	"github.com/hyperjiang/futu/pb/qotgetoptionchain"
-	"github.com/hyperjiang/futu/pb/qotgetoptionexpirationdate"
-	"github.com/hyperjiang/futu/pb/qotgetorderbook"
-	"github.com/hyperjiang/futu/pb/qotgetownerplate"
-	"github.com/hyperjiang/futu/pb/qotgetpricereminder"
-	"github.com/hyperjiang/futu/pb/qotgetrt"
-	"github.com/hyperjiang/futu/pb/qotgetsecuritysnapshot"
-	"github.com/hyperjiang/futu/pb/qotgetsubinfo"
-	"github.com/hyperjiang/futu/pb/qotgetticker"
-	"github.com/hyperjiang/futu/pb/qotgetusersecuritygroup"
-	"github.com/hyperjiang/futu/pb/qotgetwarrant"
-	"github.com/hyperjiang/futu/pb/qotrequesthistorykl"
-	"github.com/hyperjiang/futu/pb/qotrequesthistoryklquota"
-	"github.com/hyperjiang/futu/pb/qotrequestrehab"
-	"github.com/hyperjiang/futu/pb/qotrequesttradedate"
-	"github.com/hyperjiang/futu/pb/qotstockfilter"
-	"github.com/hyperjiang/futu/pb/trdcommon"
-	"github.com/hyperjiang/futu/pb/trdflowsummary"
-	"github.com/hyperjiang/futu/pb/trdgetmarginratio"
-	"github.com/hyperjiang/futu/pb/trdmodifyorder"
-	"github.com/hyperjiang/futu/pb/trdplaceorder"
+	"github.com/santsai/futu-go/adapt"
+	"github.com/santsai/futu-go/client"
+	"github.com/santsai/futu-go/pb"
 )
 
 const defaultTimeout = time.Second * 5
@@ -73,14 +44,14 @@ func (sdk *SDK) GetClient() *client.Client {
 }
 
 // RegisterHandler registers a handler for notifications of a specified protoID.
-func (sdk *SDK) RegisterHandler(protoID uint32, h client.Handler) *SDK {
+func (sdk *SDK) RegisterHandler(protoID pb.ProtoId, h client.Handler) *SDK {
 	sdk.cli.RegisterHandler(protoID, h)
 
 	return sdk
 }
 
 // GetGlobalState 1002 - gets the global state.
-func (sdk *SDK) GetGlobalState() (*getglobalstate.S2C, error) {
+func (sdk *SDK) GetGlobalState() (*pb.GetGlobalStateResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -88,7 +59,7 @@ func (sdk *SDK) GetGlobalState() (*getglobalstate.S2C, error) {
 }
 
 // GetAccList 2001 - gets the trading account list.
-func (sdk *SDK) GetAccList(opts ...adapt.Option) ([]*trdcommon.TrdAcc, error) {
+func (sdk *SDK) GetAccList(opts ...adapt.Option) ([]*pb.TrdAcc, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -120,7 +91,7 @@ func (sdk *SDK) SubscribeAccPush(accIDList []uint64) error {
 }
 
 // GetFunds 2101 - gets the funds.
-func (sdk *SDK) GetFunds(header *trdcommon.TrdHeader, opts ...adapt.Option) (*trdcommon.Funds, error) {
+func (sdk *SDK) GetFunds(header *pb.TrdHeader, opts ...adapt.Option) (*pb.Funds, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -128,7 +99,7 @@ func (sdk *SDK) GetFunds(header *trdcommon.TrdHeader, opts ...adapt.Option) (*tr
 }
 
 // GetPositionList 2102 - gets the position list.
-func (sdk *SDK) GetPositionList(header *trdcommon.TrdHeader, opts ...adapt.Option) ([]*trdcommon.Position, error) {
+func (sdk *SDK) GetPositionList(header *pb.TrdHeader, opts ...adapt.Option) ([]*pb.Position, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -144,7 +115,7 @@ func (sdk *SDK) GetPositionList(header *trdcommon.TrdHeader, opts ...adapt.Optio
 // code: security code, e.g. US.AAPL
 //
 // price: price
-func (sdk *SDK) GetMaxTrdQtys(header *trdcommon.TrdHeader, orderType int32, code string, price float64, opts ...adapt.Option) (*trdcommon.MaxTrdQtys, error) {
+func (sdk *SDK) GetMaxTrdQtys(header *pb.TrdHeader, orderType int32, code string, price float64, opts ...adapt.Option) (*pb.MaxTrdQtys, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -152,7 +123,7 @@ func (sdk *SDK) GetMaxTrdQtys(header *trdcommon.TrdHeader, orderType int32, code
 }
 
 // GetOpenOrderList 2201 - gets the open order list.
-func (sdk *SDK) GetOpenOrderList(header *trdcommon.TrdHeader, opts ...adapt.Option) ([]*trdcommon.Order, error) {
+func (sdk *SDK) GetOpenOrderList(header *pb.TrdHeader, opts ...adapt.Option) ([]*pb.Order, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -172,7 +143,7 @@ func (sdk *SDK) GetOpenOrderList(header *trdcommon.TrdHeader, opts ...adapt.Opti
 // qty: quantity
 //
 // price: price
-func (sdk *SDK) PlaceOrder(header *trdcommon.TrdHeader, trdSide int32, orderType int32, code string, qty float64, price float64, opts ...adapt.Option) (*trdplaceorder.S2C, error) {
+func (sdk *SDK) PlaceOrder(header *pb.TrdHeader, trdSide int32, orderType int32, code string, qty float64, price float64, opts ...adapt.Option) (*pb.TrdPlaceOrderResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -186,7 +157,7 @@ func (sdk *SDK) PlaceOrder(header *trdcommon.TrdHeader, trdSide int32, orderType
 // orderID: order ID, use 0 if forAll=true
 //
 // modifyOrderOp: modify order operation
-func (sdk *SDK) ModifyOrder(header *trdcommon.TrdHeader, orderID uint64, modifyOrderOp int32, opts ...adapt.Option) (*trdmodifyorder.S2C, error) {
+func (sdk *SDK) ModifyOrder(header *pb.TrdHeader, orderID uint64, modifyOrderOp int32, opts ...adapt.Option) (*pb.TrdModifyOrderResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -194,7 +165,7 @@ func (sdk *SDK) ModifyOrder(header *trdcommon.TrdHeader, orderID uint64, modifyO
 }
 
 // GetHistoryOrderList 2211 - gets the filled order list.
-func (sdk *SDK) GetOrderFillList(header *trdcommon.TrdHeader, opts ...adapt.Option) ([]*trdcommon.OrderFill, error) {
+func (sdk *SDK) GetOrderFillList(header *pb.TrdHeader, opts ...adapt.Option) ([]*pb.OrderFill, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -202,7 +173,7 @@ func (sdk *SDK) GetOrderFillList(header *trdcommon.TrdHeader, opts ...adapt.Opti
 }
 
 // GetHistoryOrderList 2221 - gets the history order list.
-func (sdk *SDK) GetHistoryOrderList(header *trdcommon.TrdHeader, fc *trdcommon.TrdFilterConditions, opts ...adapt.Option) ([]*trdcommon.Order, error) {
+func (sdk *SDK) GetHistoryOrderList(header *pb.TrdHeader, fc *pb.TrdFilterConditions, opts ...adapt.Option) ([]*pb.Order, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -210,7 +181,7 @@ func (sdk *SDK) GetHistoryOrderList(header *trdcommon.TrdHeader, fc *trdcommon.T
 }
 
 // GetHistoryOrderFillList 2222 - gets the history filled order list.
-func (sdk *SDK) GetHistoryOrderFillList(header *trdcommon.TrdHeader, fc *trdcommon.TrdFilterConditions, opts ...adapt.Option) ([]*trdcommon.OrderFill, error) {
+func (sdk *SDK) GetHistoryOrderFillList(header *pb.TrdHeader, fc *pb.TrdFilterConditions, opts ...adapt.Option) ([]*pb.OrderFill, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -218,7 +189,7 @@ func (sdk *SDK) GetHistoryOrderFillList(header *trdcommon.TrdHeader, fc *trdcomm
 }
 
 // GetMarginRatio 2223 - gets the margin ratio.
-func (sdk *SDK) GetMarginRatio(header *trdcommon.TrdHeader, codes []string) ([]*trdgetmarginratio.MarginRatioInfo, error) {
+func (sdk *SDK) GetMarginRatio(header *pb.TrdHeader, codes []string) ([]*pb.MarginRatioInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -226,7 +197,7 @@ func (sdk *SDK) GetMarginRatio(header *trdcommon.TrdHeader, codes []string) ([]*
 }
 
 // GetOrderFee 2225 - gets the order fee.
-func (sdk *SDK) GetOrderFee(header *trdcommon.TrdHeader, orderIdExList []string) ([]*trdcommon.OrderFee, error) {
+func (sdk *SDK) GetOrderFee(header *pb.TrdHeader, orderIdExList []string) ([]*pb.OrderFee, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -234,7 +205,7 @@ func (sdk *SDK) GetOrderFee(header *trdcommon.TrdHeader, orderIdExList []string)
 }
 
 // TrdFlowSummary 2226 - gets the trading flow summary.
-func (sdk *SDK) TrdFlowSummary(header *trdcommon.TrdHeader, clearingDate string) ([]*trdflowsummary.FlowSummaryInfo, error) {
+func (sdk *SDK) TrdFlowSummary(header *pb.TrdHeader, clearingDate string) ([]*pb.FlowSummaryInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -256,7 +227,7 @@ func (sdk *SDK) Subscribe(codes []string, subTypes []int32, isSub bool, opts ...
 }
 
 // GetSubInfo 3003 - gets the subscription information.
-func (sdk *SDK) GetSubInfo(opts ...adapt.Option) (*qotgetsubinfo.S2C, error) {
+func (sdk *SDK) GetSubInfo(opts ...adapt.Option) (*pb.QotGetSubInfoResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -264,7 +235,7 @@ func (sdk *SDK) GetSubInfo(opts ...adapt.Option) (*qotgetsubinfo.S2C, error) {
 }
 
 // GetBasicQot 3004 - gets the basic quotes of given securities.
-func (sdk *SDK) GetBasicQot(codes []string) ([]*qotcommon.BasicQot, error) {
+func (sdk *SDK) GetBasicQot(codes []string) ([]*pb.BasicQot, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -276,7 +247,7 @@ func (sdk *SDK) GetBasicQot(codes []string) ([]*qotcommon.BasicQot, error) {
 // code: security code
 //
 // klType: K-line type
-func (sdk *SDK) GetKL(code string, klType int32, opts ...adapt.Option) (*qotgetkl.S2C, error) {
+func (sdk *SDK) GetKL(code string, klType int32, opts ...adapt.Option) (*pb.QotGetKLResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -286,7 +257,7 @@ func (sdk *SDK) GetKL(code string, klType int32, opts ...adapt.Option) (*qotgetk
 // GetRT 3008 - gets real-time data.
 //
 // code: security code
-func (sdk *SDK) GetRT(code string) (*qotgetrt.S2C, error) {
+func (sdk *SDK) GetRT(code string) (*pb.QotGetRTResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -296,7 +267,7 @@ func (sdk *SDK) GetRT(code string) (*qotgetrt.S2C, error) {
 // GetTicker 3010 - gets ticker data.
 //
 // code: security code
-func (sdk *SDK) GetTicker(code string, opts ...adapt.Option) (*qotgetticker.S2C, error) {
+func (sdk *SDK) GetTicker(code string, opts ...adapt.Option) (*pb.QotGetTickerResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -306,7 +277,7 @@ func (sdk *SDK) GetTicker(code string, opts ...adapt.Option) (*qotgetticker.S2C,
 // GetOrderBook 3012 - gets order book data.
 //
 // code: security code
-func (sdk *SDK) GetOrderBook(code string, opts ...adapt.Option) (*qotgetorderbook.S2C, error) {
+func (sdk *SDK) GetOrderBook(code string, opts ...adapt.Option) (*pb.QotGetOrderBookResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -316,7 +287,7 @@ func (sdk *SDK) GetOrderBook(code string, opts ...adapt.Option) (*qotgetorderboo
 // GetBroker 3014 - gets broker data.
 //
 // code: security code
-func (sdk *SDK) GetBroker(code string) (*qotgetbroker.S2C, error) {
+func (sdk *SDK) GetBroker(code string) (*pb.QotGetBrokerResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -332,7 +303,7 @@ func (sdk *SDK) GetBroker(code string) (*qotgetbroker.S2C, error) {
 // beginTime: begin time, format: "yyyy-MM-dd"
 //
 // endTime: end time, format: "yyyy-MM-dd"
-func (sdk *SDK) RequestHistoryKL(code string, klType int32, beginTime string, endTime string, opts ...adapt.Option) (*qotrequesthistorykl.S2C, error) {
+func (sdk *SDK) RequestHistoryKL(code string, klType int32, beginTime string, endTime string, opts ...adapt.Option) (*pb.QotRequestHistoryKLResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -340,7 +311,7 @@ func (sdk *SDK) RequestHistoryKL(code string, klType int32, beginTime string, en
 }
 
 // RequestHistoryKLQuota 3104 - requests the history K-line quota.
-func (sdk *SDK) RequestHistoryKLQuota(opts ...adapt.Option) (*qotrequesthistoryklquota.S2C, error) {
+func (sdk *SDK) RequestHistoryKLQuota(opts ...adapt.Option) (*pb.QotRequestHistoryKLQuotaResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -348,7 +319,7 @@ func (sdk *SDK) RequestHistoryKLQuota(opts ...adapt.Option) (*qotrequesthistoryk
 }
 
 // RequestRehab 3105 - requests the rehab data.
-func (sdk *SDK) RequestRehab(code string) (*qotrequestrehab.S2C, error) {
+func (sdk *SDK) RequestRehab(code string) (*pb.QotRequestRehabResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -356,7 +327,7 @@ func (sdk *SDK) RequestRehab(code string) (*qotrequestrehab.S2C, error) {
 }
 
 // GetStaticInfo 3202 - gets the static information.
-func (sdk *SDK) GetStaticInfo(opts ...adapt.Option) ([]*qotcommon.SecurityStaticInfo, error) {
+func (sdk *SDK) GetStaticInfo(opts ...adapt.Option) ([]*pb.SecurityStaticInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -366,7 +337,7 @@ func (sdk *SDK) GetStaticInfo(opts ...adapt.Option) ([]*qotcommon.SecurityStatic
 // GetSecuritySnapshot 3203 - gets the security snapshot.
 //
 // codes: security codes
-func (sdk *SDK) GetSecuritySnapshot(codes []string) ([]*qotgetsecuritysnapshot.Snapshot, error) {
+func (sdk *SDK) GetSecuritySnapshot(codes []string) ([]*pb.Snapshot, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -378,7 +349,7 @@ func (sdk *SDK) GetSecuritySnapshot(codes []string) ([]*qotgetsecuritysnapshot.S
 // market: market
 //
 // plateSetType: plate set type
-func (sdk *SDK) GetPlateSet(market int32, plateSetType int32) ([]*qotcommon.PlateInfo, error) {
+func (sdk *SDK) GetPlateSet(market int32, plateSetType int32) ([]*pb.PlateInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -388,7 +359,7 @@ func (sdk *SDK) GetPlateSet(market int32, plateSetType int32) ([]*qotcommon.Plat
 // GetPlateSecurity 3205 - gets the plate securities.
 //
 // plateCode: plate code
-func (sdk *SDK) GetPlateSecurity(plateCode string, opts ...adapt.Option) ([]*qotcommon.SecurityStaticInfo, error) {
+func (sdk *SDK) GetPlateSecurity(plateCode string, opts ...adapt.Option) ([]*pb.SecurityStaticInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -400,7 +371,7 @@ func (sdk *SDK) GetPlateSecurity(plateCode string, opts ...adapt.Option) ([]*qot
 // code: security code
 //
 // refType: reference type
-func (sdk *SDK) GetReference(code string, refType int32) ([]*qotcommon.SecurityStaticInfo, error) {
+func (sdk *SDK) GetReference(code string, refType int32) ([]*pb.SecurityStaticInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -410,7 +381,7 @@ func (sdk *SDK) GetReference(code string, refType int32) ([]*qotcommon.SecurityS
 // GetOwnerPlate 3207 - gets the owner plate.
 //
 // codes: security codes
-func (sdk *SDK) GetOwnerPlate(codes []string) ([]*qotgetownerplate.SecurityOwnerPlate, error) {
+func (sdk *SDK) GetOwnerPlate(codes []string) ([]*pb.SecurityOwnerPlate, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -424,7 +395,7 @@ func (sdk *SDK) GetOwnerPlate(codes []string) ([]*qotgetownerplate.SecurityOwner
 // beginTime: begin time, format: "yyyy-MM-dd"
 //
 // endTime: end time, format: "yyyy-MM-dd"
-func (sdk *SDK) GetOptionChain(code string, beginTime string, endTime string, opts ...adapt.Option) ([]*qotgetoptionchain.OptionChain, error) {
+func (sdk *SDK) GetOptionChain(code string, beginTime string, endTime string, opts ...adapt.Option) ([]*pb.OptionChain, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -437,7 +408,7 @@ func (sdk *SDK) GetOptionChain(code string, beginTime string, endTime string, op
 // begin: begin index
 //
 // num: number of warrants
-func (sdk *SDK) GetWarrant(begin int32, num int32, opts ...adapt.Option) (*qotgetwarrant.S2C, error) {
+func (sdk *SDK) GetWarrant(begin int32, num int32, opts ...adapt.Option) (*pb.QotGetWarrantResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -447,7 +418,7 @@ func (sdk *SDK) GetWarrant(begin int32, num int32, opts ...adapt.Option) (*qotge
 // GetCapitalFlow 3211 - gets the capital flow.
 //
 // code: security code
-func (sdk *SDK) GetCapitalFlow(code string, opts ...adapt.Option) (*qotgetcapitalflow.S2C, error) {
+func (sdk *SDK) GetCapitalFlow(code string, opts ...adapt.Option) (*pb.QotGetCapitalFlowResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -457,7 +428,7 @@ func (sdk *SDK) GetCapitalFlow(code string, opts ...adapt.Option) (*qotgetcapita
 // GetCapitalDistribution 3212 - gets the capital distribution.
 //
 // code: security code
-func (sdk *SDK) GetCapitalDistribution(code string) (*qotgetcapitaldistribution.S2C, error) {
+func (sdk *SDK) GetCapitalDistribution(code string) (*pb.QotGetCapitalDistributionResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -467,7 +438,7 @@ func (sdk *SDK) GetCapitalDistribution(code string) (*qotgetcapitaldistribution.
 // GetUserSecurity 3213 - gets the user security.
 //
 // groupName: group name
-func (sdk *SDK) GetUserSecurity(groupName string) ([]*qotcommon.SecurityStaticInfo, error) {
+func (sdk *SDK) GetUserSecurity(groupName string) ([]*pb.SecurityStaticInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -491,7 +462,7 @@ func (sdk *SDK) ModifyUserSecurity(groupName string, codes []string, op int32) e
 // StockFilter 3215 - filters the stocks.
 //
 // market: market
-func (sdk *SDK) StockFilter(market int32, opts ...adapt.Option) (*qotstockfilter.S2C, error) {
+func (sdk *SDK) StockFilter(market int32, opts ...adapt.Option) (*pb.QotStockFilterResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -501,7 +472,7 @@ func (sdk *SDK) StockFilter(market int32, opts ...adapt.Option) (*qotstockfilter
 // GetIpoList 3217 - gets the IPO list.
 //
 // market: market
-func (sdk *SDK) GetIpoList(market int32) ([]*qotgetipolist.IpoData, error) {
+func (sdk *SDK) GetIpoList(market int32) ([]*pb.IpoData, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -511,7 +482,7 @@ func (sdk *SDK) GetIpoList(market int32) ([]*qotgetipolist.IpoData, error) {
 // GetFutureInfo 3218 - gets the future information.
 //
 // codes: security codes
-func (sdk *SDK) GetFutureInfo(codes []string) ([]*qotgetfutureinfo.FutureInfo, error) {
+func (sdk *SDK) GetFutureInfo(codes []string) ([]*pb.FutureInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -527,7 +498,7 @@ func (sdk *SDK) GetFutureInfo(codes []string) ([]*qotgetfutureinfo.FutureInfo, e
 // beginTime: begin time, format: "yyyy-MM-dd"
 //
 // endTime: end time, format: "yyyy-MM-dd"
-func (sdk *SDK) RequestTradeDate(market int32, code string, beginTime string, endTime string) ([]*qotrequesttradedate.TradeDate, error) {
+func (sdk *SDK) RequestTradeDate(market int32, code string, beginTime string, endTime string) ([]*pb.TradeDate, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -551,7 +522,7 @@ func (sdk *SDK) SetPriceReminder(code string, op int32, opts ...adapt.Option) (i
 // code: security code
 //
 // market: market, if security is set, this param is ignored
-func (sdk *SDK) GetPriceReminder(code string, market int32) ([]*qotgetpricereminder.PriceReminder, error) {
+func (sdk *SDK) GetPriceReminder(code string, market int32) ([]*pb.PriceReminder, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -561,7 +532,7 @@ func (sdk *SDK) GetPriceReminder(code string, market int32) ([]*qotgetpriceremin
 // GetUserSecurityGroup 3222 - gets the user security group.
 //
 // groupType: group type
-func (sdk *SDK) GetUserSecurityGroup(groupType int32) ([]*qotgetusersecuritygroup.GroupData, error) {
+func (sdk *SDK) GetUserSecurityGroup(groupType int32) ([]*pb.GroupData, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -571,7 +542,7 @@ func (sdk *SDK) GetUserSecurityGroup(groupType int32) ([]*qotgetusersecuritygrou
 // GetMarketState 3223 - gets the market state.
 //
 // codes: security codes
-func (sdk *SDK) GetMarketState(codes []string) ([]*qotgetmarketstate.MarketInfo, error) {
+func (sdk *SDK) GetMarketState(codes []string) ([]*pb.MarketInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -581,7 +552,7 @@ func (sdk *SDK) GetMarketState(codes []string) ([]*qotgetmarketstate.MarketInfo,
 // GetOptionExpirationDate 3224 - gets the option expiration date.
 //
 // code: security code
-func (sdk *SDK) GetOptionExpirationDate(code string, opts ...adapt.Option) ([]*qotgetoptionexpirationdate.OptionExpirationDate, error) {
+func (sdk *SDK) GetOptionExpirationDate(code string, opts ...adapt.Option) ([]*pb.OptionExpirationDate, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 

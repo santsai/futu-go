@@ -1,11 +1,11 @@
 {
-    # Line 1: Remove trailing carriage return
+    # Remove trailing carriage return
     sub(/\r$/, "")
 
-    # Line 2: Remove trailing whitespace
+    # Remove trailing whitespace
     sub(/[[:space:]]*$/, "")
 
-    # Line 3: Replace package line & capture pkg_name
+    # Replace package line & capture pkg_name
     if ($0 ~ /^package .*;$/) {
 
 		# eg: package: Qot_GetBasicQot
@@ -18,7 +18,7 @@
         $0 = "package futupb;"
     }
 
-    # Line 4: Replace go_package option line
+    # Replace go_package option line
     if ($0 ~ /^option go_package .*;$/) {
         $0 = "option go_package = \"github.com/santsai/futu-go/pb\";"
     }

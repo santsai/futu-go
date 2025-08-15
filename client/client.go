@@ -2,34 +2,25 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"crypto/sha1"
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"io"
 	"net"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/hyperjiang/futu/infra"
-	"github.com/hyperjiang/futu/pb/common"
-	"github.com/hyperjiang/futu/pb/initconnect"
-	"github.com/hyperjiang/futu/pb/keepalive"
-	"github.com/hyperjiang/futu/pb/notify"
-	"github.com/hyperjiang/futu/pb/qotupdatebasicqot"
-	"github.com/hyperjiang/futu/pb/qotupdatebroker"
-	"github.com/hyperjiang/futu/pb/qotupdatekl"
-	"github.com/hyperjiang/futu/pb/qotupdateorderbook"
-	"github.com/hyperjiang/futu/pb/qotupdatepricereminder"
-	"github.com/hyperjiang/futu/pb/qotupdatert"
-	"github.com/hyperjiang/futu/pb/qotupdateticker"
-	"github.com/hyperjiang/futu/pb/trdupdateorder"
-	"github.com/hyperjiang/futu/pb/trdupdateorderfill"
-	"github.com/hyperjiang/futu/protoid"
 	"github.com/hyperjiang/rsa"
 	"github.com/rs/zerolog/log"
+	"github.com/santsai/futu-go/infra"
+	"github.com/santsai/futu-go/pb"
 	"google.golang.org/protobuf/proto"
 )
+
+type bodyChanType chan<- []byte
 
 // Client is the client to connect to Futu OpenD.
 type Client struct {
@@ -38,12 +29,15 @@ type Client struct {
 	conn     net.Conn
 	sn       atomic.Uint32 // serial number
 	resChan  chan response // response channel
+	pushChan chan response // push update channel
 	closed   chan struct{} // indicate the client is closed
-	hub      *infra.DispatcherHub
 	connID   uint64
 	userID   uint64
 	crypto   *infra.Crypto
 	handlers sync.Map // push notification handlers
+
+	bodyChan      map[uint64]bodyChanType
+	bodyChanMutex sync.Mutex
 }
 
 // New creates a new client.
@@ -51,10 +45,12 @@ func New(opts ...Option) (*Client, error) {
 	client := &Client{
 		Options:  NewOptions(opts...),
 		closed:   make(chan struct{}),
-		hub:      infra.NewDispatcherHub(),
+		bodyChan: map[uint64]bodyChanType{},
 		handlers: sync.Map{},
 	}
+
 	client.resChan = make(chan response, client.ResChanSize)
+	client.pushChan = make(chan response, client.ResChanSize)
 
 	if err := client.dial(); err != nil {
 		return nil, err
@@ -109,11 +105,19 @@ func (client *Client) GetUserID() uint64 {
 	return client.userID
 }
 
+// XXX this is temp
+func (client *Client) GetTradePacketId() *pb.PacketID {
+	return &pb.PacketID{
+		ConnID:   proto.Uint64(client.connID),
+		SerialNo: proto.Uint32(client.nextSN()),
+	}
+}
+
 // Close closes the client.
 func (client *Client) Close() error {
 	close(client.closed)
 
-	client.hub.Close()
+	client.dispatcherClose()
 
 	if client.conn == nil {
 		return nil
@@ -123,7 +127,7 @@ func (client *Client) Close() error {
 }
 
 // Request sends a request to the server.
-func (client *Client) Request(protoID uint32, req proto.Message, resCh *infra.ProtobufChan) error {
+func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch chan<- []byte) error {
 	var buf bytes.Buffer
 
 	b, err := proto.Marshal(req)
@@ -133,7 +137,7 @@ func (client *Client) Request(protoID uint32, req proto.Message, resCh *infra.Pr
 	sha1Value := sha1.Sum(b)
 
 	if client.PublicKey != nil {
-		if protoID == protoid.InitConnect {
+		if protoID == pb.ProtoId_InitConnect {
 			b, err = rsa.EncryptByPublicKey(b, client.PublicKey)
 			if err != nil {
 				return err
@@ -147,7 +151,7 @@ func (client *Client) Request(protoID uint32, req proto.Message, resCh *infra.Pr
 
 	h := futuHeader{
 		HeaderFlag:   [2]byte{'F', 'T'},
-		ProtoID:      protoID,
+		ProtoID:      uint32(protoID),
 		ProtoFmtType: 0,
 		ProtoVer:     0,
 		SerialNo:     sn,
@@ -155,7 +159,7 @@ func (client *Client) Request(protoID uint32, req proto.Message, resCh *infra.Pr
 		BodySHA1:     sha1Value,
 	}
 
-	client.registerDispatcher(protoID, sn, resCh)
+	client.dispatcherRegister(protoID, sn, bch)
 
 	if err := binary.Write(&buf, binary.LittleEndian, &h); err != nil {
 		return err
@@ -170,13 +174,40 @@ func (client *Client) Request(protoID uint32, req proto.Message, resCh *infra.Pr
 	return err
 }
 
+func (client *Client) Request(ctx context.Context, id pb.ProtoId, req proto.Message, resp pb.Response) (proto.Message, error) {
+
+	ch := make(chan []byte, 1)
+	defer close(ch)
+
+	if err := client.makeRequest(id, req, ch); err != nil {
+		return nil, err
+	}
+
+	select {
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	case <-client.closed:
+		return nil, ErrInterrupted
+	case bs, ok := <-ch:
+		if !ok {
+			return nil, ErrChannelClosed
+		}
+
+		if err := proto.Unmarshal(bs, resp); err != nil {
+			return nil, err
+		}
+
+		return resp.GetResponsePayload(), pb.ResponseError(resp)
+	}
+}
+
 // RegisterHandler registers a handler for notifications of a specified protoID.
-func (client *Client) RegisterHandler(protoID uint32, h Handler) *Client {
+func (client *Client) RegisterHandler(protoID pb.ProtoId, h Handler) *Client {
 	client.handlers.Store(protoID, h)
 	return client
 }
 
-func (client *Client) getHandler(protoID uint32) Handler {
+func (client *Client) getHandler(protoID pb.ProtoId) Handler {
 	if h, ok := client.handlers.Load(protoID); ok {
 		return h.(Handler)
 	}
@@ -188,128 +219,82 @@ func (client *Client) getHandler(protoID uint32) Handler {
 // no need to close the channels in this function,
 // because they will be closed by the dispatcher hub when the client is closed.
 func (client *Client) watchNotification() {
-	notifyCh := make(chan *notify.Response, 1)
-	client.registerDispatcher(protoid.Notify, 0, infra.NewProtobufChan(notifyCh))
-
-	updateOrderCh := make(chan *trdupdateorder.Response, 1)
-	client.registerDispatcher(protoid.TrdUpdateOrder, 0, infra.NewProtobufChan(updateOrderCh))
-
-	updateOrderFillCh := make(chan *trdupdateorderfill.Response, 1)
-	client.registerDispatcher(protoid.TrdUpdateOrderFill, 0, infra.NewProtobufChan(updateOrderFillCh))
-
-	updateBasicQotCh := make(chan *qotupdatebasicqot.Response, 1)
-	client.registerDispatcher(protoid.QotUpdateBasicQot, 0, infra.NewProtobufChan(updateBasicQotCh))
-
-	updateKLCh := make(chan *qotupdatekl.Response, 1)
-	client.registerDispatcher(protoid.QotUpdateKL, 0, infra.NewProtobufChan(updateKLCh))
-
-	updateRT := make(chan *qotupdatert.Response, 1)
-	client.registerDispatcher(protoid.QotUpdateRT, 0, infra.NewProtobufChan(updateRT))
-
-	updateTicker := make(chan *qotupdateticker.Response, 1)
-	client.registerDispatcher(protoid.QotUpdateTicker, 0, infra.NewProtobufChan(updateTicker))
-
-	updateOrderBook := make(chan *qotupdateorderbook.Response, 1)
-	client.registerDispatcher(protoid.QotUpdateOrderBook, 0, infra.NewProtobufChan(updateOrderBook))
-
-	updateBroker := make(chan *qotupdatebroker.Response, 1)
-	client.registerDispatcher(protoid.QotUpdateBroker, 0, infra.NewProtobufChan(updateBroker))
-
-	updatePriceReminder := make(chan *qotupdatepricereminder.Response, 1)
-	client.registerDispatcher(protoid.QotUpdatePriceReminder, 0, infra.NewProtobufChan(updatePriceReminder))
 
 	for {
 		select {
 		case <-client.closed:
 			log.Info().Msg("stop watching notification")
 			return
-		case resp, ok := <-notifyCh:
+
+		case resp, ok := <-client.pushChan:
 			if !ok {
 				log.Info().Msg("notification channel closed")
 				break
 			}
-			if err := client.getHandler(protoid.Notify)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("notification handle error")
-			}
 
-		case resp, ok := <-updateOrderCh:
-			if !ok {
-				log.Info().Msg("update order channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.TrdUpdateOrder)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update order handle error")
-			}
-		case resp, ok := <-updateOrderFillCh:
-			if !ok {
-				log.Info().Msg("update order fill channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.TrdUpdateOrderFill)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update order fill handle error")
-			}
-		case resp, ok := <-updateBasicQotCh:
-			if !ok {
-				log.Info().Msg("update basic qot channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.QotUpdateBasicQot)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update basic quote handle error")
-			}
-		case resp, ok := <-updateKLCh:
-			if !ok {
-				log.Info().Msg("update KL channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.QotUpdateKL)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update KL handle error")
-			}
-		case resp, ok := <-updateRT:
-			if !ok {
-				log.Info().Msg("update RT channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.QotUpdateRT)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update RT handle error")
-			}
-		case resp, ok := <-updateTicker:
-			if !ok {
-				log.Info().Msg("update ticker channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.QotUpdateTicker)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update ticker handle error")
-			}
-		case resp, ok := <-updateOrderBook:
-			if !ok {
-				log.Info().Msg("update order book channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.QotUpdateOrderBook)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update order book handle error")
-			}
-		case resp, ok := <-updateBroker:
-			if !ok {
-				log.Info().Msg("update broker channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.QotUpdateBroker)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update broker handle error")
-			}
-		case resp, ok := <-updatePriceReminder:
-			if !ok {
-				log.Info().Msg("update price reminder channel closed")
-				break
-			}
-			if err := client.getHandler(protoid.QotUpdatePriceReminder)(resp.GetS2C()); err != nil {
-				log.Error().Err(err).Msg("update price reminder handle error")
+			if err := client.dispatcherPushCall(resp); err != nil {
+				log.Error().Err(err).Msg("notification handle error")
 			}
 		}
 	}
 }
 
-func (client *Client) registerDispatcher(protoID uint32, sn uint32, ch *infra.ProtobufChan) {
-	client.hub.Register(protoID, sn, ch)
+func (client *Client) dispatcherRegister(protoId pb.ProtoId, sn uint32, ch bodyChanType) {
+	// XXX
+	var id uint64 = uint64(protoId)<<32 | uint64(sn)
+
+	client.bodyChanMutex.Lock()
+	client.bodyChan[id] = ch
+	client.bodyChanMutex.Unlock()
+}
+
+func (client *Client) dispatcherCall(res response) error {
+	// XXX
+	var respId = res.respId()
+
+	client.bodyChanMutex.Lock()
+	ch, ok := client.bodyChan[respId]
+	if ok {
+		delete(client.bodyChan, respId)
+	}
+	client.bodyChanMutex.Unlock()
+
+	if ok {
+		ch <- res.Body
+		return nil
+	}
+
+	if res.SerialNo == 0 {
+		client.pushChan <- res
+		return nil
+	}
+
+	return fmt.Errorf("unexpected dispatch error")
+}
+
+func (client *Client) dispatcherPushCall(resp response) error {
+
+	pbResp := pb.GetPushResponseStruct(resp.ProtoID)
+	if pbResp == nil {
+		return fmt.Errorf("cannot find a response struct for id: %d", resp.ProtoID)
+	}
+
+	if err := proto.Unmarshal(resp.Body, pbResp); err != nil {
+		return err
+	}
+
+	h := client.getHandler(resp.ProtoID)
+	h(pbResp.GetResponsePayload())
+	return nil
+}
+
+func (client *Client) dispatcherClose() {
+	client.bodyChanMutex.Lock()
+	for mid, ch := range client.bodyChan {
+		close(ch)
+		delete(client.bodyChan, mid)
+	}
+	client.bodyChanMutex.Unlock()
 }
 
 // nextSN returns the next serial number.
@@ -335,8 +320,8 @@ func (client *Client) listen() {
 		case <-client.closed:
 			return
 		case res := <-client.resChan:
-			log.Info().Uint32("proto_id", res.ProtoID).Uint32("sn", res.SerialNo).Msg("listen")
-			if err := client.hub.Dispatch(res.ProtoID, res.SerialNo, res.Body); err != nil {
+			log.Info().Uint32("proto_id", uint32(res.ProtoID)).Uint32("sn", res.SerialNo).Msg("listen")
+			if err := client.dispatcherCall(res); err != nil {
 				log.Error().Err(err).Msg("dispatch error")
 			}
 		}
@@ -365,7 +350,7 @@ func (client *Client) read() error {
 	}
 
 	if client.PrivateKey != nil {
-		if h.ProtoID == protoid.InitConnect {
+		if pb.ProtoId(h.ProtoID) == pb.ProtoId_InitConnect {
 			var err error
 			b, err = rsa.DecryptByPrivateKey(b, client.PrivateKey)
 			if err != nil {
@@ -382,7 +367,7 @@ func (client *Client) read() error {
 	}
 
 	res := response{
-		ProtoID:  h.ProtoID,
+		ProtoID:  pb.ProtoId(h.ProtoID),
 		SerialNo: h.SerialNo,
 		Body:     b,
 	}
@@ -409,67 +394,25 @@ func (client *Client) infiniteRead() {
 	}
 }
 
-func (client *Client) initConnect() (*initconnect.S2C, error) {
-	req := &initconnect.Request{
-		C2S: &initconnect.C2S{
-			ClientVer:           proto.Int32(ClientVersion),
-			ClientID:            proto.String(client.ID),
-			RecvNotify:          proto.Bool(client.RecvNotify),
-			PacketEncAlgo:       proto.Int32(int32(*common.PacketEncAlgo_PacketEncAlgo_AES_CBC.Enum())),
-			ProgrammingLanguage: proto.String("Go"),
-		},
+func (client *Client) initConnect() (*pb.InitConnectResponse, error) {
+	req := &pb.InitConnectRequest{
+		ClientVer:           proto.Int32(ClientVersion),
+		ClientID:            proto.String(client.ID),
+		RecvNotify:          proto.Bool(client.RecvNotify),
+		PacketEncAlgo:       proto.Int32(int32(pb.PacketEncAlgo_AES_CBC)),
+		ProgrammingLanguage: proto.String("Go"),
 	}
 
-	ch := make(chan *initconnect.Response, 1)
-	defer close(ch)
+	ctx, cancel := context.WithTimeout(context.TODO(), client.Timeout)
+	defer cancel()
 
-	if err := client.Request(protoid.InitConnect, req, infra.NewProtobufChan(ch)); err != nil {
-		return nil, err
-	}
-
-	select {
-	case <-client.closed:
-		return nil, ErrInterrupted
-	case resp, ok := <-ch:
-		if !ok {
-			return nil, ErrChannelClosed
-		}
-		return resp.GetS2C(), infra.Error(resp)
-	}
+	return req.MakeRequest(ctx, client)
 }
 
-// keepAlive sends a keep alive request.
-// The server will return the server timestamp in seconds.
-func (client *Client) keepAlive(ch chan *keepalive.Response, ticker *time.Ticker) (int64, error) {
-	req := &keepalive.Request{
-		C2S: &keepalive.C2S{
-			Time: proto.Int64(time.Now().Unix()),
-		},
-	}
-
-	if err := client.Request(protoid.KeepAlive, req, infra.NewProtobufChan(ch)); err != nil {
-		return 0, err
-	}
-
-	select {
-	case <-client.closed:
-		return 0, ErrInterrupted
-	case <-ticker.C:
-		return 0, ErrTimeout
-	case resp, ok := <-ch:
-		if !ok {
-			return 0, ErrChannelClosed
-		}
-		return resp.GetS2C().GetTime(), infra.Error(resp)
-	}
-}
-
+// XXX disconnect handling
 func (client *Client) heartbeat(d time.Duration) {
 	ticker := time.NewTicker(d)
 	defer ticker.Stop()
-
-	ch := make(chan *keepalive.Response, 1)
-	defer close(ch)
 
 	for {
 		select {
@@ -477,7 +420,14 @@ func (client *Client) heartbeat(d time.Duration) {
 			log.Info().Msg("heartbeat stopped")
 			return
 		case <-ticker.C:
-			if _, err := client.keepAlive(ch, ticker); err != nil {
+			ctx, cancel := context.WithTimeout(context.TODO(), d)
+			req := &pb.KeepAliveRequest{
+				Time: proto.Int64(time.Now().Unix()),
+			}
+
+			_, err := req.MakeRequest(ctx, client)
+			cancel()
+			if err != nil {
 				return
 			}
 		}

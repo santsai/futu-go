@@ -4,8 +4,7 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/hyperjiang/futu/pb/qotstockfilter"
-	"github.com/hyperjiang/futu/pb/trdcommon"
+	"github.com/santsai/futu-go/pb"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -43,42 +42,42 @@ func WithSecurities(codes []string) Option {
 }
 
 // WithBaseFilters sets the base filter list.
-func WithBaseFilters(filters ...*qotstockfilter.BaseFilter) Option {
+func WithBaseFilters(filters ...*pb.BaseFilter) Option {
 	return func(o Options) {
 		o["baseFilterList"] = filters
 	}
 }
 
 // WithAccumulateFilters sets the accumulate filter list.
-func WithAccumulateFilters(filters ...*qotstockfilter.AccumulateFilter) Option {
+func WithAccumulateFilters(filters ...*pb.AccumulateFilter) Option {
 	return func(o Options) {
 		o["accumulateFilterList"] = filters
 	}
 }
 
 // WithFinancialFilters sets the financial filter list.
-func WithFinancialFilters(filters ...*qotstockfilter.FinancialFilter) Option {
+func WithFinancialFilters(filters ...*pb.FinancialFilter) Option {
 	return func(o Options) {
 		o["financialFilterList"] = filters
 	}
 }
 
 // WithPatternFilters sets the pattern filter list.
-func WithPatternFilters(filters ...*qotstockfilter.PatternFilter) Option {
+func WithPatternFilters(filters ...*pb.PatternFilter) Option {
 	return func(o Options) {
 		o["patternFilterList"] = filters
 	}
 }
 
 // WithCustomIndicatorFilters sets the custom indicator filter list.
-func WithCustomIndicatorFilters(filters ...*qotstockfilter.CustomIndicatorFilter) Option {
+func WithCustomIndicatorFilters(filters ...*pb.CustomIndicatorFilter) Option {
 	return func(o Options) {
 		o["customIndicatorFilterList"] = filters
 	}
 }
 
 // WithFilterConditions sets the filter conditions for trade.
-func WithFilterConditions(conditions *trdcommon.TrdFilterConditions) Option {
+func WithFilterConditions(conditions *pb.TrdFilterConditions) Option {
 	return func(o Options) {
 		o["filterConditions"] = conditions
 	}

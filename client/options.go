@@ -1,9 +1,14 @@
 package client
 
+import (
+	"time"
+)
+
 const (
 	defaultAddr        = ":11111"
 	defaultID          = "futu-go"
 	defaultResChanSize = 100
+	defaultTimeout     = 5 * time.Second
 )
 
 // Options are futu client options.
@@ -14,6 +19,7 @@ type Options struct {
 	PublicKey   []byte
 	RecvNotify  bool
 	ResChanSize int
+	Timeout     time.Duration
 }
 
 // NewOptions creates options with defaults.
@@ -23,6 +29,7 @@ func NewOptions(opts ...Option) Options {
 		ID:          defaultID,
 		RecvNotify:  true,
 		ResChanSize: defaultResChanSize,
+		Timeout:     defaultTimeout,
 	}
 
 	for _, opt := range opts {
@@ -74,5 +81,11 @@ func WithRecvNotify(recvNotify bool) Option {
 func WithResChanSize(size int) Option {
 	return func(o *Options) {
 		o.ResChanSize = size
+	}
+}
+
+func WithTimeout(d time.Duration) Option {
+	return func(o *Options) {
+		o.Timeout = d
 	}
 }

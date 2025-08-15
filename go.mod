@@ -1,4 +1,4 @@
-module github.com/hyperjiang/futu
+module github.com/santsai/futu-go
 
 go 1.21
 

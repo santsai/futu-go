@@ -2,9 +2,11 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"google.golang.org/protobuf/compiler/protogen"
 	"path/filepath"
 	"sort"
+	"strings"
 )
 
 func newFilename(base, fn string) string {
@@ -22,6 +24,40 @@ func newGeneratedFile(plugin *protogen.Plugin, filename string) *protogen.Genera
 	g.P()
 
 	return g
+}
+
+func generateProtoIdAdapt(plugin *protogen.Plugin) error {
+
+	g := newGeneratedFile(plugin, "adapt_protoid.go")
+
+	// sort protoId by value
+	ids := []int{}
+	for k, _ := range protoid_id2name {
+		ids = append(ids, k)
+	}
+	sort.Ints(ids)
+
+	// gen type
+	g.P(`type ProtoId int`)
+
+	// gen protoId const
+	g.P(`const (`)
+	for _, v := range ids {
+		g.P("ProtoId_", protoid_id2name[v], " ProtoId =", v)
+	}
+	g.P(`)`)
+
+	// gen IsPushId func
+	g.P(`func IsPushProtoId(id ProtoId) bool {`)
+	g.P(`	switch id {`)
+	for _, v := range protoid_push {
+		g.P(`case ProtoId_`, protoid_id2name[v], `: return true`)
+	}
+	g.P(`	}`)
+	g.P(`	return false`)
+	g.P(`}`)
+
+	return nil
 }
 
 func generateEnumAdapt(plugin *protogen.Plugin, enums []*protogen.Enum) error {
@@ -47,11 +83,118 @@ func generateEnumAdapt(plugin *protogen.Plugin, enums []*protogen.Enum) error {
 	return nil
 }
 
+func generateRequestAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) error {
+
+	g := newGeneratedFile(plugin, "adapt_request.go")
+
+	g.P(`
+
+		import "context"
+		import "google.golang.org/protobuf/proto"
+
+		type RequestHandler interface {
+			Request(context.Context, ProtoId, proto.Message, Response) (proto.Message, error)
+		}
+
+	`)
+
+	for _, msg := range msgs {
+		reqName := string(msg.Desc.Name())
+		idName := strings.TrimSuffix(reqName, "Request")
+
+		_, idExist := protoid_name2id[idName]
+
+		if !idExist {
+			g.P(`/* ProtoId Not Exist: `, idName)
+		}
+
+		g.P(fmt.Sprintf(`
+			func (m *%s) MakeRequest(ctx context.Context, rh RequestHandler) (*%sResponse, error) {
+				req := &%s_Internal{ Payload: m }
+				resp_internal := &%sResponse_Internal{}
+				if resp, err := rh.Request(ctx, ProtoId_%s, req, resp_internal); err != nil {
+					return nil, err
+				} else {
+					return resp.(*%sResponse), nil
+				}
+			}
+		`, reqName, idName, reqName, idName, idName, idName),
+		)
+
+		if !idExist {
+			g.P(`*/`)
+		}
+	}
+
+	return nil
+}
+
+func generateResponseAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) error {
+
+	g := newGeneratedFile(plugin, "adapt_response.go")
+
+	g.P(`
+
+		import (
+			"errors"
+			"google.golang.org/protobuf/proto"
+		)
+
+		type Response interface {
+			proto.Message
+			GetRetType() int32
+			GetRetMsg() string
+			GetResponsePayload() proto.Message
+		}
+
+		func ResponseError(r Response) error {
+			if r.GetRetType() != int32(RetType_Succeed) {
+				return errors.New(r.GetRetMsg())
+			}
+			return nil
+		}
+
+	`)
+
+	//
+	for _, msg := range msgs {
+		respName := string(msg.Desc.Name())
+
+		g.P(fmt.Sprintf(`
+			func (m *%s_Internal) GetResponsePayload() proto.Message {
+				return m.GetPayload()
+			}
+		`, respName),
+		)
+	}
+
+	//
+	g.P(`func GetPushResponseStruct(id ProtoId) Response {`)
+	g.P(`	switch id {`)
+	for _, id := range protoid_push {
+		name := protoid_id2name[id]
+		g.P(
+			fmt.Sprintf("case ProtoId_%s: return &%sResponse_Internal{}",
+				name, name),
+		)
+	}
+	g.P(`	}`)
+	g.P(``)
+	g.P(`	return nil`)
+	g.P(`}`)
+
+	return nil
+}
+
 func main() {
 
 	var flags flag.FlagSet
 
-	var enums []*protogen.Enum
+	var (
+		enums []*protogen.Enum
+		reqs  []*protogen.Message
+		resps []*protogen.Message
+	)
 
 	protogen.Options{
 		ParamFunc: flags.Set,
@@ -63,9 +206,21 @@ func main() {
 			}
 
 			enums = append(enums, f.Enums...)
+
+			for _, msg := range f.Messages {
+				name := string(msg.Desc.Name())
+				if strings.HasSuffix(name, "Request") {
+					reqs = append(reqs, msg)
+				} else if strings.HasSuffix(name, "Response") {
+					resps = append(resps, msg)
+				}
+			}
 		}
 
 		generateEnumAdapt(plugin, enums)
+		generateProtoIdAdapt(plugin)
+		generateRequestAdapt(plugin, reqs)
+		generateResponseAdapt(plugin, resps)
 
 		return nil
 	})
