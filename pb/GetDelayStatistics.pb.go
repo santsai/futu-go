@@ -24,7 +24,7 @@ const (
 type DelayStatisticsType int32
 
 const (
-	DelayStatisticsType_DelayStatisticsType_Unkonw     DelayStatisticsType = 0 //未知类型
+	DelayStatisticsType_DelayStatisticsType_Unknown    DelayStatisticsType = 0 //未知类型
 	DelayStatisticsType_DelayStatisticsType_QotPush    DelayStatisticsType = 1 //行情推送统计
 	DelayStatisticsType_DelayStatisticsType_ReqReply   DelayStatisticsType = 2 //请求回应统计
 	DelayStatisticsType_DelayStatisticsType_PlaceOrder DelayStatisticsType = 3 //下单统计
@@ -33,13 +33,13 @@ const (
 // Enum value maps for DelayStatisticsType.
 var (
 	DelayStatisticsType_name = map[int32]string{
-		0: "DelayStatisticsType_Unkonw",
+		0: "DelayStatisticsType_Unknown",
 		1: "DelayStatisticsType_QotPush",
 		2: "DelayStatisticsType_ReqReply",
 		3: "DelayStatisticsType_PlaceOrder",
 	}
 	DelayStatisticsType_value = map[string]int32{
-		"DelayStatisticsType_Unkonw":     0,
+		"DelayStatisticsType_Unknown":    0,
 		"DelayStatisticsType_QotPush":    1,
 		"DelayStatisticsType_ReqReply":   2,
 		"DelayStatisticsType_PlaceOrder": 3,
@@ -89,18 +89,18 @@ func (DelayStatisticsType) EnumDescriptor() ([]byte, []int) {
 type QotPushStage int32
 
 const (
-	QotPushStage_QotPushStage_Unkonw QotPushStage = 0 // 未知
-	QotPushStage_QotPushStage_SR2SS  QotPushStage = 1 //统计服务端处理耗时
-	QotPushStage_QotPushStage_SS2CR  QotPushStage = 2 //统计网络耗时
-	QotPushStage_QotPushStage_CR2CS  QotPushStage = 3 //统计OpenD处理耗时
-	QotPushStage_QotPushStage_SS2CS  QotPushStage = 4 //统计服务器发出到OpenD发出的处理耗时
-	QotPushStage_QotPushStage_SR2CS  QotPushStage = 5 //统计服务器收到数据到OpenD发出的处理耗时
+	QotPushStage_QotPushStage_Unknown QotPushStage = 0 // 未知
+	QotPushStage_QotPushStage_SR2SS   QotPushStage = 1 //统计服务端处理耗时
+	QotPushStage_QotPushStage_SS2CR   QotPushStage = 2 //统计网络耗时
+	QotPushStage_QotPushStage_CR2CS   QotPushStage = 3 //统计OpenD处理耗时
+	QotPushStage_QotPushStage_SS2CS   QotPushStage = 4 //统计服务器发出到OpenD发出的处理耗时
+	QotPushStage_QotPushStage_SR2CS   QotPushStage = 5 //统计服务器收到数据到OpenD发出的处理耗时
 )
 
 // Enum value maps for QotPushStage.
 var (
 	QotPushStage_name = map[int32]string{
-		0: "QotPushStage_Unkonw",
+		0: "QotPushStage_Unknown",
 		1: "QotPushStage_SR2SS",
 		2: "QotPushStage_SS2CR",
 		3: "QotPushStage_CR2CS",
@@ -108,12 +108,12 @@ var (
 		5: "QotPushStage_SR2CS",
 	}
 	QotPushStage_value = map[string]int32{
-		"QotPushStage_Unkonw": 0,
-		"QotPushStage_SR2SS":  1,
-		"QotPushStage_SS2CR":  2,
-		"QotPushStage_CR2CS":  3,
-		"QotPushStage_SS2CS":  4,
-		"QotPushStage_SR2CS":  5,
+		"QotPushStage_Unknown": 0,
+		"QotPushStage_SR2SS":   1,
+		"QotPushStage_SS2CR":   2,
+		"QotPushStage_CR2CS":   3,
+		"QotPushStage_SS2CS":   4,
+		"QotPushStage_SR2CS":   5,
 	}
 )
 
@@ -158,7 +158,7 @@ func (QotPushStage) EnumDescriptor() ([]byte, []int) {
 type QotPushType int32
 
 const (
-	QotPushType_QotPushType_Unkonw    QotPushType = 0 // 未知
+	QotPushType_QotPushType_Unknown   QotPushType = 0 // 未知
 	QotPushType_QotPushType_Price     QotPushType = 1 //最新价
 	QotPushType_QotPushType_Ticker    QotPushType = 2 //逐笔
 	QotPushType_QotPushType_OrderBook QotPushType = 3 //摆盘
@@ -168,14 +168,14 @@ const (
 // Enum value maps for QotPushType.
 var (
 	QotPushType_name = map[int32]string{
-		0: "QotPushType_Unkonw",
+		0: "QotPushType_Unknown",
 		1: "QotPushType_Price",
 		2: "QotPushType_Ticker",
 		3: "QotPushType_OrderBook",
 		4: "QotPushType_Broker",
 	}
 	QotPushType_value = map[string]int32{
-		"QotPushType_Unkonw":    0,
+		"QotPushType_Unknown":   0,
 		"QotPushType_Price":     1,
 		"QotPushType_Ticker":    2,
 		"QotPushType_OrderBook": 3,
@@ -809,21 +809,21 @@ const file_GetDelayStatistics_proto_rawDesc = "" +
 	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12<\n" +
-	"\apayload\x18\x04 \x01(\v2\".futupb.GetDelayStatisticsResponseR\apayload*\x9c\x01\n" +
-	"\x13DelayStatisticsType\x12\x1e\n" +
-	"\x1aDelayStatisticsType_Unkonw\x10\x00\x12\x1f\n" +
+	"\apayload\x18\x04 \x01(\v2\".futupb.GetDelayStatisticsResponseR\apayload*\x9d\x01\n" +
+	"\x13DelayStatisticsType\x12\x1f\n" +
+	"\x1bDelayStatisticsType_Unknown\x10\x00\x12\x1f\n" +
 	"\x1bDelayStatisticsType_QotPush\x10\x01\x12 \n" +
 	"\x1cDelayStatisticsType_ReqReply\x10\x02\x12\"\n" +
-	"\x1eDelayStatisticsType_PlaceOrder\x10\x03*\x9f\x01\n" +
-	"\fQotPushStage\x12\x17\n" +
-	"\x13QotPushStage_Unkonw\x10\x00\x12\x16\n" +
+	"\x1eDelayStatisticsType_PlaceOrder\x10\x03*\xa0\x01\n" +
+	"\fQotPushStage\x12\x18\n" +
+	"\x14QotPushStage_Unknown\x10\x00\x12\x16\n" +
 	"\x12QotPushStage_SR2SS\x10\x01\x12\x16\n" +
 	"\x12QotPushStage_SS2CR\x10\x02\x12\x16\n" +
 	"\x12QotPushStage_CR2CS\x10\x03\x12\x16\n" +
 	"\x12QotPushStage_SS2CS\x10\x04\x12\x16\n" +
-	"\x12QotPushStage_SR2CS\x10\x05*\x87\x01\n" +
-	"\vQotPushType\x12\x16\n" +
-	"\x12QotPushType_Unkonw\x10\x00\x12\x15\n" +
+	"\x12QotPushStage_SR2CS\x10\x05*\x88\x01\n" +
+	"\vQotPushType\x12\x17\n" +
+	"\x13QotPushType_Unknown\x10\x00\x12\x15\n" +
 	"\x11QotPushType_Price\x10\x01\x12\x16\n" +
 	"\x12QotPushType_Ticker\x10\x02\x12\x19\n" +
 	"\x15QotPushType_OrderBook\x10\x03\x12\x16\n" +

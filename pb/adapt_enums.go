@@ -122,7 +122,7 @@ const (
 	DataStatus_Back     DataStatus = DataStatus_DataStatus_Back
 
 	// Enum: DelayStatisticsType
-	DelayStatisticsType_Unkonw     DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_Unkonw
+	DelayStatisticsType_Unknown    DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_Unknown
 	DelayStatisticsType_QotPush    DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_QotPush
 	DelayStatisticsType_ReqReply   DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_ReqReply
 	DelayStatisticsType_PlaceOrder DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_PlaceOrder
@@ -580,15 +580,15 @@ const (
 	QotMarketState_OVERNIGHT            QotMarketState = QotMarketState_QotMarketState_OVERNIGHT
 
 	// Enum: QotPushStage
-	QotPushStage_Unkonw QotPushStage = QotPushStage_QotPushStage_Unkonw
-	QotPushStage_SR2SS  QotPushStage = QotPushStage_QotPushStage_SR2SS
-	QotPushStage_SS2CR  QotPushStage = QotPushStage_QotPushStage_SS2CR
-	QotPushStage_CR2CS  QotPushStage = QotPushStage_QotPushStage_CR2CS
-	QotPushStage_SS2CS  QotPushStage = QotPushStage_QotPushStage_SS2CS
-	QotPushStage_SR2CS  QotPushStage = QotPushStage_QotPushStage_SR2CS
+	QotPushStage_Unknown QotPushStage = QotPushStage_QotPushStage_Unknown
+	QotPushStage_SR2SS   QotPushStage = QotPushStage_QotPushStage_SR2SS
+	QotPushStage_SS2CR   QotPushStage = QotPushStage_QotPushStage_SS2CR
+	QotPushStage_CR2CS   QotPushStage = QotPushStage_QotPushStage_CR2CS
+	QotPushStage_SS2CS   QotPushStage = QotPushStage_QotPushStage_SS2CS
+	QotPushStage_SR2CS   QotPushStage = QotPushStage_QotPushStage_SR2CS
 
 	// Enum: QotPushType
-	QotPushType_Unkonw    QotPushType = QotPushType_QotPushType_Unkonw
+	QotPushType_Unknown   QotPushType = QotPushType_QotPushType_Unknown
 	QotPushType_Price     QotPushType = QotPushType_QotPushType_Price
 	QotPushType_Ticker    QotPushType = QotPushType_QotPushType_Ticker
 	QotPushType_OrderBook QotPushType = QotPushType_QotPushType_OrderBook

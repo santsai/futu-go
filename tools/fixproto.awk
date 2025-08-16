@@ -5,6 +5,9 @@
     # Remove trailing whitespace
     sub(/[[:space:]]*$/, "")
 
+	# Spelling error
+	sub(/_Unkonw /, "_Unknown ")
+
     # Replace package line & capture pkg_name
     if ($0 ~ /^package .*;$/) {
 
@@ -23,11 +26,13 @@
         $0 = "option go_package = \"github.com/santsai/futu-go/pb\";"
     }
 
+	# rename C2S -> xxxRequests
 	if ($0 ~/^message C2S$/) {
 		request_name = pkg_name "Request"
 		$0 = "message " request_name
 	}
 
+	# rename S2C -> xxxResponse
 	if ($0 ~/^message S2C$/) {
 		in_response = 0
 		in_response_payload = 1

@@ -7,7 +7,7 @@ import "Common.proto";
 
 enum DelayStatisticsType
 {
-	DelayStatisticsType_Unkonw = 0; //未知类型
+	DelayStatisticsType_Unknown = 0; //未知类型
 	DelayStatisticsType_QotPush = 1; //行情推送统计
 	DelayStatisticsType_ReqReply = 2; //请求回应统计
 	DelayStatisticsType_PlaceOrder = 3; //下单统计
@@ -18,7 +18,7 @@ enum DelayStatisticsType
 //CR表示OpenD收到数据，CS表示OpenD发出数据
 enum QotPushStage
 {
-	QotPushStage_Unkonw = 0; // 未知
+	QotPushStage_Unknown = 0; // 未知
 	QotPushStage_SR2SS = 1; //统计服务端处理耗时
 	QotPushStage_SS2CR = 2; //统计网络耗时
 	QotPushStage_CR2CS = 3; //统计OpenD处理耗时
@@ -29,7 +29,7 @@ enum QotPushStage
 //行情推送类型
 enum QotPushType
 {
-	QotPushType_Unkonw = 0; // 未知
+	QotPushType_Unknown = 0; // 未知
 	QotPushType_Price = 1; //最新价
 	QotPushType_Ticker = 2; //逐笔
 	QotPushType_OrderBook = 3; //摆盘
