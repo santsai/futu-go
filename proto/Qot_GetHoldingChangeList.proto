@@ -9,7 +9,7 @@ import "Qot_Common.proto";
 message QotGetHoldingChangeListRequest
 {
 	required Security security = 1; //股票
-	required int32 holderCategory = 2; //持有者类别（1机构、2基金、3高管）
+	required HolderCategory holderCategory = 2; //持有者类别（1机构、2基金、3高管）
 	//以下是发布时间筛选，不传返回所有数据，传了返回发布时间属于开始时间到结束时间段内的数据
 	optional string beginTime = 3; //开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
 	optional string endTime = 4; //结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
@@ -28,7 +28,7 @@ message QotGetHoldingChangeListRequest_Internal
 
 message QotGetHoldingChangeListResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 	optional QotGetHoldingChangeListResponse payload = 4;

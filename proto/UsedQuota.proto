@@ -3,6 +3,8 @@ package futupb;
 option java_package = "com.futu.openapi.pb";
 option go_package = "github.com/santsai/futu-go/pb";
 
+import "Common.proto";
+
 message UsedQuotaRequest
 {
 
@@ -21,7 +23,7 @@ message UsedQuotaRequest_Internal
 
 message UsedQuotaResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

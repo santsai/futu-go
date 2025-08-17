@@ -3,6 +3,8 @@ package futupb;
 option java_package = "com.futu.openapi.pb";
 option go_package = "github.com/santsai/futu-go/pb";
 
+import "Common.proto";
+
 import "Trd_Common.proto";
 import "Qot_Common.proto";
 
@@ -43,7 +45,7 @@ message TrdGetMarginRatioRequest_Internal
 message TrdGetMarginRatioResponse_Internal
 {
 	//以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	required int32 retType = 1 [default = -400];
+	required RetType retType = 1 [default = RetType_Unknown];
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

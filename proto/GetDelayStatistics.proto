@@ -38,8 +38,8 @@ enum QotPushType
 
 message GetDelayStatisticsRequest
 {
-	repeated int32 typeList = 1; //统计数据类型，DelayStatisticsType
-	optional int32 qotPushStage = 2; //行情推送统计的区间，行情推送统计时有效，QotPushStage
+	repeated DelayStatisticsType typeList = 1; //统计数据类型，DelayStatisticsType
+	optional QotPushStage qotPushStage = 2; //行情推送统计的区间，行情推送统计时有效，QotPushStage
 	repeated int32 segmentList = 3; //统计分段，默认100ms以下以2ms分段，100ms以上以500，1000，2000，-1分段，-1表示无穷大。
 	//传入的分段范围0-100ms最小支持1ms，100-1000ms最小支持50ms，1000-5000ms最小支持500ms，5000ms以上无法指定
 }
@@ -56,7 +56,7 @@ message DelayStatisticsItem
 
 message DelayStatistics
 {
-	required int32 qotPushType = 1; //行情推送类型,QotPushType
+	required QotPushType qotPushType = 1; //行情推送类型,QotPushType
 	repeated DelayStatisticsItem itemList = 2; //统计信息
 	required float delayAvg = 3; //平均延迟
 	required int32 count = 4; //总包数
@@ -95,7 +95,7 @@ message GetDelayStatisticsRequest_Internal
 
 message GetDelayStatisticsResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //返回结果，参见Common.RetType的枚举定义
+	required RetType retType = 1 [default = RetType_Unknown]; //返回结果，参见Common.RetType的枚举定义
 	optional string retMsg = 2; //返回结果描述
 	optional int32 errCode = 3; //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
 

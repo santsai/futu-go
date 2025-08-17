@@ -171,7 +171,7 @@ func (x *QotGetSubInfoRequest_Internal) GetPayload() *QotGetSubInfoRequest {
 
 type QotGetSubInfoResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetSubInfoResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -181,7 +181,7 @@ type QotGetSubInfoResponse_Internal struct {
 
 // Default values for QotGetSubInfoResponse_Internal fields.
 const (
-	Default_QotGetSubInfoResponse_Internal_RetType = int32(-400)
+	Default_QotGetSubInfoResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetSubInfoResponse_Internal) Reset() {
@@ -214,7 +214,7 @@ func (*QotGetSubInfoResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetSubInfo_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetSubInfoResponse_Internal) GetRetType() int32 {
+func (x *QotGetSubInfoResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -254,9 +254,9 @@ const file_Qot_GetSubInfo_proto_rawDesc = "" +
 	"\x0etotalUsedQuota\x18\x02 \x02(\x05R\x0etotalUsedQuota\x12 \n" +
 	"\vremainQuota\x18\x03 \x02(\x05R\vremainQuota\"W\n" +
 	"\x1dQotGetSubInfoRequest_Internal\x126\n" +
-	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotGetSubInfoRequestR\apayload\"\xab\x01\n" +
-	"\x1eQotGetSubInfoResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotGetSubInfoRequestR\apayload\"\xc7\x01\n" +
+	"\x1eQotGetSubInfoResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x127\n" +
 	"\apayload\x18\x04 \x01(\v2\x1d.futupb.QotGetSubInfoResponseR\apayloadB4\n" +
@@ -281,16 +281,18 @@ var file_Qot_GetSubInfo_proto_goTypes = []any{
 	(*QotGetSubInfoRequest_Internal)(nil),  // 2: futupb.QotGetSubInfoRequest_Internal
 	(*QotGetSubInfoResponse_Internal)(nil), // 3: futupb.QotGetSubInfoResponse_Internal
 	(*ConnSubInfo)(nil),                    // 4: futupb.ConnSubInfo
+	(RetType)(0),                           // 5: futupb.RetType
 }
 var file_Qot_GetSubInfo_proto_depIdxs = []int32{
 	4, // 0: futupb.QotGetSubInfoResponse.connSubInfoList:type_name -> futupb.ConnSubInfo
 	0, // 1: futupb.QotGetSubInfoRequest_Internal.payload:type_name -> futupb.QotGetSubInfoRequest
-	1, // 2: futupb.QotGetSubInfoResponse_Internal.payload:type_name -> futupb.QotGetSubInfoResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	5, // 2: futupb.QotGetSubInfoResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 3: futupb.QotGetSubInfoResponse_Internal.payload:type_name -> futupb.QotGetSubInfoResponse
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetSubInfo_proto_init() }

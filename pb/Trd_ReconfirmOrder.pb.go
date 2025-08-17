@@ -188,7 +188,7 @@ func (x *TrdReconfirmOrderRequest_Internal) GetPayload() *TrdReconfirmOrderReque
 type TrdReconfirmOrderResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                     `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                   `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                    `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                     `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdReconfirmOrderResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -198,7 +198,7 @@ type TrdReconfirmOrderResponse_Internal struct {
 
 // Default values for TrdReconfirmOrderResponse_Internal fields.
 const (
-	Default_TrdReconfirmOrderResponse_Internal_RetType = int32(-400)
+	Default_TrdReconfirmOrderResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdReconfirmOrderResponse_Internal) Reset() {
@@ -231,7 +231,7 @@ func (*TrdReconfirmOrderResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_ReconfirmOrder_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdReconfirmOrderResponse_Internal) GetRetType() int32 {
+func (x *TrdReconfirmOrderResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -273,9 +273,9 @@ const file_Trd_ReconfirmOrder_proto_rawDesc = "" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12\x18\n" +
 	"\aorderID\x18\x02 \x02(\x04R\aorderID\"_\n" +
 	"!TrdReconfirmOrderRequest_Internal\x12:\n" +
-	"\apayload\x18\x01 \x02(\v2 .futupb.TrdReconfirmOrderRequestR\apayload\"\xb3\x01\n" +
-	"\"TrdReconfirmOrderResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2 .futupb.TrdReconfirmOrderRequestR\apayload\"\xcf\x01\n" +
+	"\"TrdReconfirmOrderResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12;\n" +
 	"\apayload\x18\x04 \x01(\v2!.futupb.TrdReconfirmOrderResponseR\apayloadB4\n" +
@@ -301,18 +301,20 @@ var file_Trd_ReconfirmOrder_proto_goTypes = []any{
 	(*TrdReconfirmOrderResponse_Internal)(nil), // 3: futupb.TrdReconfirmOrderResponse_Internal
 	(*PacketID)(nil),                           // 4: futupb.PacketID
 	(*TrdHeader)(nil),                          // 5: futupb.TrdHeader
+	(RetType)(0),                               // 6: futupb.RetType
 }
 var file_Trd_ReconfirmOrder_proto_depIdxs = []int32{
 	4, // 0: futupb.TrdReconfirmOrderRequest.packetID:type_name -> futupb.PacketID
 	5, // 1: futupb.TrdReconfirmOrderRequest.header:type_name -> futupb.TrdHeader
 	5, // 2: futupb.TrdReconfirmOrderResponse.header:type_name -> futupb.TrdHeader
 	0, // 3: futupb.TrdReconfirmOrderRequest_Internal.payload:type_name -> futupb.TrdReconfirmOrderRequest
-	1, // 4: futupb.TrdReconfirmOrderResponse_Internal.payload:type_name -> futupb.TrdReconfirmOrderResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	6, // 4: futupb.TrdReconfirmOrderResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 5: futupb.TrdReconfirmOrderResponse_Internal.payload:type_name -> futupb.TrdReconfirmOrderResponse
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_Trd_ReconfirmOrder_proto_init() }

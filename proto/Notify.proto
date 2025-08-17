@@ -3,6 +3,8 @@ package futupb;
 option java_package = "com.futu.openapi.pb";
 option go_package = "github.com/santsai/futu-go/pb";
 
+import "Qot_Common.proto";
+
 import "Common.proto";
 
 enum NotifyType
@@ -39,7 +41,7 @@ enum GtwEventType
 
 message GtwEventNotice
 {
-	required int32 eventType = 1; //GtwEventType,事件类型
+	required GtwEventType eventType = 1; //GtwEventType,事件类型
 	required string desc = 2; //事件描述
 }
 
@@ -56,25 +58,25 @@ message ConnectStatusNotice
 
 message QotRightNotice
 {
-	required int32 hkQotRight = 4; //港股行情权限, QotRight
-	required int32 usQotRight = 5; //美股行情权限, QotRight
+	required QotRight hkQotRight = 4; //港股行情权限, QotRight
+	required QotRight usQotRight = 5; //美股行情权限, QotRight
 	required int32 cnQotRight = 6; //A股行情权限, QotRight // (已废弃)，使用shQotRight和szQotRight
-	optional int32 hkOptionQotRight = 7; //港股期权行情权限, QotRight
+	optional QotRight hkOptionQotRight = 7; //港股期权行情权限, QotRight
 	optional bool hasUSOptionQotRight = 8; //是否有美股期权行情权限
-	optional int32 hkFutureQotRight = 9; //港股期货行情权限, QotRight
+	optional QotRight hkFutureQotRight = 9; //港股期货行情权限, QotRight
 	optional int32 usFutureQotRight = 10; //美股期货行情权限, QotRight(已废弃)
-	optional int32 usOptionQotRight = 11; //美股期权行情权限, QotRight
-	optional int32 usIndexQotRight = 12; //美股指数行情权限, QotRight
-	optional int32 usOtcQotRight = 13; //美股OTC市场行情权限, QotRight
-	optional int32 sgFutureQotRight = 14; //新加坡市场期货行情权限, QotRight
-	optional int32 jpFutureQotRight = 15; //日本市场期货行情权限, QotRight
-	optional int32 usCMEFutureQotRight = 16; //美股CME期货行情权限, QotRight
+	optional QotRight usOptionQotRight = 11; //美股期权行情权限, QotRight
+	optional QotRight usIndexQotRight = 12; //美股指数行情权限, QotRight
+	optional QotRight usOtcQotRight = 13; //美股OTC市场行情权限, QotRight
+	optional QotRight sgFutureQotRight = 14; //新加坡市场期货行情权限, QotRight
+	optional QotRight jpFutureQotRight = 15; //日本市场期货行情权限, QotRight
+	optional QotRight usCMEFutureQotRight = 16; //美股CME期货行情权限, QotRight
 	optional int32 usCBOTFutureQotRight = 17; //美股CBOT期货行情权限, QotRight
-	optional int32 usNYMEXFutureQotRight = 18; //美股NYMEX期货行情权限, QotRight
-	optional int32 usCOMEXFutureQotRight = 19; //美股COMEX期货行情权限, QotRight
-	optional int32 usCBOEFutureQotRight = 20; //美股CBOE期货行情权限, QotRight
-	optional int32 shQotRight = 21; //上海A股行情权限, QotRight
-	optional int32 szQotRight = 22; //深圳A股行情权限, QotRight
+	optional QotRight usNYMEXFutureQotRight = 18; //美股NYMEX期货行情权限, QotRight
+	optional QotRight usCOMEXFutureQotRight = 19; //美股COMEX期货行情权限, QotRight
+	optional QotRight usCBOEFutureQotRight = 20; //美股CBOE期货行情权限, QotRight
+	optional QotRight shQotRight = 21; //上海A股行情权限, QotRight
+	optional QotRight szQotRight = 22; //深圳A股行情权限, QotRight
 }
 
 message APILevelNotice
@@ -96,7 +98,7 @@ message UsedQuotaNotice
 
 message NotifyResponse
 {
-	required int32 type = 1; //通知类型
+	required NotifyType type = 1; //通知类型
 	optional GtwEventNotice event = 2; //事件通息
 	optional ProgramStatusNotice programStatus = 3; //程序状态
 	optional ConnectStatusNotice connectStatus = 4; //连接状态
@@ -108,7 +110,7 @@ message NotifyResponse
 
 message NotifyResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

@@ -25,8 +25,8 @@ enum VerificationOp
 //注意：只有最后一次请求验证码会生效，重复请求只有最后一次的验证码有效
 message VerificationRequest
 {
-	required int32 type = 1; //验证码类型, VerificationType
-	required int32 op = 2; //操作, VerificationOp
+	required VerificationType type = 1; //验证码类型, VerificationType
+	required VerificationOp op = 2; //操作, VerificationOp
 	optional string code = 3; //验证码，请求验证码时忽略该字段，输入时必填
 }
 
@@ -42,7 +42,7 @@ message VerificationRequest_Internal
 
 message VerificationResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //返回结果，参见Common.RetType的枚举定义
+	required RetType retType = 1 [default = RetType_Unknown]; //返回结果，参见Common.RetType的枚举定义
 	optional string retMsg = 2; //返回结果描述
 	optional int32 errCode = 3; //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
 

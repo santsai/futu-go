@@ -179,7 +179,7 @@ func (x *QotGetTickerRequest_Internal) GetPayload() *QotGetTickerRequest {
 
 type QotGetTickerResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetTickerResponse  `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -189,7 +189,7 @@ type QotGetTickerResponse_Internal struct {
 
 // Default values for QotGetTickerResponse_Internal fields.
 const (
-	Default_QotGetTickerResponse_Internal_RetType = int32(-400)
+	Default_QotGetTickerResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetTickerResponse_Internal) Reset() {
@@ -222,7 +222,7 @@ func (*QotGetTickerResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetTicker_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetTickerResponse_Internal) GetRetType() int32 {
+func (x *QotGetTickerResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -265,9 +265,9 @@ const file_Qot_GetTicker_proto_rawDesc = "" +
 	"tickerList\x18\x02 \x03(\v2\x0e.futupb.TickerR\n" +
 	"tickerList\"U\n" +
 	"\x1cQotGetTickerRequest_Internal\x125\n" +
-	"\apayload\x18\x01 \x02(\v2\x1b.futupb.QotGetTickerRequestR\apayload\"\xa9\x01\n" +
-	"\x1dQotGetTickerResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1b.futupb.QotGetTickerRequestR\apayload\"\xc5\x01\n" +
+	"\x1dQotGetTickerResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x126\n" +
 	"\apayload\x18\x04 \x01(\v2\x1c.futupb.QotGetTickerResponseR\apayloadB4\n" +
@@ -293,18 +293,20 @@ var file_Qot_GetTicker_proto_goTypes = []any{
 	(*QotGetTickerResponse_Internal)(nil), // 3: futupb.QotGetTickerResponse_Internal
 	(*Security)(nil),                      // 4: futupb.Security
 	(*Ticker)(nil),                        // 5: futupb.Ticker
+	(RetType)(0),                          // 6: futupb.RetType
 }
 var file_Qot_GetTicker_proto_depIdxs = []int32{
 	4, // 0: futupb.QotGetTickerRequest.security:type_name -> futupb.Security
 	4, // 1: futupb.QotGetTickerResponse.security:type_name -> futupb.Security
 	5, // 2: futupb.QotGetTickerResponse.tickerList:type_name -> futupb.Ticker
 	0, // 3: futupb.QotGetTickerRequest_Internal.payload:type_name -> futupb.QotGetTickerRequest
-	1, // 4: futupb.QotGetTickerResponse_Internal.payload:type_name -> futupb.QotGetTickerResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	6, // 4: futupb.QotGetTickerResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 5: futupb.QotGetTickerResponse_Internal.payload:type_name -> futupb.QotGetTickerResponse
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetTicker_proto_init() }

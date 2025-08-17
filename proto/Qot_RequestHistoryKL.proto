@@ -8,8 +8,8 @@ import "Qot_Common.proto";
 
 message QotRequestHistoryKLRequest
 {
-	required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
-	required int32 klType = 2; //Qot_Common.KLType,K线类型
+	required RehabType rehabType = 1; //Qot_Common.RehabType,复权类型
+	required KLType klType = 2; //Qot_Common.KLType,K线类型
 	required Security security = 3; //股票市场以及股票代码
 	required string beginTime = 4; //开始时间字符串
 	required string endTime = 5; //结束时间字符串
@@ -17,7 +17,7 @@ message QotRequestHistoryKLRequest
 	optional int64 needKLFieldsFlag = 7; //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
 	optional bytes nextReqKey = 8; //分页请求key
 	optional bool extendedTime = 9;  //是否获取美股盘前盘后数据，仅支持 60 分钟及以下级别
-	optional int32 session = 10; //Qot_Common.Session, 美股盘前盘后数据，仅支持 60 分钟及以下级别
+	optional Session session = 10; //Qot_Common.Session, 美股盘前盘后数据，仅支持 60 分钟及以下级别
 }
 
 message QotRequestHistoryKLResponse
@@ -35,7 +35,7 @@ message QotRequestHistoryKLRequest_Internal
 
 message QotRequestHistoryKLResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

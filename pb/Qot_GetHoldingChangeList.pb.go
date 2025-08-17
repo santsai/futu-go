@@ -23,8 +23,8 @@ const (
 
 type QotGetHoldingChangeListRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Security       *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`              //股票
-	HolderCategory *int32                 `protobuf:"varint,2,req,name=holderCategory" json:"holderCategory,omitempty"` //持有者类别（1机构、2基金、3高管）
+	Security       *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`                                         //股票
+	HolderCategory *HolderCategory        `protobuf:"varint,2,req,name=holderCategory,enum=futupb.HolderCategory" json:"holderCategory,omitempty"` //持有者类别（1机构、2基金、3高管）
 	// 以下是发布时间筛选，不传返回所有数据，传了返回发布时间属于开始时间到结束时间段内的数据
 	BeginTime     *string `protobuf:"bytes,3,opt,name=beginTime" json:"beginTime,omitempty"` //开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
 	EndTime       *string `protobuf:"bytes,4,opt,name=endTime" json:"endTime,omitempty"`     //结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
@@ -69,11 +69,11 @@ func (x *QotGetHoldingChangeListRequest) GetSecurity() *Security {
 	return nil
 }
 
-func (x *QotGetHoldingChangeListRequest) GetHolderCategory() int32 {
+func (x *QotGetHoldingChangeListRequest) GetHolderCategory() HolderCategory {
 	if x != nil && x.HolderCategory != nil {
 		return *x.HolderCategory
 	}
-	return 0
+	return HolderCategory_HolderCategory_Unknow
 }
 
 func (x *QotGetHoldingChangeListRequest) GetBeginTime() string {
@@ -188,7 +188,7 @@ func (x *QotGetHoldingChangeListRequest_Internal) GetPayload() *QotGetHoldingCha
 
 type QotGetHoldingChangeListResponse_Internal struct {
 	state         protoimpl.MessageState           `protogen:"open.v1"`
-	RetType       *int32                           `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                         `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                          `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                           `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetHoldingChangeListResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -198,7 +198,7 @@ type QotGetHoldingChangeListResponse_Internal struct {
 
 // Default values for QotGetHoldingChangeListResponse_Internal fields.
 const (
-	Default_QotGetHoldingChangeListResponse_Internal_RetType = int32(-400)
+	Default_QotGetHoldingChangeListResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetHoldingChangeListResponse_Internal) Reset() {
@@ -231,7 +231,7 @@ func (*QotGetHoldingChangeListResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetHoldingChangeList_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetHoldingChangeListResponse_Internal) GetRetType() int32 {
+func (x *QotGetHoldingChangeListResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -263,19 +263,19 @@ var File_Qot_GetHoldingChangeList_proto protoreflect.FileDescriptor
 
 const file_Qot_GetHoldingChangeList_proto_rawDesc = "" +
 	"\n" +
-	"\x1eQot_GetHoldingChangeList.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xae\x01\n" +
+	"\x1eQot_GetHoldingChangeList.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xc6\x01\n" +
 	"\x1eQotGetHoldingChangeListRequest\x12,\n" +
-	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12&\n" +
-	"\x0eholderCategory\x18\x02 \x02(\x05R\x0eholderCategory\x12\x1c\n" +
+	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12>\n" +
+	"\x0eholderCategory\x18\x02 \x02(\x0e2\x16.futupb.HolderCategoryR\x0eholderCategory\x12\x1c\n" +
 	"\tbeginTime\x18\x03 \x01(\tR\tbeginTime\x12\x18\n" +
 	"\aendTime\x18\x04 \x01(\tR\aendTime\"\x99\x01\n" +
 	"\x1fQotGetHoldingChangeListResponse\x12,\n" +
 	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12H\n" +
 	"\x11holdingChangeList\x18\x02 \x03(\v2\x1a.futupb.ShareHoldingChangeR\x11holdingChangeList\"k\n" +
 	"'QotGetHoldingChangeListRequest_Internal\x12@\n" +
-	"\apayload\x18\x01 \x02(\v2&.futupb.QotGetHoldingChangeListRequestR\apayload\"\xbf\x01\n" +
-	"(QotGetHoldingChangeListResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2&.futupb.QotGetHoldingChangeListRequestR\apayload\"\xdb\x01\n" +
+	"(QotGetHoldingChangeListResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12A\n" +
 	"\apayload\x18\x04 \x01(\v2'.futupb.QotGetHoldingChangeListResponseR\apayloadB4\n" +
@@ -300,19 +300,23 @@ var file_Qot_GetHoldingChangeList_proto_goTypes = []any{
 	(*QotGetHoldingChangeListRequest_Internal)(nil),  // 2: futupb.QotGetHoldingChangeListRequest_Internal
 	(*QotGetHoldingChangeListResponse_Internal)(nil), // 3: futupb.QotGetHoldingChangeListResponse_Internal
 	(*Security)(nil),           // 4: futupb.Security
-	(*ShareHoldingChange)(nil), // 5: futupb.ShareHoldingChange
+	(HolderCategory)(0),        // 5: futupb.HolderCategory
+	(*ShareHoldingChange)(nil), // 6: futupb.ShareHoldingChange
+	(RetType)(0),               // 7: futupb.RetType
 }
 var file_Qot_GetHoldingChangeList_proto_depIdxs = []int32{
 	4, // 0: futupb.QotGetHoldingChangeListRequest.security:type_name -> futupb.Security
-	4, // 1: futupb.QotGetHoldingChangeListResponse.security:type_name -> futupb.Security
-	5, // 2: futupb.QotGetHoldingChangeListResponse.holdingChangeList:type_name -> futupb.ShareHoldingChange
-	0, // 3: futupb.QotGetHoldingChangeListRequest_Internal.payload:type_name -> futupb.QotGetHoldingChangeListRequest
-	1, // 4: futupb.QotGetHoldingChangeListResponse_Internal.payload:type_name -> futupb.QotGetHoldingChangeListResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	5, // 1: futupb.QotGetHoldingChangeListRequest.holderCategory:type_name -> futupb.HolderCategory
+	4, // 2: futupb.QotGetHoldingChangeListResponse.security:type_name -> futupb.Security
+	6, // 3: futupb.QotGetHoldingChangeListResponse.holdingChangeList:type_name -> futupb.ShareHoldingChange
+	0, // 4: futupb.QotGetHoldingChangeListRequest_Internal.payload:type_name -> futupb.QotGetHoldingChangeListRequest
+	7, // 5: futupb.QotGetHoldingChangeListResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 6: futupb.QotGetHoldingChangeListResponse_Internal.payload:type_name -> futupb.QotGetHoldingChangeListResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetHoldingChangeList_proto_init() }

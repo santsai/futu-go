@@ -1,6 +1,6 @@
 SHELL=/bin/zsh
 
-.PHONY: genpb
+.PHONY: genpb gen_possible_enums
 
 PROTO_FILES = $(wildcard ./proto/original/*.proto)
 PROTO_PLUGIN = protoc-gen-go-futu
@@ -17,7 +17,7 @@ genpb:
 	@echo Applying fixproto.awk to originals
 	@$(foreach pf, $(PROTO_FILES), \
 		$(eval OUTFILE := ./proto/$(basename $(notdir $(pf))).proto);	\
-		awk -f ./tools/fixproto.awk $(pf) > $(OUTFILE) ;	\
+		awk -f ./tools/fixenum.awk -f ./tools/fixproto.awk $(pf) > $(OUTFILE) ;	\
 	)
 	@echo Making protoc plugin
 	@make $(PROTO_PLUGIN)
@@ -30,4 +30,17 @@ genpb:
 		--go-futu_opt=module=github.com/santsai/futu-go/pb \
 		./proto/*.proto 2>&1
 
-
+#
+# awk:
+# 1. replace white space & trailing \r
+# 2. double quote string
+# 3. print in awk format for easy adding
+#
+gen_possible_enums:
+	grep -h ' int32' proto/original/*proto | \
+		awk '{ \
+			gsub(/^[[:space:]]+|\r$$/, ""); \
+			gsub(/"/, "\\\"", $$0); \
+			print "enum_replaces[\"" $$0 "\"] = \"\"" \
+		}' | \
+		sort | uniq > ./tools/possible_enum.txt

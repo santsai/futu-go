@@ -23,9 +23,9 @@ const (
 
 type TrdUnlockTradeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Unlock        *bool                  `protobuf:"varint,1,req,name=unlock" json:"unlock,omitempty"`             //true解锁交易，false锁定交易
-	PwdMD5        *string                `protobuf:"bytes,2,opt,name=pwdMD5" json:"pwdMD5,omitempty"`              //交易密码的MD5转16进制(全小写)，解锁交易必须要填密码，锁定交易不需要验证密码，可不填
-	SecurityFirm  *int32                 `protobuf:"varint,3,opt,name=securityFirm" json:"securityFirm,omitempty"` //券商标识，取值见Trd_Common.SecurityFirm
+	Unlock        *bool                  `protobuf:"varint,1,req,name=unlock" json:"unlock,omitempty"`                                      //true解锁交易，false锁定交易
+	PwdMD5        *string                `protobuf:"bytes,2,opt,name=pwdMD5" json:"pwdMD5,omitempty"`                                       //交易密码的MD5转16进制(全小写)，解锁交易必须要填密码，锁定交易不需要验证密码，可不填
+	SecurityFirm  *SecurityFirm          `protobuf:"varint,3,opt,name=securityFirm,enum=futupb.SecurityFirm" json:"securityFirm,omitempty"` //券商标识，取值见Trd_Common.SecurityFirm
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -74,11 +74,11 @@ func (x *TrdUnlockTradeRequest) GetPwdMD5() string {
 	return ""
 }
 
-func (x *TrdUnlockTradeRequest) GetSecurityFirm() int32 {
+func (x *TrdUnlockTradeRequest) GetSecurityFirm() SecurityFirm {
 	if x != nil && x.SecurityFirm != nil {
 		return *x.SecurityFirm
 	}
-	return 0
+	return SecurityFirm_SecurityFirm_Unknown
 }
 
 type TrdUnlockTradeResponse struct {
@@ -164,7 +164,7 @@ func (x *TrdUnlockTradeRequest_Internal) GetPayload() *TrdUnlockTradeRequest {
 type TrdUnlockTradeResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                  `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                 `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                  `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdUnlockTradeResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -174,7 +174,7 @@ type TrdUnlockTradeResponse_Internal struct {
 
 // Default values for TrdUnlockTradeResponse_Internal fields.
 const (
-	Default_TrdUnlockTradeResponse_Internal_RetType = int32(-400)
+	Default_TrdUnlockTradeResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdUnlockTradeResponse_Internal) Reset() {
@@ -207,7 +207,7 @@ func (*TrdUnlockTradeResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_UnlockTrade_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdUnlockTradeResponse_Internal) GetRetType() int32 {
+func (x *TrdUnlockTradeResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -239,16 +239,16 @@ var File_Trd_UnlockTrade_proto protoreflect.FileDescriptor
 
 const file_Trd_UnlockTrade_proto_rawDesc = "" +
 	"\n" +
-	"\x15Trd_UnlockTrade.proto\x12\x06futupb\x1a\fCommon.proto\"k\n" +
+	"\x15Trd_UnlockTrade.proto\x12\x06futupb\x1a\x10Trd_Common.proto\x1a\fCommon.proto\"\x81\x01\n" +
 	"\x15TrdUnlockTradeRequest\x12\x16\n" +
 	"\x06unlock\x18\x01 \x02(\bR\x06unlock\x12\x16\n" +
-	"\x06pwdMD5\x18\x02 \x01(\tR\x06pwdMD5\x12\"\n" +
-	"\fsecurityFirm\x18\x03 \x01(\x05R\fsecurityFirm\"\x18\n" +
+	"\x06pwdMD5\x18\x02 \x01(\tR\x06pwdMD5\x128\n" +
+	"\fsecurityFirm\x18\x03 \x01(\x0e2\x14.futupb.SecurityFirmR\fsecurityFirm\"\x18\n" +
 	"\x16TrdUnlockTradeResponse\"Y\n" +
 	"\x1eTrdUnlockTradeRequest_Internal\x127\n" +
-	"\apayload\x18\x01 \x02(\v2\x1d.futupb.TrdUnlockTradeRequestR\apayload\"\xad\x01\n" +
-	"\x1fTrdUnlockTradeResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1d.futupb.TrdUnlockTradeRequestR\apayload\"\xc9\x01\n" +
+	"\x1fTrdUnlockTradeResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x128\n" +
 	"\apayload\x18\x04 \x01(\v2\x1e.futupb.TrdUnlockTradeResponseR\apayloadB4\n" +
@@ -272,15 +272,19 @@ var file_Trd_UnlockTrade_proto_goTypes = []any{
 	(*TrdUnlockTradeResponse)(nil),          // 1: futupb.TrdUnlockTradeResponse
 	(*TrdUnlockTradeRequest_Internal)(nil),  // 2: futupb.TrdUnlockTradeRequest_Internal
 	(*TrdUnlockTradeResponse_Internal)(nil), // 3: futupb.TrdUnlockTradeResponse_Internal
+	(SecurityFirm)(0),                       // 4: futupb.SecurityFirm
+	(RetType)(0),                            // 5: futupb.RetType
 }
 var file_Trd_UnlockTrade_proto_depIdxs = []int32{
-	0, // 0: futupb.TrdUnlockTradeRequest_Internal.payload:type_name -> futupb.TrdUnlockTradeRequest
-	1, // 1: futupb.TrdUnlockTradeResponse_Internal.payload:type_name -> futupb.TrdUnlockTradeResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 0: futupb.TrdUnlockTradeRequest.securityFirm:type_name -> futupb.SecurityFirm
+	0, // 1: futupb.TrdUnlockTradeRequest_Internal.payload:type_name -> futupb.TrdUnlockTradeRequest
+	5, // 2: futupb.TrdUnlockTradeResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 3: futupb.TrdUnlockTradeResponse_Internal.payload:type_name -> futupb.TrdUnlockTradeResponse
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_Trd_UnlockTrade_proto_init() }
@@ -288,6 +292,7 @@ func file_Trd_UnlockTrade_proto_init() {
 	if File_Trd_UnlockTrade_proto != nil {
 		return
 	}
+	file_Trd_Common_proto_init()
 	file_Common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

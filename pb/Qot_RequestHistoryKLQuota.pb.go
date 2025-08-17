@@ -239,7 +239,7 @@ func (x *QotRequestHistoryKLQuotaRequest_Internal) GetPayload() *QotRequestHisto
 
 type QotRequestHistoryKLQuotaResponse_Internal struct {
 	state         protoimpl.MessageState            `protogen:"open.v1"`
-	RetType       *int32                            `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                          `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                           `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                            `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotRequestHistoryKLQuotaResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -249,7 +249,7 @@ type QotRequestHistoryKLQuotaResponse_Internal struct {
 
 // Default values for QotRequestHistoryKLQuotaResponse_Internal fields.
 const (
-	Default_QotRequestHistoryKLQuotaResponse_Internal_RetType = int32(-400)
+	Default_QotRequestHistoryKLQuotaResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotRequestHistoryKLQuotaResponse_Internal) Reset() {
@@ -282,7 +282,7 @@ func (*QotRequestHistoryKLQuotaResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_RequestHistoryKLQuota_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *QotRequestHistoryKLQuotaResponse_Internal) GetRetType() int32 {
+func (x *QotRequestHistoryKLQuotaResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -332,9 +332,9 @@ const file_Qot_RequestHistoryKLQuota_proto_rawDesc = "" +
 	"detailList\x18\x03 \x03(\v2\x12.futupb.DetailItemR\n" +
 	"detailList\"m\n" +
 	"(QotRequestHistoryKLQuotaRequest_Internal\x12A\n" +
-	"\apayload\x18\x01 \x02(\v2'.futupb.QotRequestHistoryKLQuotaRequestR\apayload\"\xc1\x01\n" +
-	")QotRequestHistoryKLQuotaResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2'.futupb.QotRequestHistoryKLQuotaRequestR\apayload\"\xdd\x01\n" +
+	")QotRequestHistoryKLQuotaResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12B\n" +
 	"\apayload\x18\x04 \x01(\v2(.futupb.QotRequestHistoryKLQuotaResponseR\apayloadB4\n" +
@@ -360,17 +360,19 @@ var file_Qot_RequestHistoryKLQuota_proto_goTypes = []any{
 	(*QotRequestHistoryKLQuotaRequest_Internal)(nil),  // 3: futupb.QotRequestHistoryKLQuotaRequest_Internal
 	(*QotRequestHistoryKLQuotaResponse_Internal)(nil), // 4: futupb.QotRequestHistoryKLQuotaResponse_Internal
 	(*Security)(nil),                                  // 5: futupb.Security
+	(RetType)(0),                                      // 6: futupb.RetType
 }
 var file_Qot_RequestHistoryKLQuota_proto_depIdxs = []int32{
 	5, // 0: futupb.DetailItem.security:type_name -> futupb.Security
 	0, // 1: futupb.QotRequestHistoryKLQuotaResponse.detailList:type_name -> futupb.DetailItem
 	1, // 2: futupb.QotRequestHistoryKLQuotaRequest_Internal.payload:type_name -> futupb.QotRequestHistoryKLQuotaRequest
-	2, // 3: futupb.QotRequestHistoryKLQuotaResponse_Internal.payload:type_name -> futupb.QotRequestHistoryKLQuotaResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	6, // 3: futupb.QotRequestHistoryKLQuotaResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 4: futupb.QotRequestHistoryKLQuotaResponse_Internal.payload:type_name -> futupb.QotRequestHistoryKLQuotaResponse
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_Qot_RequestHistoryKLQuota_proto_init() }

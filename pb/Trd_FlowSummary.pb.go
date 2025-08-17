@@ -82,14 +82,14 @@ func (TrdCashFlowDirection) EnumDescriptor() ([]byte, []int) {
 
 type FlowSummaryInfo struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	ClearingDate      *string                `protobuf:"bytes,1,opt,name=clearingDate" json:"clearingDate,omitempty"`            //清算日期
-	SettlementDate    *string                `protobuf:"bytes,2,opt,name=settlementDate" json:"settlementDate,omitempty"`        //结算日期
-	Currency          *int32                 `protobuf:"varint,3,opt,name=currency" json:"currency,omitempty"`                   //币种
-	CashFlowType      *string                `protobuf:"bytes,4,opt,name=cashFlowType" json:"cashFlowType,omitempty"`            //现金流类型
-	CashFlowDirection *int32                 `protobuf:"varint,5,opt,name=cashFlowDirection" json:"cashFlowDirection,omitempty"` //现金流方向 TrdCashFlowDirection
-	CashFlowAmount    *float64               `protobuf:"fixed64,6,opt,name=cashFlowAmount" json:"cashFlowAmount,omitempty"`      //金额
-	CashFlowRemark    *string                `protobuf:"bytes,7,opt,name=cashFlowRemark" json:"cashFlowRemark,omitempty"`        // 备注
-	CashFlowID        *uint64                `protobuf:"varint,8,opt,name=cashFlowID" json:"cashFlowID,omitempty"`               // 现金流ID
+	ClearingDate      *string                `protobuf:"bytes,1,opt,name=clearingDate" json:"clearingDate,omitempty"`                                             //清算日期
+	SettlementDate    *string                `protobuf:"bytes,2,opt,name=settlementDate" json:"settlementDate,omitempty"`                                         //结算日期
+	Currency          *Currency              `protobuf:"varint,3,opt,name=currency,enum=futupb.Currency" json:"currency,omitempty"`                               //币种
+	CashFlowType      *string                `protobuf:"bytes,4,opt,name=cashFlowType" json:"cashFlowType,omitempty"`                                             //现金流类型
+	CashFlowDirection *TrdCashFlowDirection  `protobuf:"varint,5,opt,name=cashFlowDirection,enum=futupb.TrdCashFlowDirection" json:"cashFlowDirection,omitempty"` //现金流方向 TrdCashFlowDirection
+	CashFlowAmount    *float64               `protobuf:"fixed64,6,opt,name=cashFlowAmount" json:"cashFlowAmount,omitempty"`                                       //金额
+	CashFlowRemark    *string                `protobuf:"bytes,7,opt,name=cashFlowRemark" json:"cashFlowRemark,omitempty"`                                         // 备注
+	CashFlowID        *uint64                `protobuf:"varint,8,opt,name=cashFlowID" json:"cashFlowID,omitempty"`                                                // 现金流ID
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -138,11 +138,11 @@ func (x *FlowSummaryInfo) GetSettlementDate() string {
 	return ""
 }
 
-func (x *FlowSummaryInfo) GetCurrency() int32 {
+func (x *FlowSummaryInfo) GetCurrency() Currency {
 	if x != nil && x.Currency != nil {
 		return *x.Currency
 	}
-	return 0
+	return Currency_Currency_Unknown
 }
 
 func (x *FlowSummaryInfo) GetCashFlowType() string {
@@ -152,11 +152,11 @@ func (x *FlowSummaryInfo) GetCashFlowType() string {
 	return ""
 }
 
-func (x *FlowSummaryInfo) GetCashFlowDirection() int32 {
+func (x *FlowSummaryInfo) GetCashFlowDirection() TrdCashFlowDirection {
 	if x != nil && x.CashFlowDirection != nil {
 		return *x.CashFlowDirection
 	}
-	return 0
+	return TrdCashFlowDirection_TrdCashFlowDirection_Unknown
 }
 
 func (x *FlowSummaryInfo) GetCashFlowAmount() float64 {
@@ -182,9 +182,9 @@ func (x *FlowSummaryInfo) GetCashFlowID() uint64 {
 
 type TrdFlowSummaryRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	Header            *TrdHeader             `protobuf:"bytes,1,req,name=header" json:"header,omitempty"`                        //交易公共参数头
-	ClearingDate      *string                `protobuf:"bytes,2,req,name=clearingDate" json:"clearingDate,omitempty"`            //清算日期，格式 "2017-05-20"
-	CashFlowDirection *int32                 `protobuf:"varint,3,opt,name=cashFlowDirection" json:"cashFlowDirection,omitempty"` //现金流方向 TrdCashFlowDirection
+	Header            *TrdHeader             `protobuf:"bytes,1,req,name=header" json:"header,omitempty"`                                                         //交易公共参数头
+	ClearingDate      *string                `protobuf:"bytes,2,req,name=clearingDate" json:"clearingDate,omitempty"`                                             //清算日期，格式 "2017-05-20"
+	CashFlowDirection *TrdCashFlowDirection  `protobuf:"varint,3,opt,name=cashFlowDirection,enum=futupb.TrdCashFlowDirection" json:"cashFlowDirection,omitempty"` //现金流方向 TrdCashFlowDirection
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -233,11 +233,11 @@ func (x *TrdFlowSummaryRequest) GetClearingDate() string {
 	return ""
 }
 
-func (x *TrdFlowSummaryRequest) GetCashFlowDirection() int32 {
+func (x *TrdFlowSummaryRequest) GetCashFlowDirection() TrdCashFlowDirection {
 	if x != nil && x.CashFlowDirection != nil {
 		return *x.CashFlowDirection
 	}
-	return 0
+	return TrdCashFlowDirection_TrdCashFlowDirection_Unknown
 }
 
 type TrdFlowSummaryResponse struct {
@@ -339,7 +339,7 @@ func (x *TrdFlowSummaryRequest_Internal) GetPayload() *TrdFlowSummaryRequest {
 type TrdFlowSummaryResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                  `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                 `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                  `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdFlowSummaryResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -349,7 +349,7 @@ type TrdFlowSummaryResponse_Internal struct {
 
 // Default values for TrdFlowSummaryResponse_Internal fields.
 const (
-	Default_TrdFlowSummaryResponse_Internal_RetType = int32(-400)
+	Default_TrdFlowSummaryResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdFlowSummaryResponse_Internal) Reset() {
@@ -382,7 +382,7 @@ func (*TrdFlowSummaryResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_FlowSummary_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *TrdFlowSummaryResponse_Internal) GetRetType() int32 {
+func (x *TrdFlowSummaryResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -414,29 +414,29 @@ var File_Trd_FlowSummary_proto protoreflect.FileDescriptor
 
 const file_Trd_FlowSummary_proto_rawDesc = "" +
 	"\n" +
-	"\x15Trd_FlowSummary.proto\x12\x06futupb\x1a\x10Trd_Common.proto\"\xbb\x02\n" +
+	"\x15Trd_FlowSummary.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xeb\x02\n" +
 	"\x0fFlowSummaryInfo\x12\"\n" +
 	"\fclearingDate\x18\x01 \x01(\tR\fclearingDate\x12&\n" +
-	"\x0esettlementDate\x18\x02 \x01(\tR\x0esettlementDate\x12\x1a\n" +
-	"\bcurrency\x18\x03 \x01(\x05R\bcurrency\x12\"\n" +
-	"\fcashFlowType\x18\x04 \x01(\tR\fcashFlowType\x12,\n" +
-	"\x11cashFlowDirection\x18\x05 \x01(\x05R\x11cashFlowDirection\x12&\n" +
+	"\x0esettlementDate\x18\x02 \x01(\tR\x0esettlementDate\x12,\n" +
+	"\bcurrency\x18\x03 \x01(\x0e2\x10.futupb.CurrencyR\bcurrency\x12\"\n" +
+	"\fcashFlowType\x18\x04 \x01(\tR\fcashFlowType\x12J\n" +
+	"\x11cashFlowDirection\x18\x05 \x01(\x0e2\x1c.futupb.TrdCashFlowDirectionR\x11cashFlowDirection\x12&\n" +
 	"\x0ecashFlowAmount\x18\x06 \x01(\x01R\x0ecashFlowAmount\x12&\n" +
 	"\x0ecashFlowRemark\x18\a \x01(\tR\x0ecashFlowRemark\x12\x1e\n" +
 	"\n" +
 	"cashFlowID\x18\b \x01(\x04R\n" +
-	"cashFlowID\"\x94\x01\n" +
+	"cashFlowID\"\xb2\x01\n" +
 	"\x15TrdFlowSummaryRequest\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12\"\n" +
-	"\fclearingDate\x18\x02 \x02(\tR\fclearingDate\x12,\n" +
-	"\x11cashFlowDirection\x18\x03 \x01(\x05R\x11cashFlowDirection\"\x8e\x01\n" +
+	"\fclearingDate\x18\x02 \x02(\tR\fclearingDate\x12J\n" +
+	"\x11cashFlowDirection\x18\x03 \x01(\x0e2\x1c.futupb.TrdCashFlowDirectionR\x11cashFlowDirection\"\x8e\x01\n" +
 	"\x16TrdFlowSummaryResponse\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12I\n" +
 	"\x13flowSummaryInfoList\x18\x02 \x03(\v2\x17.futupb.FlowSummaryInfoR\x13flowSummaryInfoList\"Y\n" +
 	"\x1eTrdFlowSummaryRequest_Internal\x127\n" +
-	"\apayload\x18\x01 \x02(\v2\x1d.futupb.TrdFlowSummaryRequestR\apayload\"\xad\x01\n" +
-	"\x1fTrdFlowSummaryResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1d.futupb.TrdFlowSummaryRequestR\apayload\"\xc9\x01\n" +
+	"\x1fTrdFlowSummaryResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x128\n" +
 	"\apayload\x18\x04 \x01(\v2\x1e.futupb.TrdFlowSummaryResponseR\apayload*s\n" +
@@ -467,19 +467,25 @@ var file_Trd_FlowSummary_proto_goTypes = []any{
 	(*TrdFlowSummaryResponse)(nil),          // 3: futupb.TrdFlowSummaryResponse
 	(*TrdFlowSummaryRequest_Internal)(nil),  // 4: futupb.TrdFlowSummaryRequest_Internal
 	(*TrdFlowSummaryResponse_Internal)(nil), // 5: futupb.TrdFlowSummaryResponse_Internal
-	(*TrdHeader)(nil),                       // 6: futupb.TrdHeader
+	(Currency)(0),                           // 6: futupb.Currency
+	(*TrdHeader)(nil),                       // 7: futupb.TrdHeader
+	(RetType)(0),                            // 8: futupb.RetType
 }
 var file_Trd_FlowSummary_proto_depIdxs = []int32{
-	6, // 0: futupb.TrdFlowSummaryRequest.header:type_name -> futupb.TrdHeader
-	6, // 1: futupb.TrdFlowSummaryResponse.header:type_name -> futupb.TrdHeader
-	1, // 2: futupb.TrdFlowSummaryResponse.flowSummaryInfoList:type_name -> futupb.FlowSummaryInfo
-	2, // 3: futupb.TrdFlowSummaryRequest_Internal.payload:type_name -> futupb.TrdFlowSummaryRequest
-	3, // 4: futupb.TrdFlowSummaryResponse_Internal.payload:type_name -> futupb.TrdFlowSummaryResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	6, // 0: futupb.FlowSummaryInfo.currency:type_name -> futupb.Currency
+	0, // 1: futupb.FlowSummaryInfo.cashFlowDirection:type_name -> futupb.TrdCashFlowDirection
+	7, // 2: futupb.TrdFlowSummaryRequest.header:type_name -> futupb.TrdHeader
+	0, // 3: futupb.TrdFlowSummaryRequest.cashFlowDirection:type_name -> futupb.TrdCashFlowDirection
+	7, // 4: futupb.TrdFlowSummaryResponse.header:type_name -> futupb.TrdHeader
+	1, // 5: futupb.TrdFlowSummaryResponse.flowSummaryInfoList:type_name -> futupb.FlowSummaryInfo
+	2, // 6: futupb.TrdFlowSummaryRequest_Internal.payload:type_name -> futupb.TrdFlowSummaryRequest
+	8, // 7: futupb.TrdFlowSummaryResponse_Internal.retType:type_name -> futupb.RetType
+	3, // 8: futupb.TrdFlowSummaryResponse_Internal.payload:type_name -> futupb.TrdFlowSummaryResponse
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_Trd_FlowSummary_proto_init() }
@@ -487,6 +493,7 @@ func file_Trd_FlowSummary_proto_init() {
 	if File_Trd_FlowSummary_proto != nil {
 		return
 	}
+	file_Common_proto_init()
 	file_Trd_Common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

@@ -23,23 +23,23 @@ const (
 
 type TrdModifyOrderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PacketID      *PacketID              `protobuf:"bytes,1,req,name=packetID" json:"packetID,omitempty"`            //交易写操作防重放攻击
-	Header        *TrdHeader             `protobuf:"bytes,2,req,name=header" json:"header,omitempty"`                //交易公共参数头
-	OrderID       *uint64                `protobuf:"varint,3,req,name=orderID" json:"orderID,omitempty"`             //订单号，forAll为true时，传0
-	ModifyOrderOp *int32                 `protobuf:"varint,4,req,name=modifyOrderOp" json:"modifyOrderOp,omitempty"` //修改操作类型，参见Trd_Common.ModifyOrderOp的枚举定义
-	ForAll        *bool                  `protobuf:"varint,5,opt,name=forAll" json:"forAll,omitempty"`               //是否对此业务账户的全部订单操作，true是，false否(对单个订单)，无此字段代表false，仅对单个订单
-	TrdMarket     *int32                 `protobuf:"varint,6,opt,name=trdMarket" json:"trdMarket,omitempty"`         //指定市场，全部撤单时才需要
+	PacketID      *PacketID              `protobuf:"bytes,1,req,name=packetID" json:"packetID,omitempty"`                                      //交易写操作防重放攻击
+	Header        *TrdHeader             `protobuf:"bytes,2,req,name=header" json:"header,omitempty"`                                          //交易公共参数头
+	OrderID       *uint64                `protobuf:"varint,3,req,name=orderID" json:"orderID,omitempty"`                                       //订单号，forAll为true时，传0
+	ModifyOrderOp *ModifyOrderOp         `protobuf:"varint,4,req,name=modifyOrderOp,enum=futupb.ModifyOrderOp" json:"modifyOrderOp,omitempty"` //修改操作类型，参见Trd_Common.ModifyOrderOp的枚举定义
+	ForAll        *bool                  `protobuf:"varint,5,opt,name=forAll" json:"forAll,omitempty"`                                         //是否对此业务账户的全部订单操作，true是，false否(对单个订单)，无此字段代表false，仅对单个订单
+	TrdMarket     *TrdMarket             `protobuf:"varint,6,opt,name=trdMarket,enum=futupb.TrdMarket" json:"trdMarket,omitempty"`             //指定市场，全部撤单时才需要
 	// 下面的字段仅针对单个订单，且modifyOrderOp为ModifyOrderOp_Normal有效
 	Qty   *float64 `protobuf:"fixed64,8,opt,name=qty" json:"qty,omitempty"`     //数量，期权单位是"张"（精确到小数点后 0 位，超出部分会被舍弃）
 	Price *float64 `protobuf:"fixed64,9,opt,name=price" json:"price,omitempty"` //价格，（证券账户精确到小数点后 3 位，期货账户精确到小数点后 9 位，超出部分会被舍弃）
 	// 以下为调整价格使用，都传才有效，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传
-	AdjustPrice        *bool    `protobuf:"varint,10,opt,name=adjustPrice" json:"adjustPrice,omitempty"`                //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
-	AdjustSideAndLimit *float64 `protobuf:"fixed64,11,opt,name=adjustSideAndLimit" json:"adjustSideAndLimit,omitempty"` //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
-	AuxPrice           *float64 `protobuf:"fixed64,12,opt,name=auxPrice" json:"auxPrice,omitempty"`                     //触发价格
-	TrailType          *int32   `protobuf:"varint,13,opt,name=trailType" json:"trailType,omitempty"`                    //跟踪类型, 参见Trd_Common.TrailType的枚举定义
-	TrailValue         *float64 `protobuf:"fixed64,14,opt,name=trailValue" json:"trailValue,omitempty"`                 //跟踪金额/百分比
-	TrailSpread        *float64 `protobuf:"fixed64,15,opt,name=trailSpread" json:"trailSpread,omitempty"`               //指定价差
-	OrderIDEx          *string  `protobuf:"bytes,16,opt,name=orderIDEx" json:"orderIDEx,omitempty"`                     //表示服务器订单id，可以用来代替orderID，和orderID二选一
+	AdjustPrice        *bool      `protobuf:"varint,10,opt,name=adjustPrice" json:"adjustPrice,omitempty"`                   //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
+	AdjustSideAndLimit *float64   `protobuf:"fixed64,11,opt,name=adjustSideAndLimit" json:"adjustSideAndLimit,omitempty"`    //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
+	AuxPrice           *float64   `protobuf:"fixed64,12,opt,name=auxPrice" json:"auxPrice,omitempty"`                        //触发价格
+	TrailType          *TrailType `protobuf:"varint,13,opt,name=trailType,enum=futupb.TrailType" json:"trailType,omitempty"` //跟踪类型, 参见Trd_Common.TrailType的枚举定义
+	TrailValue         *float64   `protobuf:"fixed64,14,opt,name=trailValue" json:"trailValue,omitempty"`                    //跟踪金额/百分比
+	TrailSpread        *float64   `protobuf:"fixed64,15,opt,name=trailSpread" json:"trailSpread,omitempty"`                  //指定价差
+	OrderIDEx          *string    `protobuf:"bytes,16,opt,name=orderIDEx" json:"orderIDEx,omitempty"`                        //表示服务器订单id，可以用来代替orderID，和orderID二选一
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -95,11 +95,11 @@ func (x *TrdModifyOrderRequest) GetOrderID() uint64 {
 	return 0
 }
 
-func (x *TrdModifyOrderRequest) GetModifyOrderOp() int32 {
+func (x *TrdModifyOrderRequest) GetModifyOrderOp() ModifyOrderOp {
 	if x != nil && x.ModifyOrderOp != nil {
 		return *x.ModifyOrderOp
 	}
-	return 0
+	return ModifyOrderOp_ModifyOrderOp_Unknown
 }
 
 func (x *TrdModifyOrderRequest) GetForAll() bool {
@@ -109,11 +109,11 @@ func (x *TrdModifyOrderRequest) GetForAll() bool {
 	return false
 }
 
-func (x *TrdModifyOrderRequest) GetTrdMarket() int32 {
+func (x *TrdModifyOrderRequest) GetTrdMarket() TrdMarket {
 	if x != nil && x.TrdMarket != nil {
 		return *x.TrdMarket
 	}
-	return 0
+	return TrdMarket_TrdMarket_Unknown
 }
 
 func (x *TrdModifyOrderRequest) GetQty() float64 {
@@ -151,11 +151,11 @@ func (x *TrdModifyOrderRequest) GetAuxPrice() float64 {
 	return 0
 }
 
-func (x *TrdModifyOrderRequest) GetTrailType() int32 {
+func (x *TrdModifyOrderRequest) GetTrailType() TrailType {
 	if x != nil && x.TrailType != nil {
 		return *x.TrailType
 	}
-	return 0
+	return TrailType_TrailType_Unknown
 }
 
 func (x *TrdModifyOrderRequest) GetTrailValue() float64 {
@@ -286,7 +286,7 @@ func (x *TrdModifyOrderRequest_Internal) GetPayload() *TrdModifyOrderRequest {
 type TrdModifyOrderResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                  `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                 `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                  `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdModifyOrderResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -296,7 +296,7 @@ type TrdModifyOrderResponse_Internal struct {
 
 // Default values for TrdModifyOrderResponse_Internal fields.
 const (
-	Default_TrdModifyOrderResponse_Internal_RetType = int32(-400)
+	Default_TrdModifyOrderResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdModifyOrderResponse_Internal) Reset() {
@@ -329,7 +329,7 @@ func (*TrdModifyOrderResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_ModifyOrder_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdModifyOrderResponse_Internal) GetRetType() int32 {
+func (x *TrdModifyOrderResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -361,21 +361,21 @@ var File_Trd_ModifyOrder_proto protoreflect.FileDescriptor
 
 const file_Trd_ModifyOrder_proto_rawDesc = "" +
 	"\n" +
-	"\x15Trd_ModifyOrder.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xfa\x03\n" +
+	"\x15Trd_ModifyOrder.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xb7\x04\n" +
 	"\x15TrdModifyOrderRequest\x12,\n" +
 	"\bpacketID\x18\x01 \x02(\v2\x10.futupb.PacketIDR\bpacketID\x12)\n" +
 	"\x06header\x18\x02 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12\x18\n" +
-	"\aorderID\x18\x03 \x02(\x04R\aorderID\x12$\n" +
-	"\rmodifyOrderOp\x18\x04 \x02(\x05R\rmodifyOrderOp\x12\x16\n" +
-	"\x06forAll\x18\x05 \x01(\bR\x06forAll\x12\x1c\n" +
-	"\ttrdMarket\x18\x06 \x01(\x05R\ttrdMarket\x12\x10\n" +
+	"\aorderID\x18\x03 \x02(\x04R\aorderID\x12;\n" +
+	"\rmodifyOrderOp\x18\x04 \x02(\x0e2\x15.futupb.ModifyOrderOpR\rmodifyOrderOp\x12\x16\n" +
+	"\x06forAll\x18\x05 \x01(\bR\x06forAll\x12/\n" +
+	"\ttrdMarket\x18\x06 \x01(\x0e2\x11.futupb.TrdMarketR\ttrdMarket\x12\x10\n" +
 	"\x03qty\x18\b \x01(\x01R\x03qty\x12\x14\n" +
 	"\x05price\x18\t \x01(\x01R\x05price\x12 \n" +
 	"\vadjustPrice\x18\n" +
 	" \x01(\bR\vadjustPrice\x12.\n" +
 	"\x12adjustSideAndLimit\x18\v \x01(\x01R\x12adjustSideAndLimit\x12\x1a\n" +
-	"\bauxPrice\x18\f \x01(\x01R\bauxPrice\x12\x1c\n" +
-	"\ttrailType\x18\r \x01(\x05R\ttrailType\x12\x1e\n" +
+	"\bauxPrice\x18\f \x01(\x01R\bauxPrice\x12/\n" +
+	"\ttrailType\x18\r \x01(\x0e2\x11.futupb.TrailTypeR\ttrailType\x12\x1e\n" +
 	"\n" +
 	"trailValue\x18\x0e \x01(\x01R\n" +
 	"trailValue\x12 \n" +
@@ -386,9 +386,9 @@ const file_Trd_ModifyOrder_proto_rawDesc = "" +
 	"\aorderID\x18\x02 \x02(\x04R\aorderID\x12\x1c\n" +
 	"\torderIDEx\x18\x03 \x01(\tR\torderIDEx\"Y\n" +
 	"\x1eTrdModifyOrderRequest_Internal\x127\n" +
-	"\apayload\x18\x01 \x02(\v2\x1d.futupb.TrdModifyOrderRequestR\apayload\"\xad\x01\n" +
-	"\x1fTrdModifyOrderResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1d.futupb.TrdModifyOrderRequestR\apayload\"\xc9\x01\n" +
+	"\x1fTrdModifyOrderResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x128\n" +
 	"\apayload\x18\x04 \x01(\v2\x1e.futupb.TrdModifyOrderResponseR\apayloadB4\n" +
@@ -414,18 +414,26 @@ var file_Trd_ModifyOrder_proto_goTypes = []any{
 	(*TrdModifyOrderResponse_Internal)(nil), // 3: futupb.TrdModifyOrderResponse_Internal
 	(*PacketID)(nil),                        // 4: futupb.PacketID
 	(*TrdHeader)(nil),                       // 5: futupb.TrdHeader
+	(ModifyOrderOp)(0),                      // 6: futupb.ModifyOrderOp
+	(TrdMarket)(0),                          // 7: futupb.TrdMarket
+	(TrailType)(0),                          // 8: futupb.TrailType
+	(RetType)(0),                            // 9: futupb.RetType
 }
 var file_Trd_ModifyOrder_proto_depIdxs = []int32{
 	4, // 0: futupb.TrdModifyOrderRequest.packetID:type_name -> futupb.PacketID
 	5, // 1: futupb.TrdModifyOrderRequest.header:type_name -> futupb.TrdHeader
-	5, // 2: futupb.TrdModifyOrderResponse.header:type_name -> futupb.TrdHeader
-	0, // 3: futupb.TrdModifyOrderRequest_Internal.payload:type_name -> futupb.TrdModifyOrderRequest
-	1, // 4: futupb.TrdModifyOrderResponse_Internal.payload:type_name -> futupb.TrdModifyOrderResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	6, // 2: futupb.TrdModifyOrderRequest.modifyOrderOp:type_name -> futupb.ModifyOrderOp
+	7, // 3: futupb.TrdModifyOrderRequest.trdMarket:type_name -> futupb.TrdMarket
+	8, // 4: futupb.TrdModifyOrderRequest.trailType:type_name -> futupb.TrailType
+	5, // 5: futupb.TrdModifyOrderResponse.header:type_name -> futupb.TrdHeader
+	0, // 6: futupb.TrdModifyOrderRequest_Internal.payload:type_name -> futupb.TrdModifyOrderRequest
+	9, // 7: futupb.TrdModifyOrderResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 8: futupb.TrdModifyOrderResponse_Internal.payload:type_name -> futupb.TrdModifyOrderResponse
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_Trd_ModifyOrder_proto_init() }

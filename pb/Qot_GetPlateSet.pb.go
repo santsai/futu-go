@@ -23,8 +23,8 @@ const (
 
 type QotGetPlateSetRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Market        *int32                 `protobuf:"varint,1,req,name=market" json:"market,omitempty"`             //Qot_Common.QotMarket,股票市场
-	PlateSetType  *int32                 `protobuf:"varint,2,req,name=plateSetType" json:"plateSetType,omitempty"` //Qot_Common.PlateSetType,板块集合的类型
+	Market        *QotMarket             `protobuf:"varint,1,req,name=market,enum=futupb.QotMarket" json:"market,omitempty"`                //Qot_Common.QotMarket,股票市场
+	PlateSetType  *PlateSetType          `protobuf:"varint,2,req,name=plateSetType,enum=futupb.PlateSetType" json:"plateSetType,omitempty"` //Qot_Common.PlateSetType,板块集合的类型
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -59,18 +59,18 @@ func (*QotGetPlateSetRequest) Descriptor() ([]byte, []int) {
 	return file_Qot_GetPlateSet_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *QotGetPlateSetRequest) GetMarket() int32 {
+func (x *QotGetPlateSetRequest) GetMarket() QotMarket {
 	if x != nil && x.Market != nil {
 		return *x.Market
 	}
-	return 0
+	return QotMarket_QotMarket_Unknown
 }
 
-func (x *QotGetPlateSetRequest) GetPlateSetType() int32 {
+func (x *QotGetPlateSetRequest) GetPlateSetType() PlateSetType {
 	if x != nil && x.PlateSetType != nil {
 		return *x.PlateSetType
 	}
-	return 0
+	return PlateSetType_PlateSetType_All
 }
 
 type QotGetPlateSetResponse struct {
@@ -163,7 +163,7 @@ func (x *QotGetPlateSetRequest_Internal) GetPayload() *QotGetPlateSetRequest {
 
 type QotGetPlateSetResponse_Internal struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
-	RetType       *int32                  `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                 `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                  `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetPlateSetResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -173,7 +173,7 @@ type QotGetPlateSetResponse_Internal struct {
 
 // Default values for QotGetPlateSetResponse_Internal fields.
 const (
-	Default_QotGetPlateSetResponse_Internal_RetType = int32(-400)
+	Default_QotGetPlateSetResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetPlateSetResponse_Internal) Reset() {
@@ -206,7 +206,7 @@ func (*QotGetPlateSetResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetPlateSet_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetPlateSetResponse_Internal) GetRetType() int32 {
+func (x *QotGetPlateSetResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -238,16 +238,16 @@ var File_Qot_GetPlateSet_proto protoreflect.FileDescriptor
 
 const file_Qot_GetPlateSet_proto_rawDesc = "" +
 	"\n" +
-	"\x15Qot_GetPlateSet.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"S\n" +
-	"\x15QotGetPlateSetRequest\x12\x16\n" +
-	"\x06market\x18\x01 \x02(\x05R\x06market\x12\"\n" +
-	"\fplateSetType\x18\x02 \x02(\x05R\fplateSetType\"Q\n" +
+	"\x15Qot_GetPlateSet.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"|\n" +
+	"\x15QotGetPlateSetRequest\x12)\n" +
+	"\x06market\x18\x01 \x02(\x0e2\x11.futupb.QotMarketR\x06market\x128\n" +
+	"\fplateSetType\x18\x02 \x02(\x0e2\x14.futupb.PlateSetTypeR\fplateSetType\"Q\n" +
 	"\x16QotGetPlateSetResponse\x127\n" +
 	"\rplateInfoList\x18\x01 \x03(\v2\x11.futupb.PlateInfoR\rplateInfoList\"Y\n" +
 	"\x1eQotGetPlateSetRequest_Internal\x127\n" +
-	"\apayload\x18\x01 \x02(\v2\x1d.futupb.QotGetPlateSetRequestR\apayload\"\xad\x01\n" +
-	"\x1fQotGetPlateSetResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1d.futupb.QotGetPlateSetRequestR\apayload\"\xc9\x01\n" +
+	"\x1fQotGetPlateSetResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x128\n" +
 	"\apayload\x18\x04 \x01(\v2\x1e.futupb.QotGetPlateSetResponseR\apayloadB4\n" +
@@ -271,17 +271,23 @@ var file_Qot_GetPlateSet_proto_goTypes = []any{
 	(*QotGetPlateSetResponse)(nil),          // 1: futupb.QotGetPlateSetResponse
 	(*QotGetPlateSetRequest_Internal)(nil),  // 2: futupb.QotGetPlateSetRequest_Internal
 	(*QotGetPlateSetResponse_Internal)(nil), // 3: futupb.QotGetPlateSetResponse_Internal
-	(*PlateInfo)(nil),                       // 4: futupb.PlateInfo
+	(QotMarket)(0),                          // 4: futupb.QotMarket
+	(PlateSetType)(0),                       // 5: futupb.PlateSetType
+	(*PlateInfo)(nil),                       // 6: futupb.PlateInfo
+	(RetType)(0),                            // 7: futupb.RetType
 }
 var file_Qot_GetPlateSet_proto_depIdxs = []int32{
-	4, // 0: futupb.QotGetPlateSetResponse.plateInfoList:type_name -> futupb.PlateInfo
-	0, // 1: futupb.QotGetPlateSetRequest_Internal.payload:type_name -> futupb.QotGetPlateSetRequest
-	1, // 2: futupb.QotGetPlateSetResponse_Internal.payload:type_name -> futupb.QotGetPlateSetResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 0: futupb.QotGetPlateSetRequest.market:type_name -> futupb.QotMarket
+	5, // 1: futupb.QotGetPlateSetRequest.plateSetType:type_name -> futupb.PlateSetType
+	6, // 2: futupb.QotGetPlateSetResponse.plateInfoList:type_name -> futupb.PlateInfo
+	0, // 3: futupb.QotGetPlateSetRequest_Internal.payload:type_name -> futupb.QotGetPlateSetRequest
+	7, // 4: futupb.QotGetPlateSetResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 5: futupb.QotGetPlateSetResponse_Internal.payload:type_name -> futupb.QotGetPlateSetResponse
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetPlateSet_proto_init() }

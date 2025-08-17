@@ -24,9 +24,9 @@ const (
 type QotGetStaticInfoRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 注：当 market 和 code_list 同时存在时，会忽略 market，仅对 code_list 进行查询。
-	Market        *int32      `protobuf:"varint,1,opt,name=market" json:"market,omitempty"`            //Qot_Common.QotMarket,股票市场
-	SecType       *int32      `protobuf:"varint,2,opt,name=secType" json:"secType,omitempty"`          //Qot_Common.SecurityType,股票类型
-	SecurityList  []*Security `protobuf:"bytes,3,rep,name=securityList" json:"securityList,omitempty"` //股票，若该字段存在，忽略其他字段，只返回该字段股票的静态信息
+	Market        *QotMarket    `protobuf:"varint,1,opt,name=market,enum=futupb.QotMarket" json:"market,omitempty"`      //Qot_Common.QotMarket,股票市场
+	SecType       *SecurityType `protobuf:"varint,2,opt,name=secType,enum=futupb.SecurityType" json:"secType,omitempty"` //Qot_Common.SecurityType,股票类型
+	SecurityList  []*Security   `protobuf:"bytes,3,rep,name=securityList" json:"securityList,omitempty"`                 //股票，若该字段存在，忽略其他字段，只返回该字段股票的静态信息
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -61,18 +61,18 @@ func (*QotGetStaticInfoRequest) Descriptor() ([]byte, []int) {
 	return file_Qot_GetStaticInfo_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *QotGetStaticInfoRequest) GetMarket() int32 {
+func (x *QotGetStaticInfoRequest) GetMarket() QotMarket {
 	if x != nil && x.Market != nil {
 		return *x.Market
 	}
-	return 0
+	return QotMarket_QotMarket_Unknown
 }
 
-func (x *QotGetStaticInfoRequest) GetSecType() int32 {
+func (x *QotGetStaticInfoRequest) GetSecType() SecurityType {
 	if x != nil && x.SecType != nil {
 		return *x.SecType
 	}
-	return 0
+	return SecurityType_SecurityType_Unknown
 }
 
 func (x *QotGetStaticInfoRequest) GetSecurityList() []*Security {
@@ -172,7 +172,7 @@ func (x *QotGetStaticInfoRequest_Internal) GetPayload() *QotGetStaticInfoRequest
 
 type QotGetStaticInfoResponse_Internal struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
-	RetType       *int32                    `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                  `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                   `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                    `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetStaticInfoResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -182,7 +182,7 @@ type QotGetStaticInfoResponse_Internal struct {
 
 // Default values for QotGetStaticInfoResponse_Internal fields.
 const (
-	Default_QotGetStaticInfoResponse_Internal_RetType = int32(-400)
+	Default_QotGetStaticInfoResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetStaticInfoResponse_Internal) Reset() {
@@ -215,7 +215,7 @@ func (*QotGetStaticInfoResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetStaticInfo_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetStaticInfoResponse_Internal) GetRetType() int32 {
+func (x *QotGetStaticInfoResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -247,17 +247,17 @@ var File_Qot_GetStaticInfo_proto protoreflect.FileDescriptor
 
 const file_Qot_GetStaticInfo_proto_rawDesc = "" +
 	"\n" +
-	"\x17Qot_GetStaticInfo.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x81\x01\n" +
-	"\x17QotGetStaticInfoRequest\x12\x16\n" +
-	"\x06market\x18\x01 \x01(\x05R\x06market\x12\x18\n" +
-	"\asecType\x18\x02 \x01(\x05R\asecType\x124\n" +
+	"\x17Qot_GetStaticInfo.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xaa\x01\n" +
+	"\x17QotGetStaticInfoRequest\x12)\n" +
+	"\x06market\x18\x01 \x01(\x0e2\x11.futupb.QotMarketR\x06market\x12.\n" +
+	"\asecType\x18\x02 \x01(\x0e2\x14.futupb.SecurityTypeR\asecType\x124\n" +
 	"\fsecurityList\x18\x03 \x03(\v2\x10.futupb.SecurityR\fsecurityList\"^\n" +
 	"\x18QotGetStaticInfoResponse\x12B\n" +
 	"\x0estaticInfoList\x18\x01 \x03(\v2\x1a.futupb.SecurityStaticInfoR\x0estaticInfoList\"]\n" +
 	" QotGetStaticInfoRequest_Internal\x129\n" +
-	"\apayload\x18\x01 \x02(\v2\x1f.futupb.QotGetStaticInfoRequestR\apayload\"\xb1\x01\n" +
-	"!QotGetStaticInfoResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1f.futupb.QotGetStaticInfoRequestR\apayload\"\xcd\x01\n" +
+	"!QotGetStaticInfoResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12:\n" +
 	"\apayload\x18\x04 \x01(\v2 .futupb.QotGetStaticInfoResponseR\apayloadB4\n" +
@@ -281,19 +281,25 @@ var file_Qot_GetStaticInfo_proto_goTypes = []any{
 	(*QotGetStaticInfoResponse)(nil),          // 1: futupb.QotGetStaticInfoResponse
 	(*QotGetStaticInfoRequest_Internal)(nil),  // 2: futupb.QotGetStaticInfoRequest_Internal
 	(*QotGetStaticInfoResponse_Internal)(nil), // 3: futupb.QotGetStaticInfoResponse_Internal
-	(*Security)(nil),                          // 4: futupb.Security
-	(*SecurityStaticInfo)(nil),                // 5: futupb.SecurityStaticInfo
+	(QotMarket)(0),             // 4: futupb.QotMarket
+	(SecurityType)(0),          // 5: futupb.SecurityType
+	(*Security)(nil),           // 6: futupb.Security
+	(*SecurityStaticInfo)(nil), // 7: futupb.SecurityStaticInfo
+	(RetType)(0),               // 8: futupb.RetType
 }
 var file_Qot_GetStaticInfo_proto_depIdxs = []int32{
-	4, // 0: futupb.QotGetStaticInfoRequest.securityList:type_name -> futupb.Security
-	5, // 1: futupb.QotGetStaticInfoResponse.staticInfoList:type_name -> futupb.SecurityStaticInfo
-	0, // 2: futupb.QotGetStaticInfoRequest_Internal.payload:type_name -> futupb.QotGetStaticInfoRequest
-	1, // 3: futupb.QotGetStaticInfoResponse_Internal.payload:type_name -> futupb.QotGetStaticInfoResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 0: futupb.QotGetStaticInfoRequest.market:type_name -> futupb.QotMarket
+	5, // 1: futupb.QotGetStaticInfoRequest.secType:type_name -> futupb.SecurityType
+	6, // 2: futupb.QotGetStaticInfoRequest.securityList:type_name -> futupb.Security
+	7, // 3: futupb.QotGetStaticInfoResponse.staticInfoList:type_name -> futupb.SecurityStaticInfo
+	0, // 4: futupb.QotGetStaticInfoRequest_Internal.payload:type_name -> futupb.QotGetStaticInfoRequest
+	8, // 5: futupb.QotGetStaticInfoResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 6: futupb.QotGetStaticInfoResponse_Internal.payload:type_name -> futupb.QotGetStaticInfoResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetStaticInfo_proto_init() }

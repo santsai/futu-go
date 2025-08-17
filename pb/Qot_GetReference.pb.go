@@ -82,8 +82,8 @@ func (ReferenceType) EnumDescriptor() ([]byte, []int) {
 
 type QotGetReferenceRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Security      *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`            //股票
-	ReferenceType *int32                 `protobuf:"varint,2,req,name=referenceType" json:"referenceType,omitempty"` // ReferenceType, 相关类型
+	Security      *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`                                      //股票
+	ReferenceType *ReferenceType         `protobuf:"varint,2,req,name=referenceType,enum=futupb.ReferenceType" json:"referenceType,omitempty"` // ReferenceType, 相关类型
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -125,11 +125,11 @@ func (x *QotGetReferenceRequest) GetSecurity() *Security {
 	return nil
 }
 
-func (x *QotGetReferenceRequest) GetReferenceType() int32 {
+func (x *QotGetReferenceRequest) GetReferenceType() ReferenceType {
 	if x != nil && x.ReferenceType != nil {
 		return *x.ReferenceType
 	}
-	return 0
+	return ReferenceType_ReferenceType_Unknow
 }
 
 type QotGetReferenceResponse struct {
@@ -222,7 +222,7 @@ func (x *QotGetReferenceRequest_Internal) GetPayload() *QotGetReferenceRequest {
 
 type QotGetReferenceResponse_Internal struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
-	RetType       *int32                   `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                 `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                  `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                   `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetReferenceResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -232,7 +232,7 @@ type QotGetReferenceResponse_Internal struct {
 
 // Default values for QotGetReferenceResponse_Internal fields.
 const (
-	Default_QotGetReferenceResponse_Internal_RetType = int32(-400)
+	Default_QotGetReferenceResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetReferenceResponse_Internal) Reset() {
@@ -265,7 +265,7 @@ func (*QotGetReferenceResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetReference_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetReferenceResponse_Internal) GetRetType() int32 {
+func (x *QotGetReferenceResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -297,16 +297,16 @@ var File_Qot_GetReference_proto protoreflect.FileDescriptor
 
 const file_Qot_GetReference_proto_rawDesc = "" +
 	"\n" +
-	"\x16Qot_GetReference.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"l\n" +
+	"\x16Qot_GetReference.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x83\x01\n" +
 	"\x16QotGetReferenceRequest\x12,\n" +
-	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12$\n" +
-	"\rreferenceType\x18\x02 \x02(\x05R\rreferenceType\"]\n" +
+	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12;\n" +
+	"\rreferenceType\x18\x02 \x02(\x0e2\x15.futupb.ReferenceTypeR\rreferenceType\"]\n" +
 	"\x17QotGetReferenceResponse\x12B\n" +
 	"\x0estaticInfoList\x18\x02 \x03(\v2\x1a.futupb.SecurityStaticInfoR\x0estaticInfoList\"[\n" +
 	"\x1fQotGetReferenceRequest_Internal\x128\n" +
-	"\apayload\x18\x01 \x02(\v2\x1e.futupb.QotGetReferenceRequestR\apayload\"\xaf\x01\n" +
-	" QotGetReferenceResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1e.futupb.QotGetReferenceRequestR\apayload\"\xcb\x01\n" +
+	" QotGetReferenceResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x129\n" +
 	"\apayload\x18\x04 \x01(\v2\x1f.futupb.QotGetReferenceResponseR\apayload*^\n" +
@@ -338,17 +338,20 @@ var file_Qot_GetReference_proto_goTypes = []any{
 	(*QotGetReferenceResponse_Internal)(nil), // 4: futupb.QotGetReferenceResponse_Internal
 	(*Security)(nil),                         // 5: futupb.Security
 	(*SecurityStaticInfo)(nil),               // 6: futupb.SecurityStaticInfo
+	(RetType)(0),                             // 7: futupb.RetType
 }
 var file_Qot_GetReference_proto_depIdxs = []int32{
 	5, // 0: futupb.QotGetReferenceRequest.security:type_name -> futupb.Security
-	6, // 1: futupb.QotGetReferenceResponse.staticInfoList:type_name -> futupb.SecurityStaticInfo
-	1, // 2: futupb.QotGetReferenceRequest_Internal.payload:type_name -> futupb.QotGetReferenceRequest
-	2, // 3: futupb.QotGetReferenceResponse_Internal.payload:type_name -> futupb.QotGetReferenceResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	0, // 1: futupb.QotGetReferenceRequest.referenceType:type_name -> futupb.ReferenceType
+	6, // 2: futupb.QotGetReferenceResponse.staticInfoList:type_name -> futupb.SecurityStaticInfo
+	1, // 3: futupb.QotGetReferenceRequest_Internal.payload:type_name -> futupb.QotGetReferenceRequest
+	7, // 4: futupb.QotGetReferenceResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 5: futupb.QotGetReferenceResponse_Internal.payload:type_name -> futupb.QotGetReferenceResponse
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetReference_proto_init() }

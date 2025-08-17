@@ -155,7 +155,7 @@ func (x *KeepAliveRequest_Internal) GetPayload() *KeepAliveRequest {
 
 type KeepAliveResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *KeepAliveResponse     `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -165,7 +165,7 @@ type KeepAliveResponse_Internal struct {
 
 // Default values for KeepAliveResponse_Internal fields.
 const (
-	Default_KeepAliveResponse_Internal_RetType = int32(-400)
+	Default_KeepAliveResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *KeepAliveResponse_Internal) Reset() {
@@ -198,7 +198,7 @@ func (*KeepAliveResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_KeepAlive_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *KeepAliveResponse_Internal) GetRetType() int32 {
+func (x *KeepAliveResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -236,9 +236,9 @@ const file_KeepAlive_proto_rawDesc = "" +
 	"\x11KeepAliveResponse\x12\x12\n" +
 	"\x04time\x18\x01 \x02(\x03R\x04time\"O\n" +
 	"\x19KeepAliveRequest_Internal\x122\n" +
-	"\apayload\x18\x01 \x02(\v2\x18.futupb.KeepAliveRequestR\apayload\"\xa3\x01\n" +
-	"\x1aKeepAliveResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x18.futupb.KeepAliveRequestR\apayload\"\xbf\x01\n" +
+	"\x1aKeepAliveResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x123\n" +
 	"\apayload\x18\x04 \x01(\v2\x19.futupb.KeepAliveResponseR\apayloadB4\n" +
@@ -262,15 +262,17 @@ var file_KeepAlive_proto_goTypes = []any{
 	(*KeepAliveResponse)(nil),          // 1: futupb.KeepAliveResponse
 	(*KeepAliveRequest_Internal)(nil),  // 2: futupb.KeepAliveRequest_Internal
 	(*KeepAliveResponse_Internal)(nil), // 3: futupb.KeepAliveResponse_Internal
+	(RetType)(0),                       // 4: futupb.RetType
 }
 var file_KeepAlive_proto_depIdxs = []int32{
 	0, // 0: futupb.KeepAliveRequest_Internal.payload:type_name -> futupb.KeepAliveRequest
-	1, // 1: futupb.KeepAliveResponse_Internal.payload:type_name -> futupb.KeepAliveResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 1: futupb.KeepAliveResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 2: futupb.KeepAliveResponse_Internal.payload:type_name -> futupb.KeepAliveResponse
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_KeepAlive_proto_init() }

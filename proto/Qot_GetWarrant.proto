@@ -10,18 +10,18 @@ message QotGetWarrantRequest
 {
 	required int32 begin = 1; //数据起始点
 	required int32 num =  2; //请求数据个数，最大200
-	required int32 sortField = 3;//Qot_Common.SortField，根据哪个字段排序
+	required SortField sortField = 3;//Qot_Common.SortField，根据哪个字段排序
 	required bool ascend = 4;//升序ture，降序false
 
 	//以下为筛选条件，可选字段，不填表示不过滤
 	optional Security owner = 5;	//所属正股
-	repeated int32 typeList = 6; //Qot_Common.WarrantType，窝轮类型过滤列表
-	repeated int32 issuerList = 7; //Qot_Common.Issuer，发行人过滤列表
+	repeated WarrantType typeList = 6; //Qot_Common.WarrantType，窝轮类型过滤列表
+	repeated Issuer issuerList = 7; //Qot_Common.Issuer，发行人过滤列表
 	optional string maturityTimeMin = 8; //到期日，到期日范围的开始时间戳
 	optional string maturityTimeMax = 9; //到期日范围的结束时间戳
-	optional int32 ipoPeriod = 10; //Qot_Common.IpoPeriod，上市日
-	optional int32 priceType = 11; //Qot_Common.PriceType，价内/价外（暂不支持界内证的界内外筛选）
-	optional int32 status = 12; //Qot_Common.WarrantStatus，窝轮状态
+	optional IpoPeriod ipoPeriod = 10; //Qot_Common.IpoPeriod，上市日
+	optional PriceType priceType = 11; //Qot_Common.PriceType，价内/价外（暂不支持界内证的界内外筛选）
+	optional WarrantStatus status = 12; //Qot_Common.WarrantStatus，窝轮状态
 	optional double curPriceMin = 13; //最新价的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
 	optional double curPriceMax = 14; //最新价的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
 	optional double strikePriceMin = 15; //行使价的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
@@ -51,8 +51,8 @@ message WarrantData
 	//静态数据项
 	required Security stock = 1; //股票
 	required Security owner = 2; //所属正股
-	required int32 type = 3; //Qot_Common.WarrantType，窝轮类型
-	required int32 issuer = 4; //Qot_Common.Issuer，发行人
+	required WarrantType type = 3; //Qot_Common.WarrantType，窝轮类型
+	required Issuer issuer = 4; //Qot_Common.Issuer，发行人
 	required string maturityTime = 5; //到期日
 	optional double maturityTimestamp = 6; //到期日时间戳
 	required string listTime = 7; //上市时间
@@ -95,7 +95,7 @@ message WarrantData
 	required double effectiveLeverage = 43; //有效杠杆
 	optional double upperStrikePrice = 44; //上限价，仅界内证支持此字段
 	optional double lowerStrikePrice = 45; //下限价，仅界内证支持此字段
-	optional int32 inLinePriceStatus = 46; //Qot_Common.PriceType，界内界外，仅界内证支持此字段
+	optional PriceType inLinePriceStatus = 46; //Qot_Common.PriceType，界内界外，仅界内证支持此字段
 }
 
 message QotGetWarrantResponse
@@ -112,7 +112,7 @@ message QotGetWarrantRequest_Internal
 
 message QotGetWarrantResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType，返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType，返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 	optional QotGetWarrantResponse payload = 4;

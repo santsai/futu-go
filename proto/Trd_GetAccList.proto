@@ -9,7 +9,7 @@ import "Trd_Common.proto";
 message TrdGetAccListRequest
 {
 	required uint64 userID = 1; //历史原因，目前已废弃，填0即可
-	optional int32 trdCategory = 2; //交易品类，参考 TrdCategory
+	optional TrdCategory trdCategory = 2; //交易品类，参考 TrdCategory
 	optional bool needGeneralSecAccount = 3; //是否返回全能账户，仅SG用户需要
 }
 
@@ -26,7 +26,7 @@ message TrdGetAccListRequest_Internal
 message TrdGetAccListResponse_Internal
 {
 	//以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	required int32 retType = 1 [default = -400];
+	required RetType retType = 1 [default = RetType_Unknown];
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

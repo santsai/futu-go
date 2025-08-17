@@ -1445,10 +1445,10 @@ func (DTStatus) EnumDescriptor() ([]byte, []int) {
 // 账户现金信息，目前仅用于期货账户
 type AccCashInfo struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	Currency         *int32                 `protobuf:"varint,1,opt,name=currency" json:"currency,omitempty"`                  // 货币类型，取值参考 Currency
-	Cash             *float64               `protobuf:"fixed64,2,opt,name=cash" json:"cash,omitempty"`                         // 现金结余
-	AvailableBalance *float64               `protobuf:"fixed64,3,opt,name=availableBalance" json:"availableBalance,omitempty"` // 现金可提金额
-	NetCashPower     *float64               `protobuf:"fixed64,4,opt,name=netCashPower" json:"netCashPower,omitempty"`         // 现金购买力
+	Currency         *Currency              `protobuf:"varint,1,opt,name=currency,enum=futupb.Currency" json:"currency,omitempty"` // 货币类型，取值参考 Currency
+	Cash             *float64               `protobuf:"fixed64,2,opt,name=cash" json:"cash,omitempty"`                             // 现金结余
+	AvailableBalance *float64               `protobuf:"fixed64,3,opt,name=availableBalance" json:"availableBalance,omitempty"`     // 现金可提金额
+	NetCashPower     *float64               `protobuf:"fixed64,4,opt,name=netCashPower" json:"netCashPower,omitempty"`             // 现金购买力
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -1483,11 +1483,11 @@ func (*AccCashInfo) Descriptor() ([]byte, []int) {
 	return file_Trd_Common_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *AccCashInfo) GetCurrency() int32 {
+func (x *AccCashInfo) GetCurrency() Currency {
 	if x != nil && x.Currency != nil {
 		return *x.Currency
 	}
-	return 0
+	return Currency_Currency_Unknown
 }
 
 func (x *AccCashInfo) GetCash() float64 {
@@ -1514,8 +1514,8 @@ func (x *AccCashInfo) GetNetCashPower() float64 {
 // 分市场资产信息
 type AccMarketInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TrdMarket     *int32                 `protobuf:"varint,1,opt,name=trdMarket" json:"trdMarket,omitempty"` // 交易市场, 参见TrdMarket的枚举定义
-	Assets        *float64               `protobuf:"fixed64,2,opt,name=assets" json:"assets,omitempty"`      // 分市场资产信息
+	TrdMarket     *TrdMarket             `protobuf:"varint,1,opt,name=trdMarket,enum=futupb.TrdMarket" json:"trdMarket,omitempty"` // 交易市场, 参见TrdMarket的枚举定义
+	Assets        *float64               `protobuf:"fixed64,2,opt,name=assets" json:"assets,omitempty"`                            // 分市场资产信息
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1550,11 +1550,11 @@ func (*AccMarketInfo) Descriptor() ([]byte, []int) {
 	return file_Trd_Common_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *AccMarketInfo) GetTrdMarket() int32 {
+func (x *AccMarketInfo) GetTrdMarket() TrdMarket {
 	if x != nil && x.TrdMarket != nil {
 		return *x.TrdMarket
 	}
-	return 0
+	return TrdMarket_TrdMarket_Unknown
 }
 
 func (x *AccMarketInfo) GetAssets() float64 {
@@ -1567,9 +1567,9 @@ func (x *AccMarketInfo) GetAssets() float64 {
 // 交易协议公共参数头
 type TrdHeader struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TrdEnv        *int32                 `protobuf:"varint,1,req,name=trdEnv" json:"trdEnv,omitempty"`       //交易环境, 参见TrdEnv的枚举定义
-	AccID         *uint64                `protobuf:"varint,2,req,name=accID" json:"accID,omitempty"`         //业务账号, 业务账号与交易环境、市场权限需要匹配，否则会返回错误
-	TrdMarket     *int32                 `protobuf:"varint,3,req,name=trdMarket" json:"trdMarket,omitempty"` //交易市场, 参见TrdMarket的枚举定义
+	TrdEnv        *TrdEnv                `protobuf:"varint,1,req,name=trdEnv,enum=futupb.TrdEnv" json:"trdEnv,omitempty"`          //交易环境, 参见TrdEnv的枚举定义
+	AccID         *uint64                `protobuf:"varint,2,req,name=accID" json:"accID,omitempty"`                               //业务账号, 业务账号与交易环境、市场权限需要匹配，否则会返回错误
+	TrdMarket     *TrdMarket             `protobuf:"varint,3,req,name=trdMarket,enum=futupb.TrdMarket" json:"trdMarket,omitempty"` //交易市场, 参见TrdMarket的枚举定义
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1604,11 +1604,11 @@ func (*TrdHeader) Descriptor() ([]byte, []int) {
 	return file_Trd_Common_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *TrdHeader) GetTrdEnv() int32 {
+func (x *TrdHeader) GetTrdEnv() TrdEnv {
 	if x != nil && x.TrdEnv != nil {
 		return *x.TrdEnv
 	}
-	return 0
+	return TrdEnv_TrdEnv_Simulate
 }
 
 func (x *TrdHeader) GetAccID() uint64 {
@@ -1618,25 +1618,25 @@ func (x *TrdHeader) GetAccID() uint64 {
 	return 0
 }
 
-func (x *TrdHeader) GetTrdMarket() int32 {
+func (x *TrdHeader) GetTrdMarket() TrdMarket {
 	if x != nil && x.TrdMarket != nil {
 		return *x.TrdMarket
 	}
-	return 0
+	return TrdMarket_TrdMarket_Unknown
 }
 
 // 交易业务账户结构
 type TrdAcc struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	TrdEnv            *int32                 `protobuf:"varint,1,req,name=trdEnv" json:"trdEnv,omitempty"`                       //交易环境，参见TrdEnv的枚举定义
-	AccID             *uint64                `protobuf:"varint,2,req,name=accID" json:"accID,omitempty"`                         //业务账号
-	TrdMarketAuthList []int32                `protobuf:"varint,3,rep,name=trdMarketAuthList" json:"trdMarketAuthList,omitempty"` //业务账户支持的交易市场权限，即此账户能交易那些市场, 可拥有多个交易市场权限，目前仅单个，取值参见TrdMarket的枚举定义
-	AccType           *int32                 `protobuf:"varint,4,opt,name=accType" json:"accType,omitempty"`                     //账户类型，取值见TrdAccType
-	CardNum           *string                `protobuf:"bytes,5,opt,name=cardNum" json:"cardNum,omitempty"`                      //卡号
-	SecurityFirm      *int32                 `protobuf:"varint,6,opt,name=securityFirm" json:"securityFirm,omitempty"`           //所属券商，取值见SecurityFirm
-	SimAccType        *int32                 `protobuf:"varint,7,opt,name=simAccType" json:"simAccType,omitempty"`               //模拟交易账号类型，取值见SimAccType
-	UniCardNum        *string                `protobuf:"bytes,8,opt,name=uniCardNum" json:"uniCardNum,omitempty"`                //所属综合账户卡号
-	AccStatus         *int32                 `protobuf:"varint,9,opt,name=accStatus" json:"accStatus,omitempty"`                 //账号状态，取值见TrdAccStatus
+	TrdEnv            *TrdEnv                `protobuf:"varint,1,req,name=trdEnv,enum=futupb.TrdEnv" json:"trdEnv,omitempty"`                          //交易环境，参见TrdEnv的枚举定义
+	AccID             *uint64                `protobuf:"varint,2,req,name=accID" json:"accID,omitempty"`                                               //业务账号
+	TrdMarketAuthList []TrdMarket            `protobuf:"varint,3,rep,name=trdMarketAuthList,enum=futupb.TrdMarket" json:"trdMarketAuthList,omitempty"` //业务账户支持的交易市场权限，即此账户能交易那些市场, 可拥有多个交易市场权限，目前仅单个，取值参见TrdMarket的枚举定义
+	AccType           *TrdAccType            `protobuf:"varint,4,opt,name=accType,enum=futupb.TrdAccType" json:"accType,omitempty"`                    //账户类型，取值见TrdAccType
+	CardNum           *string                `protobuf:"bytes,5,opt,name=cardNum" json:"cardNum,omitempty"`                                            //卡号
+	SecurityFirm      *SecurityFirm          `protobuf:"varint,6,opt,name=securityFirm,enum=futupb.SecurityFirm" json:"securityFirm,omitempty"`        //所属券商，取值见SecurityFirm
+	SimAccType        *SimAccType            `protobuf:"varint,7,opt,name=simAccType,enum=futupb.SimAccType" json:"simAccType,omitempty"`              //模拟交易账号类型，取值见SimAccType
+	UniCardNum        *string                `protobuf:"bytes,8,opt,name=uniCardNum" json:"uniCardNum,omitempty"`                                      //所属综合账户卡号
+	AccStatus         *TrdAccStatus          `protobuf:"varint,9,opt,name=accStatus,enum=futupb.TrdAccStatus" json:"accStatus,omitempty"`              //账号状态，取值见TrdAccStatus
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1671,11 +1671,11 @@ func (*TrdAcc) Descriptor() ([]byte, []int) {
 	return file_Trd_Common_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdAcc) GetTrdEnv() int32 {
+func (x *TrdAcc) GetTrdEnv() TrdEnv {
 	if x != nil && x.TrdEnv != nil {
 		return *x.TrdEnv
 	}
-	return 0
+	return TrdEnv_TrdEnv_Simulate
 }
 
 func (x *TrdAcc) GetAccID() uint64 {
@@ -1685,18 +1685,18 @@ func (x *TrdAcc) GetAccID() uint64 {
 	return 0
 }
 
-func (x *TrdAcc) GetTrdMarketAuthList() []int32 {
+func (x *TrdAcc) GetTrdMarketAuthList() []TrdMarket {
 	if x != nil {
 		return x.TrdMarketAuthList
 	}
 	return nil
 }
 
-func (x *TrdAcc) GetAccType() int32 {
+func (x *TrdAcc) GetAccType() TrdAccType {
 	if x != nil && x.AccType != nil {
 		return *x.AccType
 	}
-	return 0
+	return TrdAccType_TrdAccType_Unknown
 }
 
 func (x *TrdAcc) GetCardNum() string {
@@ -1706,18 +1706,18 @@ func (x *TrdAcc) GetCardNum() string {
 	return ""
 }
 
-func (x *TrdAcc) GetSecurityFirm() int32 {
+func (x *TrdAcc) GetSecurityFirm() SecurityFirm {
 	if x != nil && x.SecurityFirm != nil {
 		return *x.SecurityFirm
 	}
-	return 0
+	return SecurityFirm_SecurityFirm_Unknown
 }
 
-func (x *TrdAcc) GetSimAccType() int32 {
+func (x *TrdAcc) GetSimAccType() SimAccType {
 	if x != nil && x.SimAccType != nil {
 		return *x.SimAccType
 	}
-	return 0
+	return SimAccType_SimAccType_Unknown
 }
 
 func (x *TrdAcc) GetUniCardNum() string {
@@ -1727,49 +1727,49 @@ func (x *TrdAcc) GetUniCardNum() string {
 	return ""
 }
 
-func (x *TrdAcc) GetAccStatus() int32 {
+func (x *TrdAcc) GetAccStatus() TrdAccStatus {
 	if x != nil && x.AccStatus != nil {
 		return *x.AccStatus
 	}
-	return 0
+	return TrdAccStatus_TrdAccStatus_Active
 }
 
 // 账户资金结构
 type Funds struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	Power             *float64               `protobuf:"fixed64,1,req,name=power" json:"power,omitempty"`                          //最大购买力（做多），3位精度，下同。
-	TotalAssets       *float64               `protobuf:"fixed64,2,req,name=totalAssets" json:"totalAssets,omitempty"`              //资产净值
-	Cash              *float64               `protobuf:"fixed64,3,req,name=cash" json:"cash,omitempty"`                            //现金
-	MarketVal         *float64               `protobuf:"fixed64,4,req,name=marketVal" json:"marketVal,omitempty"`                  //证券市值, 仅证券账户适用
-	FrozenCash        *float64               `protobuf:"fixed64,5,req,name=frozenCash" json:"frozenCash,omitempty"`                //冻结资金
-	DebtCash          *float64               `protobuf:"fixed64,6,req,name=debtCash" json:"debtCash,omitempty"`                    //计息金额
-	AvlWithdrawalCash *float64               `protobuf:"fixed64,7,req,name=avlWithdrawalCash" json:"avlWithdrawalCash,omitempty"`  //现金可提，仅证券账户适用
-	Currency          *int32                 `protobuf:"varint,8,opt,name=currency" json:"currency,omitempty"`                     //币种，本结构体资金相关的货币类型，取值参见 Currency，期货适用
-	AvailableFunds    *float64               `protobuf:"fixed64,9,opt,name=availableFunds" json:"availableFunds,omitempty"`        //可用资金，期货适用
-	UnrealizedPL      *float64               `protobuf:"fixed64,10,opt,name=unrealizedPL" json:"unrealizedPL,omitempty"`           //未实现盈亏，期货适用
-	RealizedPL        *float64               `protobuf:"fixed64,11,opt,name=realizedPL" json:"realizedPL,omitempty"`               //已实现盈亏，期货适用
-	RiskLevel         *int32                 `protobuf:"varint,12,opt,name=riskLevel" json:"riskLevel,omitempty"`                  //风控状态，参见 CltRiskLevel, 期货适用
-	InitialMargin     *float64               `protobuf:"fixed64,13,opt,name=initialMargin" json:"initialMargin,omitempty"`         //初始保证金
-	MaintenanceMargin *float64               `protobuf:"fixed64,14,opt,name=maintenanceMargin" json:"maintenanceMargin,omitempty"` //维持保证金
-	CashInfoList      []*AccCashInfo         `protobuf:"bytes,15,rep,name=cashInfoList" json:"cashInfoList,omitempty"`             //分币种的现金信息，期货适用
-	MaxPowerShort     *float64               `protobuf:"fixed64,16,opt,name=maxPowerShort" json:"maxPowerShort,omitempty"`         //卖空购买力
-	NetCashPower      *float64               `protobuf:"fixed64,17,opt,name=netCashPower" json:"netCashPower,omitempty"`           //现金购买力
-	LongMv            *float64               `protobuf:"fixed64,18,opt,name=longMv" json:"longMv,omitempty"`                       //多头市值
-	ShortMv           *float64               `protobuf:"fixed64,19,opt,name=shortMv" json:"shortMv,omitempty"`                     //空头市值
-	PendingAsset      *float64               `protobuf:"fixed64,20,opt,name=pendingAsset" json:"pendingAsset,omitempty"`           //在途资产
-	MaxWithdrawal     *float64               `protobuf:"fixed64,21,opt,name=maxWithdrawal" json:"maxWithdrawal,omitempty"`         //融资可提，仅证券账户适用
-	RiskStatus        *int32                 `protobuf:"varint,22,opt,name=riskStatus" json:"riskStatus,omitempty"`                //风险状态，参见 [CltRiskStatus]，证券账户适用，共分 9 个等级，LEVEL1是最安全，LEVEL9是最危险
-	MarginCallMargin  *float64               `protobuf:"fixed64,23,opt,name=marginCallMargin" json:"marginCallMargin,omitempty"`   //	Margin Call 保证金
-	IsPdt             *bool                  `protobuf:"varint,24,opt,name=isPdt" json:"isPdt,omitempty"`                          //是否PDT账户，仅富途证券（美国）账户适用
-	PdtSeq            *string                `protobuf:"bytes,25,opt,name=pdtSeq" json:"pdtSeq,omitempty"`                         //剩余日内交易次数
-	BeginningDTBP     *float64               `protobuf:"fixed64,26,opt,name=beginningDTBP" json:"beginningDTBP,omitempty"`         //初始日内交易购买力
-	RemainingDTBP     *float64               `protobuf:"fixed64,27,opt,name=remainingDTBP" json:"remainingDTBP,omitempty"`         //剩余日内交易购买力
-	DtCallAmount      *float64               `protobuf:"fixed64,28,opt,name=dtCallAmount" json:"dtCallAmount,omitempty"`           //日内交易待缴金额
-	DtStatus          *int32                 `protobuf:"varint,29,opt,name=dtStatus" json:"dtStatus,omitempty"`                    //日内交易限制情况，取值见DTStatus
-	SecuritiesAssets  *float64               `protobuf:"fixed64,30,opt,name=securitiesAssets" json:"securitiesAssets,omitempty"`   // 证券资产净值
-	FundAssets        *float64               `protobuf:"fixed64,31,opt,name=fundAssets" json:"fundAssets,omitempty"`               // 基金资产净值
-	BondAssets        *float64               `protobuf:"fixed64,32,opt,name=bondAssets" json:"bondAssets,omitempty"`               // 债券资产净值
-	MarketInfoList    []*AccMarketInfo       `protobuf:"bytes,33,rep,name=marketInfoList" json:"marketInfoList,omitempty"`         //分市场资产信息
+	Power             *float64               `protobuf:"fixed64,1,req,name=power" json:"power,omitempty"`                                     //最大购买力（做多），3位精度，下同。
+	TotalAssets       *float64               `protobuf:"fixed64,2,req,name=totalAssets" json:"totalAssets,omitempty"`                         //资产净值
+	Cash              *float64               `protobuf:"fixed64,3,req,name=cash" json:"cash,omitempty"`                                       //现金
+	MarketVal         *float64               `protobuf:"fixed64,4,req,name=marketVal" json:"marketVal,omitempty"`                             //证券市值, 仅证券账户适用
+	FrozenCash        *float64               `protobuf:"fixed64,5,req,name=frozenCash" json:"frozenCash,omitempty"`                           //冻结资金
+	DebtCash          *float64               `protobuf:"fixed64,6,req,name=debtCash" json:"debtCash,omitempty"`                               //计息金额
+	AvlWithdrawalCash *float64               `protobuf:"fixed64,7,req,name=avlWithdrawalCash" json:"avlWithdrawalCash,omitempty"`             //现金可提，仅证券账户适用
+	Currency          *Currency              `protobuf:"varint,8,opt,name=currency,enum=futupb.Currency" json:"currency,omitempty"`           //币种，本结构体资金相关的货币类型，取值参见 Currency，期货适用
+	AvailableFunds    *float64               `protobuf:"fixed64,9,opt,name=availableFunds" json:"availableFunds,omitempty"`                   //可用资金，期货适用
+	UnrealizedPL      *float64               `protobuf:"fixed64,10,opt,name=unrealizedPL" json:"unrealizedPL,omitempty"`                      //未实现盈亏，期货适用
+	RealizedPL        *float64               `protobuf:"fixed64,11,opt,name=realizedPL" json:"realizedPL,omitempty"`                          //已实现盈亏，期货适用
+	RiskLevel         *CltRiskLevel          `protobuf:"varint,12,opt,name=riskLevel,enum=futupb.CltRiskLevel" json:"riskLevel,omitempty"`    //风控状态，参见 CltRiskLevel, 期货适用
+	InitialMargin     *float64               `protobuf:"fixed64,13,opt,name=initialMargin" json:"initialMargin,omitempty"`                    //初始保证金
+	MaintenanceMargin *float64               `protobuf:"fixed64,14,opt,name=maintenanceMargin" json:"maintenanceMargin,omitempty"`            //维持保证金
+	CashInfoList      []*AccCashInfo         `protobuf:"bytes,15,rep,name=cashInfoList" json:"cashInfoList,omitempty"`                        //分币种的现金信息，期货适用
+	MaxPowerShort     *float64               `protobuf:"fixed64,16,opt,name=maxPowerShort" json:"maxPowerShort,omitempty"`                    //卖空购买力
+	NetCashPower      *float64               `protobuf:"fixed64,17,opt,name=netCashPower" json:"netCashPower,omitempty"`                      //现金购买力
+	LongMv            *float64               `protobuf:"fixed64,18,opt,name=longMv" json:"longMv,omitempty"`                                  //多头市值
+	ShortMv           *float64               `protobuf:"fixed64,19,opt,name=shortMv" json:"shortMv,omitempty"`                                //空头市值
+	PendingAsset      *float64               `protobuf:"fixed64,20,opt,name=pendingAsset" json:"pendingAsset,omitempty"`                      //在途资产
+	MaxWithdrawal     *float64               `protobuf:"fixed64,21,opt,name=maxWithdrawal" json:"maxWithdrawal,omitempty"`                    //融资可提，仅证券账户适用
+	RiskStatus        *CltRiskStatus         `protobuf:"varint,22,opt,name=riskStatus,enum=futupb.CltRiskStatus" json:"riskStatus,omitempty"` //风险状态，参见 [CltRiskStatus]，证券账户适用，共分 9 个等级，LEVEL1是最安全，LEVEL9是最危险
+	MarginCallMargin  *float64               `protobuf:"fixed64,23,opt,name=marginCallMargin" json:"marginCallMargin,omitempty"`              //	Margin Call 保证金
+	IsPdt             *bool                  `protobuf:"varint,24,opt,name=isPdt" json:"isPdt,omitempty"`                                     //是否PDT账户，仅富途证券（美国）账户适用
+	PdtSeq            *string                `protobuf:"bytes,25,opt,name=pdtSeq" json:"pdtSeq,omitempty"`                                    //剩余日内交易次数
+	BeginningDTBP     *float64               `protobuf:"fixed64,26,opt,name=beginningDTBP" json:"beginningDTBP,omitempty"`                    //初始日内交易购买力
+	RemainingDTBP     *float64               `protobuf:"fixed64,27,opt,name=remainingDTBP" json:"remainingDTBP,omitempty"`                    //剩余日内交易购买力
+	DtCallAmount      *float64               `protobuf:"fixed64,28,opt,name=dtCallAmount" json:"dtCallAmount,omitempty"`                      //日内交易待缴金额
+	DtStatus          *DTStatus              `protobuf:"varint,29,opt,name=dtStatus,enum=futupb.DTStatus" json:"dtStatus,omitempty"`          //日内交易限制情况，取值见DTStatus
+	SecuritiesAssets  *float64               `protobuf:"fixed64,30,opt,name=securitiesAssets" json:"securitiesAssets,omitempty"`              // 证券资产净值
+	FundAssets        *float64               `protobuf:"fixed64,31,opt,name=fundAssets" json:"fundAssets,omitempty"`                          // 基金资产净值
+	BondAssets        *float64               `protobuf:"fixed64,32,opt,name=bondAssets" json:"bondAssets,omitempty"`                          // 债券资产净值
+	MarketInfoList    []*AccMarketInfo       `protobuf:"bytes,33,rep,name=marketInfoList" json:"marketInfoList,omitempty"`                    //分市场资产信息
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1853,11 +1853,11 @@ func (x *Funds) GetAvlWithdrawalCash() float64 {
 	return 0
 }
 
-func (x *Funds) GetCurrency() int32 {
+func (x *Funds) GetCurrency() Currency {
 	if x != nil && x.Currency != nil {
 		return *x.Currency
 	}
-	return 0
+	return Currency_Currency_Unknown
 }
 
 func (x *Funds) GetAvailableFunds() float64 {
@@ -1881,11 +1881,11 @@ func (x *Funds) GetRealizedPL() float64 {
 	return 0
 }
 
-func (x *Funds) GetRiskLevel() int32 {
+func (x *Funds) GetRiskLevel() CltRiskLevel {
 	if x != nil && x.RiskLevel != nil {
 		return *x.RiskLevel
 	}
-	return 0
+	return CltRiskLevel_CltRiskLevel_Unknown
 }
 
 func (x *Funds) GetInitialMargin() float64 {
@@ -1951,11 +1951,11 @@ func (x *Funds) GetMaxWithdrawal() float64 {
 	return 0
 }
 
-func (x *Funds) GetRiskStatus() int32 {
+func (x *Funds) GetRiskStatus() CltRiskStatus {
 	if x != nil && x.RiskStatus != nil {
 		return *x.RiskStatus
 	}
-	return 0
+	return CltRiskStatus_CltRiskStatus_Unknown
 }
 
 func (x *Funds) GetMarginCallMargin() float64 {
@@ -2000,11 +2000,11 @@ func (x *Funds) GetDtCallAmount() float64 {
 	return 0
 }
 
-func (x *Funds) GetDtStatus() int32 {
+func (x *Funds) GetDtStatus() DTStatus {
 	if x != nil && x.DtStatus != nil {
 		return *x.DtStatus
 	}
-	return 0
+	return DTStatus_DTStatus_Unknown
 }
 
 func (x *Funds) GetSecuritiesAssets() float64 {
@@ -2038,32 +2038,32 @@ func (x *Funds) GetMarketInfoList() []*AccMarketInfo {
 // 账户持仓结构
 type Position struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
-	PositionID   *uint64                `protobuf:"varint,1,req,name=positionID" json:"positionID,omitempty"`     //持仓ID，一条持仓的唯一标识
-	PositionSide *int32                 `protobuf:"varint,2,req,name=positionSide" json:"positionSide,omitempty"` //持仓方向，参见PositionSide的枚举定义
-	Code         *string                `protobuf:"bytes,3,req,name=code" json:"code,omitempty"`                  //代码
-	Name         *string                `protobuf:"bytes,4,req,name=name" json:"name,omitempty"`                  //名称
-	Qty          *float64               `protobuf:"fixed64,5,req,name=qty" json:"qty,omitempty"`                  //持有数量，2位精度，期权单位是"张"，下同
-	CanSellQty   *float64               `protobuf:"fixed64,6,req,name=canSellQty" json:"canSellQty,omitempty"`    //可卖数量
-	Price        *float64               `protobuf:"fixed64,7,req,name=price" json:"price,omitempty"`              //市价，3位精度，期货为2位精度
-	CostPrice    *float64               `protobuf:"fixed64,8,opt,name=costPrice" json:"costPrice,omitempty"`      //成本价，无精度限制，期货为2位精度，如果没传，代表此时此值无效（已废弃，请使用 dilutedCostPrice 或 averageCostPrice）
-	Val          *float64               `protobuf:"fixed64,9,req,name=val" json:"val,omitempty"`                  //市值，3位精度, 期货此字段值为0
-	PlVal        *float64               `protobuf:"fixed64,10,req,name=plVal" json:"plVal,omitempty"`             //盈亏金额，3位精度，期货为2位精度
-	PlRatio      *float64               `protobuf:"fixed64,11,opt,name=plRatio" json:"plRatio,omitempty"`         //摊薄成本价的盈亏百分比(如plRatio等于8.8代表涨8.8%)，无精度限制，如果没传，代表此时此值无效
-	SecMarket    *int32                 `protobuf:"varint,12,opt,name=secMarket" json:"secMarket,omitempty"`      //证券所属市场，参见TrdSecMarket的枚举定义
+	PositionID   *uint64                `protobuf:"varint,1,req,name=positionID" json:"positionID,omitempty"`                              //持仓ID，一条持仓的唯一标识
+	PositionSide *PositionSide          `protobuf:"varint,2,req,name=positionSide,enum=futupb.PositionSide" json:"positionSide,omitempty"` //持仓方向，参见PositionSide的枚举定义
+	Code         *string                `protobuf:"bytes,3,req,name=code" json:"code,omitempty"`                                           //代码
+	Name         *string                `protobuf:"bytes,4,req,name=name" json:"name,omitempty"`                                           //名称
+	Qty          *float64               `protobuf:"fixed64,5,req,name=qty" json:"qty,omitempty"`                                           //持有数量，2位精度，期权单位是"张"，下同
+	CanSellQty   *float64               `protobuf:"fixed64,6,req,name=canSellQty" json:"canSellQty,omitempty"`                             //可卖数量
+	Price        *float64               `protobuf:"fixed64,7,req,name=price" json:"price,omitempty"`                                       //市价，3位精度，期货为2位精度
+	CostPrice    *float64               `protobuf:"fixed64,8,opt,name=costPrice" json:"costPrice,omitempty"`                               //成本价，无精度限制，期货为2位精度，如果没传，代表此时此值无效（已废弃，请使用 dilutedCostPrice 或 averageCostPrice）
+	Val          *float64               `protobuf:"fixed64,9,req,name=val" json:"val,omitempty"`                                           //市值，3位精度, 期货此字段值为0
+	PlVal        *float64               `protobuf:"fixed64,10,req,name=plVal" json:"plVal,omitempty"`                                      //盈亏金额，3位精度，期货为2位精度
+	PlRatio      *float64               `protobuf:"fixed64,11,opt,name=plRatio" json:"plRatio,omitempty"`                                  //摊薄成本价的盈亏百分比(如plRatio等于8.8代表涨8.8%)，无精度限制，如果没传，代表此时此值无效
+	SecMarket    *TrdSecMarket          `protobuf:"varint,12,opt,name=secMarket,enum=futupb.TrdSecMarket" json:"secMarket,omitempty"`      //证券所属市场，参见TrdSecMarket的枚举定义
 	// 以下是此持仓今日统计
-	TdPlVal          *float64 `protobuf:"fixed64,21,opt,name=td_plVal,json=tdPlVal" json:"td_plVal,omitempty"`       //今日盈亏金额，3位精度，下同, 期货为2位精度
-	TdTrdVal         *float64 `protobuf:"fixed64,22,opt,name=td_trdVal,json=tdTrdVal" json:"td_trdVal,omitempty"`    //今日交易额，期货不适用
-	TdBuyVal         *float64 `protobuf:"fixed64,23,opt,name=td_buyVal,json=tdBuyVal" json:"td_buyVal,omitempty"`    //今日买入总额，期货不适用
-	TdBuyQty         *float64 `protobuf:"fixed64,24,opt,name=td_buyQty,json=tdBuyQty" json:"td_buyQty,omitempty"`    //今日买入总量，期货不适用
-	TdSellVal        *float64 `protobuf:"fixed64,25,opt,name=td_sellVal,json=tdSellVal" json:"td_sellVal,omitempty"` //今日卖出总额，期货不适用
-	TdSellQty        *float64 `protobuf:"fixed64,26,opt,name=td_sellQty,json=tdSellQty" json:"td_sellQty,omitempty"` //今日卖出总量，期货不适用
-	UnrealizedPL     *float64 `protobuf:"fixed64,28,opt,name=unrealizedPL" json:"unrealizedPL,omitempty"`            //未实现盈亏，期货适用
-	RealizedPL       *float64 `protobuf:"fixed64,29,opt,name=realizedPL" json:"realizedPL,omitempty"`                //已实现盈亏，期货适用
-	Currency         *int32   `protobuf:"varint,30,opt,name=currency" json:"currency,omitempty"`                     // 货币类型，取值参考 Currency
-	TrdMarket        *int32   `protobuf:"varint,31,opt,name=trdMarket" json:"trdMarket,omitempty"`                   //交易市场, 参见TrdMarket的枚举定义
-	DilutedCostPrice *float64 `protobuf:"fixed64,32,opt,name=dilutedCostPrice" json:"dilutedCostPrice,omitempty"`    //摊薄成本价，仅支持证券账户使用
-	AverageCostPrice *float64 `protobuf:"fixed64,33,opt,name=averageCostPrice" json:"averageCostPrice,omitempty"`    //平均成本价，模拟交易证券账户不适用
-	AveragePlRatio   *float64 `protobuf:"fixed64,34,opt,name=averagePlRatio" json:"averagePlRatio,omitempty"`        //平均成本价的盈亏百分比(如plRatio等于8.8代表涨8.8%)，无精度限制，如果没传，代表此时此值无效
+	TdPlVal          *float64   `protobuf:"fixed64,21,opt,name=td_plVal,json=tdPlVal" json:"td_plVal,omitempty"`           //今日盈亏金额，3位精度，下同, 期货为2位精度
+	TdTrdVal         *float64   `protobuf:"fixed64,22,opt,name=td_trdVal,json=tdTrdVal" json:"td_trdVal,omitempty"`        //今日交易额，期货不适用
+	TdBuyVal         *float64   `protobuf:"fixed64,23,opt,name=td_buyVal,json=tdBuyVal" json:"td_buyVal,omitempty"`        //今日买入总额，期货不适用
+	TdBuyQty         *float64   `protobuf:"fixed64,24,opt,name=td_buyQty,json=tdBuyQty" json:"td_buyQty,omitempty"`        //今日买入总量，期货不适用
+	TdSellVal        *float64   `protobuf:"fixed64,25,opt,name=td_sellVal,json=tdSellVal" json:"td_sellVal,omitempty"`     //今日卖出总额，期货不适用
+	TdSellQty        *float64   `protobuf:"fixed64,26,opt,name=td_sellQty,json=tdSellQty" json:"td_sellQty,omitempty"`     //今日卖出总量，期货不适用
+	UnrealizedPL     *float64   `protobuf:"fixed64,28,opt,name=unrealizedPL" json:"unrealizedPL,omitempty"`                //未实现盈亏，期货适用
+	RealizedPL       *float64   `protobuf:"fixed64,29,opt,name=realizedPL" json:"realizedPL,omitempty"`                    //已实现盈亏，期货适用
+	Currency         *Currency  `protobuf:"varint,30,opt,name=currency,enum=futupb.Currency" json:"currency,omitempty"`    // 货币类型，取值参考 Currency
+	TrdMarket        *TrdMarket `protobuf:"varint,31,opt,name=trdMarket,enum=futupb.TrdMarket" json:"trdMarket,omitempty"` //交易市场, 参见TrdMarket的枚举定义
+	DilutedCostPrice *float64   `protobuf:"fixed64,32,opt,name=dilutedCostPrice" json:"dilutedCostPrice,omitempty"`        //摊薄成本价，仅支持证券账户使用
+	AverageCostPrice *float64   `protobuf:"fixed64,33,opt,name=averageCostPrice" json:"averageCostPrice,omitempty"`        //平均成本价，模拟交易证券账户不适用
+	AveragePlRatio   *float64   `protobuf:"fixed64,34,opt,name=averagePlRatio" json:"averagePlRatio,omitempty"`            //平均成本价的盈亏百分比(如plRatio等于8.8代表涨8.8%)，无精度限制，如果没传，代表此时此值无效
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -2105,11 +2105,11 @@ func (x *Position) GetPositionID() uint64 {
 	return 0
 }
 
-func (x *Position) GetPositionSide() int32 {
+func (x *Position) GetPositionSide() PositionSide {
 	if x != nil && x.PositionSide != nil {
 		return *x.PositionSide
 	}
-	return 0
+	return PositionSide_PositionSide_Long
 }
 
 func (x *Position) GetCode() string {
@@ -2175,11 +2175,11 @@ func (x *Position) GetPlRatio() float64 {
 	return 0
 }
 
-func (x *Position) GetSecMarket() int32 {
+func (x *Position) GetSecMarket() TrdSecMarket {
 	if x != nil && x.SecMarket != nil {
 		return *x.SecMarket
 	}
-	return 0
+	return TrdSecMarket_TrdSecMarket_Unknown
 }
 
 func (x *Position) GetTdPlVal() float64 {
@@ -2238,18 +2238,18 @@ func (x *Position) GetRealizedPL() float64 {
 	return 0
 }
 
-func (x *Position) GetCurrency() int32 {
+func (x *Position) GetCurrency() Currency {
 	if x != nil && x.Currency != nil {
 		return *x.Currency
 	}
-	return 0
+	return Currency_Currency_Unknown
 }
 
-func (x *Position) GetTrdMarket() int32 {
+func (x *Position) GetTrdMarket() TrdMarket {
 	if x != nil && x.TrdMarket != nil {
 		return *x.TrdMarket
 	}
-	return 0
+	return TrdMarket_TrdMarket_Unknown
 }
 
 func (x *Position) GetDilutedCostPrice() float64 {
@@ -2276,33 +2276,33 @@ func (x *Position) GetAveragePlRatio() float64 {
 // 订单结构
 type Order struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	TrdSide         *int32                 `protobuf:"varint,1,req,name=trdSide" json:"trdSide,omitempty"`                   //交易方向, 参见TrdSide的枚举定义
-	OrderType       *int32                 `protobuf:"varint,2,req,name=orderType" json:"orderType,omitempty"`               //订单类型, 参见OrderType的枚举定义
-	OrderStatus     *int32                 `protobuf:"varint,3,req,name=orderStatus" json:"orderStatus,omitempty"`           //订单状态, 参见OrderStatus的枚举定义
-	OrderID         *uint64                `protobuf:"varint,4,req,name=orderID" json:"orderID,omitempty"`                   //订单号
-	OrderIDEx       *string                `protobuf:"bytes,5,req,name=orderIDEx" json:"orderIDEx,omitempty"`                //扩展订单号(仅查问题时备用)
-	Code            *string                `protobuf:"bytes,6,req,name=code" json:"code,omitempty"`                          //代码
-	Name            *string                `protobuf:"bytes,7,req,name=name" json:"name,omitempty"`                          //名称
-	Qty             *float64               `protobuf:"fixed64,8,req,name=qty" json:"qty,omitempty"`                          //订单数量，2位精度，期权单位是"张"
-	Price           *float64               `protobuf:"fixed64,9,opt,name=price" json:"price,omitempty"`                      //订单价格，3位精度
-	CreateTime      *string                `protobuf:"bytes,10,req,name=createTime" json:"createTime,omitempty"`             //创建时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
-	UpdateTime      *string                `protobuf:"bytes,11,req,name=updateTime" json:"updateTime,omitempty"`             //最后更新时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
-	FillQty         *float64               `protobuf:"fixed64,12,opt,name=fillQty" json:"fillQty,omitempty"`                 //成交数量，2位精度，期权单位是"张"
-	FillAvgPrice    *float64               `protobuf:"fixed64,13,opt,name=fillAvgPrice" json:"fillAvgPrice,omitempty"`       //成交均价，无精度限制
-	LastErrMsg      *string                `protobuf:"bytes,14,opt,name=lastErrMsg" json:"lastErrMsg,omitempty"`             //最后的错误描述，如果有错误，会有此描述最后一次错误的原因，无错误为空
-	SecMarket       *int32                 `protobuf:"varint,15,opt,name=secMarket" json:"secMarket,omitempty"`              //证券所属市场，参见TrdSecMarket的枚举定义
-	CreateTimestamp *float64               `protobuf:"fixed64,16,opt,name=createTimestamp" json:"createTimestamp,omitempty"` //创建时间戳
-	UpdateTimestamp *float64               `protobuf:"fixed64,17,opt,name=updateTimestamp" json:"updateTimestamp,omitempty"` //最后更新时间戳
-	Remark          *string                `protobuf:"bytes,18,opt,name=remark" json:"remark,omitempty"`                     //用户备注字符串，最大长度64字节
-	TimeInForce     *int32                 `protobuf:"varint,19,opt,name=timeInForce" json:"timeInForce,omitempty"`          //订单期限，参考 TimeInForce 类的定义
-	FillOutsideRTH  *bool                  `protobuf:"varint,20,opt,name=fillOutsideRTH" json:"fillOutsideRTH,omitempty"`    //是否允许美股订单盘前盘后成交
-	AuxPrice        *float64               `protobuf:"fixed64,21,opt,name=auxPrice" json:"auxPrice,omitempty"`               //触发价格
-	TrailType       *int32                 `protobuf:"varint,22,opt,name=trailType" json:"trailType,omitempty"`              //跟踪类型, 参见Trd_Common.TrailType的枚举定义
-	TrailValue      *float64               `protobuf:"fixed64,23,opt,name=trailValue" json:"trailValue,omitempty"`           //跟踪金额/百分比
-	TrailSpread     *float64               `protobuf:"fixed64,24,opt,name=trailSpread" json:"trailSpread,omitempty"`         //指定价差
-	Currency        *int32                 `protobuf:"varint,25,opt,name=currency" json:"currency,omitempty"`                // 货币类型，取值参考 Currency
-	TrdMarket       *int32                 `protobuf:"varint,26,opt,name=trdMarket" json:"trdMarket,omitempty"`              //交易市场, 参见TrdMarket的枚举定义
-	Session         *int32                 `protobuf:"varint,27,opt,name=session" json:"session,omitempty"`                  //美股订单时段, 参见Common.Session的枚举定义
+	TrdSide         *TrdSide               `protobuf:"varint,1,req,name=trdSide,enum=futupb.TrdSide" json:"trdSide,omitempty"`              //交易方向, 参见TrdSide的枚举定义
+	OrderType       *OrderType             `protobuf:"varint,2,req,name=orderType,enum=futupb.OrderType" json:"orderType,omitempty"`        //订单类型, 参见OrderType的枚举定义
+	OrderStatus     *OrderStatus           `protobuf:"varint,3,req,name=orderStatus,enum=futupb.OrderStatus" json:"orderStatus,omitempty"`  //订单状态, 参见OrderStatus的枚举定义
+	OrderID         *uint64                `protobuf:"varint,4,req,name=orderID" json:"orderID,omitempty"`                                  //订单号
+	OrderIDEx       *string                `protobuf:"bytes,5,req,name=orderIDEx" json:"orderIDEx,omitempty"`                               //扩展订单号(仅查问题时备用)
+	Code            *string                `protobuf:"bytes,6,req,name=code" json:"code,omitempty"`                                         //代码
+	Name            *string                `protobuf:"bytes,7,req,name=name" json:"name,omitempty"`                                         //名称
+	Qty             *float64               `protobuf:"fixed64,8,req,name=qty" json:"qty,omitempty"`                                         //订单数量，2位精度，期权单位是"张"
+	Price           *float64               `protobuf:"fixed64,9,opt,name=price" json:"price,omitempty"`                                     //订单价格，3位精度
+	CreateTime      *string                `protobuf:"bytes,10,req,name=createTime" json:"createTime,omitempty"`                            //创建时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+	UpdateTime      *string                `protobuf:"bytes,11,req,name=updateTime" json:"updateTime,omitempty"`                            //最后更新时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+	FillQty         *float64               `protobuf:"fixed64,12,opt,name=fillQty" json:"fillQty,omitempty"`                                //成交数量，2位精度，期权单位是"张"
+	FillAvgPrice    *float64               `protobuf:"fixed64,13,opt,name=fillAvgPrice" json:"fillAvgPrice,omitempty"`                      //成交均价，无精度限制
+	LastErrMsg      *string                `protobuf:"bytes,14,opt,name=lastErrMsg" json:"lastErrMsg,omitempty"`                            //最后的错误描述，如果有错误，会有此描述最后一次错误的原因，无错误为空
+	SecMarket       *TrdSecMarket          `protobuf:"varint,15,opt,name=secMarket,enum=futupb.TrdSecMarket" json:"secMarket,omitempty"`    //证券所属市场，参见TrdSecMarket的枚举定义
+	CreateTimestamp *float64               `protobuf:"fixed64,16,opt,name=createTimestamp" json:"createTimestamp,omitempty"`                //创建时间戳
+	UpdateTimestamp *float64               `protobuf:"fixed64,17,opt,name=updateTimestamp" json:"updateTimestamp,omitempty"`                //最后更新时间戳
+	Remark          *string                `protobuf:"bytes,18,opt,name=remark" json:"remark,omitempty"`                                    //用户备注字符串，最大长度64字节
+	TimeInForce     *TimeInForce           `protobuf:"varint,19,opt,name=timeInForce,enum=futupb.TimeInForce" json:"timeInForce,omitempty"` //订单期限，参考 TimeInForce 类的定义
+	FillOutsideRTH  *bool                  `protobuf:"varint,20,opt,name=fillOutsideRTH" json:"fillOutsideRTH,omitempty"`                   //是否允许美股订单盘前盘后成交
+	AuxPrice        *float64               `protobuf:"fixed64,21,opt,name=auxPrice" json:"auxPrice,omitempty"`                              //触发价格
+	TrailType       *TrailType             `protobuf:"varint,22,opt,name=trailType,enum=futupb.TrailType" json:"trailType,omitempty"`       //跟踪类型, 参见Trd_Common.TrailType的枚举定义
+	TrailValue      *float64               `protobuf:"fixed64,23,opt,name=trailValue" json:"trailValue,omitempty"`                          //跟踪金额/百分比
+	TrailSpread     *float64               `protobuf:"fixed64,24,opt,name=trailSpread" json:"trailSpread,omitempty"`                        //指定价差
+	Currency        *Currency              `protobuf:"varint,25,opt,name=currency,enum=futupb.Currency" json:"currency,omitempty"`          // 货币类型，取值参考 Currency
+	TrdMarket       *TrdMarket             `protobuf:"varint,26,opt,name=trdMarket,enum=futupb.TrdMarket" json:"trdMarket,omitempty"`       //交易市场, 参见TrdMarket的枚举定义
+	Session         *Session               `protobuf:"varint,27,opt,name=session,enum=futupb.Session" json:"session,omitempty"`             //美股订单时段, 参见Common.Session的枚举定义
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -2337,25 +2337,25 @@ func (*Order) Descriptor() ([]byte, []int) {
 	return file_Trd_Common_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *Order) GetTrdSide() int32 {
+func (x *Order) GetTrdSide() TrdSide {
 	if x != nil && x.TrdSide != nil {
 		return *x.TrdSide
 	}
-	return 0
+	return TrdSide_TrdSide_Unknown
 }
 
-func (x *Order) GetOrderType() int32 {
+func (x *Order) GetOrderType() OrderType {
 	if x != nil && x.OrderType != nil {
 		return *x.OrderType
 	}
-	return 0
+	return OrderType_OrderType_Unknown
 }
 
-func (x *Order) GetOrderStatus() int32 {
+func (x *Order) GetOrderStatus() OrderStatus {
 	if x != nil && x.OrderStatus != nil {
 		return *x.OrderStatus
 	}
-	return 0
+	return OrderStatus_OrderStatus_Unsubmitted
 }
 
 func (x *Order) GetOrderID() uint64 {
@@ -2435,11 +2435,11 @@ func (x *Order) GetLastErrMsg() string {
 	return ""
 }
 
-func (x *Order) GetSecMarket() int32 {
+func (x *Order) GetSecMarket() TrdSecMarket {
 	if x != nil && x.SecMarket != nil {
 		return *x.SecMarket
 	}
-	return 0
+	return TrdSecMarket_TrdSecMarket_Unknown
 }
 
 func (x *Order) GetCreateTimestamp() float64 {
@@ -2463,11 +2463,11 @@ func (x *Order) GetRemark() string {
 	return ""
 }
 
-func (x *Order) GetTimeInForce() int32 {
+func (x *Order) GetTimeInForce() TimeInForce {
 	if x != nil && x.TimeInForce != nil {
 		return *x.TimeInForce
 	}
-	return 0
+	return TimeInForce_TimeInForce_DAY
 }
 
 func (x *Order) GetFillOutsideRTH() bool {
@@ -2484,11 +2484,11 @@ func (x *Order) GetAuxPrice() float64 {
 	return 0
 }
 
-func (x *Order) GetTrailType() int32 {
+func (x *Order) GetTrailType() TrailType {
 	if x != nil && x.TrailType != nil {
 		return *x.TrailType
 	}
-	return 0
+	return TrailType_TrailType_Unknown
 }
 
 func (x *Order) GetTrailValue() float64 {
@@ -2505,25 +2505,25 @@ func (x *Order) GetTrailSpread() float64 {
 	return 0
 }
 
-func (x *Order) GetCurrency() int32 {
+func (x *Order) GetCurrency() Currency {
 	if x != nil && x.Currency != nil {
 		return *x.Currency
 	}
-	return 0
+	return Currency_Currency_Unknown
 }
 
-func (x *Order) GetTrdMarket() int32 {
+func (x *Order) GetTrdMarket() TrdMarket {
 	if x != nil && x.TrdMarket != nil {
 		return *x.TrdMarket
 	}
-	return 0
+	return TrdMarket_TrdMarket_Unknown
 }
 
-func (x *Order) GetSession() int32 {
+func (x *Order) GetSession() Session {
 	if x != nil && x.Session != nil {
 		return *x.Session
 	}
-	return 0
+	return Session_Session_NONE
 }
 
 type OrderFeeItem struct {
@@ -2641,23 +2641,23 @@ func (x *OrderFee) GetFeeList() []*OrderFeeItem {
 // 成交结构
 type OrderFill struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	TrdSide           *int32                 `protobuf:"varint,1,req,name=trdSide" json:"trdSide,omitempty"`                     //交易方向, 参见TrdSide的枚举定义
-	FillID            *uint64                `protobuf:"varint,2,req,name=fillID" json:"fillID,omitempty"`                       //成交号
-	FillIDEx          *string                `protobuf:"bytes,3,req,name=fillIDEx" json:"fillIDEx,omitempty"`                    //扩展成交号(仅查问题时备用)
-	OrderID           *uint64                `protobuf:"varint,4,opt,name=orderID" json:"orderID,omitempty"`                     //订单号
-	OrderIDEx         *string                `protobuf:"bytes,5,opt,name=orderIDEx" json:"orderIDEx,omitempty"`                  //扩展订单号(仅查问题时备用)
-	Code              *string                `protobuf:"bytes,6,req,name=code" json:"code,omitempty"`                            //代码
-	Name              *string                `protobuf:"bytes,7,req,name=name" json:"name,omitempty"`                            //名称
-	Qty               *float64               `protobuf:"fixed64,8,req,name=qty" json:"qty,omitempty"`                            //成交数量，2位精度，期权单位是"张"
-	Price             *float64               `protobuf:"fixed64,9,req,name=price" json:"price,omitempty"`                        //成交价格，3位精度
-	CreateTime        *string                `protobuf:"bytes,10,req,name=createTime" json:"createTime,omitempty"`               //创建时间（成交时间），严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
-	CounterBrokerID   *int32                 `protobuf:"varint,11,opt,name=counterBrokerID" json:"counterBrokerID,omitempty"`    //对手经纪号，港股有效
-	CounterBrokerName *string                `protobuf:"bytes,12,opt,name=counterBrokerName" json:"counterBrokerName,omitempty"` //对手经纪名称，港股有效
-	SecMarket         *int32                 `protobuf:"varint,13,opt,name=secMarket" json:"secMarket,omitempty"`                //证券所属市场，参见TrdSecMarket的枚举定义
-	CreateTimestamp   *float64               `protobuf:"fixed64,14,opt,name=createTimestamp" json:"createTimestamp,omitempty"`   //创建时间戳
-	UpdateTimestamp   *float64               `protobuf:"fixed64,15,opt,name=updateTimestamp" json:"updateTimestamp,omitempty"`   //最后更新时间戳
-	Status            *int32                 `protobuf:"varint,16,opt,name=status" json:"status,omitempty"`                      //成交状态, 参见OrderFillStatus的枚举定义
-	TrdMarket         *int32                 `protobuf:"varint,17,opt,name=trdMarket" json:"trdMarket,omitempty"`                //交易市场, 参见TrdMarket的枚举定义
+	TrdSide           *TrdSide               `protobuf:"varint,1,req,name=trdSide,enum=futupb.TrdSide" json:"trdSide,omitempty"`           //交易方向, 参见TrdSide的枚举定义
+	FillID            *uint64                `protobuf:"varint,2,req,name=fillID" json:"fillID,omitempty"`                                 //成交号
+	FillIDEx          *string                `protobuf:"bytes,3,req,name=fillIDEx" json:"fillIDEx,omitempty"`                              //扩展成交号(仅查问题时备用)
+	OrderID           *uint64                `protobuf:"varint,4,opt,name=orderID" json:"orderID,omitempty"`                               //订单号
+	OrderIDEx         *string                `protobuf:"bytes,5,opt,name=orderIDEx" json:"orderIDEx,omitempty"`                            //扩展订单号(仅查问题时备用)
+	Code              *string                `protobuf:"bytes,6,req,name=code" json:"code,omitempty"`                                      //代码
+	Name              *string                `protobuf:"bytes,7,req,name=name" json:"name,omitempty"`                                      //名称
+	Qty               *float64               `protobuf:"fixed64,8,req,name=qty" json:"qty,omitempty"`                                      //成交数量，2位精度，期权单位是"张"
+	Price             *float64               `protobuf:"fixed64,9,req,name=price" json:"price,omitempty"`                                  //成交价格，3位精度
+	CreateTime        *string                `protobuf:"bytes,10,req,name=createTime" json:"createTime,omitempty"`                         //创建时间（成交时间），严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+	CounterBrokerID   *int32                 `protobuf:"varint,11,opt,name=counterBrokerID" json:"counterBrokerID,omitempty"`              //对手经纪号，港股有效
+	CounterBrokerName *string                `protobuf:"bytes,12,opt,name=counterBrokerName" json:"counterBrokerName,omitempty"`           //对手经纪名称，港股有效
+	SecMarket         *TrdSecMarket          `protobuf:"varint,13,opt,name=secMarket,enum=futupb.TrdSecMarket" json:"secMarket,omitempty"` //证券所属市场，参见TrdSecMarket的枚举定义
+	CreateTimestamp   *float64               `protobuf:"fixed64,14,opt,name=createTimestamp" json:"createTimestamp,omitempty"`             //创建时间戳
+	UpdateTimestamp   *float64               `protobuf:"fixed64,15,opt,name=updateTimestamp" json:"updateTimestamp,omitempty"`             //最后更新时间戳
+	Status            *OrderFillStatus       `protobuf:"varint,16,opt,name=status,enum=futupb.OrderFillStatus" json:"status,omitempty"`    //成交状态, 参见OrderFillStatus的枚举定义
+	TrdMarket         *TrdMarket             `protobuf:"varint,17,opt,name=trdMarket,enum=futupb.TrdMarket" json:"trdMarket,omitempty"`    //交易市场, 参见TrdMarket的枚举定义
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -2692,11 +2692,11 @@ func (*OrderFill) Descriptor() ([]byte, []int) {
 	return file_Trd_Common_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *OrderFill) GetTrdSide() int32 {
+func (x *OrderFill) GetTrdSide() TrdSide {
 	if x != nil && x.TrdSide != nil {
 		return *x.TrdSide
 	}
-	return 0
+	return TrdSide_TrdSide_Unknown
 }
 
 func (x *OrderFill) GetFillID() uint64 {
@@ -2776,11 +2776,11 @@ func (x *OrderFill) GetCounterBrokerName() string {
 	return ""
 }
 
-func (x *OrderFill) GetSecMarket() int32 {
+func (x *OrderFill) GetSecMarket() TrdSecMarket {
 	if x != nil && x.SecMarket != nil {
 		return *x.SecMarket
 	}
-	return 0
+	return TrdSecMarket_TrdSecMarket_Unknown
 }
 
 func (x *OrderFill) GetCreateTimestamp() float64 {
@@ -2797,18 +2797,18 @@ func (x *OrderFill) GetUpdateTimestamp() float64 {
 	return 0
 }
 
-func (x *OrderFill) GetStatus() int32 {
+func (x *OrderFill) GetStatus() OrderFillStatus {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return 0
+	return OrderFillStatus_OrderFillStatus_OK
 }
 
-func (x *OrderFill) GetTrdMarket() int32 {
+func (x *OrderFill) GetTrdMarket() TrdMarket {
 	if x != nil && x.TrdMarket != nil {
 		return *x.TrdMarket
 	}
-	return 0
+	return TrdMarket_TrdMarket_Unknown
 }
 
 // 最大可交易数量
@@ -2908,12 +2908,12 @@ func (x *MaxTrdQtys) GetShortRequiredIM() float64 {
 // 过滤条件，条件组合是"与"不是"或"，用于获取订单、成交、持仓等时二次过滤
 type TrdFilterConditions struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CodeList      []string               `protobuf:"bytes,1,rep,name=codeList" json:"codeList,omitempty"`           //代码过滤，只返回包含这些代码的数据，没传不过滤
-	IdList        []uint64               `protobuf:"varint,2,rep,name=idList" json:"idList,omitempty"`              //ID主键过滤，只返回包含这些ID的数据，没传不过滤，订单是orderID、成交是fillID、持仓是positionID
-	BeginTime     *string                `protobuf:"bytes,3,opt,name=beginTime" json:"beginTime,omitempty"`         //开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传，对持仓无效，拉历史数据必须填
-	EndTime       *string                `protobuf:"bytes,4,opt,name=endTime" json:"endTime,omitempty"`             //结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传，对持仓无效，拉历史数据必须填
-	OrderIDExList []string               `protobuf:"bytes,5,rep,name=orderIDExList" json:"orderIDExList,omitempty"` // 服务器订单ID，可以用来替代orderID，二选一
-	FilterMarket  *int32                 `protobuf:"varint,6,opt,name=filterMarket" json:"filterMarket,omitempty"`  //指定交易市场, 参见TrdMarket的枚举定义
+	CodeList      []string               `protobuf:"bytes,1,rep,name=codeList" json:"codeList,omitempty"`                                //代码过滤，只返回包含这些代码的数据，没传不过滤
+	IdList        []uint64               `protobuf:"varint,2,rep,name=idList" json:"idList,omitempty"`                                   //ID主键过滤，只返回包含这些ID的数据，没传不过滤，订单是orderID、成交是fillID、持仓是positionID
+	BeginTime     *string                `protobuf:"bytes,3,opt,name=beginTime" json:"beginTime,omitempty"`                              //开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传，对持仓无效，拉历史数据必须填
+	EndTime       *string                `protobuf:"bytes,4,opt,name=endTime" json:"endTime,omitempty"`                                  //结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传，对持仓无效，拉历史数据必须填
+	OrderIDExList []string               `protobuf:"bytes,5,rep,name=orderIDExList" json:"orderIDExList,omitempty"`                      // 服务器订单ID，可以用来替代orderID，二选一
+	FilterMarket  *TrdMarket             `protobuf:"varint,6,opt,name=filterMarket,enum=futupb.TrdMarket" json:"filterMarket,omitempty"` //指定交易市场, 参见TrdMarket的枚举定义
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2983,44 +2983,44 @@ func (x *TrdFilterConditions) GetOrderIDExList() []string {
 	return nil
 }
 
-func (x *TrdFilterConditions) GetFilterMarket() int32 {
+func (x *TrdFilterConditions) GetFilterMarket() TrdMarket {
 	if x != nil && x.FilterMarket != nil {
 		return *x.FilterMarket
 	}
-	return 0
+	return TrdMarket_TrdMarket_Unknown
 }
 
 var File_Trd_Common_proto protoreflect.FileDescriptor
 
 const file_Trd_Common_proto_rawDesc = "" +
 	"\n" +
-	"\x10Trd_Common.proto\x12\x06futupb\x1a\fCommon.proto\"\x8d\x01\n" +
-	"\vAccCashInfo\x12\x1a\n" +
-	"\bcurrency\x18\x01 \x01(\x05R\bcurrency\x12\x12\n" +
+	"\x10Trd_Common.proto\x12\x06futupb\x1a\fCommon.proto\"\x9f\x01\n" +
+	"\vAccCashInfo\x12,\n" +
+	"\bcurrency\x18\x01 \x01(\x0e2\x10.futupb.CurrencyR\bcurrency\x12\x12\n" +
 	"\x04cash\x18\x02 \x01(\x01R\x04cash\x12*\n" +
 	"\x10availableBalance\x18\x03 \x01(\x01R\x10availableBalance\x12\"\n" +
-	"\fnetCashPower\x18\x04 \x01(\x01R\fnetCashPower\"E\n" +
-	"\rAccMarketInfo\x12\x1c\n" +
-	"\ttrdMarket\x18\x01 \x01(\x05R\ttrdMarket\x12\x16\n" +
-	"\x06assets\x18\x02 \x01(\x01R\x06assets\"W\n" +
-	"\tTrdHeader\x12\x16\n" +
-	"\x06trdEnv\x18\x01 \x02(\x05R\x06trdEnv\x12\x14\n" +
-	"\x05accID\x18\x02 \x02(\x04R\x05accID\x12\x1c\n" +
-	"\ttrdMarket\x18\x03 \x02(\x05R\ttrdMarket\"\x9a\x02\n" +
-	"\x06TrdAcc\x12\x16\n" +
-	"\x06trdEnv\x18\x01 \x02(\x05R\x06trdEnv\x12\x14\n" +
-	"\x05accID\x18\x02 \x02(\x04R\x05accID\x12,\n" +
-	"\x11trdMarketAuthList\x18\x03 \x03(\x05R\x11trdMarketAuthList\x12\x18\n" +
-	"\aaccType\x18\x04 \x01(\x05R\aaccType\x12\x18\n" +
-	"\acardNum\x18\x05 \x01(\tR\acardNum\x12\"\n" +
-	"\fsecurityFirm\x18\x06 \x01(\x05R\fsecurityFirm\x12\x1e\n" +
+	"\fnetCashPower\x18\x04 \x01(\x01R\fnetCashPower\"X\n" +
+	"\rAccMarketInfo\x12/\n" +
+	"\ttrdMarket\x18\x01 \x01(\x0e2\x11.futupb.TrdMarketR\ttrdMarket\x12\x16\n" +
+	"\x06assets\x18\x02 \x01(\x01R\x06assets\"z\n" +
+	"\tTrdHeader\x12&\n" +
+	"\x06trdEnv\x18\x01 \x02(\x0e2\x0e.futupb.TrdEnvR\x06trdEnv\x12\x14\n" +
+	"\x05accID\x18\x02 \x02(\x04R\x05accID\x12/\n" +
+	"\ttrdMarket\x18\x03 \x02(\x0e2\x11.futupb.TrdMarketR\ttrdMarket\"\x91\x03\n" +
+	"\x06TrdAcc\x12&\n" +
+	"\x06trdEnv\x18\x01 \x02(\x0e2\x0e.futupb.TrdEnvR\x06trdEnv\x12\x14\n" +
+	"\x05accID\x18\x02 \x02(\x04R\x05accID\x12?\n" +
+	"\x11trdMarketAuthList\x18\x03 \x03(\x0e2\x11.futupb.TrdMarketR\x11trdMarketAuthList\x12,\n" +
+	"\aaccType\x18\x04 \x01(\x0e2\x12.futupb.TrdAccTypeR\aaccType\x12\x18\n" +
+	"\acardNum\x18\x05 \x01(\tR\acardNum\x128\n" +
+	"\fsecurityFirm\x18\x06 \x01(\x0e2\x14.futupb.SecurityFirmR\fsecurityFirm\x122\n" +
 	"\n" +
-	"simAccType\x18\a \x01(\x05R\n" +
+	"simAccType\x18\a \x01(\x0e2\x12.futupb.SimAccTypeR\n" +
 	"simAccType\x12\x1e\n" +
 	"\n" +
 	"uniCardNum\x18\b \x01(\tR\n" +
-	"uniCardNum\x12\x1c\n" +
-	"\taccStatus\x18\t \x01(\x05R\taccStatus\"\x85\t\n" +
+	"uniCardNum\x122\n" +
+	"\taccStatus\x18\t \x01(\x0e2\x14.futupb.TrdAccStatusR\taccStatus\"\xd6\t\n" +
 	"\x05Funds\x12\x14\n" +
 	"\x05power\x18\x01 \x02(\x01R\x05power\x12 \n" +
 	"\vtotalAssets\x18\x02 \x02(\x01R\vtotalAssets\x12\x12\n" +
@@ -3030,15 +3030,15 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"frozenCash\x18\x05 \x02(\x01R\n" +
 	"frozenCash\x12\x1a\n" +
 	"\bdebtCash\x18\x06 \x02(\x01R\bdebtCash\x12,\n" +
-	"\x11avlWithdrawalCash\x18\a \x02(\x01R\x11avlWithdrawalCash\x12\x1a\n" +
-	"\bcurrency\x18\b \x01(\x05R\bcurrency\x12&\n" +
+	"\x11avlWithdrawalCash\x18\a \x02(\x01R\x11avlWithdrawalCash\x12,\n" +
+	"\bcurrency\x18\b \x01(\x0e2\x10.futupb.CurrencyR\bcurrency\x12&\n" +
 	"\x0eavailableFunds\x18\t \x01(\x01R\x0eavailableFunds\x12\"\n" +
 	"\funrealizedPL\x18\n" +
 	" \x01(\x01R\funrealizedPL\x12\x1e\n" +
 	"\n" +
 	"realizedPL\x18\v \x01(\x01R\n" +
-	"realizedPL\x12\x1c\n" +
-	"\triskLevel\x18\f \x01(\x05R\triskLevel\x12$\n" +
+	"realizedPL\x122\n" +
+	"\triskLevel\x18\f \x01(\x0e2\x14.futupb.CltRiskLevelR\triskLevel\x12$\n" +
 	"\rinitialMargin\x18\r \x01(\x01R\rinitialMargin\x12,\n" +
 	"\x11maintenanceMargin\x18\x0e \x01(\x01R\x11maintenanceMargin\x127\n" +
 	"\fcashInfoList\x18\x0f \x03(\v2\x13.futupb.AccCashInfoR\fcashInfoList\x12$\n" +
@@ -3047,17 +3047,17 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"\x06longMv\x18\x12 \x01(\x01R\x06longMv\x12\x18\n" +
 	"\ashortMv\x18\x13 \x01(\x01R\ashortMv\x12\"\n" +
 	"\fpendingAsset\x18\x14 \x01(\x01R\fpendingAsset\x12$\n" +
-	"\rmaxWithdrawal\x18\x15 \x01(\x01R\rmaxWithdrawal\x12\x1e\n" +
+	"\rmaxWithdrawal\x18\x15 \x01(\x01R\rmaxWithdrawal\x125\n" +
 	"\n" +
-	"riskStatus\x18\x16 \x01(\x05R\n" +
+	"riskStatus\x18\x16 \x01(\x0e2\x15.futupb.CltRiskStatusR\n" +
 	"riskStatus\x12*\n" +
 	"\x10marginCallMargin\x18\x17 \x01(\x01R\x10marginCallMargin\x12\x14\n" +
 	"\x05isPdt\x18\x18 \x01(\bR\x05isPdt\x12\x16\n" +
 	"\x06pdtSeq\x18\x19 \x01(\tR\x06pdtSeq\x12$\n" +
 	"\rbeginningDTBP\x18\x1a \x01(\x01R\rbeginningDTBP\x12$\n" +
 	"\rremainingDTBP\x18\x1b \x01(\x01R\rremainingDTBP\x12\"\n" +
-	"\fdtCallAmount\x18\x1c \x01(\x01R\fdtCallAmount\x12\x1a\n" +
-	"\bdtStatus\x18\x1d \x01(\x05R\bdtStatus\x12*\n" +
+	"\fdtCallAmount\x18\x1c \x01(\x01R\fdtCallAmount\x12,\n" +
+	"\bdtStatus\x18\x1d \x01(\x0e2\x10.futupb.DTStatusR\bdtStatus\x12*\n" +
 	"\x10securitiesAssets\x18\x1e \x01(\x01R\x10securitiesAssets\x12\x1e\n" +
 	"\n" +
 	"fundAssets\x18\x1f \x01(\x01R\n" +
@@ -3065,12 +3065,12 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"\n" +
 	"bondAssets\x18  \x01(\x01R\n" +
 	"bondAssets\x12=\n" +
-	"\x0emarketInfoList\x18! \x03(\v2\x15.futupb.AccMarketInfoR\x0emarketInfoList\"\xea\x05\n" +
+	"\x0emarketInfoList\x18! \x03(\v2\x15.futupb.AccMarketInfoR\x0emarketInfoList\"\xbb\x06\n" +
 	"\bPosition\x12\x1e\n" +
 	"\n" +
 	"positionID\x18\x01 \x02(\x04R\n" +
-	"positionID\x12\"\n" +
-	"\fpositionSide\x18\x02 \x02(\x05R\fpositionSide\x12\x12\n" +
+	"positionID\x128\n" +
+	"\fpositionSide\x18\x02 \x02(\x0e2\x14.futupb.PositionSideR\fpositionSide\x12\x12\n" +
 	"\x04code\x18\x03 \x02(\tR\x04code\x12\x12\n" +
 	"\x04name\x18\x04 \x02(\tR\x04name\x12\x10\n" +
 	"\x03qty\x18\x05 \x02(\x01R\x03qty\x12\x1e\n" +
@@ -3082,8 +3082,8 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"\x03val\x18\t \x02(\x01R\x03val\x12\x14\n" +
 	"\x05plVal\x18\n" +
 	" \x02(\x01R\x05plVal\x12\x18\n" +
-	"\aplRatio\x18\v \x01(\x01R\aplRatio\x12\x1c\n" +
-	"\tsecMarket\x18\f \x01(\x05R\tsecMarket\x12\x19\n" +
+	"\aplRatio\x18\v \x01(\x01R\aplRatio\x122\n" +
+	"\tsecMarket\x18\f \x01(\x0e2\x14.futupb.TrdSecMarketR\tsecMarket\x12\x19\n" +
 	"\btd_plVal\x18\x15 \x01(\x01R\atdPlVal\x12\x1b\n" +
 	"\ttd_trdVal\x18\x16 \x01(\x01R\btdTrdVal\x12\x1b\n" +
 	"\ttd_buyVal\x18\x17 \x01(\x01R\btdBuyVal\x12\x1b\n" +
@@ -3095,16 +3095,16 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"\funrealizedPL\x18\x1c \x01(\x01R\funrealizedPL\x12\x1e\n" +
 	"\n" +
 	"realizedPL\x18\x1d \x01(\x01R\n" +
-	"realizedPL\x12\x1a\n" +
-	"\bcurrency\x18\x1e \x01(\x05R\bcurrency\x12\x1c\n" +
-	"\ttrdMarket\x18\x1f \x01(\x05R\ttrdMarket\x12*\n" +
+	"realizedPL\x12,\n" +
+	"\bcurrency\x18\x1e \x01(\x0e2\x10.futupb.CurrencyR\bcurrency\x12/\n" +
+	"\ttrdMarket\x18\x1f \x01(\x0e2\x11.futupb.TrdMarketR\ttrdMarket\x12*\n" +
 	"\x10dilutedCostPrice\x18  \x01(\x01R\x10dilutedCostPrice\x12*\n" +
 	"\x10averageCostPrice\x18! \x01(\x01R\x10averageCostPrice\x12&\n" +
-	"\x0eaveragePlRatio\x18\" \x01(\x01R\x0eaveragePlRatio\"\xab\x06\n" +
-	"\x05Order\x12\x18\n" +
-	"\atrdSide\x18\x01 \x02(\x05R\atrdSide\x12\x1c\n" +
-	"\torderType\x18\x02 \x02(\x05R\torderType\x12 \n" +
-	"\vorderStatus\x18\x03 \x02(\x05R\vorderStatus\x12\x18\n" +
+	"\x0eaveragePlRatio\x18\" \x01(\x01R\x0eaveragePlRatio\"\xd8\a\n" +
+	"\x05Order\x12)\n" +
+	"\atrdSide\x18\x01 \x02(\x0e2\x0f.futupb.TrdSideR\atrdSide\x12/\n" +
+	"\torderType\x18\x02 \x02(\x0e2\x11.futupb.OrderTypeR\torderType\x125\n" +
+	"\vorderStatus\x18\x03 \x02(\x0e2\x13.futupb.OrderStatusR\vorderStatus\x12\x18\n" +
 	"\aorderID\x18\x04 \x02(\x04R\aorderID\x12\x1c\n" +
 	"\torderIDEx\x18\x05 \x02(\tR\torderIDEx\x12\x12\n" +
 	"\x04code\x18\x06 \x02(\tR\x04code\x12\x12\n" +
@@ -3122,31 +3122,31 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"\ffillAvgPrice\x18\r \x01(\x01R\ffillAvgPrice\x12\x1e\n" +
 	"\n" +
 	"lastErrMsg\x18\x0e \x01(\tR\n" +
-	"lastErrMsg\x12\x1c\n" +
-	"\tsecMarket\x18\x0f \x01(\x05R\tsecMarket\x12(\n" +
+	"lastErrMsg\x122\n" +
+	"\tsecMarket\x18\x0f \x01(\x0e2\x14.futupb.TrdSecMarketR\tsecMarket\x12(\n" +
 	"\x0fcreateTimestamp\x18\x10 \x01(\x01R\x0fcreateTimestamp\x12(\n" +
 	"\x0fupdateTimestamp\x18\x11 \x01(\x01R\x0fupdateTimestamp\x12\x16\n" +
-	"\x06remark\x18\x12 \x01(\tR\x06remark\x12 \n" +
-	"\vtimeInForce\x18\x13 \x01(\x05R\vtimeInForce\x12&\n" +
+	"\x06remark\x18\x12 \x01(\tR\x06remark\x125\n" +
+	"\vtimeInForce\x18\x13 \x01(\x0e2\x13.futupb.TimeInForceR\vtimeInForce\x12&\n" +
 	"\x0efillOutsideRTH\x18\x14 \x01(\bR\x0efillOutsideRTH\x12\x1a\n" +
-	"\bauxPrice\x18\x15 \x01(\x01R\bauxPrice\x12\x1c\n" +
-	"\ttrailType\x18\x16 \x01(\x05R\ttrailType\x12\x1e\n" +
+	"\bauxPrice\x18\x15 \x01(\x01R\bauxPrice\x12/\n" +
+	"\ttrailType\x18\x16 \x01(\x0e2\x11.futupb.TrailTypeR\ttrailType\x12\x1e\n" +
 	"\n" +
 	"trailValue\x18\x17 \x01(\x01R\n" +
 	"trailValue\x12 \n" +
-	"\vtrailSpread\x18\x18 \x01(\x01R\vtrailSpread\x12\x1a\n" +
-	"\bcurrency\x18\x19 \x01(\x05R\bcurrency\x12\x1c\n" +
-	"\ttrdMarket\x18\x1a \x01(\x05R\ttrdMarket\x12\x18\n" +
-	"\asession\x18\x1b \x01(\x05R\asession\":\n" +
+	"\vtrailSpread\x18\x18 \x01(\x01R\vtrailSpread\x12,\n" +
+	"\bcurrency\x18\x19 \x01(\x0e2\x10.futupb.CurrencyR\bcurrency\x12/\n" +
+	"\ttrdMarket\x18\x1a \x01(\x0e2\x11.futupb.TrdMarketR\ttrdMarket\x12)\n" +
+	"\asession\x18\x1b \x01(\x0e2\x0f.futupb.SessionR\asession\":\n" +
 	"\fOrderFeeItem\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\x01R\x05value\"v\n" +
 	"\bOrderFee\x12\x1c\n" +
 	"\torderIDEx\x18\x01 \x02(\tR\torderIDEx\x12\x1c\n" +
 	"\tfeeAmount\x18\x02 \x01(\x01R\tfeeAmount\x12.\n" +
-	"\afeeList\x18\x03 \x03(\v2\x14.futupb.OrderFeeItemR\afeeList\"\x81\x04\n" +
-	"\tOrderFill\x12\x18\n" +
-	"\atrdSide\x18\x01 \x02(\x05R\atrdSide\x12\x16\n" +
+	"\afeeList\x18\x03 \x03(\v2\x14.futupb.OrderFeeItemR\afeeList\"\xd4\x04\n" +
+	"\tOrderFill\x12)\n" +
+	"\atrdSide\x18\x01 \x02(\x0e2\x0f.futupb.TrdSideR\atrdSide\x12\x16\n" +
 	"\x06fillID\x18\x02 \x02(\x04R\x06fillID\x12\x1a\n" +
 	"\bfillIDEx\x18\x03 \x02(\tR\bfillIDEx\x12\x18\n" +
 	"\aorderID\x18\x04 \x01(\x04R\aorderID\x12\x1c\n" +
@@ -3160,12 +3160,12 @@ const file_Trd_Common_proto_rawDesc = "" +
 	" \x02(\tR\n" +
 	"createTime\x12(\n" +
 	"\x0fcounterBrokerID\x18\v \x01(\x05R\x0fcounterBrokerID\x12,\n" +
-	"\x11counterBrokerName\x18\f \x01(\tR\x11counterBrokerName\x12\x1c\n" +
-	"\tsecMarket\x18\r \x01(\x05R\tsecMarket\x12(\n" +
+	"\x11counterBrokerName\x18\f \x01(\tR\x11counterBrokerName\x122\n" +
+	"\tsecMarket\x18\r \x01(\x0e2\x14.futupb.TrdSecMarketR\tsecMarket\x12(\n" +
 	"\x0fcreateTimestamp\x18\x0e \x01(\x01R\x0fcreateTimestamp\x12(\n" +
-	"\x0fupdateTimestamp\x18\x0f \x01(\x01R\x0fupdateTimestamp\x12\x16\n" +
-	"\x06status\x18\x10 \x01(\x05R\x06status\x12\x1c\n" +
-	"\ttrdMarket\x18\x11 \x01(\x05R\ttrdMarket\"\x9e\x02\n" +
+	"\x0fupdateTimestamp\x18\x0f \x01(\x01R\x0fupdateTimestamp\x12/\n" +
+	"\x06status\x18\x10 \x01(\x0e2\x17.futupb.OrderFillStatusR\x06status\x12/\n" +
+	"\ttrdMarket\x18\x11 \x01(\x0e2\x11.futupb.TrdMarketR\ttrdMarket\"\x9e\x02\n" +
 	"\n" +
 	"MaxTrdQtys\x12\x1e\n" +
 	"\n" +
@@ -3178,14 +3178,14 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"maxBuyBack\x18\x05 \x01(\x01R\n" +
 	"maxBuyBack\x12&\n" +
 	"\x0elongRequiredIM\x18\x06 \x01(\x01R\x0elongRequiredIM\x12(\n" +
-	"\x0fshortRequiredIM\x18\a \x01(\x01R\x0fshortRequiredIM\"\xcb\x01\n" +
+	"\x0fshortRequiredIM\x18\a \x01(\x01R\x0fshortRequiredIM\"\xde\x01\n" +
 	"\x13TrdFilterConditions\x12\x1a\n" +
 	"\bcodeList\x18\x01 \x03(\tR\bcodeList\x12\x16\n" +
 	"\x06idList\x18\x02 \x03(\x04R\x06idList\x12\x1c\n" +
 	"\tbeginTime\x18\x03 \x01(\tR\tbeginTime\x12\x18\n" +
 	"\aendTime\x18\x04 \x01(\tR\aendTime\x12$\n" +
-	"\rorderIDExList\x18\x05 \x03(\tR\rorderIDExList\x12\"\n" +
-	"\ffilterMarket\x18\x06 \x01(\x05R\ffilterMarket*.\n" +
+	"\rorderIDExList\x18\x05 \x03(\tR\rorderIDExList\x125\n" +
+	"\ffilterMarket\x18\x06 \x01(\x0e2\x11.futupb.TrdMarketR\ffilterMarket*.\n" +
 	"\x06TrdEnv\x12\x13\n" +
 	"\x0fTrdEnv_Simulate\x10\x00\x12\x0f\n" +
 	"\vTrdEnv_Real\x10\x01*X\n" +
@@ -3393,16 +3393,49 @@ var file_Trd_Common_proto_goTypes = []any{
 	(*OrderFill)(nil),           // 29: futupb.OrderFill
 	(*MaxTrdQtys)(nil),          // 30: futupb.MaxTrdQtys
 	(*TrdFilterConditions)(nil), // 31: futupb.TrdFilterConditions
+	(Session)(0),                // 32: futupb.Session
 }
 var file_Trd_Common_proto_depIdxs = []int32{
-	20, // 0: futupb.Funds.cashInfoList:type_name -> futupb.AccCashInfo
-	21, // 1: futupb.Funds.marketInfoList:type_name -> futupb.AccMarketInfo
-	27, // 2: futupb.OrderFee.feeList:type_name -> futupb.OrderFeeItem
-	3,  // [3:3] is the sub-list for method output_type
-	3,  // [3:3] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	13, // 0: futupb.AccCashInfo.currency:type_name -> futupb.Currency
+	2,  // 1: futupb.AccMarketInfo.trdMarket:type_name -> futupb.TrdMarket
+	0,  // 2: futupb.TrdHeader.trdEnv:type_name -> futupb.TrdEnv
+	2,  // 3: futupb.TrdHeader.trdMarket:type_name -> futupb.TrdMarket
+	0,  // 4: futupb.TrdAcc.trdEnv:type_name -> futupb.TrdEnv
+	2,  // 5: futupb.TrdAcc.trdMarketAuthList:type_name -> futupb.TrdMarket
+	11, // 6: futupb.TrdAcc.accType:type_name -> futupb.TrdAccType
+	16, // 7: futupb.TrdAcc.securityFirm:type_name -> futupb.SecurityFirm
+	17, // 8: futupb.TrdAcc.simAccType:type_name -> futupb.SimAccType
+	12, // 9: futupb.TrdAcc.accStatus:type_name -> futupb.TrdAccStatus
+	13, // 10: futupb.Funds.currency:type_name -> futupb.Currency
+	14, // 11: futupb.Funds.riskLevel:type_name -> futupb.CltRiskLevel
+	20, // 12: futupb.Funds.cashInfoList:type_name -> futupb.AccCashInfo
+	18, // 13: futupb.Funds.riskStatus:type_name -> futupb.CltRiskStatus
+	19, // 14: futupb.Funds.dtStatus:type_name -> futupb.DTStatus
+	21, // 15: futupb.Funds.marketInfoList:type_name -> futupb.AccMarketInfo
+	9,  // 16: futupb.Position.positionSide:type_name -> futupb.PositionSide
+	3,  // 17: futupb.Position.secMarket:type_name -> futupb.TrdSecMarket
+	13, // 18: futupb.Position.currency:type_name -> futupb.Currency
+	2,  // 19: futupb.Position.trdMarket:type_name -> futupb.TrdMarket
+	4,  // 20: futupb.Order.trdSide:type_name -> futupb.TrdSide
+	5,  // 21: futupb.Order.orderType:type_name -> futupb.OrderType
+	7,  // 22: futupb.Order.orderStatus:type_name -> futupb.OrderStatus
+	3,  // 23: futupb.Order.secMarket:type_name -> futupb.TrdSecMarket
+	15, // 24: futupb.Order.timeInForce:type_name -> futupb.TimeInForce
+	6,  // 25: futupb.Order.trailType:type_name -> futupb.TrailType
+	13, // 26: futupb.Order.currency:type_name -> futupb.Currency
+	2,  // 27: futupb.Order.trdMarket:type_name -> futupb.TrdMarket
+	32, // 28: futupb.Order.session:type_name -> futupb.Session
+	27, // 29: futupb.OrderFee.feeList:type_name -> futupb.OrderFeeItem
+	4,  // 30: futupb.OrderFill.trdSide:type_name -> futupb.TrdSide
+	3,  // 31: futupb.OrderFill.secMarket:type_name -> futupb.TrdSecMarket
+	8,  // 32: futupb.OrderFill.status:type_name -> futupb.OrderFillStatus
+	2,  // 33: futupb.OrderFill.trdMarket:type_name -> futupb.TrdMarket
+	2,  // 34: futupb.TrdFilterConditions.filterMarket:type_name -> futupb.TrdMarket
+	35, // [35:35] is the sub-list for method output_type
+	35, // [35:35] is the sub-list for method input_type
+	35, // [35:35] is the sub-list for extension type_name
+	35, // [35:35] is the sub-list for extension extendee
+	0,  // [0:35] is the sub-list for field type_name
 }
 
 func init() { file_Trd_Common_proto_init() }

@@ -24,10 +24,10 @@ const (
 type QotRequestTradeDateRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 当 market 和 security 同时存在，会忽略 market，仅对 security 进行查询。
-	Market        *int32    `protobuf:"varint,1,req,name=market" json:"market,omitempty"`      //Qot_Common.TradeDateMarket,要查询的市场
-	BeginTime     *string   `protobuf:"bytes,2,req,name=beginTime" json:"beginTime,omitempty"` //开始时间字符串
-	EndTime       *string   `protobuf:"bytes,3,req,name=endTime" json:"endTime,omitempty"`     //结束时间字符串
-	Security      *Security `protobuf:"bytes,4,opt,name=security" json:"security,omitempty"`   // 指定标的
+	Market        *TradeDateMarket `protobuf:"varint,1,req,name=market,enum=futupb.TradeDateMarket" json:"market,omitempty"` //Qot_Common.TradeDateMarket,要查询的市场
+	BeginTime     *string          `protobuf:"bytes,2,req,name=beginTime" json:"beginTime,omitempty"`                        //开始时间字符串
+	EndTime       *string          `protobuf:"bytes,3,req,name=endTime" json:"endTime,omitempty"`                            //结束时间字符串
+	Security      *Security        `protobuf:"bytes,4,opt,name=security" json:"security,omitempty"`                          // 指定标的
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -62,11 +62,11 @@ func (*QotRequestTradeDateRequest) Descriptor() ([]byte, []int) {
 	return file_Qot_RequestTradeDate_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *QotRequestTradeDateRequest) GetMarket() int32 {
+func (x *QotRequestTradeDateRequest) GetMarket() TradeDateMarket {
 	if x != nil && x.Market != nil {
 		return *x.Market
 	}
-	return 0
+	return TradeDateMarket_TradeDateMarket_Unknown
 }
 
 func (x *QotRequestTradeDateRequest) GetBeginTime() string {
@@ -92,9 +92,9 @@ func (x *QotRequestTradeDateRequest) GetSecurity() *Security {
 
 type TradeDate struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Time          *string                `protobuf:"bytes,1,req,name=time" json:"time,omitempty"`                    //时间字符串
-	Timestamp     *float64               `protobuf:"fixed64,2,opt,name=timestamp" json:"timestamp,omitempty"`        //时间戳
-	TradeDateType *int32                 `protobuf:"varint,3,opt,name=tradeDateType" json:"tradeDateType,omitempty"` //Qot_Common.TradeDateType,交易时间类型
+	Time          *string                `protobuf:"bytes,1,req,name=time" json:"time,omitempty"`                                              //时间字符串
+	Timestamp     *float64               `protobuf:"fixed64,2,opt,name=timestamp" json:"timestamp,omitempty"`                                  //时间戳
+	TradeDateType *TradeDateType         `protobuf:"varint,3,opt,name=tradeDateType,enum=futupb.TradeDateType" json:"tradeDateType,omitempty"` //Qot_Common.TradeDateType,交易时间类型
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -143,11 +143,11 @@ func (x *TradeDate) GetTimestamp() float64 {
 	return 0
 }
 
-func (x *TradeDate) GetTradeDateType() int32 {
+func (x *TradeDate) GetTradeDateType() TradeDateType {
 	if x != nil && x.TradeDateType != nil {
 		return *x.TradeDateType
 	}
-	return 0
+	return TradeDateType_TradeDateType_Whole
 }
 
 type QotRequestTradeDateResponse struct {
@@ -240,7 +240,7 @@ func (x *QotRequestTradeDateRequest_Internal) GetPayload() *QotRequestTradeDateR
 
 type QotRequestTradeDateResponse_Internal struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
-	RetType       *int32                       `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                     `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                      `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                       `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotRequestTradeDateResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -250,7 +250,7 @@ type QotRequestTradeDateResponse_Internal struct {
 
 // Default values for QotRequestTradeDateResponse_Internal fields.
 const (
-	Default_QotRequestTradeDateResponse_Internal_RetType = int32(-400)
+	Default_QotRequestTradeDateResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotRequestTradeDateResponse_Internal) Reset() {
@@ -283,7 +283,7 @@ func (*QotRequestTradeDateResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_RequestTradeDate_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *QotRequestTradeDateResponse_Internal) GetRetType() int32 {
+func (x *QotRequestTradeDateResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -315,22 +315,22 @@ var File_Qot_RequestTradeDate_proto protoreflect.FileDescriptor
 
 const file_Qot_RequestTradeDate_proto_rawDesc = "" +
 	"\n" +
-	"\x1aQot_RequestTradeDate.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x9a\x01\n" +
-	"\x1aQotRequestTradeDateRequest\x12\x16\n" +
-	"\x06market\x18\x01 \x02(\x05R\x06market\x12\x1c\n" +
+	"\x1aQot_RequestTradeDate.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xb3\x01\n" +
+	"\x1aQotRequestTradeDateRequest\x12/\n" +
+	"\x06market\x18\x01 \x02(\x0e2\x17.futupb.TradeDateMarketR\x06market\x12\x1c\n" +
 	"\tbeginTime\x18\x02 \x02(\tR\tbeginTime\x12\x18\n" +
 	"\aendTime\x18\x03 \x02(\tR\aendTime\x12,\n" +
-	"\bsecurity\x18\x04 \x01(\v2\x10.futupb.SecurityR\bsecurity\"c\n" +
+	"\bsecurity\x18\x04 \x01(\v2\x10.futupb.SecurityR\bsecurity\"z\n" +
 	"\tTradeDate\x12\x12\n" +
 	"\x04time\x18\x01 \x02(\tR\x04time\x12\x1c\n" +
-	"\ttimestamp\x18\x02 \x01(\x01R\ttimestamp\x12$\n" +
-	"\rtradeDateType\x18\x03 \x01(\x05R\rtradeDateType\"V\n" +
+	"\ttimestamp\x18\x02 \x01(\x01R\ttimestamp\x12;\n" +
+	"\rtradeDateType\x18\x03 \x01(\x0e2\x15.futupb.TradeDateTypeR\rtradeDateType\"V\n" +
 	"\x1bQotRequestTradeDateResponse\x127\n" +
 	"\rtradeDateList\x18\x01 \x03(\v2\x11.futupb.TradeDateR\rtradeDateList\"c\n" +
 	"#QotRequestTradeDateRequest_Internal\x12<\n" +
-	"\apayload\x18\x01 \x02(\v2\".futupb.QotRequestTradeDateRequestR\apayload\"\xb7\x01\n" +
-	"$QotRequestTradeDateResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\".futupb.QotRequestTradeDateRequestR\apayload\"\xd3\x01\n" +
+	"$QotRequestTradeDateResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12=\n" +
 	"\apayload\x18\x04 \x01(\v2#.futupb.QotRequestTradeDateResponseR\apayloadB4\n" +
@@ -355,18 +355,24 @@ var file_Qot_RequestTradeDate_proto_goTypes = []any{
 	(*QotRequestTradeDateResponse)(nil),          // 2: futupb.QotRequestTradeDateResponse
 	(*QotRequestTradeDateRequest_Internal)(nil),  // 3: futupb.QotRequestTradeDateRequest_Internal
 	(*QotRequestTradeDateResponse_Internal)(nil), // 4: futupb.QotRequestTradeDateResponse_Internal
-	(*Security)(nil),                             // 5: futupb.Security
+	(TradeDateMarket)(0),                         // 5: futupb.TradeDateMarket
+	(*Security)(nil),                             // 6: futupb.Security
+	(TradeDateType)(0),                           // 7: futupb.TradeDateType
+	(RetType)(0),                                 // 8: futupb.RetType
 }
 var file_Qot_RequestTradeDate_proto_depIdxs = []int32{
-	5, // 0: futupb.QotRequestTradeDateRequest.security:type_name -> futupb.Security
-	1, // 1: futupb.QotRequestTradeDateResponse.tradeDateList:type_name -> futupb.TradeDate
-	0, // 2: futupb.QotRequestTradeDateRequest_Internal.payload:type_name -> futupb.QotRequestTradeDateRequest
-	2, // 3: futupb.QotRequestTradeDateResponse_Internal.payload:type_name -> futupb.QotRequestTradeDateResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 0: futupb.QotRequestTradeDateRequest.market:type_name -> futupb.TradeDateMarket
+	6, // 1: futupb.QotRequestTradeDateRequest.security:type_name -> futupb.Security
+	7, // 2: futupb.TradeDate.tradeDateType:type_name -> futupb.TradeDateType
+	1, // 3: futupb.QotRequestTradeDateResponse.tradeDateList:type_name -> futupb.TradeDate
+	0, // 4: futupb.QotRequestTradeDateRequest_Internal.payload:type_name -> futupb.QotRequestTradeDateRequest
+	8, // 5: futupb.QotRequestTradeDateResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 6: futupb.QotRequestTradeDateResponse_Internal.payload:type_name -> futupb.QotRequestTradeDateResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Qot_RequestTradeDate_proto_init() }

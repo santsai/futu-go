@@ -8,8 +8,8 @@ import "Qot_Common.proto";
 
 message QotGetPlateSetRequest
 {
-	required int32 market = 1; //Qot_Common.QotMarket,股票市场
-	required int32 plateSetType = 2; //Qot_Common.PlateSetType,板块集合的类型
+	required QotMarket market = 1; //Qot_Common.QotMarket,股票市场
+	required PlateSetType plateSetType = 2; //Qot_Common.PlateSetType,板块集合的类型
 }
 
 message QotGetPlateSetResponse
@@ -24,7 +24,7 @@ message QotGetPlateSetRequest_Internal
 
 message QotGetPlateSetResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

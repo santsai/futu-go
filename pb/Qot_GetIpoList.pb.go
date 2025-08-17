@@ -549,7 +549,7 @@ func (x *IpoData) GetUsExData() *USIpoExData {
 
 type QotGetIpoListRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Market        *int32                 `protobuf:"varint,1,req,name=market" json:"market,omitempty"` // Qot_Common::QotMarket股票市场，支持沪股和深股，且沪股和深股不做区分都代表A股市场。
+	Market        *QotMarket             `protobuf:"varint,1,req,name=market,enum=futupb.QotMarket" json:"market,omitempty"` // Qot_Common::QotMarket股票市场，支持沪股和深股，且沪股和深股不做区分都代表A股市场。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -584,11 +584,11 @@ func (*QotGetIpoListRequest) Descriptor() ([]byte, []int) {
 	return file_Qot_GetIpoList_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *QotGetIpoListRequest) GetMarket() int32 {
+func (x *QotGetIpoListRequest) GetMarket() QotMarket {
 	if x != nil && x.Market != nil {
 		return *x.Market
 	}
-	return 0
+	return QotMarket_QotMarket_Unknown
 }
 
 type QotGetIpoListResponse struct {
@@ -681,7 +681,7 @@ func (x *QotGetIpoListRequest_Internal) GetPayload() *QotGetIpoListRequest {
 
 type QotGetIpoListResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetIpoListResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -691,7 +691,7 @@ type QotGetIpoListResponse_Internal struct {
 
 // Default values for QotGetIpoListResponse_Internal fields.
 const (
-	Default_QotGetIpoListResponse_Internal_RetType = int32(-400)
+	Default_QotGetIpoListResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetIpoListResponse_Internal) Reset() {
@@ -724,7 +724,7 @@ func (*QotGetIpoListResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetIpoList_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *QotGetIpoListResponse_Internal) GetRetType() int32 {
+func (x *QotGetIpoListResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -801,15 +801,15 @@ const file_Qot_GetIpoList_proto_rawDesc = "" +
 	"\x05basic\x18\x01 \x02(\v2\x14.futupb.BasicIpoDataR\x05basic\x12/\n" +
 	"\bcnExData\x18\x02 \x01(\v2\x13.futupb.CNIpoExDataR\bcnExData\x12/\n" +
 	"\bhkExData\x18\x03 \x01(\v2\x13.futupb.HKIpoExDataR\bhkExData\x12/\n" +
-	"\busExData\x18\x04 \x01(\v2\x13.futupb.USIpoExDataR\busExData\".\n" +
-	"\x14QotGetIpoListRequest\x12\x16\n" +
-	"\x06market\x18\x01 \x02(\x05R\x06market\"B\n" +
+	"\busExData\x18\x04 \x01(\v2\x13.futupb.USIpoExDataR\busExData\"A\n" +
+	"\x14QotGetIpoListRequest\x12)\n" +
+	"\x06market\x18\x01 \x02(\x0e2\x11.futupb.QotMarketR\x06market\"B\n" +
 	"\x15QotGetIpoListResponse\x12)\n" +
 	"\aipoList\x18\x01 \x03(\v2\x0f.futupb.IpoDataR\aipoList\"W\n" +
 	"\x1dQotGetIpoListRequest_Internal\x126\n" +
-	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotGetIpoListRequestR\apayload\"\xab\x01\n" +
-	"\x1eQotGetIpoListResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotGetIpoListRequestR\apayload\"\xc7\x01\n" +
+	"\x1eQotGetIpoListResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x127\n" +
 	"\apayload\x18\x04 \x01(\v2\x1d.futupb.QotGetIpoListResponseR\apayloadB4\n" +
@@ -840,6 +840,8 @@ var file_Qot_GetIpoList_proto_goTypes = []any{
 	(*QotGetIpoListRequest_Internal)(nil),  // 8: futupb.QotGetIpoListRequest_Internal
 	(*QotGetIpoListResponse_Internal)(nil), // 9: futupb.QotGetIpoListResponse_Internal
 	(*Security)(nil),                       // 10: futupb.Security
+	(QotMarket)(0),                         // 11: futupb.QotMarket
+	(RetType)(0),                           // 12: futupb.RetType
 }
 var file_Qot_GetIpoList_proto_depIdxs = []int32{
 	10, // 0: futupb.BasicIpoData.security:type_name -> futupb.Security
@@ -848,14 +850,16 @@ var file_Qot_GetIpoList_proto_depIdxs = []int32{
 	1,  // 3: futupb.IpoData.cnExData:type_name -> futupb.CNIpoExData
 	3,  // 4: futupb.IpoData.hkExData:type_name -> futupb.HKIpoExData
 	4,  // 5: futupb.IpoData.usExData:type_name -> futupb.USIpoExData
-	5,  // 6: futupb.QotGetIpoListResponse.ipoList:type_name -> futupb.IpoData
-	6,  // 7: futupb.QotGetIpoListRequest_Internal.payload:type_name -> futupb.QotGetIpoListRequest
-	7,  // 8: futupb.QotGetIpoListResponse_Internal.payload:type_name -> futupb.QotGetIpoListResponse
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	11, // 6: futupb.QotGetIpoListRequest.market:type_name -> futupb.QotMarket
+	5,  // 7: futupb.QotGetIpoListResponse.ipoList:type_name -> futupb.IpoData
+	6,  // 8: futupb.QotGetIpoListRequest_Internal.payload:type_name -> futupb.QotGetIpoListRequest
+	12, // 9: futupb.QotGetIpoListResponse_Internal.retType:type_name -> futupb.RetType
+	7,  // 10: futupb.QotGetIpoListResponse_Internal.payload:type_name -> futupb.QotGetIpoListResponse
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetIpoList_proto_init() }

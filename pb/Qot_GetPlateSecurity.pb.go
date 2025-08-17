@@ -23,9 +23,9 @@ const (
 
 type QotGetPlateSecurityRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Plate         *Security              `protobuf:"bytes,1,req,name=plate" json:"plate,omitempty"`          //板块
-	SortField     *int32                 `protobuf:"varint,2,opt,name=sortField" json:"sortField,omitempty"` //Qot_Common.SortField,根据哪个字段排序,不填默认Code排序
-	Ascend        *bool                  `protobuf:"varint,3,opt,name=ascend" json:"ascend,omitempty"`       //升序ture, 降序false, 不填默认升序
+	Plate         *Security              `protobuf:"bytes,1,req,name=plate" json:"plate,omitempty"`                                //板块
+	SortField     *SortField             `protobuf:"varint,2,opt,name=sortField,enum=futupb.SortField" json:"sortField,omitempty"` //Qot_Common.SortField,根据哪个字段排序,不填默认Code排序
+	Ascend        *bool                  `protobuf:"varint,3,opt,name=ascend" json:"ascend,omitempty"`                             //升序ture, 降序false, 不填默认升序
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -67,11 +67,11 @@ func (x *QotGetPlateSecurityRequest) GetPlate() *Security {
 	return nil
 }
 
-func (x *QotGetPlateSecurityRequest) GetSortField() int32 {
+func (x *QotGetPlateSecurityRequest) GetSortField() SortField {
 	if x != nil && x.SortField != nil {
 		return *x.SortField
 	}
-	return 0
+	return SortField_SortField_Unknow
 }
 
 func (x *QotGetPlateSecurityRequest) GetAscend() bool {
@@ -171,7 +171,7 @@ func (x *QotGetPlateSecurityRequest_Internal) GetPayload() *QotGetPlateSecurityR
 
 type QotGetPlateSecurityResponse_Internal struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
-	RetType       *int32                       `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                     `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                      `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                       `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetPlateSecurityResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -181,7 +181,7 @@ type QotGetPlateSecurityResponse_Internal struct {
 
 // Default values for QotGetPlateSecurityResponse_Internal fields.
 const (
-	Default_QotGetPlateSecurityResponse_Internal_RetType = int32(-400)
+	Default_QotGetPlateSecurityResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetPlateSecurityResponse_Internal) Reset() {
@@ -214,7 +214,7 @@ func (*QotGetPlateSecurityResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetPlateSecurity_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetPlateSecurityResponse_Internal) GetRetType() int32 {
+func (x *QotGetPlateSecurityResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -246,17 +246,17 @@ var File_Qot_GetPlateSecurity_proto protoreflect.FileDescriptor
 
 const file_Qot_GetPlateSecurity_proto_rawDesc = "" +
 	"\n" +
-	"\x1aQot_GetPlateSecurity.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"z\n" +
+	"\x1aQot_GetPlateSecurity.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x8d\x01\n" +
 	"\x1aQotGetPlateSecurityRequest\x12&\n" +
-	"\x05plate\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05plate\x12\x1c\n" +
-	"\tsortField\x18\x02 \x01(\x05R\tsortField\x12\x16\n" +
+	"\x05plate\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05plate\x12/\n" +
+	"\tsortField\x18\x02 \x01(\x0e2\x11.futupb.SortFieldR\tsortField\x12\x16\n" +
 	"\x06ascend\x18\x03 \x01(\bR\x06ascend\"a\n" +
 	"\x1bQotGetPlateSecurityResponse\x12B\n" +
 	"\x0estaticInfoList\x18\x01 \x03(\v2\x1a.futupb.SecurityStaticInfoR\x0estaticInfoList\"c\n" +
 	"#QotGetPlateSecurityRequest_Internal\x12<\n" +
-	"\apayload\x18\x01 \x02(\v2\".futupb.QotGetPlateSecurityRequestR\apayload\"\xb7\x01\n" +
-	"$QotGetPlateSecurityResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\".futupb.QotGetPlateSecurityRequestR\apayload\"\xd3\x01\n" +
+	"$QotGetPlateSecurityResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12=\n" +
 	"\apayload\x18\x04 \x01(\v2#.futupb.QotGetPlateSecurityResponseR\apayloadB4\n" +
@@ -281,18 +281,22 @@ var file_Qot_GetPlateSecurity_proto_goTypes = []any{
 	(*QotGetPlateSecurityRequest_Internal)(nil),  // 2: futupb.QotGetPlateSecurityRequest_Internal
 	(*QotGetPlateSecurityResponse_Internal)(nil), // 3: futupb.QotGetPlateSecurityResponse_Internal
 	(*Security)(nil),                             // 4: futupb.Security
-	(*SecurityStaticInfo)(nil),                   // 5: futupb.SecurityStaticInfo
+	(SortField)(0),                               // 5: futupb.SortField
+	(*SecurityStaticInfo)(nil),                   // 6: futupb.SecurityStaticInfo
+	(RetType)(0),                                 // 7: futupb.RetType
 }
 var file_Qot_GetPlateSecurity_proto_depIdxs = []int32{
 	4, // 0: futupb.QotGetPlateSecurityRequest.plate:type_name -> futupb.Security
-	5, // 1: futupb.QotGetPlateSecurityResponse.staticInfoList:type_name -> futupb.SecurityStaticInfo
-	0, // 2: futupb.QotGetPlateSecurityRequest_Internal.payload:type_name -> futupb.QotGetPlateSecurityRequest
-	1, // 3: futupb.QotGetPlateSecurityResponse_Internal.payload:type_name -> futupb.QotGetPlateSecurityResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 1: futupb.QotGetPlateSecurityRequest.sortField:type_name -> futupb.SortField
+	6, // 2: futupb.QotGetPlateSecurityResponse.staticInfoList:type_name -> futupb.SecurityStaticInfo
+	0, // 3: futupb.QotGetPlateSecurityRequest_Internal.payload:type_name -> futupb.QotGetPlateSecurityRequest
+	7, // 4: futupb.QotGetPlateSecurityResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 5: futupb.QotGetPlateSecurityResponse_Internal.payload:type_name -> futupb.QotGetPlateSecurityResponse
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetPlateSecurity_proto_init() }

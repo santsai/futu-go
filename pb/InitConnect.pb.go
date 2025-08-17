@@ -28,9 +28,9 @@ type InitConnectRequest struct {
 	RecvNotify *bool                  `protobuf:"varint,3,opt,name=recvNotify" json:"recvNotify,omitempty"` //此连接是否接收市场状态、交易需要重新解锁等等事件通知，true代表接收，FutuOpenD就会向此连接推送这些通知，反之false代表不接收不推送
 	// 如果通信要加密，首先得在FutuOpenD和客户端都配置RSA密钥，不配置始终不加密
 	// 如果配置了RSA密钥且指定的加密算法不为PacketEncAlgo_None则加密(即便这里不设置，配置了RSA密钥，也会采用默认加密方式)，默认采用FTAES_ECB算法
-	PacketEncAlgo       *int32  `protobuf:"varint,4,opt,name=packetEncAlgo" json:"packetEncAlgo,omitempty"`            //指定包加密算法，参见Common.PacketEncAlgo的枚举定义
-	PushProtoFmt        *int32  `protobuf:"varint,5,opt,name=pushProtoFmt" json:"pushProtoFmt,omitempty"`              //指定这条连接上的推送协议格式，若不指定则使用push_proto_type配置项
-	ProgrammingLanguage *string `protobuf:"bytes,6,opt,name=programmingLanguage" json:"programmingLanguage,omitempty"` //接口编程语言，用于统计语言偏好
+	PacketEncAlgo       *PacketEncAlgo `protobuf:"varint,4,opt,name=packetEncAlgo,enum=futupb.PacketEncAlgo" json:"packetEncAlgo,omitempty"` //指定包加密算法，参见Common.PacketEncAlgo的枚举定义
+	PushProtoFmt        *ProtoFmt      `protobuf:"varint,5,opt,name=pushProtoFmt,enum=futupb.ProtoFmt" json:"pushProtoFmt,omitempty"`        //指定这条连接上的推送协议格式，若不指定则使用push_proto_type配置项
+	ProgrammingLanguage *string        `protobuf:"bytes,6,opt,name=programmingLanguage" json:"programmingLanguage,omitempty"`                //接口编程语言，用于统计语言偏好
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -86,18 +86,18 @@ func (x *InitConnectRequest) GetRecvNotify() bool {
 	return false
 }
 
-func (x *InitConnectRequest) GetPacketEncAlgo() int32 {
+func (x *InitConnectRequest) GetPacketEncAlgo() PacketEncAlgo {
 	if x != nil && x.PacketEncAlgo != nil {
 		return *x.PacketEncAlgo
 	}
-	return 0
+	return PacketEncAlgo_PacketEncAlgo_FTAES_ECB
 }
 
-func (x *InitConnectRequest) GetPushProtoFmt() int32 {
+func (x *InitConnectRequest) GetPushProtoFmt() ProtoFmt {
 	if x != nil && x.PushProtoFmt != nil {
 		return *x.PushProtoFmt
 	}
-	return 0
+	return ProtoFmt_ProtoFmt_Protobuf
 }
 
 func (x *InitConnectRequest) GetProgrammingLanguage() string {
@@ -109,13 +109,13 @@ func (x *InitConnectRequest) GetProgrammingLanguage() string {
 
 type InitConnectResponse struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	ServerVer         *int32                 `protobuf:"varint,1,req,name=serverVer" json:"serverVer,omitempty"`                 //FutuOpenD的版本号
-	LoginUserID       *uint64                `protobuf:"varint,2,req,name=loginUserID" json:"loginUserID,omitempty"`             //FutuOpenD登陆的牛牛用户ID
-	ConnID            *uint64                `protobuf:"varint,3,req,name=connID" json:"connID,omitempty"`                       //此连接的连接ID，连接的唯一标识
-	ConnAESKey        *string                `protobuf:"bytes,4,req,name=connAESKey" json:"connAESKey,omitempty"`                //此连接后续AES加密通信的Key，固定为16字节长字符串
-	KeepAliveInterval *int32                 `protobuf:"varint,5,req,name=keepAliveInterval" json:"keepAliveInterval,omitempty"` //心跳保活间隔
-	AesCBCiv          *string                `protobuf:"bytes,6,opt,name=aesCBCiv" json:"aesCBCiv,omitempty"`                    //AES加密通信CBC加密模式的iv，固定为16字节长字符串
-	UserAttribution   *int32                 `protobuf:"varint,7,opt,name=userAttribution" json:"userAttribution,omitempty"`     //用户类型，牛牛用户或MooMoo用户
+	ServerVer         *int32                 `protobuf:"varint,1,req,name=serverVer" json:"serverVer,omitempty"`                                         //FutuOpenD的版本号
+	LoginUserID       *uint64                `protobuf:"varint,2,req,name=loginUserID" json:"loginUserID,omitempty"`                                     //FutuOpenD登陆的牛牛用户ID
+	ConnID            *uint64                `protobuf:"varint,3,req,name=connID" json:"connID,omitempty"`                                               //此连接的连接ID，连接的唯一标识
+	ConnAESKey        *string                `protobuf:"bytes,4,req,name=connAESKey" json:"connAESKey,omitempty"`                                        //此连接后续AES加密通信的Key，固定为16字节长字符串
+	KeepAliveInterval *int32                 `protobuf:"varint,5,req,name=keepAliveInterval" json:"keepAliveInterval,omitempty"`                         //心跳保活间隔
+	AesCBCiv          *string                `protobuf:"bytes,6,opt,name=aesCBCiv" json:"aesCBCiv,omitempty"`                                            //AES加密通信CBC加密模式的iv，固定为16字节长字符串
+	UserAttribution   *UserAttribution       `protobuf:"varint,7,opt,name=userAttribution,enum=futupb.UserAttribution" json:"userAttribution,omitempty"` //用户类型，牛牛用户或MooMoo用户
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -192,11 +192,11 @@ func (x *InitConnectResponse) GetAesCBCiv() string {
 	return ""
 }
 
-func (x *InitConnectResponse) GetUserAttribution() int32 {
+func (x *InitConnectResponse) GetUserAttribution() UserAttribution {
 	if x != nil && x.UserAttribution != nil {
 		return *x.UserAttribution
 	}
-	return 0
+	return UserAttribution_UserAttribution_Unknown
 }
 
 type InitConnectRequest_Internal struct {
@@ -245,9 +245,9 @@ func (x *InitConnectRequest_Internal) GetPayload() *InitConnectRequest {
 
 type InitConnectResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
-	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`             //返回结果描述
-	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`          //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
+	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`                                 //返回结果描述
+	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`                              //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
 	Payload       *InitConnectResponse   `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -255,7 +255,7 @@ type InitConnectResponse_Internal struct {
 
 // Default values for InitConnectResponse_Internal fields.
 const (
-	Default_InitConnectResponse_Internal_RetType = int32(-400)
+	Default_InitConnectResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *InitConnectResponse_Internal) Reset() {
@@ -288,7 +288,7 @@ func (*InitConnectResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_InitConnect_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *InitConnectResponse_Internal) GetRetType() int32 {
+func (x *InitConnectResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -320,16 +320,16 @@ var File_InitConnect_proto protoreflect.FileDescriptor
 
 const file_InitConnect_proto_rawDesc = "" +
 	"\n" +
-	"\x11InitConnect.proto\x12\x06futupb\x1a\fCommon.proto\"\xea\x01\n" +
+	"\x11InitConnect.proto\x12\x06futupb\x1a\fCommon.proto\"\x93\x02\n" +
 	"\x12InitConnectRequest\x12\x1c\n" +
 	"\tclientVer\x18\x01 \x02(\x05R\tclientVer\x12\x1a\n" +
 	"\bclientID\x18\x02 \x02(\tR\bclientID\x12\x1e\n" +
 	"\n" +
 	"recvNotify\x18\x03 \x01(\bR\n" +
-	"recvNotify\x12$\n" +
-	"\rpacketEncAlgo\x18\x04 \x01(\x05R\rpacketEncAlgo\x12\"\n" +
-	"\fpushProtoFmt\x18\x05 \x01(\x05R\fpushProtoFmt\x120\n" +
-	"\x13programmingLanguage\x18\x06 \x01(\tR\x13programmingLanguage\"\x81\x02\n" +
+	"recvNotify\x12;\n" +
+	"\rpacketEncAlgo\x18\x04 \x01(\x0e2\x15.futupb.PacketEncAlgoR\rpacketEncAlgo\x124\n" +
+	"\fpushProtoFmt\x18\x05 \x01(\x0e2\x10.futupb.ProtoFmtR\fpushProtoFmt\x120\n" +
+	"\x13programmingLanguage\x18\x06 \x01(\tR\x13programmingLanguage\"\x9a\x02\n" +
 	"\x13InitConnectResponse\x12\x1c\n" +
 	"\tserverVer\x18\x01 \x02(\x05R\tserverVer\x12 \n" +
 	"\vloginUserID\x18\x02 \x02(\x04R\vloginUserID\x12\x16\n" +
@@ -338,12 +338,12 @@ const file_InitConnect_proto_rawDesc = "" +
 	"connAESKey\x18\x04 \x02(\tR\n" +
 	"connAESKey\x12,\n" +
 	"\x11keepAliveInterval\x18\x05 \x02(\x05R\x11keepAliveInterval\x12\x1a\n" +
-	"\baesCBCiv\x18\x06 \x01(\tR\baesCBCiv\x12(\n" +
-	"\x0fuserAttribution\x18\a \x01(\x05R\x0fuserAttribution\"S\n" +
+	"\baesCBCiv\x18\x06 \x01(\tR\baesCBCiv\x12A\n" +
+	"\x0fuserAttribution\x18\a \x01(\x0e2\x17.futupb.UserAttributionR\x0fuserAttribution\"S\n" +
 	"\x1bInitConnectRequest_Internal\x124\n" +
-	"\apayload\x18\x01 \x02(\v2\x1a.futupb.InitConnectRequestR\apayload\"\xa7\x01\n" +
-	"\x1cInitConnectResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1a.futupb.InitConnectRequestR\apayload\"\xc3\x01\n" +
+	"\x1cInitConnectResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x125\n" +
 	"\apayload\x18\x04 \x01(\v2\x1b.futupb.InitConnectResponseR\apayloadB4\n" +
@@ -367,15 +367,23 @@ var file_InitConnect_proto_goTypes = []any{
 	(*InitConnectResponse)(nil),          // 1: futupb.InitConnectResponse
 	(*InitConnectRequest_Internal)(nil),  // 2: futupb.InitConnectRequest_Internal
 	(*InitConnectResponse_Internal)(nil), // 3: futupb.InitConnectResponse_Internal
+	(PacketEncAlgo)(0),                   // 4: futupb.PacketEncAlgo
+	(ProtoFmt)(0),                        // 5: futupb.ProtoFmt
+	(UserAttribution)(0),                 // 6: futupb.UserAttribution
+	(RetType)(0),                         // 7: futupb.RetType
 }
 var file_InitConnect_proto_depIdxs = []int32{
-	0, // 0: futupb.InitConnectRequest_Internal.payload:type_name -> futupb.InitConnectRequest
-	1, // 1: futupb.InitConnectResponse_Internal.payload:type_name -> futupb.InitConnectResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 0: futupb.InitConnectRequest.packetEncAlgo:type_name -> futupb.PacketEncAlgo
+	5, // 1: futupb.InitConnectRequest.pushProtoFmt:type_name -> futupb.ProtoFmt
+	6, // 2: futupb.InitConnectResponse.userAttribution:type_name -> futupb.UserAttribution
+	0, // 3: futupb.InitConnectRequest_Internal.payload:type_name -> futupb.InitConnectRequest
+	7, // 4: futupb.InitConnectResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 5: futupb.InitConnectResponse_Internal.payload:type_name -> futupb.InitConnectResponse
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_InitConnect_proto_init() }

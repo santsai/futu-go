@@ -23,10 +23,10 @@ const (
 
 type QotGetKLRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RehabType     *int32                 `protobuf:"varint,1,req,name=rehabType" json:"rehabType,omitempty"` //Qot_Common.RehabType,复权类型
-	KlType        *int32                 `protobuf:"varint,2,req,name=klType" json:"klType,omitempty"`       //Qot_Common.KLType,K线类型
-	Security      *Security              `protobuf:"bytes,3,req,name=security" json:"security,omitempty"`    //股票
-	ReqNum        *int32                 `protobuf:"varint,4,req,name=reqNum" json:"reqNum,omitempty"`       //请求K线根数
+	RehabType     *RehabType             `protobuf:"varint,1,req,name=rehabType,enum=futupb.RehabType" json:"rehabType,omitempty"` //Qot_Common.RehabType,复权类型
+	KlType        *KLType                `protobuf:"varint,2,req,name=klType,enum=futupb.KLType" json:"klType,omitempty"`          //Qot_Common.KLType,K线类型
+	Security      *Security              `protobuf:"bytes,3,req,name=security" json:"security,omitempty"`                          //股票
+	ReqNum        *int32                 `protobuf:"varint,4,req,name=reqNum" json:"reqNum,omitempty"`                             //请求K线根数
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -61,18 +61,18 @@ func (*QotGetKLRequest) Descriptor() ([]byte, []int) {
 	return file_Qot_GetKL_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *QotGetKLRequest) GetRehabType() int32 {
+func (x *QotGetKLRequest) GetRehabType() RehabType {
 	if x != nil && x.RehabType != nil {
 		return *x.RehabType
 	}
-	return 0
+	return RehabType_RehabType_None
 }
 
-func (x *QotGetKLRequest) GetKlType() int32 {
+func (x *QotGetKLRequest) GetKlType() KLType {
 	if x != nil && x.KlType != nil {
 		return *x.KlType
 	}
-	return 0
+	return KLType_KLType_Unknown
 }
 
 func (x *QotGetKLRequest) GetSecurity() *Security {
@@ -195,7 +195,7 @@ func (x *QotGetKLRequest_Internal) GetPayload() *QotGetKLRequest {
 
 type QotGetKLResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetKLResponse      `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -205,7 +205,7 @@ type QotGetKLResponse_Internal struct {
 
 // Default values for QotGetKLResponse_Internal fields.
 const (
-	Default_QotGetKLResponse_Internal_RetType = int32(-400)
+	Default_QotGetKLResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetKLResponse_Internal) Reset() {
@@ -238,7 +238,7 @@ func (*QotGetKLResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetKL_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetKLResponse_Internal) GetRetType() int32 {
+func (x *QotGetKLResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -270,10 +270,10 @@ var File_Qot_GetKL_proto protoreflect.FileDescriptor
 
 const file_Qot_GetKL_proto_rawDesc = "" +
 	"\n" +
-	"\x0fQot_GetKL.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x8d\x01\n" +
-	"\x0fQotGetKLRequest\x12\x1c\n" +
-	"\trehabType\x18\x01 \x02(\x05R\trehabType\x12\x16\n" +
-	"\x06klType\x18\x02 \x02(\x05R\x06klType\x12,\n" +
+	"\x0fQot_GetKL.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xb0\x01\n" +
+	"\x0fQotGetKLRequest\x12/\n" +
+	"\trehabType\x18\x01 \x02(\x0e2\x11.futupb.RehabTypeR\trehabType\x12&\n" +
+	"\x06klType\x18\x02 \x02(\x0e2\x0e.futupb.KLTypeR\x06klType\x12,\n" +
 	"\bsecurity\x18\x03 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x16\n" +
 	"\x06reqNum\x18\x04 \x02(\x05R\x06reqNum\"{\n" +
 	"\x10QotGetKLResponse\x12,\n" +
@@ -281,9 +281,9 @@ const file_Qot_GetKL_proto_rawDesc = "" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12%\n" +
 	"\x06klList\x18\x02 \x03(\v2\r.futupb.KLineR\x06klList\"M\n" +
 	"\x18QotGetKLRequest_Internal\x121\n" +
-	"\apayload\x18\x01 \x02(\v2\x17.futupb.QotGetKLRequestR\apayload\"\xa1\x01\n" +
-	"\x19QotGetKLResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x17.futupb.QotGetKLRequestR\apayload\"\xbd\x01\n" +
+	"\x19QotGetKLResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x122\n" +
 	"\apayload\x18\x04 \x01(\v2\x18.futupb.QotGetKLResponseR\apayloadB4\n" +
@@ -307,20 +307,26 @@ var file_Qot_GetKL_proto_goTypes = []any{
 	(*QotGetKLResponse)(nil),          // 1: futupb.QotGetKLResponse
 	(*QotGetKLRequest_Internal)(nil),  // 2: futupb.QotGetKLRequest_Internal
 	(*QotGetKLResponse_Internal)(nil), // 3: futupb.QotGetKLResponse_Internal
-	(*Security)(nil),                  // 4: futupb.Security
-	(*KLine)(nil),                     // 5: futupb.KLine
+	(RehabType)(0),                    // 4: futupb.RehabType
+	(KLType)(0),                       // 5: futupb.KLType
+	(*Security)(nil),                  // 6: futupb.Security
+	(*KLine)(nil),                     // 7: futupb.KLine
+	(RetType)(0),                      // 8: futupb.RetType
 }
 var file_Qot_GetKL_proto_depIdxs = []int32{
-	4, // 0: futupb.QotGetKLRequest.security:type_name -> futupb.Security
-	4, // 1: futupb.QotGetKLResponse.security:type_name -> futupb.Security
-	5, // 2: futupb.QotGetKLResponse.klList:type_name -> futupb.KLine
-	0, // 3: futupb.QotGetKLRequest_Internal.payload:type_name -> futupb.QotGetKLRequest
-	1, // 4: futupb.QotGetKLResponse_Internal.payload:type_name -> futupb.QotGetKLResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 0: futupb.QotGetKLRequest.rehabType:type_name -> futupb.RehabType
+	5, // 1: futupb.QotGetKLRequest.klType:type_name -> futupb.KLType
+	6, // 2: futupb.QotGetKLRequest.security:type_name -> futupb.Security
+	6, // 3: futupb.QotGetKLResponse.security:type_name -> futupb.Security
+	7, // 4: futupb.QotGetKLResponse.klList:type_name -> futupb.KLine
+	0, // 5: futupb.QotGetKLRequest_Internal.payload:type_name -> futupb.QotGetKLRequest
+	8, // 6: futupb.QotGetKLResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 7: futupb.QotGetKLResponse_Internal.payload:type_name -> futupb.QotGetKLResponse
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetKL_proto_init() }

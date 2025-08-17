@@ -155,7 +155,7 @@ func (x *UsedQuotaRequest_Internal) GetPayload() *UsedQuotaRequest {
 
 type UsedQuotaResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *UsedQuotaResponse     `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -165,7 +165,7 @@ type UsedQuotaResponse_Internal struct {
 
 // Default values for UsedQuotaResponse_Internal fields.
 const (
-	Default_UsedQuotaResponse_Internal_RetType = int32(-400)
+	Default_UsedQuotaResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *UsedQuotaResponse_Internal) Reset() {
@@ -198,7 +198,7 @@ func (*UsedQuotaResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_UsedQuota_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *UsedQuotaResponse_Internal) GetRetType() int32 {
+func (x *UsedQuotaResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -230,15 +230,15 @@ var File_UsedQuota_proto protoreflect.FileDescriptor
 
 const file_UsedQuota_proto_rawDesc = "" +
 	"\n" +
-	"\x0fUsedQuota.proto\x12\x06futupb\"\x12\n" +
+	"\x0fUsedQuota.proto\x12\x06futupb\x1a\fCommon.proto\"\x12\n" +
 	"\x10UsedQuotaRequest\"c\n" +
 	"\x11UsedQuotaResponse\x12$\n" +
 	"\x0eused_sub_quota\x18\x01 \x01(\x05R\fusedSubQuota\x12(\n" +
 	"\x10used_kline_quota\x18\x02 \x01(\x05R\x0eusedKlineQuota\"O\n" +
 	"\x19UsedQuotaRequest_Internal\x122\n" +
-	"\apayload\x18\x01 \x02(\v2\x18.futupb.UsedQuotaRequestR\apayload\"\xa3\x01\n" +
-	"\x1aUsedQuotaResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x18.futupb.UsedQuotaRequestR\apayload\"\xbf\x01\n" +
+	"\x1aUsedQuotaResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x123\n" +
 	"\apayload\x18\x04 \x01(\v2\x19.futupb.UsedQuotaResponseR\apayloadB4\n" +
@@ -262,15 +262,17 @@ var file_UsedQuota_proto_goTypes = []any{
 	(*UsedQuotaResponse)(nil),          // 1: futupb.UsedQuotaResponse
 	(*UsedQuotaRequest_Internal)(nil),  // 2: futupb.UsedQuotaRequest_Internal
 	(*UsedQuotaResponse_Internal)(nil), // 3: futupb.UsedQuotaResponse_Internal
+	(RetType)(0),                       // 4: futupb.RetType
 }
 var file_UsedQuota_proto_depIdxs = []int32{
 	0, // 0: futupb.UsedQuotaRequest_Internal.payload:type_name -> futupb.UsedQuotaRequest
-	1, // 1: futupb.UsedQuotaResponse_Internal.payload:type_name -> futupb.UsedQuotaResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 1: futupb.UsedQuotaResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 2: futupb.UsedQuotaResponse_Internal.payload:type_name -> futupb.UsedQuotaResponse
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_UsedQuota_proto_init() }
@@ -278,6 +280,7 @@ func file_UsedQuota_proto_init() {
 	if File_UsedQuota_proto != nil {
 		return
 	}
+	file_Common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

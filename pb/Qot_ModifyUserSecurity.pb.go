@@ -85,9 +85,9 @@ func (ModifyUserSecurityOp) EnumDescriptor() ([]byte, []int) {
 
 type QotModifyUserSecurityRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	GroupName     *string                `protobuf:"bytes,1,req,name=groupName" json:"groupName,omitempty"`       //分组名,有同名的返回排序的首个
-	Op            *int32                 `protobuf:"varint,2,req,name=op" json:"op,omitempty"`                    //ModifyUserSecurityOp,操作类型
-	SecurityList  []*Security            `protobuf:"bytes,3,rep,name=securityList" json:"securityList,omitempty"` //新增、删除或移出该分组下的股票
+	GroupName     *string                `protobuf:"bytes,1,req,name=groupName" json:"groupName,omitempty"`                     //分组名,有同名的返回排序的首个
+	Op            *ModifyUserSecurityOp  `protobuf:"varint,2,req,name=op,enum=futupb.ModifyUserSecurityOp" json:"op,omitempty"` //ModifyUserSecurityOp,操作类型
+	SecurityList  []*Security            `protobuf:"bytes,3,rep,name=securityList" json:"securityList,omitempty"`               //新增、删除或移出该分组下的股票
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -129,11 +129,11 @@ func (x *QotModifyUserSecurityRequest) GetGroupName() string {
 	return ""
 }
 
-func (x *QotModifyUserSecurityRequest) GetOp() int32 {
+func (x *QotModifyUserSecurityRequest) GetOp() ModifyUserSecurityOp {
 	if x != nil && x.Op != nil {
 		return *x.Op
 	}
-	return 0
+	return ModifyUserSecurityOp_ModifyUserSecurityOp_Unknown
 }
 
 func (x *QotModifyUserSecurityRequest) GetSecurityList() []*Security {
@@ -225,7 +225,7 @@ func (x *QotModifyUserSecurityRequest_Internal) GetPayload() *QotModifyUserSecur
 
 type QotModifyUserSecurityResponse_Internal struct {
 	state         protoimpl.MessageState         `protogen:"open.v1"`
-	RetType       *int32                         `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                       `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                        `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                         `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotModifyUserSecurityResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -235,7 +235,7 @@ type QotModifyUserSecurityResponse_Internal struct {
 
 // Default values for QotModifyUserSecurityResponse_Internal fields.
 const (
-	Default_QotModifyUserSecurityResponse_Internal_RetType = int32(-400)
+	Default_QotModifyUserSecurityResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotModifyUserSecurityResponse_Internal) Reset() {
@@ -268,7 +268,7 @@ func (*QotModifyUserSecurityResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_ModifyUserSecurity_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotModifyUserSecurityResponse_Internal) GetRetType() int32 {
+func (x *QotModifyUserSecurityResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -300,16 +300,16 @@ var File_Qot_ModifyUserSecurity_proto protoreflect.FileDescriptor
 
 const file_Qot_ModifyUserSecurity_proto_rawDesc = "" +
 	"\n" +
-	"\x1cQot_ModifyUserSecurity.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x82\x01\n" +
+	"\x1cQot_ModifyUserSecurity.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xa0\x01\n" +
 	"\x1cQotModifyUserSecurityRequest\x12\x1c\n" +
-	"\tgroupName\x18\x01 \x02(\tR\tgroupName\x12\x0e\n" +
-	"\x02op\x18\x02 \x02(\x05R\x02op\x124\n" +
+	"\tgroupName\x18\x01 \x02(\tR\tgroupName\x12,\n" +
+	"\x02op\x18\x02 \x02(\x0e2\x1c.futupb.ModifyUserSecurityOpR\x02op\x124\n" +
 	"\fsecurityList\x18\x03 \x03(\v2\x10.futupb.SecurityR\fsecurityList\"\x1f\n" +
 	"\x1dQotModifyUserSecurityResponse\"g\n" +
 	"%QotModifyUserSecurityRequest_Internal\x12>\n" +
-	"\apayload\x18\x01 \x02(\v2$.futupb.QotModifyUserSecurityRequestR\apayload\"\xbb\x01\n" +
-	"&QotModifyUserSecurityResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2$.futupb.QotModifyUserSecurityRequestR\apayload\"\xd7\x01\n" +
+	"&QotModifyUserSecurityResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12?\n" +
 	"\apayload\x18\x04 \x01(\v2%.futupb.QotModifyUserSecurityResponseR\apayload*\x96\x01\n" +
@@ -341,16 +341,19 @@ var file_Qot_ModifyUserSecurity_proto_goTypes = []any{
 	(*QotModifyUserSecurityRequest_Internal)(nil),  // 3: futupb.QotModifyUserSecurityRequest_Internal
 	(*QotModifyUserSecurityResponse_Internal)(nil), // 4: futupb.QotModifyUserSecurityResponse_Internal
 	(*Security)(nil),                               // 5: futupb.Security
+	(RetType)(0),                                   // 6: futupb.RetType
 }
 var file_Qot_ModifyUserSecurity_proto_depIdxs = []int32{
-	5, // 0: futupb.QotModifyUserSecurityRequest.securityList:type_name -> futupb.Security
-	1, // 1: futupb.QotModifyUserSecurityRequest_Internal.payload:type_name -> futupb.QotModifyUserSecurityRequest
-	2, // 2: futupb.QotModifyUserSecurityResponse_Internal.payload:type_name -> futupb.QotModifyUserSecurityResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0, // 0: futupb.QotModifyUserSecurityRequest.op:type_name -> futupb.ModifyUserSecurityOp
+	5, // 1: futupb.QotModifyUserSecurityRequest.securityList:type_name -> futupb.Security
+	1, // 2: futupb.QotModifyUserSecurityRequest_Internal.payload:type_name -> futupb.QotModifyUserSecurityRequest
+	6, // 3: futupb.QotModifyUserSecurityResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 4: futupb.QotModifyUserSecurityResponse_Internal.payload:type_name -> futupb.QotModifyUserSecurityResponse
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_Qot_ModifyUserSecurity_proto_init() }

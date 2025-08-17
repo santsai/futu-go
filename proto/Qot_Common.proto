@@ -567,7 +567,7 @@ enum PeriodType
  //两个字段确定一支股票
 message Security
 {
-	required int32 market = 1; //QotMarket,股票市场
+	required QotMarket market = 1; //QotMarket,股票市场
 	required string code = 2; //股票代码
 }
 
@@ -605,9 +605,9 @@ message OptionBasicQotExData
 	optional int32 expiryDateDistance = 12; //距离到期日天数，负数表示已过期
 	optional double contractNominalValue = 13; //合约名义金额，仅港股期权适用
 	optional double ownerLotMultiplier = 14; //相等正股手数，指数期权无该字段，仅港股期权适用
-	optional int32 optionAreaType = 15; //OptionAreaType，期权类型（按行权时间）
+	optional OptionAreaType optionAreaType = 15; //OptionAreaType，期权类型（按行权时间）
 	optional double contractMultiplier = 16; //合约乘数
-	optional int32 indexOptionType = 18; //IndexOptionType，指数期权类型
+	optional IndexOptionType indexOptionType = 18; //IndexOptionType，指数期权类型
 }
 
 //美股支持盘前盘后数据
@@ -662,7 +662,7 @@ message BasicQot
 	optional double updateTimestamp = 18; //最新价的更新时间戳，对其他字段不适用
 	optional PreAfterMarketData preMarket = 19; //盘前数据
 	optional PreAfterMarketData afterMarket = 20; //盘后数据
-	optional int32 secStatus = 21; //SecurityStatus, 股票状态
+	optional SecurityStatus secStatus = 21; //SecurityStatus, 股票状态
 	optional FutureBasicQotExData futureExData = 22; //期货特有字段
 	optional WarrantBasicQotExData warrantExData = 23; //窝轮特有字段
 	optional PreAfterMarketData overnight = 25; //夜盘数据
@@ -686,33 +686,33 @@ message SecurityStaticBasic
 	required Security security = 1; //股票
 	required int64 id = 2; //股票ID
 	required int32 lotSize = 3; //每手数量,期权以及期货类型表示合约乘数
-	required int32 secType = 4; //Qot_Common.SecurityType,股票类型
+	required SecurityType secType = 4; //Qot_Common.SecurityType,股票类型
 	required string name = 5; //股票名字
 	required string listTime = 6; //上市时间字符串
 	optional bool delisting = 7; //是否退市
 	optional double listTimestamp = 8; //上市时间戳
-	optional int32 exchType = 9; //Qot_Common.ExchType,所属交易所
+	optional ExchType exchType = 9; //Qot_Common.ExchType,所属交易所
 }
 
 message WarrantStaticExData
 {
-	required int32 type = 1; //Qot_Common.WarrantType,窝轮类型
+	required WarrantType type = 1; //Qot_Common.WarrantType,窝轮类型
 	required Security owner = 2; //所属正股
 }
 
 message OptionStaticExData
 {
-	required int32 type = 1; //Qot_Common.OptionType,期权
+	required OptionType type = 1; //Qot_Common.OptionType,期权
 	required Security owner = 2; //标的股
 	required string strikeTime = 3; //行权日
 	required double strikePrice = 4; //行权价
 	required bool suspend = 5; //是否停牌
 	required string market = 6; //发行市场名字
 	optional double strikeTimestamp = 7; //行权日时间戳
-	optional int32 indexOptionType = 8; //Qot_Common.IndexOptionType, 指数期权的类型，仅在指数期权有效
-	optional int32 expirationCycle = 9; // ExpirationCycle，交割周期
-	optional int32 optionStandardType = 10; // OptionStandardType，标准期权
-	optional int32 optionSettlementMode = 11; // OptionSettlementMode，结算方式
+	optional IndexOptionType indexOptionType = 8; //Qot_Common.IndexOptionType, 指数期权的类型，仅在指数期权有效
+	optional ExpirationCycle expirationCycle = 9; // ExpirationCycle，交割周期
+	optional OptionStandardType optionStandardType = 10; // OptionStandardType，标准期权
+	optional OptionSettlementMode optionSettlementMode = 11; // OptionSettlementMode，结算方式
 }
 
 message FutureStaticExData
@@ -745,14 +745,14 @@ message Ticker
 {
 	required string time = 1; //时间字符串
 	required int64 sequence = 2; // 唯一标识
-	required int32 dir = 3; //TickerDirection, 买卖方向
+	required TickerDirection dir = 3; //TickerDirection, 买卖方向
 	required double price = 4; //价格
 	required int64 volume = 5; //成交量
 	required double turnover = 6; //成交额
 	optional double recvTime = 7; //收到推送数据的本地时间戳，用于定位延迟
-	optional int32 type = 8; //TickerType, 逐笔类型
+	optional TickerType type = 8; //TickerType, 逐笔类型
 	optional int32 typeSign = 9; //逐笔类型符号
-	optional int32 pushDataType = 10; //用于区分推送情况
+	optional PushDataType pushDataType = 10; //用于区分推送情况
 	optional double timestamp = 11; //时间戳
 }
 
@@ -784,7 +784,7 @@ message ShareHoldingChange
 
 message SubInfo
 {
-	required int32 subType = 1; //Qot_Common.SubType,订阅类型
+	required SubType subType = 1; //Qot_Common.SubType,订阅类型
 	repeated Security securityList = 2; //订阅该类型行情的股票
 }
 
@@ -799,7 +799,7 @@ message PlateInfo
 {
 	required Security plate = 1; //板块
 	required string name = 2; //板块名字
-	optional int32 plateType = 3; //PlateSetType 板块类型, 仅3207（获取股票所属板块）协议返回该字段
+	optional PlateSetType plateType = 3; //PlateSetType 板块类型, 仅3207（获取股票所属板块）协议返回该字段
 }
 
 message Rehab

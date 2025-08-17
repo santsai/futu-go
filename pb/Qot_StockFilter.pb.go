@@ -858,11 +858,11 @@ func (SortDir) EnumDescriptor() ([]byte, []int) {
 // 简单属性筛选
 type BaseFilter struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FieldName     *int32                 `protobuf:"varint,1,req,name=fieldName" json:"fieldName,omitempty"`   // StockField 简单属性
-	FilterMin     *float64               `protobuf:"fixed64,2,opt,name=filterMin" json:"filterMin,omitempty"`  // 区间下限（闭区间），不传代表下限为 -∞
-	FilterMax     *float64               `protobuf:"fixed64,3,opt,name=filterMax" json:"filterMax,omitempty"`  // 区间上限（闭区间），不传代表上限为 +∞
-	IsNoFilter    *bool                  `protobuf:"varint,4,opt,name=isNoFilter" json:"isNoFilter,omitempty"` // 该字段是否不需要筛选，True：不筛选，False：筛选。不传默认不筛选
-	SortDir       *int32                 `protobuf:"varint,5,opt,name=sortDir" json:"sortDir,omitempty"`       // SortDir 排序方向，默认不排序。
+	FieldName     *StockField            `protobuf:"varint,1,req,name=fieldName,enum=futupb.StockField" json:"fieldName,omitempty"` // StockField 简单属性
+	FilterMin     *float64               `protobuf:"fixed64,2,opt,name=filterMin" json:"filterMin,omitempty"`                       // 区间下限（闭区间），不传代表下限为 -∞
+	FilterMax     *float64               `protobuf:"fixed64,3,opt,name=filterMax" json:"filterMax,omitempty"`                       // 区间上限（闭区间），不传代表上限为 +∞
+	IsNoFilter    *bool                  `protobuf:"varint,4,opt,name=isNoFilter" json:"isNoFilter,omitempty"`                      // 该字段是否不需要筛选，True：不筛选，False：筛选。不传默认不筛选
+	SortDir       *SortDir               `protobuf:"varint,5,opt,name=sortDir,enum=futupb.SortDir" json:"sortDir,omitempty"`        // SortDir 排序方向，默认不排序。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -897,11 +897,11 @@ func (*BaseFilter) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *BaseFilter) GetFieldName() int32 {
+func (x *BaseFilter) GetFieldName() StockField {
 	if x != nil && x.FieldName != nil {
 		return *x.FieldName
 	}
-	return 0
+	return StockField_StockField_Unknown
 }
 
 func (x *BaseFilter) GetFilterMin() float64 {
@@ -925,22 +925,22 @@ func (x *BaseFilter) GetIsNoFilter() bool {
 	return false
 }
 
-func (x *BaseFilter) GetSortDir() int32 {
+func (x *BaseFilter) GetSortDir() SortDir {
 	if x != nil && x.SortDir != nil {
 		return *x.SortDir
 	}
-	return 0
+	return SortDir_SortDir_No
 }
 
 // 累积属性筛选
 type AccumulateFilter struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FieldName     *int32                 `protobuf:"varint,1,req,name=fieldName" json:"fieldName,omitempty"`   // AccumulateField 累积属性
-	FilterMin     *float64               `protobuf:"fixed64,2,opt,name=filterMin" json:"filterMin,omitempty"`  // 区间下限（闭区间），不传代表下限为 -∞
-	FilterMax     *float64               `protobuf:"fixed64,3,opt,name=filterMax" json:"filterMax,omitempty"`  // 区间上限（闭区间），不传代表上限为 +∞
-	IsNoFilter    *bool                  `protobuf:"varint,4,opt,name=isNoFilter" json:"isNoFilter,omitempty"` // 该字段是否不需要筛选，True：不筛选，False：筛选。不传默认不筛选
-	SortDir       *int32                 `protobuf:"varint,5,opt,name=sortDir" json:"sortDir,omitempty"`       // SortDir 排序方向，默认不排序。
-	Days          *int32                 `protobuf:"varint,6,req,name=days" json:"days,omitempty"`             // 近几日，累积时间
+	FieldName     *AccumulateField       `protobuf:"varint,1,req,name=fieldName,enum=futupb.AccumulateField" json:"fieldName,omitempty"` // AccumulateField 累积属性
+	FilterMin     *float64               `protobuf:"fixed64,2,opt,name=filterMin" json:"filterMin,omitempty"`                            // 区间下限（闭区间），不传代表下限为 -∞
+	FilterMax     *float64               `protobuf:"fixed64,3,opt,name=filterMax" json:"filterMax,omitempty"`                            // 区间上限（闭区间），不传代表上限为 +∞
+	IsNoFilter    *bool                  `protobuf:"varint,4,opt,name=isNoFilter" json:"isNoFilter,omitempty"`                           // 该字段是否不需要筛选，True：不筛选，False：筛选。不传默认不筛选
+	SortDir       *SortDir               `protobuf:"varint,5,opt,name=sortDir,enum=futupb.SortDir" json:"sortDir,omitempty"`             // SortDir 排序方向，默认不排序。
+	Days          *int32                 `protobuf:"varint,6,req,name=days" json:"days,omitempty"`                                       // 近几日，累积时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -975,11 +975,11 @@ func (*AccumulateFilter) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *AccumulateFilter) GetFieldName() int32 {
+func (x *AccumulateFilter) GetFieldName() AccumulateField {
 	if x != nil && x.FieldName != nil {
 		return *x.FieldName
 	}
-	return 0
+	return AccumulateField_AccumulateField_Unknown
 }
 
 func (x *AccumulateFilter) GetFilterMin() float64 {
@@ -1003,11 +1003,11 @@ func (x *AccumulateFilter) GetIsNoFilter() bool {
 	return false
 }
 
-func (x *AccumulateFilter) GetSortDir() int32 {
+func (x *AccumulateFilter) GetSortDir() SortDir {
 	if x != nil && x.SortDir != nil {
 		return *x.SortDir
 	}
-	return 0
+	return SortDir_SortDir_No
 }
 
 func (x *AccumulateFilter) GetDays() int32 {
@@ -1020,12 +1020,12 @@ func (x *AccumulateFilter) GetDays() int32 {
 // 财务属性筛选
 type FinancialFilter struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FieldName     *int32                 `protobuf:"varint,1,req,name=fieldName" json:"fieldName,omitempty"`   // FinancialField 财务属性
-	FilterMin     *float64               `protobuf:"fixed64,2,opt,name=filterMin" json:"filterMin,omitempty"`  // 区间下限（闭区间），不传代表下限为 -∞
-	FilterMax     *float64               `protobuf:"fixed64,3,opt,name=filterMax" json:"filterMax,omitempty"`  // 区间上限（闭区间），不传代表上限为 +∞
-	IsNoFilter    *bool                  `protobuf:"varint,4,opt,name=isNoFilter" json:"isNoFilter,omitempty"` // 该字段是否不需要筛选，True：不筛选，False：筛选。不传默认不筛选
-	SortDir       *int32                 `protobuf:"varint,5,opt,name=sortDir" json:"sortDir,omitempty"`       // SortDir 排序方向，默认不排序。
-	Quarter       *int32                 `protobuf:"varint,6,req,name=quarter" json:"quarter,omitempty"`       // FinancialQuarter 财报累积时间
+	FieldName     *FinancialField        `protobuf:"varint,1,req,name=fieldName,enum=futupb.FinancialField" json:"fieldName,omitempty"` // FinancialField 财务属性
+	FilterMin     *float64               `protobuf:"fixed64,2,opt,name=filterMin" json:"filterMin,omitempty"`                           // 区间下限（闭区间），不传代表下限为 -∞
+	FilterMax     *float64               `protobuf:"fixed64,3,opt,name=filterMax" json:"filterMax,omitempty"`                           // 区间上限（闭区间），不传代表上限为 +∞
+	IsNoFilter    *bool                  `protobuf:"varint,4,opt,name=isNoFilter" json:"isNoFilter,omitempty"`                          // 该字段是否不需要筛选，True：不筛选，False：筛选。不传默认不筛选
+	SortDir       *SortDir               `protobuf:"varint,5,opt,name=sortDir,enum=futupb.SortDir" json:"sortDir,omitempty"`            // SortDir 排序方向，默认不排序。
+	Quarter       *FinancialQuarter      `protobuf:"varint,6,req,name=quarter,enum=futupb.FinancialQuarter" json:"quarter,omitempty"`   // FinancialQuarter 财报累积时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1060,11 +1060,11 @@ func (*FinancialFilter) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *FinancialFilter) GetFieldName() int32 {
+func (x *FinancialFilter) GetFieldName() FinancialField {
 	if x != nil && x.FieldName != nil {
 		return *x.FieldName
 	}
-	return 0
+	return FinancialField_FinancialField_Unknown
 }
 
 func (x *FinancialFilter) GetFilterMin() float64 {
@@ -1088,27 +1088,27 @@ func (x *FinancialFilter) GetIsNoFilter() bool {
 	return false
 }
 
-func (x *FinancialFilter) GetSortDir() int32 {
+func (x *FinancialFilter) GetSortDir() SortDir {
 	if x != nil && x.SortDir != nil {
 		return *x.SortDir
 	}
-	return 0
+	return SortDir_SortDir_No
 }
 
-func (x *FinancialFilter) GetQuarter() int32 {
+func (x *FinancialFilter) GetQuarter() FinancialQuarter {
 	if x != nil && x.Quarter != nil {
 		return *x.Quarter
 	}
-	return 0
+	return FinancialQuarter_FinancialQuarter_Unknown
 }
 
 // 形态技术指标属性筛选
 type PatternFilter struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	FieldName         *int32                 `protobuf:"varint,1,req,name=fieldName" json:"fieldName,omitempty"`                 // PatternField 形态技术指标属性
-	KlType            *int32                 `protobuf:"varint,2,req,name=klType" json:"klType,omitempty"`                       // KLType，K线类型，仅支持K_60M，K_DAY，K_WEEK，K_MON 四种时间周期
-	IsNoFilter        *bool                  `protobuf:"varint,3,opt,name=isNoFilter" json:"isNoFilter,omitempty"`               // 该字段是否不需要筛选，True代表不筛选，False代表筛选。不传默认为不筛选
-	ConsecutivePeriod *int32                 `protobuf:"varint,4,opt,name=consecutivePeriod" json:"consecutivePeriod,omitempty"` // 筛选连续周期都符合条件的数据，填写范围为[1,12]
+	FieldName         *PatternField          `protobuf:"varint,1,req,name=fieldName,enum=futupb.PatternField" json:"fieldName,omitempty"` // PatternField 形态技术指标属性
+	KlType            *KLType                `protobuf:"varint,2,req,name=klType,enum=futupb.KLType" json:"klType,omitempty"`             // KLType，K线类型，仅支持K_60M，K_DAY，K_WEEK，K_MON 四种时间周期
+	IsNoFilter        *bool                  `protobuf:"varint,3,opt,name=isNoFilter" json:"isNoFilter,omitempty"`                        // 该字段是否不需要筛选，True代表不筛选，False代表筛选。不传默认为不筛选
+	ConsecutivePeriod *int32                 `protobuf:"varint,4,opt,name=consecutivePeriod" json:"consecutivePeriod,omitempty"`          // 筛选连续周期都符合条件的数据，填写范围为[1,12]
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1143,18 +1143,18 @@ func (*PatternFilter) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *PatternFilter) GetFieldName() int32 {
+func (x *PatternFilter) GetFieldName() PatternField {
 	if x != nil && x.FieldName != nil {
 		return *x.FieldName
 	}
-	return 0
+	return PatternField_PatternField_Unknown
 }
 
-func (x *PatternFilter) GetKlType() int32 {
+func (x *PatternFilter) GetKlType() KLType {
 	if x != nil && x.KlType != nil {
 		return *x.KlType
 	}
-	return 0
+	return KLType_KLType_Unknown
 }
 
 func (x *PatternFilter) GetIsNoFilter() bool {
@@ -1174,15 +1174,15 @@ func (x *PatternFilter) GetConsecutivePeriod() int32 {
 // 自定义技术指标属性筛选
 type CustomIndicatorFilter struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
-	FirstFieldName      *int32                 `protobuf:"varint,1,req,name=firstFieldName" json:"firstFieldName,omitempty"`           // CustomIndicatorField 自定义技术指标属性
-	SecondFieldName     *int32                 `protobuf:"varint,2,req,name=secondFieldName" json:"secondFieldName,omitempty"`         // CustomIndicatorField 自定义技术指标属性
-	RelativePosition    *int32                 `protobuf:"varint,3,req,name=relativePosition" json:"relativePosition,omitempty"`       // RelativePosition 相对位置
-	FieldValue          *float64               `protobuf:"fixed64,4,opt,name=fieldValue" json:"fieldValue,omitempty"`                  // 自定义数值。当 stock_field2 选择自定义数值时，value 为必传参数。支持与KDJ_K，KDJ_D，KDJ_J，MACD_DIFF，MACD_DEA，MACD，BOLL_UPPER，BOLL_MIDDLER，BOLL_LOWER 进行比较（stock_field1 不支持此字段）
-	KlType              *int32                 `protobuf:"varint,5,req,name=klType" json:"klType,omitempty"`                           // KLType，K线类型，仅支持K_60M，K_DAY，K_WEEK，K_MON 四种时间周期
-	IsNoFilter          *bool                  `protobuf:"varint,6,opt,name=isNoFilter" json:"isNoFilter,omitempty"`                   // 该字段是否不需要筛选，True代表不筛选，False代表筛选。不传默认为不筛选
-	FirstFieldParaList  []int32                `protobuf:"varint,7,rep,name=firstFieldParaList" json:"firstFieldParaList,omitempty"`   // 自定义指标参数 根据指标类型进行传参：1. MA：[平均移动周期] 2.EMA：[指数移动平均周期] 3.RSI：[RSI 指标周期] 4.MACD：[快速平均线值, 慢速平均线值, DIF值] 5.BOLL：[均线周期, 偏移值] 6.KDJ：[RSV 周期, K 值计算周期, D 值计算周期]
-	SecondFieldParaList []int32                `protobuf:"varint,8,rep,name=secondFieldParaList" json:"secondFieldParaList,omitempty"` // 自定义指标参数 根据指标类型进行传参：1. MA：[平均移动周期] 2.EMA：[指数移动平均周期] 3.RSI：[RSI 指标周期] 4.MACD：[快速平均线值, 慢速平均线值, DIF值] 5.BOLL：[均线周期, 偏移值] 6.KDJ：[RSV 周期, K 值计算周期, D 值计算周期]
-	ConsecutivePeriod   *int32                 `protobuf:"varint,9,opt,name=consecutivePeriod" json:"consecutivePeriod,omitempty"`     // 筛选连续周期都符合条件的数据，填写范围为[1,12]
+	FirstFieldName      *CustomIndicatorField  `protobuf:"varint,1,req,name=firstFieldName,enum=futupb.CustomIndicatorField" json:"firstFieldName,omitempty"`   // CustomIndicatorField 自定义技术指标属性
+	SecondFieldName     *CustomIndicatorField  `protobuf:"varint,2,req,name=secondFieldName,enum=futupb.CustomIndicatorField" json:"secondFieldName,omitempty"` // CustomIndicatorField 自定义技术指标属性
+	RelativePosition    *RelativePosition      `protobuf:"varint,3,req,name=relativePosition,enum=futupb.RelativePosition" json:"relativePosition,omitempty"`   // RelativePosition 相对位置
+	FieldValue          *float64               `protobuf:"fixed64,4,opt,name=fieldValue" json:"fieldValue,omitempty"`                                           // 自定义数值。当 stock_field2 选择自定义数值时，value 为必传参数。支持与KDJ_K，KDJ_D，KDJ_J，MACD_DIFF，MACD_DEA，MACD，BOLL_UPPER，BOLL_MIDDLER，BOLL_LOWER 进行比较（stock_field1 不支持此字段）
+	KlType              *KLType                `protobuf:"varint,5,req,name=klType,enum=futupb.KLType" json:"klType,omitempty"`                                 // KLType，K线类型，仅支持K_60M，K_DAY，K_WEEK，K_MON 四种时间周期
+	IsNoFilter          *bool                  `protobuf:"varint,6,opt,name=isNoFilter" json:"isNoFilter,omitempty"`                                            // 该字段是否不需要筛选，True代表不筛选，False代表筛选。不传默认为不筛选
+	FirstFieldParaList  []int32                `protobuf:"varint,7,rep,name=firstFieldParaList" json:"firstFieldParaList,omitempty"`                            // 自定义指标参数 根据指标类型进行传参：1. MA：[平均移动周期] 2.EMA：[指数移动平均周期] 3.RSI：[RSI 指标周期] 4.MACD：[快速平均线值, 慢速平均线值, DIF值] 5.BOLL：[均线周期, 偏移值] 6.KDJ：[RSV 周期, K 值计算周期, D 值计算周期]
+	SecondFieldParaList []int32                `protobuf:"varint,8,rep,name=secondFieldParaList" json:"secondFieldParaList,omitempty"`                          // 自定义指标参数 根据指标类型进行传参：1. MA：[平均移动周期] 2.EMA：[指数移动平均周期] 3.RSI：[RSI 指标周期] 4.MACD：[快速平均线值, 慢速平均线值, DIF值] 5.BOLL：[均线周期, 偏移值] 6.KDJ：[RSV 周期, K 值计算周期, D 值计算周期]
+	ConsecutivePeriod   *int32                 `protobuf:"varint,9,opt,name=consecutivePeriod" json:"consecutivePeriod,omitempty"`                              // 筛选连续周期都符合条件的数据，填写范围为[1,12]
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -1217,25 +1217,25 @@ func (*CustomIndicatorFilter) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CustomIndicatorFilter) GetFirstFieldName() int32 {
+func (x *CustomIndicatorFilter) GetFirstFieldName() CustomIndicatorField {
 	if x != nil && x.FirstFieldName != nil {
 		return *x.FirstFieldName
 	}
-	return 0
+	return CustomIndicatorField_CustomIndicatorField_Unknown
 }
 
-func (x *CustomIndicatorFilter) GetSecondFieldName() int32 {
+func (x *CustomIndicatorFilter) GetSecondFieldName() CustomIndicatorField {
 	if x != nil && x.SecondFieldName != nil {
 		return *x.SecondFieldName
 	}
-	return 0
+	return CustomIndicatorField_CustomIndicatorField_Unknown
 }
 
-func (x *CustomIndicatorFilter) GetRelativePosition() int32 {
+func (x *CustomIndicatorFilter) GetRelativePosition() RelativePosition {
 	if x != nil && x.RelativePosition != nil {
 		return *x.RelativePosition
 	}
-	return 0
+	return RelativePosition_RelativePosition_Unknown
 }
 
 func (x *CustomIndicatorFilter) GetFieldValue() float64 {
@@ -1245,11 +1245,11 @@ func (x *CustomIndicatorFilter) GetFieldValue() float64 {
 	return 0
 }
 
-func (x *CustomIndicatorFilter) GetKlType() int32 {
+func (x *CustomIndicatorFilter) GetKlType() KLType {
 	if x != nil && x.KlType != nil {
 		return *x.KlType
 	}
-	return 0
+	return KLType_KLType_Unknown
 }
 
 func (x *CustomIndicatorFilter) GetIsNoFilter() bool {
@@ -1283,7 +1283,7 @@ func (x *CustomIndicatorFilter) GetConsecutivePeriod() int32 {
 // 简单属性数据
 type BaseData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FieldName     *int32                 `protobuf:"varint,1,req,name=fieldName" json:"fieldName,omitempty"` // StockField 简单属性
+	FieldName     *StockField            `protobuf:"varint,1,req,name=fieldName,enum=futupb.StockField" json:"fieldName,omitempty"` // StockField 简单属性
 	Value         *float64               `protobuf:"fixed64,2,req,name=value" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1319,11 +1319,11 @@ func (*BaseData) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *BaseData) GetFieldName() int32 {
+func (x *BaseData) GetFieldName() StockField {
 	if x != nil && x.FieldName != nil {
 		return *x.FieldName
 	}
-	return 0
+	return StockField_StockField_Unknown
 }
 
 func (x *BaseData) GetValue() float64 {
@@ -1336,7 +1336,7 @@ func (x *BaseData) GetValue() float64 {
 // 累积属性数据
 type AccumulateData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FieldName     *int32                 `protobuf:"varint,1,req,name=fieldName" json:"fieldName,omitempty"` // AccumulateField 累积属性
+	FieldName     *AccumulateField       `protobuf:"varint,1,req,name=fieldName,enum=futupb.AccumulateField" json:"fieldName,omitempty"` // AccumulateField 累积属性
 	Value         *float64               `protobuf:"fixed64,2,req,name=value" json:"value,omitempty"`
 	Days          *int32                 `protobuf:"varint,3,req,name=days" json:"days,omitempty"` // 近几日，累积时间
 	unknownFields protoimpl.UnknownFields
@@ -1373,11 +1373,11 @@ func (*AccumulateData) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *AccumulateData) GetFieldName() int32 {
+func (x *AccumulateData) GetFieldName() AccumulateField {
 	if x != nil && x.FieldName != nil {
 		return *x.FieldName
 	}
-	return 0
+	return AccumulateField_AccumulateField_Unknown
 }
 
 func (x *AccumulateData) GetValue() float64 {
@@ -1397,9 +1397,9 @@ func (x *AccumulateData) GetDays() int32 {
 // 财务属性数据
 type FinancialData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FieldName     *int32                 `protobuf:"varint,1,req,name=fieldName" json:"fieldName,omitempty"` // FinancialField 财务属性
+	FieldName     *FinancialField        `protobuf:"varint,1,req,name=fieldName,enum=futupb.FinancialField" json:"fieldName,omitempty"` // FinancialField 财务属性
 	Value         *float64               `protobuf:"fixed64,2,req,name=value" json:"value,omitempty"`
-	Quarter       *int32                 `protobuf:"varint,3,req,name=quarter" json:"quarter,omitempty"` // FinancialQuarter 财报累积时间
+	Quarter       *FinancialQuarter      `protobuf:"varint,3,req,name=quarter,enum=futupb.FinancialQuarter" json:"quarter,omitempty"` // FinancialQuarter 财报累积时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1434,11 +1434,11 @@ func (*FinancialData) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *FinancialData) GetFieldName() int32 {
+func (x *FinancialData) GetFieldName() FinancialField {
 	if x != nil && x.FieldName != nil {
 		return *x.FieldName
 	}
-	return 0
+	return FinancialField_FinancialField_Unknown
 }
 
 func (x *FinancialData) GetValue() float64 {
@@ -1448,20 +1448,20 @@ func (x *FinancialData) GetValue() float64 {
 	return 0
 }
 
-func (x *FinancialData) GetQuarter() int32 {
+func (x *FinancialData) GetQuarter() FinancialQuarter {
 	if x != nil && x.Quarter != nil {
 		return *x.Quarter
 	}
-	return 0
+	return FinancialQuarter_FinancialQuarter_Unknown
 }
 
 // 自定义技术指标属性数据
 type CustomIndicatorData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FieldName     *int32                 `protobuf:"varint,1,req,name=fieldName" json:"fieldName,omitempty"` // CustomIndicatorField 自定义技术指标属性
+	FieldName     *CustomIndicatorField  `protobuf:"varint,1,req,name=fieldName,enum=futupb.CustomIndicatorField" json:"fieldName,omitempty"` // CustomIndicatorField 自定义技术指标属性
 	Value         *float64               `protobuf:"fixed64,2,req,name=value" json:"value,omitempty"`
-	KlType        *int32                 `protobuf:"varint,3,req,name=klType" json:"klType,omitempty"`               // KLType，K线类型，仅支持K_60M，K_DAY，K_WEEK，K_MON 四种时间周期
-	FieldParaList []int32                `protobuf:"varint,4,rep,name=fieldParaList" json:"fieldParaList,omitempty"` // 自定义指标参数 根据指标类型进行传参：1. MA：[平均移动周期] 2.EMA：[指数移动平均周期] 3.RSI：[RSI 指标周期] 4.MACD：[快速平均线值, 慢速平均线值, DIF值] 5.BOLL：[均线周期, 偏移值] 6.KDJ：[RSV 周期, K 值计算周期, D 值计算周期]
+	KlType        *KLType                `protobuf:"varint,3,req,name=klType,enum=futupb.KLType" json:"klType,omitempty"` // KLType，K线类型，仅支持K_60M，K_DAY，K_WEEK，K_MON 四种时间周期
+	FieldParaList []int32                `protobuf:"varint,4,rep,name=fieldParaList" json:"fieldParaList,omitempty"`      // 自定义指标参数 根据指标类型进行传参：1. MA：[平均移动周期] 2.EMA：[指数移动平均周期] 3.RSI：[RSI 指标周期] 4.MACD：[快速平均线值, 慢速平均线值, DIF值] 5.BOLL：[均线周期, 偏移值] 6.KDJ：[RSV 周期, K 值计算周期, D 值计算周期]
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1496,11 +1496,11 @@ func (*CustomIndicatorData) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *CustomIndicatorData) GetFieldName() int32 {
+func (x *CustomIndicatorData) GetFieldName() CustomIndicatorField {
 	if x != nil && x.FieldName != nil {
 		return *x.FieldName
 	}
-	return 0
+	return CustomIndicatorField_CustomIndicatorField_Unknown
 }
 
 func (x *CustomIndicatorData) GetValue() float64 {
@@ -1510,11 +1510,11 @@ func (x *CustomIndicatorData) GetValue() float64 {
 	return 0
 }
 
-func (x *CustomIndicatorData) GetKlType() int32 {
+func (x *CustomIndicatorData) GetKlType() KLType {
 	if x != nil && x.KlType != nil {
 		return *x.KlType
 	}
-	return 0
+	return KLType_KLType_Unknown
 }
 
 func (x *CustomIndicatorData) GetFieldParaList() []int32 {
@@ -1611,9 +1611,9 @@ func (x *StockData) GetCustomIndicatorDataList() []*CustomIndicatorData {
 
 type QotStockFilterRequest struct {
 	state  protoimpl.MessageState `protogen:"open.v1"`
-	Begin  *int32                 `protobuf:"varint,1,req,name=begin" json:"begin,omitempty"`   // 数据起始点
-	Num    *int32                 `protobuf:"varint,2,req,name=num" json:"num,omitempty"`       // 请求数据个数，最大200
-	Market *int32                 `protobuf:"varint,3,req,name=market" json:"market,omitempty"` // Qot_Common::QotMarket股票市场，支持沪股和深股，且沪股和深股不做区分都代表A股市场。
+	Begin  *int32                 `protobuf:"varint,1,req,name=begin" json:"begin,omitempty"`                         // 数据起始点
+	Num    *int32                 `protobuf:"varint,2,req,name=num" json:"num,omitempty"`                             // 请求数据个数，最大200
+	Market *QotMarket             `protobuf:"varint,3,req,name=market,enum=futupb.QotMarket" json:"market,omitempty"` // Qot_Common::QotMarket股票市场，支持沪股和深股，且沪股和深股不做区分都代表A股市场。
 	// 以下为筛选条件，可选字段，不填表示不过滤
 	Plate                     *Security                `protobuf:"bytes,4,opt,name=plate" json:"plate,omitempty"`                                         // 板块
 	BaseFilterList            []*BaseFilter            `protobuf:"bytes,5,rep,name=baseFilterList" json:"baseFilterList,omitempty"`                       // 简单指标过滤器
@@ -1669,11 +1669,11 @@ func (x *QotStockFilterRequest) GetNum() int32 {
 	return 0
 }
 
-func (x *QotStockFilterRequest) GetMarket() int32 {
+func (x *QotStockFilterRequest) GetMarket() QotMarket {
 	if x != nil && x.Market != nil {
 		return *x.Market
 	}
-	return 0
+	return QotMarket_QotMarket_Unknown
 }
 
 func (x *QotStockFilterRequest) GetPlate() *Security {
@@ -1824,7 +1824,7 @@ func (x *QotStockFilterRequest_Internal) GetPayload() *QotStockFilterRequest {
 
 type QotStockFilterResponse_Internal struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
-	RetType       *int32                  `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` // RetType,返回结果
+	RetType       *RetType                `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` // RetType,返回结果
 	RetMsg        *string                 `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                  `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotStockFilterResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -1834,7 +1834,7 @@ type QotStockFilterResponse_Internal struct {
 
 // Default values for QotStockFilterResponse_Internal fields.
 const (
-	Default_QotStockFilterResponse_Internal_RetType = int32(-400)
+	Default_QotStockFilterResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotStockFilterResponse_Internal) Reset() {
@@ -1867,7 +1867,7 @@ func (*QotStockFilterResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_StockFilter_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *QotStockFilterResponse_Internal) GetRetType() int32 {
+func (x *QotStockFilterResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -1899,70 +1899,70 @@ var File_Qot_StockFilter_proto protoreflect.FileDescriptor
 
 const file_Qot_StockFilter_proto_rawDesc = "" +
 	"\n" +
-	"\x15Qot_StockFilter.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xa0\x01\n" +
+	"\x15Qot_StockFilter.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xc5\x01\n" +
 	"\n" +
-	"BaseFilter\x12\x1c\n" +
-	"\tfieldName\x18\x01 \x02(\x05R\tfieldName\x12\x1c\n" +
+	"BaseFilter\x120\n" +
+	"\tfieldName\x18\x01 \x02(\x0e2\x12.futupb.StockFieldR\tfieldName\x12\x1c\n" +
 	"\tfilterMin\x18\x02 \x01(\x01R\tfilterMin\x12\x1c\n" +
 	"\tfilterMax\x18\x03 \x01(\x01R\tfilterMax\x12\x1e\n" +
 	"\n" +
 	"isNoFilter\x18\x04 \x01(\bR\n" +
-	"isNoFilter\x12\x18\n" +
-	"\asortDir\x18\x05 \x01(\x05R\asortDir\"\xba\x01\n" +
-	"\x10AccumulateFilter\x12\x1c\n" +
-	"\tfieldName\x18\x01 \x02(\x05R\tfieldName\x12\x1c\n" +
+	"isNoFilter\x12)\n" +
+	"\asortDir\x18\x05 \x01(\x0e2\x0f.futupb.SortDirR\asortDir\"\xe4\x01\n" +
+	"\x10AccumulateFilter\x125\n" +
+	"\tfieldName\x18\x01 \x02(\x0e2\x17.futupb.AccumulateFieldR\tfieldName\x12\x1c\n" +
 	"\tfilterMin\x18\x02 \x01(\x01R\tfilterMin\x12\x1c\n" +
 	"\tfilterMax\x18\x03 \x01(\x01R\tfilterMax\x12\x1e\n" +
 	"\n" +
 	"isNoFilter\x18\x04 \x01(\bR\n" +
-	"isNoFilter\x12\x18\n" +
-	"\asortDir\x18\x05 \x01(\x05R\asortDir\x12\x12\n" +
-	"\x04days\x18\x06 \x02(\x05R\x04days\"\xbf\x01\n" +
-	"\x0fFinancialFilter\x12\x1c\n" +
-	"\tfieldName\x18\x01 \x02(\x05R\tfieldName\x12\x1c\n" +
+	"isNoFilter\x12)\n" +
+	"\asortDir\x18\x05 \x01(\x0e2\x0f.futupb.SortDirR\asortDir\x12\x12\n" +
+	"\x04days\x18\x06 \x02(\x05R\x04days\"\x82\x02\n" +
+	"\x0fFinancialFilter\x124\n" +
+	"\tfieldName\x18\x01 \x02(\x0e2\x16.futupb.FinancialFieldR\tfieldName\x12\x1c\n" +
 	"\tfilterMin\x18\x02 \x01(\x01R\tfilterMin\x12\x1c\n" +
 	"\tfilterMax\x18\x03 \x01(\x01R\tfilterMax\x12\x1e\n" +
 	"\n" +
 	"isNoFilter\x18\x04 \x01(\bR\n" +
-	"isNoFilter\x12\x18\n" +
-	"\asortDir\x18\x05 \x01(\x05R\asortDir\x12\x18\n" +
-	"\aquarter\x18\x06 \x02(\x05R\aquarter\"\x93\x01\n" +
-	"\rPatternFilter\x12\x1c\n" +
-	"\tfieldName\x18\x01 \x02(\x05R\tfieldName\x12\x16\n" +
-	"\x06klType\x18\x02 \x02(\x05R\x06klType\x12\x1e\n" +
+	"isNoFilter\x12)\n" +
+	"\asortDir\x18\x05 \x01(\x0e2\x0f.futupb.SortDirR\asortDir\x122\n" +
+	"\aquarter\x18\x06 \x02(\x0e2\x18.futupb.FinancialQuarterR\aquarter\"\xb9\x01\n" +
+	"\rPatternFilter\x122\n" +
+	"\tfieldName\x18\x01 \x02(\x0e2\x14.futupb.PatternFieldR\tfieldName\x12&\n" +
+	"\x06klType\x18\x02 \x02(\x0e2\x0e.futupb.KLTypeR\x06klType\x12\x1e\n" +
 	"\n" +
 	"isNoFilter\x18\x03 \x01(\bR\n" +
 	"isNoFilter\x12,\n" +
-	"\x11consecutivePeriod\x18\x04 \x01(\x05R\x11consecutivePeriod\"\xfd\x02\n" +
-	"\x15CustomIndicatorFilter\x12&\n" +
-	"\x0efirstFieldName\x18\x01 \x02(\x05R\x0efirstFieldName\x12(\n" +
-	"\x0fsecondFieldName\x18\x02 \x02(\x05R\x0fsecondFieldName\x12*\n" +
-	"\x10relativePosition\x18\x03 \x02(\x05R\x10relativePosition\x12\x1e\n" +
+	"\x11consecutivePeriod\x18\x04 \x01(\x05R\x11consecutivePeriod\"\xe3\x03\n" +
+	"\x15CustomIndicatorFilter\x12D\n" +
+	"\x0efirstFieldName\x18\x01 \x02(\x0e2\x1c.futupb.CustomIndicatorFieldR\x0efirstFieldName\x12F\n" +
+	"\x0fsecondFieldName\x18\x02 \x02(\x0e2\x1c.futupb.CustomIndicatorFieldR\x0fsecondFieldName\x12D\n" +
+	"\x10relativePosition\x18\x03 \x02(\x0e2\x18.futupb.RelativePositionR\x10relativePosition\x12\x1e\n" +
 	"\n" +
 	"fieldValue\x18\x04 \x01(\x01R\n" +
-	"fieldValue\x12\x16\n" +
-	"\x06klType\x18\x05 \x02(\x05R\x06klType\x12\x1e\n" +
+	"fieldValue\x12&\n" +
+	"\x06klType\x18\x05 \x02(\x0e2\x0e.futupb.KLTypeR\x06klType\x12\x1e\n" +
 	"\n" +
 	"isNoFilter\x18\x06 \x01(\bR\n" +
 	"isNoFilter\x12.\n" +
 	"\x12firstFieldParaList\x18\a \x03(\x05R\x12firstFieldParaList\x120\n" +
 	"\x13secondFieldParaList\x18\b \x03(\x05R\x13secondFieldParaList\x12,\n" +
-	"\x11consecutivePeriod\x18\t \x01(\x05R\x11consecutivePeriod\">\n" +
-	"\bBaseData\x12\x1c\n" +
-	"\tfieldName\x18\x01 \x02(\x05R\tfieldName\x12\x14\n" +
-	"\x05value\x18\x02 \x02(\x01R\x05value\"X\n" +
-	"\x0eAccumulateData\x12\x1c\n" +
-	"\tfieldName\x18\x01 \x02(\x05R\tfieldName\x12\x14\n" +
+	"\x11consecutivePeriod\x18\t \x01(\x05R\x11consecutivePeriod\"R\n" +
+	"\bBaseData\x120\n" +
+	"\tfieldName\x18\x01 \x02(\x0e2\x12.futupb.StockFieldR\tfieldName\x12\x14\n" +
+	"\x05value\x18\x02 \x02(\x01R\x05value\"q\n" +
+	"\x0eAccumulateData\x125\n" +
+	"\tfieldName\x18\x01 \x02(\x0e2\x17.futupb.AccumulateFieldR\tfieldName\x12\x14\n" +
 	"\x05value\x18\x02 \x02(\x01R\x05value\x12\x12\n" +
-	"\x04days\x18\x03 \x02(\x05R\x04days\"]\n" +
-	"\rFinancialData\x12\x1c\n" +
-	"\tfieldName\x18\x01 \x02(\x05R\tfieldName\x12\x14\n" +
-	"\x05value\x18\x02 \x02(\x01R\x05value\x12\x18\n" +
-	"\aquarter\x18\x03 \x02(\x05R\aquarter\"\x87\x01\n" +
-	"\x13CustomIndicatorData\x12\x1c\n" +
-	"\tfieldName\x18\x01 \x02(\x05R\tfieldName\x12\x14\n" +
-	"\x05value\x18\x02 \x02(\x01R\x05value\x12\x16\n" +
-	"\x06klType\x18\x03 \x02(\x05R\x06klType\x12$\n" +
+	"\x04days\x18\x03 \x02(\x05R\x04days\"\x8f\x01\n" +
+	"\rFinancialData\x124\n" +
+	"\tfieldName\x18\x01 \x02(\x0e2\x16.futupb.FinancialFieldR\tfieldName\x12\x14\n" +
+	"\x05value\x18\x02 \x02(\x01R\x05value\x122\n" +
+	"\aquarter\x18\x03 \x02(\x0e2\x18.futupb.FinancialQuarterR\aquarter\"\xb5\x01\n" +
+	"\x13CustomIndicatorData\x12:\n" +
+	"\tfieldName\x18\x01 \x02(\x0e2\x1c.futupb.CustomIndicatorFieldR\tfieldName\x12\x14\n" +
+	"\x05value\x18\x02 \x02(\x01R\x05value\x12&\n" +
+	"\x06klType\x18\x03 \x02(\x0e2\x0e.futupb.KLTypeR\x06klType\x12$\n" +
 	"\rfieldParaList\x18\x04 \x03(\x05R\rfieldParaList\"\xe7\x02\n" +
 	"\tStockData\x12,\n" +
 	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x12\n" +
@@ -1970,11 +1970,11 @@ const file_Qot_StockFilter_proto_rawDesc = "" +
 	"\fbaseDataList\x18\x03 \x03(\v2\x10.futupb.BaseDataR\fbaseDataList\x12F\n" +
 	"\x12accumulateDataList\x18\x04 \x03(\v2\x16.futupb.AccumulateDataR\x12accumulateDataList\x12C\n" +
 	"\x11financialDataList\x18\x05 \x03(\v2\x15.futupb.FinancialDataR\x11financialDataList\x12U\n" +
-	"\x17customIndicatorDataList\x18\x06 \x03(\v2\x1b.futupb.CustomIndicatorDataR\x17customIndicatorDataList\"\xf6\x03\n" +
+	"\x17customIndicatorDataList\x18\x06 \x03(\v2\x1b.futupb.CustomIndicatorDataR\x17customIndicatorDataList\"\x89\x04\n" +
 	"\x15QotStockFilterRequest\x12\x14\n" +
 	"\x05begin\x18\x01 \x02(\x05R\x05begin\x12\x10\n" +
-	"\x03num\x18\x02 \x02(\x05R\x03num\x12\x16\n" +
-	"\x06market\x18\x03 \x02(\x05R\x06market\x12&\n" +
+	"\x03num\x18\x02 \x02(\x05R\x03num\x12)\n" +
+	"\x06market\x18\x03 \x02(\x0e2\x11.futupb.QotMarketR\x06market\x12&\n" +
 	"\x05plate\x18\x04 \x01(\v2\x10.futupb.SecurityR\x05plate\x12:\n" +
 	"\x0ebaseFilterList\x18\x05 \x03(\v2\x12.futupb.BaseFilterR\x0ebaseFilterList\x12L\n" +
 	"\x14accumulateFilterList\x18\x06 \x03(\v2\x18.futupb.AccumulateFilterR\x14accumulateFilterList\x12I\n" +
@@ -1986,9 +1986,9 @@ const file_Qot_StockFilter_proto_rawDesc = "" +
 	"\ballCount\x18\x02 \x02(\x05R\ballCount\x12-\n" +
 	"\bdataList\x18\x03 \x03(\v2\x11.futupb.StockDataR\bdataList\"Y\n" +
 	"\x1eQotStockFilterRequest_Internal\x127\n" +
-	"\apayload\x18\x01 \x02(\v2\x1d.futupb.QotStockFilterRequestR\apayload\"\xad\x01\n" +
-	"\x1fQotStockFilterResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1d.futupb.QotStockFilterRequestR\apayload\"\xc9\x01\n" +
+	"\x1fQotStockFilterResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x128\n" +
 	"\apayload\x18\x04 \x01(\v2\x1e.futupb.QotStockFilterResponseR\apayload*\x9e\x05\n" +
@@ -2184,28 +2184,52 @@ var file_Qot_StockFilter_proto_goTypes = []any{
 	(*QotStockFilterResponse)(nil),          // 19: futupb.QotStockFilterResponse
 	(*QotStockFilterRequest_Internal)(nil),  // 20: futupb.QotStockFilterRequest_Internal
 	(*QotStockFilterResponse_Internal)(nil), // 21: futupb.QotStockFilterResponse_Internal
-	(*Security)(nil),                        // 22: futupb.Security
+	(KLType)(0),                             // 22: futupb.KLType
+	(*Security)(nil),                        // 23: futupb.Security
+	(QotMarket)(0),                          // 24: futupb.QotMarket
+	(RetType)(0),                            // 25: futupb.RetType
 }
 var file_Qot_StockFilter_proto_depIdxs = []int32{
-	22, // 0: futupb.StockData.security:type_name -> futupb.Security
-	13, // 1: futupb.StockData.baseDataList:type_name -> futupb.BaseData
-	14, // 2: futupb.StockData.accumulateDataList:type_name -> futupb.AccumulateData
-	15, // 3: futupb.StockData.financialDataList:type_name -> futupb.FinancialData
-	16, // 4: futupb.StockData.customIndicatorDataList:type_name -> futupb.CustomIndicatorData
-	22, // 5: futupb.QotStockFilterRequest.plate:type_name -> futupb.Security
-	8,  // 6: futupb.QotStockFilterRequest.baseFilterList:type_name -> futupb.BaseFilter
-	9,  // 7: futupb.QotStockFilterRequest.accumulateFilterList:type_name -> futupb.AccumulateFilter
-	10, // 8: futupb.QotStockFilterRequest.financialFilterList:type_name -> futupb.FinancialFilter
-	11, // 9: futupb.QotStockFilterRequest.patternFilterList:type_name -> futupb.PatternFilter
-	12, // 10: futupb.QotStockFilterRequest.customIndicatorFilterList:type_name -> futupb.CustomIndicatorFilter
-	17, // 11: futupb.QotStockFilterResponse.dataList:type_name -> futupb.StockData
-	18, // 12: futupb.QotStockFilterRequest_Internal.payload:type_name -> futupb.QotStockFilterRequest
-	19, // 13: futupb.QotStockFilterResponse_Internal.payload:type_name -> futupb.QotStockFilterResponse
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	0,  // 0: futupb.BaseFilter.fieldName:type_name -> futupb.StockField
+	7,  // 1: futupb.BaseFilter.sortDir:type_name -> futupb.SortDir
+	1,  // 2: futupb.AccumulateFilter.fieldName:type_name -> futupb.AccumulateField
+	7,  // 3: futupb.AccumulateFilter.sortDir:type_name -> futupb.SortDir
+	2,  // 4: futupb.FinancialFilter.fieldName:type_name -> futupb.FinancialField
+	7,  // 5: futupb.FinancialFilter.sortDir:type_name -> futupb.SortDir
+	5,  // 6: futupb.FinancialFilter.quarter:type_name -> futupb.FinancialQuarter
+	4,  // 7: futupb.PatternFilter.fieldName:type_name -> futupb.PatternField
+	22, // 8: futupb.PatternFilter.klType:type_name -> futupb.KLType
+	3,  // 9: futupb.CustomIndicatorFilter.firstFieldName:type_name -> futupb.CustomIndicatorField
+	3,  // 10: futupb.CustomIndicatorFilter.secondFieldName:type_name -> futupb.CustomIndicatorField
+	6,  // 11: futupb.CustomIndicatorFilter.relativePosition:type_name -> futupb.RelativePosition
+	22, // 12: futupb.CustomIndicatorFilter.klType:type_name -> futupb.KLType
+	0,  // 13: futupb.BaseData.fieldName:type_name -> futupb.StockField
+	1,  // 14: futupb.AccumulateData.fieldName:type_name -> futupb.AccumulateField
+	2,  // 15: futupb.FinancialData.fieldName:type_name -> futupb.FinancialField
+	5,  // 16: futupb.FinancialData.quarter:type_name -> futupb.FinancialQuarter
+	3,  // 17: futupb.CustomIndicatorData.fieldName:type_name -> futupb.CustomIndicatorField
+	22, // 18: futupb.CustomIndicatorData.klType:type_name -> futupb.KLType
+	23, // 19: futupb.StockData.security:type_name -> futupb.Security
+	13, // 20: futupb.StockData.baseDataList:type_name -> futupb.BaseData
+	14, // 21: futupb.StockData.accumulateDataList:type_name -> futupb.AccumulateData
+	15, // 22: futupb.StockData.financialDataList:type_name -> futupb.FinancialData
+	16, // 23: futupb.StockData.customIndicatorDataList:type_name -> futupb.CustomIndicatorData
+	24, // 24: futupb.QotStockFilterRequest.market:type_name -> futupb.QotMarket
+	23, // 25: futupb.QotStockFilterRequest.plate:type_name -> futupb.Security
+	8,  // 26: futupb.QotStockFilterRequest.baseFilterList:type_name -> futupb.BaseFilter
+	9,  // 27: futupb.QotStockFilterRequest.accumulateFilterList:type_name -> futupb.AccumulateFilter
+	10, // 28: futupb.QotStockFilterRequest.financialFilterList:type_name -> futupb.FinancialFilter
+	11, // 29: futupb.QotStockFilterRequest.patternFilterList:type_name -> futupb.PatternFilter
+	12, // 30: futupb.QotStockFilterRequest.customIndicatorFilterList:type_name -> futupb.CustomIndicatorFilter
+	17, // 31: futupb.QotStockFilterResponse.dataList:type_name -> futupb.StockData
+	18, // 32: futupb.QotStockFilterRequest_Internal.payload:type_name -> futupb.QotStockFilterRequest
+	25, // 33: futupb.QotStockFilterResponse_Internal.retType:type_name -> futupb.RetType
+	19, // 34: futupb.QotStockFilterResponse_Internal.payload:type_name -> futupb.QotStockFilterResponse
+	35, // [35:35] is the sub-list for method output_type
+	35, // [35:35] is the sub-list for method input_type
+	35, // [35:35] is the sub-list for extension type_name
+	35, // [35:35] is the sub-list for extension extendee
+	0,  // [0:35] is the sub-list for field type_name
 }
 
 func init() { file_Qot_StockFilter_proto_init() }

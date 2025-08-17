@@ -275,7 +275,7 @@ func (x *QotGetSuspendRequest_Internal) GetPayload() *QotGetSuspendRequest {
 
 type QotGetSuspendResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetSuspendResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -285,7 +285,7 @@ type QotGetSuspendResponse_Internal struct {
 
 // Default values for QotGetSuspendResponse_Internal fields.
 const (
-	Default_QotGetSuspendResponse_Internal_RetType = int32(-400)
+	Default_QotGetSuspendResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetSuspendResponse_Internal) Reset() {
@@ -318,7 +318,7 @@ func (*QotGetSuspendResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetSuspend_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *QotGetSuspendResponse_Internal) GetRetType() int32 {
+func (x *QotGetSuspendResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -364,9 +364,9 @@ const file_Qot_GetSuspend_proto_rawDesc = "" +
 	"\x15QotGetSuspendResponse\x12I\n" +
 	"\x13SecuritySuspendList\x18\x01 \x03(\v2\x17.futupb.SecuritySuspendR\x13SecuritySuspendList\"W\n" +
 	"\x1dQotGetSuspendRequest_Internal\x126\n" +
-	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotGetSuspendRequestR\apayload\"\xab\x01\n" +
-	"\x1eQotGetSuspendResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotGetSuspendRequestR\apayload\"\xc7\x01\n" +
+	"\x1eQotGetSuspendResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x127\n" +
 	"\apayload\x18\x04 \x01(\v2\x1d.futupb.QotGetSuspendResponseR\apayloadB4\n" +
@@ -393,6 +393,7 @@ var file_Qot_GetSuspend_proto_goTypes = []any{
 	(*QotGetSuspendRequest_Internal)(nil),  // 4: futupb.QotGetSuspendRequest_Internal
 	(*QotGetSuspendResponse_Internal)(nil), // 5: futupb.QotGetSuspendResponse_Internal
 	(*Security)(nil),                       // 6: futupb.Security
+	(RetType)(0),                           // 7: futupb.RetType
 }
 var file_Qot_GetSuspend_proto_depIdxs = []int32{
 	6, // 0: futupb.QotGetSuspendRequest.securityList:type_name -> futupb.Security
@@ -400,12 +401,13 @@ var file_Qot_GetSuspend_proto_depIdxs = []int32{
 	1, // 2: futupb.SecuritySuspend.suspendList:type_name -> futupb.Suspend
 	2, // 3: futupb.QotGetSuspendResponse.SecuritySuspendList:type_name -> futupb.SecuritySuspend
 	0, // 4: futupb.QotGetSuspendRequest_Internal.payload:type_name -> futupb.QotGetSuspendRequest
-	3, // 5: futupb.QotGetSuspendResponse_Internal.payload:type_name -> futupb.QotGetSuspendResponse
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	7, // 5: futupb.QotGetSuspendResponse_Internal.retType:type_name -> futupb.RetType
+	3, // 6: futupb.QotGetSuspendResponse_Internal.payload:type_name -> futupb.QotGetSuspendResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetSuspend_proto_init() }

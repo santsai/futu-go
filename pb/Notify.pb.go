@@ -195,8 +195,8 @@ func (GtwEventType) EnumDescriptor() ([]byte, []int) {
 
 type GtwEventNotice struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	EventType     *int32                 `protobuf:"varint,1,req,name=eventType" json:"eventType,omitempty"` //GtwEventType,事件类型
-	Desc          *string                `protobuf:"bytes,2,req,name=desc" json:"desc,omitempty"`            //事件描述
+	EventType     *GtwEventType          `protobuf:"varint,1,req,name=eventType,enum=futupb.GtwEventType" json:"eventType,omitempty"` //GtwEventType,事件类型
+	Desc          *string                `protobuf:"bytes,2,req,name=desc" json:"desc,omitempty"`                                     //事件描述
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -231,11 +231,11 @@ func (*GtwEventNotice) Descriptor() ([]byte, []int) {
 	return file_Notify_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GtwEventNotice) GetEventType() int32 {
+func (x *GtwEventNotice) GetEventType() GtwEventType {
 	if x != nil && x.EventType != nil {
 		return *x.EventType
 	}
-	return 0
+	return GtwEventType_GtwEventType_None
 }
 
 func (x *GtwEventNotice) GetDesc() string {
@@ -343,25 +343,25 @@ func (x *ConnectStatusNotice) GetTrdLogined() bool {
 
 type QotRightNotice struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
-	HkQotRight            *int32                 `protobuf:"varint,4,req,name=hkQotRight" json:"hkQotRight,omitempty"`                        //港股行情权限, QotRight
-	UsQotRight            *int32                 `protobuf:"varint,5,req,name=usQotRight" json:"usQotRight,omitempty"`                        //美股行情权限, QotRight
-	CnQotRight            *int32                 `protobuf:"varint,6,req,name=cnQotRight" json:"cnQotRight,omitempty"`                        //A股行情权限, QotRight // (已废弃)，使用shQotRight和szQotRight
-	HkOptionQotRight      *int32                 `protobuf:"varint,7,opt,name=hkOptionQotRight" json:"hkOptionQotRight,omitempty"`            //港股期权行情权限, QotRight
-	HasUSOptionQotRight   *bool                  `protobuf:"varint,8,opt,name=hasUSOptionQotRight" json:"hasUSOptionQotRight,omitempty"`      //是否有美股期权行情权限
-	HkFutureQotRight      *int32                 `protobuf:"varint,9,opt,name=hkFutureQotRight" json:"hkFutureQotRight,omitempty"`            //港股期货行情权限, QotRight
-	UsFutureQotRight      *int32                 `protobuf:"varint,10,opt,name=usFutureQotRight" json:"usFutureQotRight,omitempty"`           //美股期货行情权限, QotRight(已废弃)
-	UsOptionQotRight      *int32                 `protobuf:"varint,11,opt,name=usOptionQotRight" json:"usOptionQotRight,omitempty"`           //美股期权行情权限, QotRight
-	UsIndexQotRight       *int32                 `protobuf:"varint,12,opt,name=usIndexQotRight" json:"usIndexQotRight,omitempty"`             //美股指数行情权限, QotRight
-	UsOtcQotRight         *int32                 `protobuf:"varint,13,opt,name=usOtcQotRight" json:"usOtcQotRight,omitempty"`                 //美股OTC市场行情权限, QotRight
-	SgFutureQotRight      *int32                 `protobuf:"varint,14,opt,name=sgFutureQotRight" json:"sgFutureQotRight,omitempty"`           //新加坡市场期货行情权限, QotRight
-	JpFutureQotRight      *int32                 `protobuf:"varint,15,opt,name=jpFutureQotRight" json:"jpFutureQotRight,omitempty"`           //日本市场期货行情权限, QotRight
-	UsCMEFutureQotRight   *int32                 `protobuf:"varint,16,opt,name=usCMEFutureQotRight" json:"usCMEFutureQotRight,omitempty"`     //美股CME期货行情权限, QotRight
-	UsCBOTFutureQotRight  *int32                 `protobuf:"varint,17,opt,name=usCBOTFutureQotRight" json:"usCBOTFutureQotRight,omitempty"`   //美股CBOT期货行情权限, QotRight
-	UsNYMEXFutureQotRight *int32                 `protobuf:"varint,18,opt,name=usNYMEXFutureQotRight" json:"usNYMEXFutureQotRight,omitempty"` //美股NYMEX期货行情权限, QotRight
-	UsCOMEXFutureQotRight *int32                 `protobuf:"varint,19,opt,name=usCOMEXFutureQotRight" json:"usCOMEXFutureQotRight,omitempty"` //美股COMEX期货行情权限, QotRight
-	UsCBOEFutureQotRight  *int32                 `protobuf:"varint,20,opt,name=usCBOEFutureQotRight" json:"usCBOEFutureQotRight,omitempty"`   //美股CBOE期货行情权限, QotRight
-	ShQotRight            *int32                 `protobuf:"varint,21,opt,name=shQotRight" json:"shQotRight,omitempty"`                       //上海A股行情权限, QotRight
-	SzQotRight            *int32                 `protobuf:"varint,22,opt,name=szQotRight" json:"szQotRight,omitempty"`                       //深圳A股行情权限, QotRight
+	HkQotRight            *QotRight              `protobuf:"varint,4,req,name=hkQotRight,enum=futupb.QotRight" json:"hkQotRight,omitempty"`                        //港股行情权限, QotRight
+	UsQotRight            *QotRight              `protobuf:"varint,5,req,name=usQotRight,enum=futupb.QotRight" json:"usQotRight,omitempty"`                        //美股行情权限, QotRight
+	CnQotRight            *int32                 `protobuf:"varint,6,req,name=cnQotRight" json:"cnQotRight,omitempty"`                                             //A股行情权限, QotRight // (已废弃)，使用shQotRight和szQotRight
+	HkOptionQotRight      *QotRight              `protobuf:"varint,7,opt,name=hkOptionQotRight,enum=futupb.QotRight" json:"hkOptionQotRight,omitempty"`            //港股期权行情权限, QotRight
+	HasUSOptionQotRight   *bool                  `protobuf:"varint,8,opt,name=hasUSOptionQotRight" json:"hasUSOptionQotRight,omitempty"`                           //是否有美股期权行情权限
+	HkFutureQotRight      *QotRight              `protobuf:"varint,9,opt,name=hkFutureQotRight,enum=futupb.QotRight" json:"hkFutureQotRight,omitempty"`            //港股期货行情权限, QotRight
+	UsFutureQotRight      *int32                 `protobuf:"varint,10,opt,name=usFutureQotRight" json:"usFutureQotRight,omitempty"`                                //美股期货行情权限, QotRight(已废弃)
+	UsOptionQotRight      *QotRight              `protobuf:"varint,11,opt,name=usOptionQotRight,enum=futupb.QotRight" json:"usOptionQotRight,omitempty"`           //美股期权行情权限, QotRight
+	UsIndexQotRight       *QotRight              `protobuf:"varint,12,opt,name=usIndexQotRight,enum=futupb.QotRight" json:"usIndexQotRight,omitempty"`             //美股指数行情权限, QotRight
+	UsOtcQotRight         *QotRight              `protobuf:"varint,13,opt,name=usOtcQotRight,enum=futupb.QotRight" json:"usOtcQotRight,omitempty"`                 //美股OTC市场行情权限, QotRight
+	SgFutureQotRight      *QotRight              `protobuf:"varint,14,opt,name=sgFutureQotRight,enum=futupb.QotRight" json:"sgFutureQotRight,omitempty"`           //新加坡市场期货行情权限, QotRight
+	JpFutureQotRight      *QotRight              `protobuf:"varint,15,opt,name=jpFutureQotRight,enum=futupb.QotRight" json:"jpFutureQotRight,omitempty"`           //日本市场期货行情权限, QotRight
+	UsCMEFutureQotRight   *QotRight              `protobuf:"varint,16,opt,name=usCMEFutureQotRight,enum=futupb.QotRight" json:"usCMEFutureQotRight,omitempty"`     //美股CME期货行情权限, QotRight
+	UsCBOTFutureQotRight  *int32                 `protobuf:"varint,17,opt,name=usCBOTFutureQotRight" json:"usCBOTFutureQotRight,omitempty"`                        //美股CBOT期货行情权限, QotRight
+	UsNYMEXFutureQotRight *QotRight              `protobuf:"varint,18,opt,name=usNYMEXFutureQotRight,enum=futupb.QotRight" json:"usNYMEXFutureQotRight,omitempty"` //美股NYMEX期货行情权限, QotRight
+	UsCOMEXFutureQotRight *QotRight              `protobuf:"varint,19,opt,name=usCOMEXFutureQotRight,enum=futupb.QotRight" json:"usCOMEXFutureQotRight,omitempty"` //美股COMEX期货行情权限, QotRight
+	UsCBOEFutureQotRight  *QotRight              `protobuf:"varint,20,opt,name=usCBOEFutureQotRight,enum=futupb.QotRight" json:"usCBOEFutureQotRight,omitempty"`   //美股CBOE期货行情权限, QotRight
+	ShQotRight            *QotRight              `protobuf:"varint,21,opt,name=shQotRight,enum=futupb.QotRight" json:"shQotRight,omitempty"`                       //上海A股行情权限, QotRight
+	SzQotRight            *QotRight              `protobuf:"varint,22,opt,name=szQotRight,enum=futupb.QotRight" json:"szQotRight,omitempty"`                       //深圳A股行情权限, QotRight
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -396,18 +396,18 @@ func (*QotRightNotice) Descriptor() ([]byte, []int) {
 	return file_Notify_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotRightNotice) GetHkQotRight() int32 {
+func (x *QotRightNotice) GetHkQotRight() QotRight {
 	if x != nil && x.HkQotRight != nil {
 		return *x.HkQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetUsQotRight() int32 {
+func (x *QotRightNotice) GetUsQotRight() QotRight {
 	if x != nil && x.UsQotRight != nil {
 		return *x.UsQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *QotRightNotice) GetCnQotRight() int32 {
@@ -417,11 +417,11 @@ func (x *QotRightNotice) GetCnQotRight() int32 {
 	return 0
 }
 
-func (x *QotRightNotice) GetHkOptionQotRight() int32 {
+func (x *QotRightNotice) GetHkOptionQotRight() QotRight {
 	if x != nil && x.HkOptionQotRight != nil {
 		return *x.HkOptionQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *QotRightNotice) GetHasUSOptionQotRight() bool {
@@ -431,11 +431,11 @@ func (x *QotRightNotice) GetHasUSOptionQotRight() bool {
 	return false
 }
 
-func (x *QotRightNotice) GetHkFutureQotRight() int32 {
+func (x *QotRightNotice) GetHkFutureQotRight() QotRight {
 	if x != nil && x.HkFutureQotRight != nil {
 		return *x.HkFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *QotRightNotice) GetUsFutureQotRight() int32 {
@@ -445,46 +445,46 @@ func (x *QotRightNotice) GetUsFutureQotRight() int32 {
 	return 0
 }
 
-func (x *QotRightNotice) GetUsOptionQotRight() int32 {
+func (x *QotRightNotice) GetUsOptionQotRight() QotRight {
 	if x != nil && x.UsOptionQotRight != nil {
 		return *x.UsOptionQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetUsIndexQotRight() int32 {
+func (x *QotRightNotice) GetUsIndexQotRight() QotRight {
 	if x != nil && x.UsIndexQotRight != nil {
 		return *x.UsIndexQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetUsOtcQotRight() int32 {
+func (x *QotRightNotice) GetUsOtcQotRight() QotRight {
 	if x != nil && x.UsOtcQotRight != nil {
 		return *x.UsOtcQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetSgFutureQotRight() int32 {
+func (x *QotRightNotice) GetSgFutureQotRight() QotRight {
 	if x != nil && x.SgFutureQotRight != nil {
 		return *x.SgFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetJpFutureQotRight() int32 {
+func (x *QotRightNotice) GetJpFutureQotRight() QotRight {
 	if x != nil && x.JpFutureQotRight != nil {
 		return *x.JpFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetUsCMEFutureQotRight() int32 {
+func (x *QotRightNotice) GetUsCMEFutureQotRight() QotRight {
 	if x != nil && x.UsCMEFutureQotRight != nil {
 		return *x.UsCMEFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *QotRightNotice) GetUsCBOTFutureQotRight() int32 {
@@ -494,39 +494,39 @@ func (x *QotRightNotice) GetUsCBOTFutureQotRight() int32 {
 	return 0
 }
 
-func (x *QotRightNotice) GetUsNYMEXFutureQotRight() int32 {
+func (x *QotRightNotice) GetUsNYMEXFutureQotRight() QotRight {
 	if x != nil && x.UsNYMEXFutureQotRight != nil {
 		return *x.UsNYMEXFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetUsCOMEXFutureQotRight() int32 {
+func (x *QotRightNotice) GetUsCOMEXFutureQotRight() QotRight {
 	if x != nil && x.UsCOMEXFutureQotRight != nil {
 		return *x.UsCOMEXFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetUsCBOEFutureQotRight() int32 {
+func (x *QotRightNotice) GetUsCBOEFutureQotRight() QotRight {
 	if x != nil && x.UsCBOEFutureQotRight != nil {
 		return *x.UsCBOEFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetShQotRight() int32 {
+func (x *QotRightNotice) GetShQotRight() QotRight {
 	if x != nil && x.ShQotRight != nil {
 		return *x.ShQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *QotRightNotice) GetSzQotRight() int32 {
+func (x *QotRightNotice) GetSzQotRight() QotRight {
 	if x != nil && x.SzQotRight != nil {
 		return *x.SzQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 type APILevelNotice struct {
@@ -679,14 +679,14 @@ func (x *UsedQuotaNotice) GetUsedKLineQuota() int32 {
 
 type NotifyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          *int32                 `protobuf:"varint,1,req,name=type" json:"type,omitempty"`                  //通知类型
-	Event         *GtwEventNotice        `protobuf:"bytes,2,opt,name=event" json:"event,omitempty"`                 //事件通息
-	ProgramStatus *ProgramStatusNotice   `protobuf:"bytes,3,opt,name=programStatus" json:"programStatus,omitempty"` //程序状态
-	ConnectStatus *ConnectStatusNotice   `protobuf:"bytes,4,opt,name=connectStatus" json:"connectStatus,omitempty"` //连接状态
-	QotRight      *QotRightNotice        `protobuf:"bytes,5,opt,name=qotRight" json:"qotRight,omitempty"`           //行情权限
-	ApiLevel      *APILevelNotice        `protobuf:"bytes,6,opt,name=apiLevel" json:"apiLevel,omitempty"`           //用户等级，已在2.10版本之后废弃
-	ApiQuota      *APIQuotaNotice        `protobuf:"bytes,7,opt,name=apiQuota" json:"apiQuota,omitempty"`           //API额度
-	UsedQuota     *UsedQuotaNotice       `protobuf:"bytes,8,opt,name=usedQuota" json:"usedQuota,omitempty"`         // 已使用额度
+	Type          *NotifyType            `protobuf:"varint,1,req,name=type,enum=futupb.NotifyType" json:"type,omitempty"` //通知类型
+	Event         *GtwEventNotice        `protobuf:"bytes,2,opt,name=event" json:"event,omitempty"`                       //事件通息
+	ProgramStatus *ProgramStatusNotice   `protobuf:"bytes,3,opt,name=programStatus" json:"programStatus,omitempty"`       //程序状态
+	ConnectStatus *ConnectStatusNotice   `protobuf:"bytes,4,opt,name=connectStatus" json:"connectStatus,omitempty"`       //连接状态
+	QotRight      *QotRightNotice        `protobuf:"bytes,5,opt,name=qotRight" json:"qotRight,omitempty"`                 //行情权限
+	ApiLevel      *APILevelNotice        `protobuf:"bytes,6,opt,name=apiLevel" json:"apiLevel,omitempty"`                 //用户等级，已在2.10版本之后废弃
+	ApiQuota      *APIQuotaNotice        `protobuf:"bytes,7,opt,name=apiQuota" json:"apiQuota,omitempty"`                 //API额度
+	UsedQuota     *UsedQuotaNotice       `protobuf:"bytes,8,opt,name=usedQuota" json:"usedQuota,omitempty"`               // 已使用额度
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -721,11 +721,11 @@ func (*NotifyResponse) Descriptor() ([]byte, []int) {
 	return file_Notify_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *NotifyResponse) GetType() int32 {
+func (x *NotifyResponse) GetType() NotifyType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return NotifyType_NotifyType_None
 }
 
 func (x *NotifyResponse) GetEvent() *GtwEventNotice {
@@ -779,7 +779,7 @@ func (x *NotifyResponse) GetUsedQuota() *UsedQuotaNotice {
 
 type NotifyResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *NotifyResponse        `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -789,7 +789,7 @@ type NotifyResponse_Internal struct {
 
 // Default values for NotifyResponse_Internal fields.
 const (
-	Default_NotifyResponse_Internal_RetType = int32(-400)
+	Default_NotifyResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *NotifyResponse_Internal) Reset() {
@@ -822,7 +822,7 @@ func (*NotifyResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Notify_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *NotifyResponse_Internal) GetRetType() int32 {
+func (x *NotifyResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -854,9 +854,9 @@ var File_Notify_proto protoreflect.FileDescriptor
 
 const file_Notify_proto_rawDesc = "" +
 	"\n" +
-	"\fNotify.proto\x12\x06futupb\x1a\fCommon.proto\"B\n" +
-	"\x0eGtwEventNotice\x12\x1c\n" +
-	"\teventType\x18\x01 \x02(\x05R\teventType\x12\x12\n" +
+	"\fNotify.proto\x12\x06futupb\x1a\x10Qot_Common.proto\x1a\fCommon.proto\"X\n" +
+	"\x0eGtwEventNotice\x122\n" +
+	"\teventType\x18\x01 \x02(\x0e2\x14.futupb.GtwEventTypeR\teventType\x12\x12\n" +
 	"\x04desc\x18\x02 \x02(\tR\x04desc\"R\n" +
 	"\x13ProgramStatusNotice\x12;\n" +
 	"\rprogramStatus\x18\x01 \x02(\v2\x15.futupb.ProgramStatusR\rprogramStatus\"U\n" +
@@ -866,37 +866,37 @@ const file_Notify_proto_rawDesc = "" +
 	"qotLogined\x12\x1e\n" +
 	"\n" +
 	"trdLogined\x18\x02 \x02(\bR\n" +
-	"trdLogined\"\xc0\x06\n" +
-	"\x0eQotRightNotice\x12\x1e\n" +
+	"trdLogined\"\xce\b\n" +
+	"\x0eQotRightNotice\x120\n" +
 	"\n" +
-	"hkQotRight\x18\x04 \x02(\x05R\n" +
-	"hkQotRight\x12\x1e\n" +
+	"hkQotRight\x18\x04 \x02(\x0e2\x10.futupb.QotRightR\n" +
+	"hkQotRight\x120\n" +
 	"\n" +
-	"usQotRight\x18\x05 \x02(\x05R\n" +
+	"usQotRight\x18\x05 \x02(\x0e2\x10.futupb.QotRightR\n" +
 	"usQotRight\x12\x1e\n" +
 	"\n" +
 	"cnQotRight\x18\x06 \x02(\x05R\n" +
-	"cnQotRight\x12*\n" +
-	"\x10hkOptionQotRight\x18\a \x01(\x05R\x10hkOptionQotRight\x120\n" +
-	"\x13hasUSOptionQotRight\x18\b \x01(\bR\x13hasUSOptionQotRight\x12*\n" +
-	"\x10hkFutureQotRight\x18\t \x01(\x05R\x10hkFutureQotRight\x12*\n" +
+	"cnQotRight\x12<\n" +
+	"\x10hkOptionQotRight\x18\a \x01(\x0e2\x10.futupb.QotRightR\x10hkOptionQotRight\x120\n" +
+	"\x13hasUSOptionQotRight\x18\b \x01(\bR\x13hasUSOptionQotRight\x12<\n" +
+	"\x10hkFutureQotRight\x18\t \x01(\x0e2\x10.futupb.QotRightR\x10hkFutureQotRight\x12*\n" +
 	"\x10usFutureQotRight\x18\n" +
-	" \x01(\x05R\x10usFutureQotRight\x12*\n" +
-	"\x10usOptionQotRight\x18\v \x01(\x05R\x10usOptionQotRight\x12(\n" +
-	"\x0fusIndexQotRight\x18\f \x01(\x05R\x0fusIndexQotRight\x12$\n" +
-	"\rusOtcQotRight\x18\r \x01(\x05R\rusOtcQotRight\x12*\n" +
-	"\x10sgFutureQotRight\x18\x0e \x01(\x05R\x10sgFutureQotRight\x12*\n" +
-	"\x10jpFutureQotRight\x18\x0f \x01(\x05R\x10jpFutureQotRight\x120\n" +
-	"\x13usCMEFutureQotRight\x18\x10 \x01(\x05R\x13usCMEFutureQotRight\x122\n" +
-	"\x14usCBOTFutureQotRight\x18\x11 \x01(\x05R\x14usCBOTFutureQotRight\x124\n" +
-	"\x15usNYMEXFutureQotRight\x18\x12 \x01(\x05R\x15usNYMEXFutureQotRight\x124\n" +
-	"\x15usCOMEXFutureQotRight\x18\x13 \x01(\x05R\x15usCOMEXFutureQotRight\x122\n" +
-	"\x14usCBOEFutureQotRight\x18\x14 \x01(\x05R\x14usCBOEFutureQotRight\x12\x1e\n" +
+	" \x01(\x05R\x10usFutureQotRight\x12<\n" +
+	"\x10usOptionQotRight\x18\v \x01(\x0e2\x10.futupb.QotRightR\x10usOptionQotRight\x12:\n" +
+	"\x0fusIndexQotRight\x18\f \x01(\x0e2\x10.futupb.QotRightR\x0fusIndexQotRight\x126\n" +
+	"\rusOtcQotRight\x18\r \x01(\x0e2\x10.futupb.QotRightR\rusOtcQotRight\x12<\n" +
+	"\x10sgFutureQotRight\x18\x0e \x01(\x0e2\x10.futupb.QotRightR\x10sgFutureQotRight\x12<\n" +
+	"\x10jpFutureQotRight\x18\x0f \x01(\x0e2\x10.futupb.QotRightR\x10jpFutureQotRight\x12B\n" +
+	"\x13usCMEFutureQotRight\x18\x10 \x01(\x0e2\x10.futupb.QotRightR\x13usCMEFutureQotRight\x122\n" +
+	"\x14usCBOTFutureQotRight\x18\x11 \x01(\x05R\x14usCBOTFutureQotRight\x12F\n" +
+	"\x15usNYMEXFutureQotRight\x18\x12 \x01(\x0e2\x10.futupb.QotRightR\x15usNYMEXFutureQotRight\x12F\n" +
+	"\x15usCOMEXFutureQotRight\x18\x13 \x01(\x0e2\x10.futupb.QotRightR\x15usCOMEXFutureQotRight\x12D\n" +
+	"\x14usCBOEFutureQotRight\x18\x14 \x01(\x0e2\x10.futupb.QotRightR\x14usCBOEFutureQotRight\x120\n" +
 	"\n" +
-	"shQotRight\x18\x15 \x01(\x05R\n" +
-	"shQotRight\x12\x1e\n" +
+	"shQotRight\x18\x15 \x01(\x0e2\x10.futupb.QotRightR\n" +
+	"shQotRight\x120\n" +
 	"\n" +
-	"szQotRight\x18\x16 \x01(\x05R\n" +
+	"szQotRight\x18\x16 \x01(\x0e2\x10.futupb.QotRightR\n" +
 	"szQotRight\",\n" +
 	"\x0eAPILevelNotice\x12\x1a\n" +
 	"\bapiLevel\x18\x03 \x02(\tR\bapiLevel\"T\n" +
@@ -905,18 +905,18 @@ const file_Notify_proto_rawDesc = "" +
 	"\x0ehistoryKLQuota\x18\x02 \x02(\x05R\x0ehistoryKLQuota\"]\n" +
 	"\x0fUsedQuotaNotice\x12\"\n" +
 	"\fusedSubQuota\x18\x01 \x01(\x05R\fusedSubQuota\x12&\n" +
-	"\x0eusedKLineQuota\x18\x02 \x01(\x05R\x0eusedKLineQuota\"\xab\x03\n" +
-	"\x0eNotifyResponse\x12\x12\n" +
-	"\x04type\x18\x01 \x02(\x05R\x04type\x12,\n" +
+	"\x0eusedKLineQuota\x18\x02 \x01(\x05R\x0eusedKLineQuota\"\xbf\x03\n" +
+	"\x0eNotifyResponse\x12&\n" +
+	"\x04type\x18\x01 \x02(\x0e2\x12.futupb.NotifyTypeR\x04type\x12,\n" +
 	"\x05event\x18\x02 \x01(\v2\x16.futupb.GtwEventNoticeR\x05event\x12A\n" +
 	"\rprogramStatus\x18\x03 \x01(\v2\x1b.futupb.ProgramStatusNoticeR\rprogramStatus\x12A\n" +
 	"\rconnectStatus\x18\x04 \x01(\v2\x1b.futupb.ConnectStatusNoticeR\rconnectStatus\x122\n" +
 	"\bqotRight\x18\x05 \x01(\v2\x16.futupb.QotRightNoticeR\bqotRight\x122\n" +
 	"\bapiLevel\x18\x06 \x01(\v2\x16.futupb.APILevelNoticeR\bapiLevel\x122\n" +
 	"\bapiQuota\x18\a \x01(\v2\x16.futupb.APIQuotaNoticeR\bapiQuota\x125\n" +
-	"\tusedQuota\x18\b \x01(\v2\x17.futupb.UsedQuotaNoticeR\tusedQuota\"\x9d\x01\n" +
-	"\x17NotifyResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\tusedQuota\x18\b \x01(\v2\x17.futupb.UsedQuotaNoticeR\tusedQuota\"\xb9\x01\n" +
+	"\x17NotifyResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x120\n" +
 	"\apayload\x18\x04 \x01(\v2\x16.futupb.NotifyResponseR\apayload*\xd8\x01\n" +
@@ -977,22 +977,42 @@ var file_Notify_proto_goTypes = []any{
 	(*NotifyResponse)(nil),          // 9: futupb.NotifyResponse
 	(*NotifyResponse_Internal)(nil), // 10: futupb.NotifyResponse_Internal
 	(*ProgramStatus)(nil),           // 11: futupb.ProgramStatus
+	(QotRight)(0),                   // 12: futupb.QotRight
+	(RetType)(0),                    // 13: futupb.RetType
 }
 var file_Notify_proto_depIdxs = []int32{
-	11, // 0: futupb.ProgramStatusNotice.programStatus:type_name -> futupb.ProgramStatus
-	2,  // 1: futupb.NotifyResponse.event:type_name -> futupb.GtwEventNotice
-	3,  // 2: futupb.NotifyResponse.programStatus:type_name -> futupb.ProgramStatusNotice
-	4,  // 3: futupb.NotifyResponse.connectStatus:type_name -> futupb.ConnectStatusNotice
-	5,  // 4: futupb.NotifyResponse.qotRight:type_name -> futupb.QotRightNotice
-	6,  // 5: futupb.NotifyResponse.apiLevel:type_name -> futupb.APILevelNotice
-	7,  // 6: futupb.NotifyResponse.apiQuota:type_name -> futupb.APIQuotaNotice
-	8,  // 7: futupb.NotifyResponse.usedQuota:type_name -> futupb.UsedQuotaNotice
-	9,  // 8: futupb.NotifyResponse_Internal.payload:type_name -> futupb.NotifyResponse
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	1,  // 0: futupb.GtwEventNotice.eventType:type_name -> futupb.GtwEventType
+	11, // 1: futupb.ProgramStatusNotice.programStatus:type_name -> futupb.ProgramStatus
+	12, // 2: futupb.QotRightNotice.hkQotRight:type_name -> futupb.QotRight
+	12, // 3: futupb.QotRightNotice.usQotRight:type_name -> futupb.QotRight
+	12, // 4: futupb.QotRightNotice.hkOptionQotRight:type_name -> futupb.QotRight
+	12, // 5: futupb.QotRightNotice.hkFutureQotRight:type_name -> futupb.QotRight
+	12, // 6: futupb.QotRightNotice.usOptionQotRight:type_name -> futupb.QotRight
+	12, // 7: futupb.QotRightNotice.usIndexQotRight:type_name -> futupb.QotRight
+	12, // 8: futupb.QotRightNotice.usOtcQotRight:type_name -> futupb.QotRight
+	12, // 9: futupb.QotRightNotice.sgFutureQotRight:type_name -> futupb.QotRight
+	12, // 10: futupb.QotRightNotice.jpFutureQotRight:type_name -> futupb.QotRight
+	12, // 11: futupb.QotRightNotice.usCMEFutureQotRight:type_name -> futupb.QotRight
+	12, // 12: futupb.QotRightNotice.usNYMEXFutureQotRight:type_name -> futupb.QotRight
+	12, // 13: futupb.QotRightNotice.usCOMEXFutureQotRight:type_name -> futupb.QotRight
+	12, // 14: futupb.QotRightNotice.usCBOEFutureQotRight:type_name -> futupb.QotRight
+	12, // 15: futupb.QotRightNotice.shQotRight:type_name -> futupb.QotRight
+	12, // 16: futupb.QotRightNotice.szQotRight:type_name -> futupb.QotRight
+	0,  // 17: futupb.NotifyResponse.type:type_name -> futupb.NotifyType
+	2,  // 18: futupb.NotifyResponse.event:type_name -> futupb.GtwEventNotice
+	3,  // 19: futupb.NotifyResponse.programStatus:type_name -> futupb.ProgramStatusNotice
+	4,  // 20: futupb.NotifyResponse.connectStatus:type_name -> futupb.ConnectStatusNotice
+	5,  // 21: futupb.NotifyResponse.qotRight:type_name -> futupb.QotRightNotice
+	6,  // 22: futupb.NotifyResponse.apiLevel:type_name -> futupb.APILevelNotice
+	7,  // 23: futupb.NotifyResponse.apiQuota:type_name -> futupb.APIQuotaNotice
+	8,  // 24: futupb.NotifyResponse.usedQuota:type_name -> futupb.UsedQuotaNotice
+	13, // 25: futupb.NotifyResponse_Internal.retType:type_name -> futupb.RetType
+	9,  // 26: futupb.NotifyResponse_Internal.payload:type_name -> futupb.NotifyResponse
+	27, // [27:27] is the sub-list for method output_type
+	27, // [27:27] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { file_Notify_proto_init() }
@@ -1000,6 +1020,7 @@ func file_Notify_proto_init() {
 	if File_Notify_proto != nil {
 		return
 	}
+	file_Qot_Common_proto_init()
 	file_Common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

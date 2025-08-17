@@ -162,7 +162,7 @@ func (TimeFilterType) EnumDescriptor() ([]byte, []int) {
 
 type CodeChangeInfo struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
-	Type               *int32                 `protobuf:"varint,1,req,name=type" json:"type,omitempty"`                              //CodeChangeType,代码变化或者新增临时代码的事件类型
+	Type               *CodeChangeType        `protobuf:"varint,1,req,name=type,enum=futupb.CodeChangeType" json:"type,omitempty"`   //CodeChangeType,代码变化或者新增临时代码的事件类型
 	Security           *Security              `protobuf:"bytes,2,req,name=security" json:"security,omitempty"`                       //主代码，在创业板转主板中表示主板
 	RelatedSecurity    *Security              `protobuf:"bytes,3,req,name=relatedSecurity" json:"relatedSecurity,omitempty"`         //关联代码，在创业板转主板中表示创业板，在剩余事件中表示临时代码
 	PublicTime         *string                `protobuf:"bytes,4,opt,name=publicTime" json:"publicTime,omitempty"`                   //公布时间
@@ -205,11 +205,11 @@ func (*CodeChangeInfo) Descriptor() ([]byte, []int) {
 	return file_Qot_GetCodeChange_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CodeChangeInfo) GetType() int32 {
+func (x *CodeChangeInfo) GetType() CodeChangeType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return CodeChangeType_CodeChangeType_Unkown
 }
 
 func (x *CodeChangeInfo) GetSecurity() *Security {
@@ -270,9 +270,9 @@ func (x *CodeChangeInfo) GetEndTimestamp() float64 {
 
 type TimeFilter struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          *int32                 `protobuf:"varint,1,req,name=type" json:"type,omitempty"`          //TimeFilterType, 过滤类型
-	BeginTime     *string                `protobuf:"bytes,2,opt,name=beginTime" json:"beginTime,omitempty"` //开始时间点
-	EndTime       *string                `protobuf:"bytes,3,opt,name=endTime" json:"endTime,omitempty"`     //结束时间点
+	Type          *TimeFilterType        `protobuf:"varint,1,req,name=type,enum=futupb.TimeFilterType" json:"type,omitempty"` //TimeFilterType, 过滤类型
+	BeginTime     *string                `protobuf:"bytes,2,opt,name=beginTime" json:"beginTime,omitempty"`                   //开始时间点
+	EndTime       *string                `protobuf:"bytes,3,opt,name=endTime" json:"endTime,omitempty"`                       //结束时间点
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -307,11 +307,11 @@ func (*TimeFilter) Descriptor() ([]byte, []int) {
 	return file_Qot_GetCodeChange_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *TimeFilter) GetType() int32 {
+func (x *TimeFilter) GetType() TimeFilterType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return TimeFilterType_TimeFilterType_Unknow
 }
 
 func (x *TimeFilter) GetBeginTime() string {
@@ -330,10 +330,10 @@ func (x *TimeFilter) GetEndTime() string {
 
 type QotGetCodeChangeRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	PlaceHolder    *int32                 `protobuf:"varint,1,opt,name=placeHolder" json:"placeHolder,omitempty"`      //占位
-	SecurityList   []*Security            `protobuf:"bytes,2,rep,name=securityList" json:"securityList,omitempty"`     //根据股票筛选
-	TimeFilterList []*TimeFilter          `protobuf:"bytes,3,rep,name=timeFilterList" json:"timeFilterList,omitempty"` //根据时间筛选
-	TypeList       []int32                `protobuf:"varint,4,rep,name=typeList" json:"typeList,omitempty"`            //CodeChangeType，根据类型筛选
+	PlaceHolder    *int32                 `protobuf:"varint,1,opt,name=placeHolder" json:"placeHolder,omitempty"`                      //占位
+	SecurityList   []*Security            `protobuf:"bytes,2,rep,name=securityList" json:"securityList,omitempty"`                     //根据股票筛选
+	TimeFilterList []*TimeFilter          `protobuf:"bytes,3,rep,name=timeFilterList" json:"timeFilterList,omitempty"`                 //根据时间筛选
+	TypeList       []CodeChangeType       `protobuf:"varint,4,rep,name=typeList,enum=futupb.CodeChangeType" json:"typeList,omitempty"` //CodeChangeType，根据类型筛选
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -389,7 +389,7 @@ func (x *QotGetCodeChangeRequest) GetTimeFilterList() []*TimeFilter {
 	return nil
 }
 
-func (x *QotGetCodeChangeRequest) GetTypeList() []int32 {
+func (x *QotGetCodeChangeRequest) GetTypeList() []CodeChangeType {
 	if x != nil {
 		return x.TypeList
 	}
@@ -486,7 +486,7 @@ func (x *QotGetCodeChangeRequest_Internal) GetPayload() *QotGetCodeChangeRequest
 
 type QotGetCodeChangeResponse_Internal struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
-	RetType       *int32                    `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                  `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                   `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                    `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetCodeChangeResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -496,7 +496,7 @@ type QotGetCodeChangeResponse_Internal struct {
 
 // Default values for QotGetCodeChangeResponse_Internal fields.
 const (
-	Default_QotGetCodeChangeResponse_Internal_RetType = int32(-400)
+	Default_QotGetCodeChangeResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetCodeChangeResponse_Internal) Reset() {
@@ -529,7 +529,7 @@ func (*QotGetCodeChangeResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetCodeChange_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *QotGetCodeChangeResponse_Internal) GetRetType() int32 {
+func (x *QotGetCodeChangeResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -561,9 +561,9 @@ var File_Qot_GetCodeChange_proto protoreflect.FileDescriptor
 
 const file_Qot_GetCodeChange_proto_rawDesc = "" +
 	"\n" +
-	"\x17Qot_GetCodeChange.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xec\x02\n" +
-	"\x0eCodeChangeInfo\x12\x12\n" +
-	"\x04type\x18\x01 \x02(\x05R\x04type\x12,\n" +
+	"\x17Qot_GetCodeChange.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x84\x03\n" +
+	"\x0eCodeChangeInfo\x12*\n" +
+	"\x04type\x18\x01 \x02(\x0e2\x16.futupb.CodeChangeTypeR\x04type\x12,\n" +
 	"\bsecurity\x18\x02 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12:\n" +
 	"\x0frelatedSecurity\x18\x03 \x02(\v2\x10.futupb.SecurityR\x0frelatedSecurity\x12\x1e\n" +
 	"\n" +
@@ -573,23 +573,23 @@ const file_Qot_GetCodeChange_proto_rawDesc = "" +
 	"\reffectiveTime\x18\x06 \x01(\tR\reffectiveTime\x12.\n" +
 	"\x12effectiveTimestamp\x18\a \x01(\x01R\x12effectiveTimestamp\x12\x18\n" +
 	"\aendTime\x18\b \x01(\tR\aendTime\x12\"\n" +
-	"\fendTimestamp\x18\t \x01(\x01R\fendTimestamp\"X\n" +
+	"\fendTimestamp\x18\t \x01(\x01R\fendTimestamp\"p\n" +
 	"\n" +
-	"TimeFilter\x12\x12\n" +
-	"\x04type\x18\x01 \x02(\x05R\x04type\x12\x1c\n" +
+	"TimeFilter\x12*\n" +
+	"\x04type\x18\x01 \x02(\x0e2\x16.futupb.TimeFilterTypeR\x04type\x12\x1c\n" +
 	"\tbeginTime\x18\x02 \x01(\tR\tbeginTime\x12\x18\n" +
-	"\aendTime\x18\x03 \x01(\tR\aendTime\"\xc9\x01\n" +
+	"\aendTime\x18\x03 \x01(\tR\aendTime\"\xe1\x01\n" +
 	"\x17QotGetCodeChangeRequest\x12 \n" +
 	"\vplaceHolder\x18\x01 \x01(\x05R\vplaceHolder\x124\n" +
 	"\fsecurityList\x18\x02 \x03(\v2\x10.futupb.SecurityR\fsecurityList\x12:\n" +
-	"\x0etimeFilterList\x18\x03 \x03(\v2\x12.futupb.TimeFilterR\x0etimeFilterList\x12\x1a\n" +
-	"\btypeList\x18\x04 \x03(\x05R\btypeList\"Z\n" +
+	"\x0etimeFilterList\x18\x03 \x03(\v2\x12.futupb.TimeFilterR\x0etimeFilterList\x122\n" +
+	"\btypeList\x18\x04 \x03(\x0e2\x16.futupb.CodeChangeTypeR\btypeList\"Z\n" +
 	"\x18QotGetCodeChangeResponse\x12>\n" +
 	"\x0ecodeChangeList\x18\x01 \x03(\v2\x16.futupb.CodeChangeInfoR\x0ecodeChangeList\"]\n" +
 	" QotGetCodeChangeRequest_Internal\x129\n" +
-	"\apayload\x18\x01 \x02(\v2\x1f.futupb.QotGetCodeChangeRequestR\apayload\"\xb1\x01\n" +
-	"!QotGetCodeChangeResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1f.futupb.QotGetCodeChangeRequestR\apayload\"\xcd\x01\n" +
+	"!QotGetCodeChangeResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12:\n" +
 	"\apayload\x18\x04 \x01(\v2 .futupb.QotGetCodeChangeResponseR\apayload*\x8e\x02\n" +
@@ -634,20 +634,25 @@ var file_Qot_GetCodeChange_proto_goTypes = []any{
 	(*QotGetCodeChangeRequest_Internal)(nil),  // 6: futupb.QotGetCodeChangeRequest_Internal
 	(*QotGetCodeChangeResponse_Internal)(nil), // 7: futupb.QotGetCodeChangeResponse_Internal
 	(*Security)(nil),                          // 8: futupb.Security
+	(RetType)(0),                              // 9: futupb.RetType
 }
 var file_Qot_GetCodeChange_proto_depIdxs = []int32{
-	8, // 0: futupb.CodeChangeInfo.security:type_name -> futupb.Security
-	8, // 1: futupb.CodeChangeInfo.relatedSecurity:type_name -> futupb.Security
-	8, // 2: futupb.QotGetCodeChangeRequest.securityList:type_name -> futupb.Security
-	3, // 3: futupb.QotGetCodeChangeRequest.timeFilterList:type_name -> futupb.TimeFilter
-	2, // 4: futupb.QotGetCodeChangeResponse.codeChangeList:type_name -> futupb.CodeChangeInfo
-	4, // 5: futupb.QotGetCodeChangeRequest_Internal.payload:type_name -> futupb.QotGetCodeChangeRequest
-	5, // 6: futupb.QotGetCodeChangeResponse_Internal.payload:type_name -> futupb.QotGetCodeChangeResponse
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	0,  // 0: futupb.CodeChangeInfo.type:type_name -> futupb.CodeChangeType
+	8,  // 1: futupb.CodeChangeInfo.security:type_name -> futupb.Security
+	8,  // 2: futupb.CodeChangeInfo.relatedSecurity:type_name -> futupb.Security
+	1,  // 3: futupb.TimeFilter.type:type_name -> futupb.TimeFilterType
+	8,  // 4: futupb.QotGetCodeChangeRequest.securityList:type_name -> futupb.Security
+	3,  // 5: futupb.QotGetCodeChangeRequest.timeFilterList:type_name -> futupb.TimeFilter
+	0,  // 6: futupb.QotGetCodeChangeRequest.typeList:type_name -> futupb.CodeChangeType
+	2,  // 7: futupb.QotGetCodeChangeResponse.codeChangeList:type_name -> futupb.CodeChangeInfo
+	4,  // 8: futupb.QotGetCodeChangeRequest_Internal.payload:type_name -> futupb.QotGetCodeChangeRequest
+	9,  // 9: futupb.QotGetCodeChangeResponse_Internal.retType:type_name -> futupb.RetType
+	5,  // 10: futupb.QotGetCodeChangeResponse_Internal.payload:type_name -> futupb.QotGetCodeChangeResponse
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetCodeChange_proto_init() }

@@ -15,7 +15,7 @@ message MarketInfo
 {
 	required Security security = 1; //股票代码
 	required string name = 2; // 股票名称
-	required int32 marketState = 3; //Qot_Common.QotMarketState,市场状态
+	required QotMarketState marketState = 3; //Qot_Common.QotMarketState,市场状态
 }
 
 message QotGetMarketStateResponse
@@ -30,7 +30,7 @@ message QotGetMarketStateRequest_Internal
 
 message QotGetMarketStateResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

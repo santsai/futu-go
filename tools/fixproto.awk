@@ -24,9 +24,31 @@
     # Replace go_package option line
     if ($0 ~ /^option go_package .*;$/) {
         $0 = "option go_package = \"github.com/santsai/futu-go/pb\";"
+
+		# add missing import "Common.proto"
+		if (pkg_name == "TestCmd" ||
+			pkg_name == "TrdFlowSummary" ||
+			pkg_name == "TrdGetMarginRatio" ||
+			pkg_name == "UsedQuota" ||
+			0) {
+			$0 = $0 "\n\nimport \"Common.proto\";" 
+		}
+
+		# missing "Qot_Common.proto"
+		if (pkg_name == "GetUserInfo" ||
+			pkg_name == "Notify" ||
+			0) {
+			$0 = $0 "\n\nimport \"Qot_Common.proto\";" 
+		}
+
+		# missing "Trd_Common.proto"
+		if (pkg_name == "TrdUnlockTrade" ||
+			0) {
+			$0 = $0 "\n\nimport \"Trd_Common.proto\";" 
+		}
     }
 
-	# rename C2S -> xxxRequests
+	# rename C2S -> xxxRequest
 	if ($0 ~/^message C2S$/) {
 		request_name = pkg_name "Request"
 		$0 = "message " request_name
@@ -58,6 +80,24 @@
 
 	if ($0 ~ /optional S2C s2c = 4;$/) {
 		sub(/S2C s2c/, response_name " payload", $0)
+	}
+
+	# fix enum types
+	if ($0 ~ / int32 /) {
+		for (rk in enum_replaces) {
+			if (index($0, rk) > 0) {
+				rv = enum_replaces[rk]
+				if (rv != "") {
+					sub("int32", rv, $0)
+				}
+				break
+			}
+		}
+
+		# fix enum retType -400
+		if ($0 ~ /default = -400/) {
+			sub("-400", "RetType_Unknown")
+		}
 	}
 
 	# handle duplicate message in Notify.proto

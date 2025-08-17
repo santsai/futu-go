@@ -23,11 +23,11 @@ const (
 
 type QotRegQotPushRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SecurityList  []*Security            `protobuf:"bytes,1,rep,name=securityList" json:"securityList,omitempty"`    //股票
-	SubTypeList   []int32                `protobuf:"varint,2,rep,name=subTypeList" json:"subTypeList,omitempty"`     //Qot_Common.SubType,要注册到该连接的订阅类型
-	RehabTypeList []int32                `protobuf:"varint,3,rep,name=rehabTypeList" json:"rehabTypeList,omitempty"` //Qot_Common.RehabType,复权类型,注册K线类型才生效,其他订阅类型忽略该参数,注册K线时该参数不指定默认前复权
-	IsRegOrUnReg  *bool                  `protobuf:"varint,4,req,name=isRegOrUnReg" json:"isRegOrUnReg,omitempty"`   //注册或取消
-	IsFirstPush   *bool                  `protobuf:"varint,5,opt,name=isFirstPush" json:"isFirstPush,omitempty"`     //注册后如果本地已有数据是否首推一次已存在数据,该参数不指定则默认true
+	SecurityList  []*Security            `protobuf:"bytes,1,rep,name=securityList" json:"securityList,omitempty"`                          //股票
+	SubTypeList   []SubType              `protobuf:"varint,2,rep,name=subTypeList,enum=futupb.SubType" json:"subTypeList,omitempty"`       //Qot_Common.SubType,要注册到该连接的订阅类型
+	RehabTypeList []RehabType            `protobuf:"varint,3,rep,name=rehabTypeList,enum=futupb.RehabType" json:"rehabTypeList,omitempty"` //Qot_Common.RehabType,复权类型,注册K线类型才生效,其他订阅类型忽略该参数,注册K线时该参数不指定默认前复权
+	IsRegOrUnReg  *bool                  `protobuf:"varint,4,req,name=isRegOrUnReg" json:"isRegOrUnReg,omitempty"`                         //注册或取消
+	IsFirstPush   *bool                  `protobuf:"varint,5,opt,name=isFirstPush" json:"isFirstPush,omitempty"`                           //注册后如果本地已有数据是否首推一次已存在数据,该参数不指定则默认true
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -69,14 +69,14 @@ func (x *QotRegQotPushRequest) GetSecurityList() []*Security {
 	return nil
 }
 
-func (x *QotRegQotPushRequest) GetSubTypeList() []int32 {
+func (x *QotRegQotPushRequest) GetSubTypeList() []SubType {
 	if x != nil {
 		return x.SubTypeList
 	}
 	return nil
 }
 
-func (x *QotRegQotPushRequest) GetRehabTypeList() []int32 {
+func (x *QotRegQotPushRequest) GetRehabTypeList() []RehabType {
 	if x != nil {
 		return x.RehabTypeList
 	}
@@ -179,7 +179,7 @@ func (x *QotRegQotPushRequest_Internal) GetPayload() *QotRegQotPushRequest {
 
 type QotRegQotPushResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotRegQotPushResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -189,7 +189,7 @@ type QotRegQotPushResponse_Internal struct {
 
 // Default values for QotRegQotPushResponse_Internal fields.
 const (
-	Default_QotRegQotPushResponse_Internal_RetType = int32(-400)
+	Default_QotRegQotPushResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotRegQotPushResponse_Internal) Reset() {
@@ -222,7 +222,7 @@ func (*QotRegQotPushResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_RegQotPush_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotRegQotPushResponse_Internal) GetRetType() int32 {
+func (x *QotRegQotPushResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -254,18 +254,18 @@ var File_Qot_RegQotPush_proto protoreflect.FileDescriptor
 
 const file_Qot_RegQotPush_proto_rawDesc = "" +
 	"\n" +
-	"\x14Qot_RegQotPush.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xda\x01\n" +
+	"\x14Qot_RegQotPush.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xfe\x01\n" +
 	"\x14QotRegQotPushRequest\x124\n" +
-	"\fsecurityList\x18\x01 \x03(\v2\x10.futupb.SecurityR\fsecurityList\x12 \n" +
-	"\vsubTypeList\x18\x02 \x03(\x05R\vsubTypeList\x12$\n" +
-	"\rrehabTypeList\x18\x03 \x03(\x05R\rrehabTypeList\x12\"\n" +
+	"\fsecurityList\x18\x01 \x03(\v2\x10.futupb.SecurityR\fsecurityList\x121\n" +
+	"\vsubTypeList\x18\x02 \x03(\x0e2\x0f.futupb.SubTypeR\vsubTypeList\x127\n" +
+	"\rrehabTypeList\x18\x03 \x03(\x0e2\x11.futupb.RehabTypeR\rrehabTypeList\x12\"\n" +
 	"\fisRegOrUnReg\x18\x04 \x02(\bR\fisRegOrUnReg\x12 \n" +
 	"\visFirstPush\x18\x05 \x01(\bR\visFirstPush\"\x17\n" +
 	"\x15QotRegQotPushResponse\"W\n" +
 	"\x1dQotRegQotPushRequest_Internal\x126\n" +
-	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotRegQotPushRequestR\apayload\"\xab\x01\n" +
-	"\x1eQotRegQotPushResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotRegQotPushRequestR\apayload\"\xc7\x01\n" +
+	"\x1eQotRegQotPushResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x127\n" +
 	"\apayload\x18\x04 \x01(\v2\x1d.futupb.QotRegQotPushResponseR\apayloadB4\n" +
@@ -290,16 +290,22 @@ var file_Qot_RegQotPush_proto_goTypes = []any{
 	(*QotRegQotPushRequest_Internal)(nil),  // 2: futupb.QotRegQotPushRequest_Internal
 	(*QotRegQotPushResponse_Internal)(nil), // 3: futupb.QotRegQotPushResponse_Internal
 	(*Security)(nil),                       // 4: futupb.Security
+	(SubType)(0),                           // 5: futupb.SubType
+	(RehabType)(0),                         // 6: futupb.RehabType
+	(RetType)(0),                           // 7: futupb.RetType
 }
 var file_Qot_RegQotPush_proto_depIdxs = []int32{
 	4, // 0: futupb.QotRegQotPushRequest.securityList:type_name -> futupb.Security
-	0, // 1: futupb.QotRegQotPushRequest_Internal.payload:type_name -> futupb.QotRegQotPushRequest
-	1, // 2: futupb.QotRegQotPushResponse_Internal.payload:type_name -> futupb.QotRegQotPushResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	5, // 1: futupb.QotRegQotPushRequest.subTypeList:type_name -> futupb.SubType
+	6, // 2: futupb.QotRegQotPushRequest.rehabTypeList:type_name -> futupb.RehabType
+	0, // 3: futupb.QotRegQotPushRequest_Internal.payload:type_name -> futupb.QotRegQotPushRequest
+	7, // 4: futupb.QotRegQotPushResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 5: futupb.QotRegQotPushResponse_Internal.payload:type_name -> futupb.QotRegQotPushResponse
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_Qot_RegQotPush_proto_init() }

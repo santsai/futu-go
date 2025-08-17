@@ -244,7 +244,7 @@ enum DTStatus
 //账户现金信息，目前仅用于期货账户
 message AccCashInfo
 {
-    optional int32 currency = 1;        // 货币类型，取值参考 Currency
+    optional Currency currency = 1;        // 货币类型，取值参考 Currency
     optional double cash = 2;           // 现金结余
     optional double availableBalance = 3;   // 现金可提金额
 	optional double netCashPower = 4;		// 现金购买力
@@ -253,30 +253,30 @@ message AccCashInfo
 //分市场资产信息
 message AccMarketInfo
 {
-    optional int32 trdMarket = 1;        // 交易市场, 参见TrdMarket的枚举定义
+    optional TrdMarket trdMarket = 1;        // 交易市场, 参见TrdMarket的枚举定义
     optional double assets = 2;           // 分市场资产信息
 }
 
 //交易协议公共参数头
 message TrdHeader
 {
-	required int32 trdEnv = 1; //交易环境, 参见TrdEnv的枚举定义
+	required TrdEnv trdEnv = 1; //交易环境, 参见TrdEnv的枚举定义
 	required uint64 accID = 2; //业务账号, 业务账号与交易环境、市场权限需要匹配，否则会返回错误
-	required int32 trdMarket = 3; //交易市场, 参见TrdMarket的枚举定义
+	required TrdMarket trdMarket = 3; //交易市场, 参见TrdMarket的枚举定义
 }
 
 //交易业务账户结构
 message TrdAcc
 {
-	required int32 trdEnv = 1; //交易环境，参见TrdEnv的枚举定义
+	required TrdEnv trdEnv = 1; //交易环境，参见TrdEnv的枚举定义
 	required uint64 accID = 2; //业务账号
-	repeated int32 trdMarketAuthList = 3; //业务账户支持的交易市场权限，即此账户能交易那些市场, 可拥有多个交易市场权限，目前仅单个，取值参见TrdMarket的枚举定义
-	optional int32 accType = 4;   //账户类型，取值见TrdAccType
+	repeated TrdMarket trdMarketAuthList = 3; //业务账户支持的交易市场权限，即此账户能交易那些市场, 可拥有多个交易市场权限，目前仅单个，取值参见TrdMarket的枚举定义
+	optional TrdAccType accType = 4;   //账户类型，取值见TrdAccType
 	optional string cardNum = 5;  //卡号
-	optional int32 securityFirm = 6; //所属券商，取值见SecurityFirm
-	optional int32 simAccType = 7; //模拟交易账号类型，取值见SimAccType
+	optional SecurityFirm securityFirm = 6; //所属券商，取值见SecurityFirm
+	optional SimAccType simAccType = 7; //模拟交易账号类型，取值见SimAccType
     optional string uniCardNum = 8;  //所属综合账户卡号
-    optional int32 accStatus = 9; //账号状态，取值见TrdAccStatus
+    optional TrdAccStatus accStatus = 9; //账号状态，取值见TrdAccStatus
 }
 
 //账户资金结构
@@ -290,11 +290,11 @@ message Funds
 	required double debtCash = 6; //计息金额
 	required double avlWithdrawalCash = 7; //现金可提，仅证券账户适用
 
-	optional int32 currency = 8;            //币种，本结构体资金相关的货币类型，取值参见 Currency，期货适用
+	optional Currency currency = 8;            //币种，本结构体资金相关的货币类型，取值参见 Currency，期货适用
     optional double availableFunds = 9;     //可用资金，期货适用
     optional double unrealizedPL = 10;      //未实现盈亏，期货适用
     optional double realizedPL = 11;        //已实现盈亏，期货适用
-    optional int32 riskLevel = 12;           //风控状态，参见 CltRiskLevel, 期货适用
+    optional CltRiskLevel riskLevel = 12;           //风控状态，参见 CltRiskLevel, 期货适用
     optional double initialMargin = 13;      //初始保证金
     optional double maintenanceMargin = 14;  //维持保证金
     repeated AccCashInfo cashInfoList = 15;  //分币种的现金信息，期货适用
@@ -305,7 +305,7 @@ message Funds
 	optional double shortMv = 19;       //空头市值
 	optional double pendingAsset = 20;  //在途资产
 	optional double maxWithdrawal = 21;          //融资可提，仅证券账户适用
-	optional int32 riskStatus = 22;              //风险状态，参见 [CltRiskStatus]，证券账户适用，共分 9 个等级，LEVEL1是最安全，LEVEL9是最危险
+	optional CltRiskStatus riskStatus = 22;              //风险状态，参见 [CltRiskStatus]，证券账户适用，共分 9 个等级，LEVEL1是最安全，LEVEL9是最危险
 	optional double marginCallMargin = 23;       //	Margin Call 保证金
 
 	optional bool isPdt = 24;				//是否PDT账户，仅富途证券（美国）账户适用
@@ -313,7 +313,7 @@ message Funds
 	optional double beginningDTBP = 26;		//初始日内交易购买力
 	optional double remainingDTBP = 27;		//剩余日内交易购买力
 	optional double dtCallAmount = 28;		//日内交易待缴金额
-	optional int32 dtStatus = 29;				//日内交易限制情况，取值见DTStatus
+	optional DTStatus dtStatus = 29;				//日内交易限制情况，取值见DTStatus
 
 	optional double securitiesAssets = 30; // 证券资产净值
 	optional double fundAssets = 31; // 基金资产净值
@@ -326,7 +326,7 @@ message Funds
 message Position
 {
 	required uint64 positionID = 1;     //持仓ID，一条持仓的唯一标识
-    required int32 positionSide = 2;    //持仓方向，参见PositionSide的枚举定义
+    required PositionSide positionSide = 2;    //持仓方向，参见PositionSide的枚举定义
     required string code = 3;           //代码
     required string name = 4;           //名称
     required double qty = 5;            //持有数量，2位精度，期权单位是"张"，下同
@@ -336,7 +336,7 @@ message Position
     required double val = 9;            //市值，3位精度, 期货此字段值为0
     required double plVal = 10;         //盈亏金额，3位精度，期货为2位精度
     optional double plRatio = 11;       //摊薄成本价的盈亏百分比(如plRatio等于8.8代表涨8.8%)，无精度限制，如果没传，代表此时此值无效
-    optional int32 secMarket = 12;      //证券所属市场，参见TrdSecMarket的枚举定义
+    optional TrdSecMarket secMarket = 12;      //证券所属市场，参见TrdSecMarket的枚举定义
 
 	//以下是此持仓今日统计
     optional double td_plVal = 21;      //今日盈亏金额，3位精度，下同, 期货为2位精度
@@ -348,8 +348,8 @@ message Position
 
     optional double unrealizedPL = 28;       //未实现盈亏，期货适用
     optional double realizedPL = 29;         //已实现盈亏，期货适用
-	optional int32 currency = 30;        // 货币类型，取值参考 Currency
-	optional int32 trdMarket = 31;  //交易市场, 参见TrdMarket的枚举定义
+	optional Currency currency = 30;        // 货币类型，取值参考 Currency
+	optional TrdMarket trdMarket = 31;  //交易市场, 参见TrdMarket的枚举定义
 
     optional double dilutedCostPrice = 32;      //摊薄成本价，仅支持证券账户使用
     optional double averageCostPrice = 33;      //平均成本价，模拟交易证券账户不适用
@@ -359,9 +359,9 @@ message Position
 //订单结构
 message Order
 {
-	required int32 trdSide = 1; //交易方向, 参见TrdSide的枚举定义
-    required int32 orderType = 2; //订单类型, 参见OrderType的枚举定义
-    required int32 orderStatus = 3; //订单状态, 参见OrderStatus的枚举定义
+	required TrdSide trdSide = 1; //交易方向, 参见TrdSide的枚举定义
+    required OrderType orderType = 2; //订单类型, 参见OrderType的枚举定义
+    required OrderStatus orderStatus = 3; //订单状态, 参见OrderStatus的枚举定义
     required uint64 orderID = 4; //订单号
     required string orderIDEx = 5; //扩展订单号(仅查问题时备用)
     required string code = 6; //代码
@@ -373,19 +373,19 @@ message Order
     optional double fillQty = 12; //成交数量，2位精度，期权单位是"张"
     optional double fillAvgPrice = 13; //成交均价，无精度限制
     optional string lastErrMsg = 14; //最后的错误描述，如果有错误，会有此描述最后一次错误的原因，无错误为空
-    optional int32 secMarket = 15; //证券所属市场，参见TrdSecMarket的枚举定义
+    optional TrdSecMarket secMarket = 15; //证券所属市场，参见TrdSecMarket的枚举定义
     optional double createTimestamp = 16; //创建时间戳
     optional double updateTimestamp = 17; //最后更新时间戳
     optional string remark = 18; //用户备注字符串，最大长度64字节
-	optional int32 timeInForce = 19; //订单期限，参考 TimeInForce 类的定义
+	optional TimeInForce timeInForce = 19; //订单期限，参考 TimeInForce 类的定义
 	optional bool fillOutsideRTH = 20; //是否允许美股订单盘前盘后成交
 	optional double auxPrice = 21; //触发价格
-	optional int32 trailType = 22; //跟踪类型, 参见Trd_Common.TrailType的枚举定义
+	optional TrailType trailType = 22; //跟踪类型, 参见Trd_Common.TrailType的枚举定义
 	optional double trailValue = 23; //跟踪金额/百分比
 	optional double trailSpread = 24; //指定价差
-	optional int32 currency = 25;        // 货币类型，取值参考 Currency
-	optional int32 trdMarket = 26;  //交易市场, 参见TrdMarket的枚举定义
-	optional int32 session = 27; //美股订单时段, 参见Common.Session的枚举定义
+	optional Currency currency = 25;        // 货币类型，取值参考 Currency
+	optional TrdMarket trdMarket = 26;  //交易市场, 参见TrdMarket的枚举定义
+	optional Session session = 27; //美股订单时段, 参见Common.Session的枚举定义
 }
 
 message OrderFeeItem
@@ -404,7 +404,7 @@ message OrderFee
 //成交结构
 message OrderFill
 {
-	required int32 trdSide = 1; //交易方向, 参见TrdSide的枚举定义
+	required TrdSide trdSide = 1; //交易方向, 参见TrdSide的枚举定义
     required uint64 fillID = 2; //成交号
     required string fillIDEx = 3; //扩展成交号(仅查问题时备用)
     optional uint64 orderID = 4; //订单号
@@ -416,11 +416,11 @@ message OrderFill
     required string createTime = 10; //创建时间（成交时间），严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
     optional int32 counterBrokerID = 11; //对手经纪号，港股有效
     optional string counterBrokerName = 12; //对手经纪名称，港股有效
-    optional int32 secMarket = 13; //证券所属市场，参见TrdSecMarket的枚举定义
+    optional TrdSecMarket secMarket = 13; //证券所属市场，参见TrdSecMarket的枚举定义
     optional double createTimestamp = 14; //创建时间戳
     optional double updateTimestamp = 15; //最后更新时间戳
-    optional int32 status = 16; //成交状态, 参见OrderFillStatus的枚举定义
-    optional int32 trdMarket = 17;  //交易市场, 参见TrdMarket的枚举定义
+    optional OrderFillStatus status = 16; //成交状态, 参见OrderFillStatus的枚举定义
+    optional TrdMarket trdMarket = 17;  //交易市场, 参见TrdMarket的枚举定义
 }
 
 //最大可交易数量
@@ -444,5 +444,5 @@ message TrdFilterConditions
 	optional string beginTime = 3; //开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传，对持仓无效，拉历史数据必须填
 	optional string endTime = 4; //结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传，对持仓无效，拉历史数据必须填
 	repeated string orderIDExList = 5; // 服务器订单ID，可以用来替代orderID，二选一
-    optional int32 filterMarket = 6; //指定交易市场, 参见TrdMarket的枚举定义
+    optional TrdMarket filterMarket = 6; //指定交易市场, 参见TrdMarket的枚举定义
 }

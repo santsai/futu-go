@@ -76,7 +76,7 @@ func (x *TrdNotifyResponse) GetType() int32 {
 type TrdNotifyResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32             `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType           `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string            `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32             `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdNotifyResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -86,7 +86,7 @@ type TrdNotifyResponse_Internal struct {
 
 // Default values for TrdNotifyResponse_Internal fields.
 const (
-	Default_TrdNotifyResponse_Internal_RetType = int32(-400)
+	Default_TrdNotifyResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdNotifyResponse_Internal) Reset() {
@@ -119,7 +119,7 @@ func (*TrdNotifyResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_Notify_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *TrdNotifyResponse_Internal) GetRetType() int32 {
+func (x *TrdNotifyResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -154,9 +154,9 @@ const file_Trd_Notify_proto_rawDesc = "" +
 	"\x10Trd_Notify.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"R\n" +
 	"\x11TrdNotifyResponse\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12\x12\n" +
-	"\x04type\x18\x02 \x02(\x05R\x04type\"\xa3\x01\n" +
-	"\x1aTrdNotifyResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\x04type\x18\x02 \x02(\x05R\x04type\"\xbf\x01\n" +
+	"\x1aTrdNotifyResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x123\n" +
 	"\apayload\x18\x04 \x01(\v2\x19.futupb.TrdNotifyResponseR\apayloadB4\n" +
@@ -179,15 +179,17 @@ var file_Trd_Notify_proto_goTypes = []any{
 	(*TrdNotifyResponse)(nil),          // 0: futupb.TrdNotifyResponse
 	(*TrdNotifyResponse_Internal)(nil), // 1: futupb.TrdNotifyResponse_Internal
 	(*TrdHeader)(nil),                  // 2: futupb.TrdHeader
+	(RetType)(0),                       // 3: futupb.RetType
 }
 var file_Trd_Notify_proto_depIdxs = []int32{
 	2, // 0: futupb.TrdNotifyResponse.header:type_name -> futupb.TrdHeader
-	0, // 1: futupb.TrdNotifyResponse_Internal.payload:type_name -> futupb.TrdNotifyResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 1: futupb.TrdNotifyResponse_Internal.retType:type_name -> futupb.RetType
+	0, // 2: futupb.TrdNotifyResponse_Internal.payload:type_name -> futupb.TrdNotifyResponse
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_Trd_Notify_proto_init() }

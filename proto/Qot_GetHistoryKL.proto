@@ -8,8 +8,8 @@ import "Qot_Common.proto";
 
 message QotGetHistoryKLRequest
 {
-	required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
-	required int32 klType = 2; //Qot_Common.KLType,K线类型
+	required RehabType rehabType = 1; //Qot_Common.RehabType,复权类型
+	required KLType klType = 2; //Qot_Common.KLType,K线类型
 	required Security security = 3; //股票市场以及股票代码
 	required string beginTime = 4; //开始时间字符串
 	required string endTime = 5; //结束时间字符串
@@ -32,7 +32,7 @@ message QotGetHistoryKLRequest_Internal
 
 message QotGetHistoryKLResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

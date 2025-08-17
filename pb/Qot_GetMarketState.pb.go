@@ -67,9 +67,9 @@ func (x *QotGetMarketStateRequest) GetSecurityList() []*Security {
 
 type MarketInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Security      *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`        //股票代码
-	Name          *string                `protobuf:"bytes,2,req,name=name" json:"name,omitempty"`                // 股票名称
-	MarketState   *int32                 `protobuf:"varint,3,req,name=marketState" json:"marketState,omitempty"` //Qot_Common.QotMarketState,市场状态
+	Security      *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`                                   //股票代码
+	Name          *string                `protobuf:"bytes,2,req,name=name" json:"name,omitempty"`                                           // 股票名称
+	MarketState   *QotMarketState        `protobuf:"varint,3,req,name=marketState,enum=futupb.QotMarketState" json:"marketState,omitempty"` //Qot_Common.QotMarketState,市场状态
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -118,11 +118,11 @@ func (x *MarketInfo) GetName() string {
 	return ""
 }
 
-func (x *MarketInfo) GetMarketState() int32 {
+func (x *MarketInfo) GetMarketState() QotMarketState {
 	if x != nil && x.MarketState != nil {
 		return *x.MarketState
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
 type QotGetMarketStateResponse struct {
@@ -215,7 +215,7 @@ func (x *QotGetMarketStateRequest_Internal) GetPayload() *QotGetMarketStateReque
 
 type QotGetMarketStateResponse_Internal struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
-	RetType       *int32                     `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                   `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                    `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                     `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetMarketStateResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -225,7 +225,7 @@ type QotGetMarketStateResponse_Internal struct {
 
 // Default values for QotGetMarketStateResponse_Internal fields.
 const (
-	Default_QotGetMarketStateResponse_Internal_RetType = int32(-400)
+	Default_QotGetMarketStateResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetMarketStateResponse_Internal) Reset() {
@@ -258,7 +258,7 @@ func (*QotGetMarketStateResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetMarketState_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *QotGetMarketStateResponse_Internal) GetRetType() int32 {
+func (x *QotGetMarketStateResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -292,18 +292,18 @@ const file_Qot_GetMarketState_proto_rawDesc = "" +
 	"\n" +
 	"\x18Qot_GetMarketState.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"P\n" +
 	"\x18QotGetMarketStateRequest\x124\n" +
-	"\fsecurityList\x18\x01 \x03(\v2\x10.futupb.SecurityR\fsecurityList\"p\n" +
+	"\fsecurityList\x18\x01 \x03(\v2\x10.futupb.SecurityR\fsecurityList\"\x88\x01\n" +
 	"\n" +
 	"MarketInfo\x12,\n" +
 	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x12\n" +
-	"\x04name\x18\x02 \x02(\tR\x04name\x12 \n" +
-	"\vmarketState\x18\x03 \x02(\x05R\vmarketState\"W\n" +
+	"\x04name\x18\x02 \x02(\tR\x04name\x128\n" +
+	"\vmarketState\x18\x03 \x02(\x0e2\x16.futupb.QotMarketStateR\vmarketState\"W\n" +
 	"\x19QotGetMarketStateResponse\x12:\n" +
 	"\x0emarketInfoList\x18\x01 \x03(\v2\x12.futupb.MarketInfoR\x0emarketInfoList\"_\n" +
 	"!QotGetMarketStateRequest_Internal\x12:\n" +
-	"\apayload\x18\x01 \x02(\v2 .futupb.QotGetMarketStateRequestR\apayload\"\xb3\x01\n" +
-	"\"QotGetMarketStateResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2 .futupb.QotGetMarketStateRequestR\apayload\"\xcf\x01\n" +
+	"\"QotGetMarketStateResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12;\n" +
 	"\apayload\x18\x04 \x01(\v2!.futupb.QotGetMarketStateResponseR\apayloadB4\n" +
@@ -329,18 +329,22 @@ var file_Qot_GetMarketState_proto_goTypes = []any{
 	(*QotGetMarketStateRequest_Internal)(nil),  // 3: futupb.QotGetMarketStateRequest_Internal
 	(*QotGetMarketStateResponse_Internal)(nil), // 4: futupb.QotGetMarketStateResponse_Internal
 	(*Security)(nil),                           // 5: futupb.Security
+	(QotMarketState)(0),                        // 6: futupb.QotMarketState
+	(RetType)(0),                               // 7: futupb.RetType
 }
 var file_Qot_GetMarketState_proto_depIdxs = []int32{
 	5, // 0: futupb.QotGetMarketStateRequest.securityList:type_name -> futupb.Security
 	5, // 1: futupb.MarketInfo.security:type_name -> futupb.Security
-	1, // 2: futupb.QotGetMarketStateResponse.marketInfoList:type_name -> futupb.MarketInfo
-	0, // 3: futupb.QotGetMarketStateRequest_Internal.payload:type_name -> futupb.QotGetMarketStateRequest
-	2, // 4: futupb.QotGetMarketStateResponse_Internal.payload:type_name -> futupb.QotGetMarketStateResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	6, // 2: futupb.MarketInfo.marketState:type_name -> futupb.QotMarketState
+	1, // 3: futupb.QotGetMarketStateResponse.marketInfoList:type_name -> futupb.MarketInfo
+	0, // 4: futupb.QotGetMarketStateRequest_Internal.payload:type_name -> futupb.QotGetMarketStateRequest
+	7, // 5: futupb.QotGetMarketStateResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 6: futupb.QotGetMarketStateResponse_Internal.payload:type_name -> futupb.QotGetMarketStateResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetMarketState_proto_init() }

@@ -27,7 +27,7 @@ type TrdGetFundsRequest struct {
 	RefreshCache *bool                  `protobuf:"varint,2,opt,name=refreshCache" json:"refreshCache,omitempty"` //立即刷新OpenD缓存的此数据，默认不填。true向服务器获取最新数据更新缓存并返回；flase或没填则返回OpenD缓存的数据，不会向服务器请求。
 	// 正常情况下，服务器有更新就会立即推送到OpenD，OpenD缓存着数据，API请求过来，返回同步的缓存数据，一般不需要指定刷新缓存，保证快速返回且减少对服务器的压力
 	// 如果遇到丢包等情况，可能出现缓存数据与服务器不一致，用户如果发现数据更新有异样，可指定刷新缓存，解决数据同步的问题。
-	Currency      *int32 `protobuf:"varint,3,opt,name=currency" json:"currency,omitempty"` //货币种类，参见Trd_Common.Currency。期货账户必填，其它账户忽略
+	Currency      *Currency `protobuf:"varint,3,opt,name=currency,enum=futupb.Currency" json:"currency,omitempty"` //货币种类，参见Trd_Common.Currency。期货账户必填，其它账户忽略
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -76,11 +76,11 @@ func (x *TrdGetFundsRequest) GetRefreshCache() bool {
 	return false
 }
 
-func (x *TrdGetFundsRequest) GetCurrency() int32 {
+func (x *TrdGetFundsRequest) GetCurrency() Currency {
 	if x != nil && x.Currency != nil {
 		return *x.Currency
 	}
-	return 0
+	return Currency_Currency_Unknown
 }
 
 type TrdGetFundsResponse struct {
@@ -182,7 +182,7 @@ func (x *TrdGetFundsRequest_Internal) GetPayload() *TrdGetFundsRequest {
 type TrdGetFundsResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32               `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType             `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string              `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32               `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdGetFundsResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -192,7 +192,7 @@ type TrdGetFundsResponse_Internal struct {
 
 // Default values for TrdGetFundsResponse_Internal fields.
 const (
-	Default_TrdGetFundsResponse_Internal_RetType = int32(-400)
+	Default_TrdGetFundsResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdGetFundsResponse_Internal) Reset() {
@@ -225,7 +225,7 @@ func (*TrdGetFundsResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_GetFunds_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdGetFundsResponse_Internal) GetRetType() int32 {
+func (x *TrdGetFundsResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -257,18 +257,18 @@ var File_Trd_GetFunds_proto protoreflect.FileDescriptor
 
 const file_Trd_GetFunds_proto_rawDesc = "" +
 	"\n" +
-	"\x12Trd_GetFunds.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\x7f\n" +
+	"\x12Trd_GetFunds.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\x91\x01\n" +
 	"\x12TrdGetFundsRequest\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12\"\n" +
-	"\frefreshCache\x18\x02 \x01(\bR\frefreshCache\x12\x1a\n" +
-	"\bcurrency\x18\x03 \x01(\x05R\bcurrency\"e\n" +
+	"\frefreshCache\x18\x02 \x01(\bR\frefreshCache\x12,\n" +
+	"\bcurrency\x18\x03 \x01(\x0e2\x10.futupb.CurrencyR\bcurrency\"e\n" +
 	"\x13TrdGetFundsResponse\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12#\n" +
 	"\x05funds\x18\x02 \x01(\v2\r.futupb.FundsR\x05funds\"S\n" +
 	"\x1bTrdGetFundsRequest_Internal\x124\n" +
-	"\apayload\x18\x01 \x02(\v2\x1a.futupb.TrdGetFundsRequestR\apayload\"\xa7\x01\n" +
-	"\x1cTrdGetFundsResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1a.futupb.TrdGetFundsRequestR\apayload\"\xc3\x01\n" +
+	"\x1cTrdGetFundsResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x125\n" +
 	"\apayload\x18\x04 \x01(\v2\x1b.futupb.TrdGetFundsResponseR\apayloadB4\n" +
@@ -293,19 +293,23 @@ var file_Trd_GetFunds_proto_goTypes = []any{
 	(*TrdGetFundsRequest_Internal)(nil),  // 2: futupb.TrdGetFundsRequest_Internal
 	(*TrdGetFundsResponse_Internal)(nil), // 3: futupb.TrdGetFundsResponse_Internal
 	(*TrdHeader)(nil),                    // 4: futupb.TrdHeader
-	(*Funds)(nil),                        // 5: futupb.Funds
+	(Currency)(0),                        // 5: futupb.Currency
+	(*Funds)(nil),                        // 6: futupb.Funds
+	(RetType)(0),                         // 7: futupb.RetType
 }
 var file_Trd_GetFunds_proto_depIdxs = []int32{
 	4, // 0: futupb.TrdGetFundsRequest.header:type_name -> futupb.TrdHeader
-	4, // 1: futupb.TrdGetFundsResponse.header:type_name -> futupb.TrdHeader
-	5, // 2: futupb.TrdGetFundsResponse.funds:type_name -> futupb.Funds
-	0, // 3: futupb.TrdGetFundsRequest_Internal.payload:type_name -> futupb.TrdGetFundsRequest
-	1, // 4: futupb.TrdGetFundsResponse_Internal.payload:type_name -> futupb.TrdGetFundsResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	5, // 1: futupb.TrdGetFundsRequest.currency:type_name -> futupb.Currency
+	4, // 2: futupb.TrdGetFundsResponse.header:type_name -> futupb.TrdHeader
+	6, // 3: futupb.TrdGetFundsResponse.funds:type_name -> futupb.Funds
+	0, // 4: futupb.TrdGetFundsRequest_Internal.payload:type_name -> futupb.TrdGetFundsRequest
+	7, // 5: futupb.TrdGetFundsResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 6: futupb.TrdGetFundsResponse_Internal.payload:type_name -> futupb.TrdGetFundsResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Trd_GetFunds_proto_init() }

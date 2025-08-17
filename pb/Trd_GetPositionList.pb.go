@@ -196,7 +196,7 @@ func (x *TrdGetPositionListRequest_Internal) GetPayload() *TrdGetPositionListReq
 type TrdGetPositionListResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                      `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                    `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                     `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                      `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdGetPositionListResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -206,7 +206,7 @@ type TrdGetPositionListResponse_Internal struct {
 
 // Default values for TrdGetPositionListResponse_Internal fields.
 const (
-	Default_TrdGetPositionListResponse_Internal_RetType = int32(-400)
+	Default_TrdGetPositionListResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdGetPositionListResponse_Internal) Reset() {
@@ -239,7 +239,7 @@ func (*TrdGetPositionListResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_GetPositionList_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdGetPositionListResponse_Internal) GetRetType() int32 {
+func (x *TrdGetPositionListResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -282,9 +282,9 @@ const file_Trd_GetPositionList_proto_rawDesc = "" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x124\n" +
 	"\fpositionList\x18\x02 \x03(\v2\x10.futupb.PositionR\fpositionList\"a\n" +
 	"\"TrdGetPositionListRequest_Internal\x12;\n" +
-	"\apayload\x18\x01 \x02(\v2!.futupb.TrdGetPositionListRequestR\apayload\"\xb5\x01\n" +
-	"#TrdGetPositionListResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2!.futupb.TrdGetPositionListRequestR\apayload\"\xd1\x01\n" +
+	"#TrdGetPositionListResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12<\n" +
 	"\apayload\x18\x04 \x01(\v2\".futupb.TrdGetPositionListResponseR\apayloadB4\n" +
@@ -311,6 +311,7 @@ var file_Trd_GetPositionList_proto_goTypes = []any{
 	(*TrdHeader)(nil),                           // 4: futupb.TrdHeader
 	(*TrdFilterConditions)(nil),                 // 5: futupb.TrdFilterConditions
 	(*Position)(nil),                            // 6: futupb.Position
+	(RetType)(0),                                // 7: futupb.RetType
 }
 var file_Trd_GetPositionList_proto_depIdxs = []int32{
 	4, // 0: futupb.TrdGetPositionListRequest.header:type_name -> futupb.TrdHeader
@@ -318,12 +319,13 @@ var file_Trd_GetPositionList_proto_depIdxs = []int32{
 	4, // 2: futupb.TrdGetPositionListResponse.header:type_name -> futupb.TrdHeader
 	6, // 3: futupb.TrdGetPositionListResponse.positionList:type_name -> futupb.Position
 	0, // 4: futupb.TrdGetPositionListRequest_Internal.payload:type_name -> futupb.TrdGetPositionListRequest
-	1, // 5: futupb.TrdGetPositionListResponse_Internal.payload:type_name -> futupb.TrdGetPositionListResponse
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	7, // 5: futupb.TrdGetPositionListResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 6: futupb.TrdGetPositionListResponse_Internal.payload:type_name -> futupb.TrdGetPositionListResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Trd_GetPositionList_proto_init() }

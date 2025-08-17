@@ -172,9 +172,9 @@ func (x *TestCmdRequest_Internal) GetPayload() *TestCmdRequest {
 
 type TestCmdResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
-	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`             //返回结果描述
-	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`          //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
+	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`                                 //返回结果描述
+	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`                              //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
 	Payload       *TestCmdResponse       `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -182,7 +182,7 @@ type TestCmdResponse_Internal struct {
 
 // Default values for TestCmdResponse_Internal fields.
 const (
-	Default_TestCmdResponse_Internal_RetType = int32(-400)
+	Default_TestCmdResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TestCmdResponse_Internal) Reset() {
@@ -215,7 +215,7 @@ func (*TestCmdResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_TestCmd_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TestCmdResponse_Internal) GetRetType() int32 {
+func (x *TestCmdResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -247,7 +247,7 @@ var File_TestCmd_proto protoreflect.FileDescriptor
 
 const file_TestCmd_proto_rawDesc = "" +
 	"\n" +
-	"\rTestCmd.proto\x12\x06futupb\":\n" +
+	"\rTestCmd.proto\x12\x06futupb\x1a\fCommon.proto\":\n" +
 	"\x0eTestCmdRequest\x12\x10\n" +
 	"\x03cmd\x18\x01 \x02(\tR\x03cmd\x12\x16\n" +
 	"\x06params\x18\x02 \x01(\tR\x06params\";\n" +
@@ -255,9 +255,9 @@ const file_TestCmd_proto_rawDesc = "" +
 	"\x03cmd\x18\x01 \x02(\tR\x03cmd\x12\x16\n" +
 	"\x06result\x18\x02 \x02(\tR\x06result\"K\n" +
 	"\x17TestCmdRequest_Internal\x120\n" +
-	"\apayload\x18\x01 \x02(\v2\x16.futupb.TestCmdRequestR\apayload\"\x9f\x01\n" +
-	"\x18TestCmdResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x16.futupb.TestCmdRequestR\apayload\"\xbb\x01\n" +
+	"\x18TestCmdResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x121\n" +
 	"\apayload\x18\x04 \x01(\v2\x17.futupb.TestCmdResponseR\apayloadB4\n" +
@@ -281,15 +281,17 @@ var file_TestCmd_proto_goTypes = []any{
 	(*TestCmdResponse)(nil),          // 1: futupb.TestCmdResponse
 	(*TestCmdRequest_Internal)(nil),  // 2: futupb.TestCmdRequest_Internal
 	(*TestCmdResponse_Internal)(nil), // 3: futupb.TestCmdResponse_Internal
+	(RetType)(0),                     // 4: futupb.RetType
 }
 var file_TestCmd_proto_depIdxs = []int32{
 	0, // 0: futupb.TestCmdRequest_Internal.payload:type_name -> futupb.TestCmdRequest
-	1, // 1: futupb.TestCmdResponse_Internal.payload:type_name -> futupb.TestCmdResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 1: futupb.TestCmdResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 2: futupb.TestCmdResponse_Internal.payload:type_name -> futupb.TestCmdResponse
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_TestCmd_proto_init() }
@@ -297,6 +299,7 @@ func file_TestCmd_proto_init() {
 	if File_TestCmd_proto != nil {
 		return
 	}
+	file_Common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

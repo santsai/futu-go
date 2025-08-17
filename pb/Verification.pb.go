@@ -145,9 +145,9 @@ func (VerificationOp) EnumDescriptor() ([]byte, []int) {
 // 注意：只有最后一次请求验证码会生效，重复请求只有最后一次的验证码有效
 type VerificationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          *int32                 `protobuf:"varint,1,req,name=type" json:"type,omitempty"` //验证码类型, VerificationType
-	Op            *int32                 `protobuf:"varint,2,req,name=op" json:"op,omitempty"`     //操作, VerificationOp
-	Code          *string                `protobuf:"bytes,3,opt,name=code" json:"code,omitempty"`  //验证码，请求验证码时忽略该字段，输入时必填
+	Type          *VerificationType      `protobuf:"varint,1,req,name=type,enum=futupb.VerificationType" json:"type,omitempty"` //验证码类型, VerificationType
+	Op            *VerificationOp        `protobuf:"varint,2,req,name=op,enum=futupb.VerificationOp" json:"op,omitempty"`       //操作, VerificationOp
+	Code          *string                `protobuf:"bytes,3,opt,name=code" json:"code,omitempty"`                               //验证码，请求验证码时忽略该字段，输入时必填
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -182,18 +182,18 @@ func (*VerificationRequest) Descriptor() ([]byte, []int) {
 	return file_Verification_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *VerificationRequest) GetType() int32 {
+func (x *VerificationRequest) GetType() VerificationType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return VerificationType_VerificationType_Unknow
 }
 
-func (x *VerificationRequest) GetOp() int32 {
+func (x *VerificationRequest) GetOp() VerificationOp {
 	if x != nil && x.Op != nil {
 		return *x.Op
 	}
-	return 0
+	return VerificationOp_VerificationOp_Unknow
 }
 
 func (x *VerificationRequest) GetCode() string {
@@ -285,9 +285,9 @@ func (x *VerificationRequest_Internal) GetPayload() *VerificationRequest {
 
 type VerificationResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
-	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`             //返回结果描述
-	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`          //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
+	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`                                 //返回结果描述
+	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`                              //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
 	Payload       *VerificationResponse  `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -295,7 +295,7 @@ type VerificationResponse_Internal struct {
 
 // Default values for VerificationResponse_Internal fields.
 const (
-	Default_VerificationResponse_Internal_RetType = int32(-400)
+	Default_VerificationResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *VerificationResponse_Internal) Reset() {
@@ -328,7 +328,7 @@ func (*VerificationResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Verification_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *VerificationResponse_Internal) GetRetType() int32 {
+func (x *VerificationResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -360,16 +360,16 @@ var File_Verification_proto protoreflect.FileDescriptor
 
 const file_Verification_proto_rawDesc = "" +
 	"\n" +
-	"\x12Verification.proto\x12\x06futupb\x1a\fCommon.proto\"M\n" +
-	"\x13VerificationRequest\x12\x12\n" +
-	"\x04type\x18\x01 \x02(\x05R\x04type\x12\x0e\n" +
-	"\x02op\x18\x02 \x02(\x05R\x02op\x12\x12\n" +
+	"\x12Verification.proto\x12\x06futupb\x1a\fCommon.proto\"\x7f\n" +
+	"\x13VerificationRequest\x12,\n" +
+	"\x04type\x18\x01 \x02(\x0e2\x18.futupb.VerificationTypeR\x04type\x12&\n" +
+	"\x02op\x18\x02 \x02(\x0e2\x16.futupb.VerificationOpR\x02op\x12\x12\n" +
 	"\x04code\x18\x03 \x01(\tR\x04code\"\x16\n" +
 	"\x14VerificationResponse\"U\n" +
 	"\x1cVerificationRequest_Internal\x125\n" +
-	"\apayload\x18\x01 \x02(\v2\x1b.futupb.VerificationRequestR\apayload\"\xa9\x01\n" +
-	"\x1dVerificationResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1b.futupb.VerificationRequestR\apayload\"\xc5\x01\n" +
+	"\x1dVerificationResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x126\n" +
 	"\apayload\x18\x04 \x01(\v2\x1c.futupb.VerificationResponseR\apayload*i\n" +
@@ -404,15 +404,19 @@ var file_Verification_proto_goTypes = []any{
 	(*VerificationResponse)(nil),          // 3: futupb.VerificationResponse
 	(*VerificationRequest_Internal)(nil),  // 4: futupb.VerificationRequest_Internal
 	(*VerificationResponse_Internal)(nil), // 5: futupb.VerificationResponse_Internal
+	(RetType)(0),                          // 6: futupb.RetType
 }
 var file_Verification_proto_depIdxs = []int32{
-	2, // 0: futupb.VerificationRequest_Internal.payload:type_name -> futupb.VerificationRequest
-	3, // 1: futupb.VerificationResponse_Internal.payload:type_name -> futupb.VerificationResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0, // 0: futupb.VerificationRequest.type:type_name -> futupb.VerificationType
+	1, // 1: futupb.VerificationRequest.op:type_name -> futupb.VerificationOp
+	2, // 2: futupb.VerificationRequest_Internal.payload:type_name -> futupb.VerificationRequest
+	6, // 3: futupb.VerificationResponse_Internal.retType:type_name -> futupb.RetType
+	3, // 4: futupb.VerificationResponse_Internal.payload:type_name -> futupb.VerificationResponse
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_Verification_proto_init() }

@@ -3,6 +3,8 @@ package futupb;
 option java_package = "com.futu.openapi.pb";
 option go_package = "github.com/santsai/futu-go/pb";
 
+import "Common.proto";
+
 
 //内部使用
 message TestCmdRequest
@@ -24,7 +26,7 @@ message TestCmdRequest_Internal
 
 message TestCmdResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //返回结果，参见Common.RetType的枚举定义
+	required RetType retType = 1 [default = RetType_Unknown]; //返回结果，参见Common.RetType的枚举定义
 	optional string retMsg = 2; //返回结果描述
 	optional int32 errCode = 3; //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
 

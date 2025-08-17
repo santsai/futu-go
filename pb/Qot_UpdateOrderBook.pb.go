@@ -123,7 +123,7 @@ func (x *QotUpdateOrderBookResponse) GetSvrRecvTimeAskTimestamp() float64 {
 
 type QotUpdateOrderBookResponse_Internal struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
-	RetType       *int32                      `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                    `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                     `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                      `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotUpdateOrderBookResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -133,7 +133,7 @@ type QotUpdateOrderBookResponse_Internal struct {
 
 // Default values for QotUpdateOrderBookResponse_Internal fields.
 const (
-	Default_QotUpdateOrderBookResponse_Internal_RetType = int32(-400)
+	Default_QotUpdateOrderBookResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotUpdateOrderBookResponse_Internal) Reset() {
@@ -166,7 +166,7 @@ func (*QotUpdateOrderBookResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_UpdateOrderBook_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *QotUpdateOrderBookResponse_Internal) GetRetType() int32 {
+func (x *QotUpdateOrderBookResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -207,9 +207,9 @@ const file_Qot_UpdateOrderBook_proto_rawDesc = "" +
 	"\x0esvrRecvTimeBid\x18\x04 \x01(\tR\x0esvrRecvTimeBid\x128\n" +
 	"\x17svrRecvTimeBidTimestamp\x18\x05 \x01(\x01R\x17svrRecvTimeBidTimestamp\x12&\n" +
 	"\x0esvrRecvTimeAsk\x18\x06 \x01(\tR\x0esvrRecvTimeAsk\x128\n" +
-	"\x17svrRecvTimeAskTimestamp\x18\a \x01(\x01R\x17svrRecvTimeAskTimestamp\"\xb5\x01\n" +
-	"#QotUpdateOrderBookResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\x17svrRecvTimeAskTimestamp\x18\a \x01(\x01R\x17svrRecvTimeAskTimestamp\"\xd1\x01\n" +
+	"#QotUpdateOrderBookResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12<\n" +
 	"\apayload\x18\x04 \x01(\v2\".futupb.QotUpdateOrderBookResponseR\apayloadB4\n" +
@@ -233,17 +233,19 @@ var file_Qot_UpdateOrderBook_proto_goTypes = []any{
 	(*QotUpdateOrderBookResponse_Internal)(nil), // 1: futupb.QotUpdateOrderBookResponse_Internal
 	(*Security)(nil),                            // 2: futupb.Security
 	(*OrderBook)(nil),                           // 3: futupb.OrderBook
+	(RetType)(0),                                // 4: futupb.RetType
 }
 var file_Qot_UpdateOrderBook_proto_depIdxs = []int32{
 	2, // 0: futupb.QotUpdateOrderBookResponse.security:type_name -> futupb.Security
 	3, // 1: futupb.QotUpdateOrderBookResponse.orderBookAskList:type_name -> futupb.OrderBook
 	3, // 2: futupb.QotUpdateOrderBookResponse.orderBookBidList:type_name -> futupb.OrderBook
-	0, // 3: futupb.QotUpdateOrderBookResponse_Internal.payload:type_name -> futupb.QotUpdateOrderBookResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 3: futupb.QotUpdateOrderBookResponse_Internal.retType:type_name -> futupb.RetType
+	0, // 4: futupb.QotUpdateOrderBookResponse_Internal.payload:type_name -> futupb.QotUpdateOrderBookResponse
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_Qot_UpdateOrderBook_proto_init() }

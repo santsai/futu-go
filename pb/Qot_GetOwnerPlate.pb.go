@@ -215,7 +215,7 @@ func (x *QotGetOwnerPlateRequest_Internal) GetPayload() *QotGetOwnerPlateRequest
 
 type QotGetOwnerPlateResponse_Internal struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
-	RetType       *int32                    `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                  `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                   `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                    `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetOwnerPlateResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -225,7 +225,7 @@ type QotGetOwnerPlateResponse_Internal struct {
 
 // Default values for QotGetOwnerPlateResponse_Internal fields.
 const (
-	Default_QotGetOwnerPlateResponse_Internal_RetType = int32(-400)
+	Default_QotGetOwnerPlateResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetOwnerPlateResponse_Internal) Reset() {
@@ -258,7 +258,7 @@ func (*QotGetOwnerPlateResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetOwnerPlate_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *QotGetOwnerPlateResponse_Internal) GetRetType() int32 {
+func (x *QotGetOwnerPlateResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -300,9 +300,9 @@ const file_Qot_GetOwnerPlate_proto_rawDesc = "" +
 	"\x18QotGetOwnerPlateResponse\x12B\n" +
 	"\x0eownerPlateList\x18\x01 \x03(\v2\x1a.futupb.SecurityOwnerPlateR\x0eownerPlateList\"]\n" +
 	" QotGetOwnerPlateRequest_Internal\x129\n" +
-	"\apayload\x18\x01 \x02(\v2\x1f.futupb.QotGetOwnerPlateRequestR\apayload\"\xb1\x01\n" +
-	"!QotGetOwnerPlateResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1f.futupb.QotGetOwnerPlateRequestR\apayload\"\xcd\x01\n" +
+	"!QotGetOwnerPlateResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12:\n" +
 	"\apayload\x18\x04 \x01(\v2 .futupb.QotGetOwnerPlateResponseR\apayloadB4\n" +
@@ -329,6 +329,7 @@ var file_Qot_GetOwnerPlate_proto_goTypes = []any{
 	(*QotGetOwnerPlateResponse_Internal)(nil), // 4: futupb.QotGetOwnerPlateResponse_Internal
 	(*Security)(nil),                          // 5: futupb.Security
 	(*PlateInfo)(nil),                         // 6: futupb.PlateInfo
+	(RetType)(0),                              // 7: futupb.RetType
 }
 var file_Qot_GetOwnerPlate_proto_depIdxs = []int32{
 	5, // 0: futupb.QotGetOwnerPlateRequest.securityList:type_name -> futupb.Security
@@ -336,12 +337,13 @@ var file_Qot_GetOwnerPlate_proto_depIdxs = []int32{
 	6, // 2: futupb.SecurityOwnerPlate.plateInfoList:type_name -> futupb.PlateInfo
 	1, // 3: futupb.QotGetOwnerPlateResponse.ownerPlateList:type_name -> futupb.SecurityOwnerPlate
 	0, // 4: futupb.QotGetOwnerPlateRequest_Internal.payload:type_name -> futupb.QotGetOwnerPlateRequest
-	2, // 5: futupb.QotGetOwnerPlateResponse_Internal.payload:type_name -> futupb.QotGetOwnerPlateResponse
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	7, // 5: futupb.QotGetOwnerPlateResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 6: futupb.QotGetOwnerPlateResponse_Internal.payload:type_name -> futupb.QotGetOwnerPlateResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetOwnerPlate_proto_init() }

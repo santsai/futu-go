@@ -93,15 +93,15 @@ func (SetPriceReminderOp) EnumDescriptor() ([]byte, []int) {
 }
 
 type QotSetPriceReminderRequest struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	Security            *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`                        // 股票
-	Op                  *int32                 `protobuf:"varint,2,req,name=op" json:"op,omitempty"`                                   // SetPriceReminderOp，操作类型
-	Key                 *int64                 `protobuf:"varint,3,opt,name=key" json:"key,omitempty"`                                 // 到价提醒的标识，GetPriceReminder协议可获得，用于指定要操作的到价提醒项，对于新增的情况不需要填
-	Type                *int32                 `protobuf:"varint,4,opt,name=type" json:"type,omitempty"`                               // Qot_Common::PriceReminderType，提醒类型，删除、启用、禁用的情况下会忽略该字段
-	Freq                *int32                 `protobuf:"varint,7,opt,name=freq" json:"freq,omitempty"`                               // Qot_Common::PriceReminderFreq，提醒频率类型，删除、启用、禁用的情况下会忽略该字段
-	Value               *float64               `protobuf:"fixed64,5,opt,name=value" json:"value,omitempty"`                            // 提醒值，删除、启用、禁用的情况下会忽略该字段（精确到小数点后 3 位，超出部分会被舍弃）
-	Note                *string                `protobuf:"bytes,6,opt,name=note" json:"note,omitempty"`                                // 用户设置到价提醒时的标注，仅支持 20 个以内的中文字符，删除、启用、禁用的情况下会忽略该字段
-	ReminderSessionList []int32                `protobuf:"varint,8,rep,name=reminderSessionList" json:"reminderSessionList,omitempty"` // 到价提醒的时段列表，删除、启用、禁用的情况下会忽略该入参,枚举参考Qot_Common::PriceReminderMarketStatus
+	state               protoimpl.MessageState      `protogen:"open.v1"`
+	Security            *Security                   `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`                                                              // 股票
+	Op                  *SetPriceReminderOp         `protobuf:"varint,2,req,name=op,enum=futupb.SetPriceReminderOp" json:"op,omitempty"`                                          // SetPriceReminderOp，操作类型
+	Key                 *int64                      `protobuf:"varint,3,opt,name=key" json:"key,omitempty"`                                                                       // 到价提醒的标识，GetPriceReminder协议可获得，用于指定要操作的到价提醒项，对于新增的情况不需要填
+	Type                *PriceReminderType          `protobuf:"varint,4,opt,name=type,enum=futupb.PriceReminderType" json:"type,omitempty"`                                       // Qot_Common::PriceReminderType，提醒类型，删除、启用、禁用的情况下会忽略该字段
+	Freq                *PriceReminderFreq          `protobuf:"varint,7,opt,name=freq,enum=futupb.PriceReminderFreq" json:"freq,omitempty"`                                       // Qot_Common::PriceReminderFreq，提醒频率类型，删除、启用、禁用的情况下会忽略该字段
+	Value               *float64                    `protobuf:"fixed64,5,opt,name=value" json:"value,omitempty"`                                                                  // 提醒值，删除、启用、禁用的情况下会忽略该字段（精确到小数点后 3 位，超出部分会被舍弃）
+	Note                *string                     `protobuf:"bytes,6,opt,name=note" json:"note,omitempty"`                                                                      // 用户设置到价提醒时的标注，仅支持 20 个以内的中文字符，删除、启用、禁用的情况下会忽略该字段
+	ReminderSessionList []PriceReminderMarketStatus `protobuf:"varint,8,rep,name=reminderSessionList,enum=futupb.PriceReminderMarketStatus" json:"reminderSessionList,omitempty"` // 到价提醒的时段列表，删除、启用、禁用的情况下会忽略该入参,枚举参考Qot_Common::PriceReminderMarketStatus
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -143,11 +143,11 @@ func (x *QotSetPriceReminderRequest) GetSecurity() *Security {
 	return nil
 }
 
-func (x *QotSetPriceReminderRequest) GetOp() int32 {
+func (x *QotSetPriceReminderRequest) GetOp() SetPriceReminderOp {
 	if x != nil && x.Op != nil {
 		return *x.Op
 	}
-	return 0
+	return SetPriceReminderOp_SetPriceReminderOp_Unknown
 }
 
 func (x *QotSetPriceReminderRequest) GetKey() int64 {
@@ -157,18 +157,18 @@ func (x *QotSetPriceReminderRequest) GetKey() int64 {
 	return 0
 }
 
-func (x *QotSetPriceReminderRequest) GetType() int32 {
+func (x *QotSetPriceReminderRequest) GetType() PriceReminderType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return PriceReminderType_PriceReminderType_Unknown
 }
 
-func (x *QotSetPriceReminderRequest) GetFreq() int32 {
+func (x *QotSetPriceReminderRequest) GetFreq() PriceReminderFreq {
 	if x != nil && x.Freq != nil {
 		return *x.Freq
 	}
-	return 0
+	return PriceReminderFreq_PriceReminderFreq_Unknown
 }
 
 func (x *QotSetPriceReminderRequest) GetValue() float64 {
@@ -185,7 +185,7 @@ func (x *QotSetPriceReminderRequest) GetNote() string {
 	return ""
 }
 
-func (x *QotSetPriceReminderRequest) GetReminderSessionList() []int32 {
+func (x *QotSetPriceReminderRequest) GetReminderSessionList() []PriceReminderMarketStatus {
 	if x != nil {
 		return x.ReminderSessionList
 	}
@@ -282,7 +282,7 @@ func (x *QotSetPriceReminderRequest_Internal) GetPayload() *QotSetPriceReminderR
 
 type QotSetPriceReminderResponse_Internal struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
-	RetType       *int32                       `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType，返回结果
+	RetType       *RetType                     `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType，返回结果
 	RetMsg        *string                      `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                       `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotSetPriceReminderResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -292,7 +292,7 @@ type QotSetPriceReminderResponse_Internal struct {
 
 // Default values for QotSetPriceReminderResponse_Internal fields.
 const (
-	Default_QotSetPriceReminderResponse_Internal_RetType = int32(-400)
+	Default_QotSetPriceReminderResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotSetPriceReminderResponse_Internal) Reset() {
@@ -325,7 +325,7 @@ func (*QotSetPriceReminderResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_SetPriceReminder_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotSetPriceReminderResponse_Internal) GetRetType() int32 {
+func (x *QotSetPriceReminderResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -357,22 +357,22 @@ var File_Qot_SetPriceReminder_proto protoreflect.FileDescriptor
 
 const file_Qot_SetPriceReminder_proto_rawDesc = "" +
 	"\n" +
-	"\x1aQot_SetPriceReminder.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xf0\x01\n" +
+	"\x1aQot_SetPriceReminder.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xe5\x02\n" +
 	"\x1aQotSetPriceReminderRequest\x12,\n" +
-	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x0e\n" +
-	"\x02op\x18\x02 \x02(\x05R\x02op\x12\x10\n" +
-	"\x03key\x18\x03 \x01(\x03R\x03key\x12\x12\n" +
-	"\x04type\x18\x04 \x01(\x05R\x04type\x12\x12\n" +
-	"\x04freq\x18\a \x01(\x05R\x04freq\x12\x14\n" +
+	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12*\n" +
+	"\x02op\x18\x02 \x02(\x0e2\x1a.futupb.SetPriceReminderOpR\x02op\x12\x10\n" +
+	"\x03key\x18\x03 \x01(\x03R\x03key\x12-\n" +
+	"\x04type\x18\x04 \x01(\x0e2\x19.futupb.PriceReminderTypeR\x04type\x12-\n" +
+	"\x04freq\x18\a \x01(\x0e2\x19.futupb.PriceReminderFreqR\x04freq\x12\x14\n" +
 	"\x05value\x18\x05 \x01(\x01R\x05value\x12\x12\n" +
-	"\x04note\x18\x06 \x01(\tR\x04note\x120\n" +
-	"\x13reminderSessionList\x18\b \x03(\x05R\x13reminderSessionList\"/\n" +
+	"\x04note\x18\x06 \x01(\tR\x04note\x12S\n" +
+	"\x13reminderSessionList\x18\b \x03(\x0e2!.futupb.PriceReminderMarketStatusR\x13reminderSessionList\"/\n" +
 	"\x1bQotSetPriceReminderResponse\x12\x10\n" +
 	"\x03key\x18\x01 \x02(\x03R\x03key\"c\n" +
 	"#QotSetPriceReminderRequest_Internal\x12<\n" +
-	"\apayload\x18\x01 \x02(\v2\".futupb.QotSetPriceReminderRequestR\apayload\"\xb7\x01\n" +
-	"$QotSetPriceReminderResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\".futupb.QotSetPriceReminderRequestR\apayload\"\xd3\x01\n" +
+	"$QotSetPriceReminderResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12=\n" +
 	"\apayload\x18\x04 \x01(\v2#.futupb.QotSetPriceReminderResponseR\apayload*\xe9\x01\n" +
@@ -407,16 +407,25 @@ var file_Qot_SetPriceReminder_proto_goTypes = []any{
 	(*QotSetPriceReminderRequest_Internal)(nil),  // 3: futupb.QotSetPriceReminderRequest_Internal
 	(*QotSetPriceReminderResponse_Internal)(nil), // 4: futupb.QotSetPriceReminderResponse_Internal
 	(*Security)(nil),                             // 5: futupb.Security
+	(PriceReminderType)(0),                       // 6: futupb.PriceReminderType
+	(PriceReminderFreq)(0),                       // 7: futupb.PriceReminderFreq
+	(PriceReminderMarketStatus)(0),               // 8: futupb.PriceReminderMarketStatus
+	(RetType)(0),                                 // 9: futupb.RetType
 }
 var file_Qot_SetPriceReminder_proto_depIdxs = []int32{
 	5, // 0: futupb.QotSetPriceReminderRequest.security:type_name -> futupb.Security
-	1, // 1: futupb.QotSetPriceReminderRequest_Internal.payload:type_name -> futupb.QotSetPriceReminderRequest
-	2, // 2: futupb.QotSetPriceReminderResponse_Internal.payload:type_name -> futupb.QotSetPriceReminderResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0, // 1: futupb.QotSetPriceReminderRequest.op:type_name -> futupb.SetPriceReminderOp
+	6, // 2: futupb.QotSetPriceReminderRequest.type:type_name -> futupb.PriceReminderType
+	7, // 3: futupb.QotSetPriceReminderRequest.freq:type_name -> futupb.PriceReminderFreq
+	8, // 4: futupb.QotSetPriceReminderRequest.reminderSessionList:type_name -> futupb.PriceReminderMarketStatus
+	1, // 5: futupb.QotSetPriceReminderRequest_Internal.payload:type_name -> futupb.QotSetPriceReminderRequest
+	9, // 6: futupb.QotSetPriceReminderResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 7: futupb.QotSetPriceReminderResponse_Internal.payload:type_name -> futupb.QotSetPriceReminderResponse
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_Qot_SetPriceReminder_proto_init() }

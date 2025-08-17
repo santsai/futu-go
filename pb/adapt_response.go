@@ -9,13 +9,13 @@ import (
 
 type Response interface {
 	proto.Message
-	GetRetType() int32
+	GetRetType() RetType
 	GetRetMsg() string
 	GetResponsePayload() proto.Message
 }
 
 func ResponseError(r Response) error {
-	if r.GetRetType() != int32(RetType_Succeed) {
+	if r.GetRetType() != RetType_Succeed {
 		return errors.New(r.GetRetMsg())
 	}
 	return nil

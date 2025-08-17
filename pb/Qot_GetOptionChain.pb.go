@@ -263,13 +263,13 @@ func (x *DataFilter) GetVolMax() float64 {
 
 type QotGetOptionChainRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	Owner           *Security              `protobuf:"bytes,1,req,name=owner" json:"owner,omitempty"`                      //期权标的股，目前仅支持传入港美正股以及恒指国指
-	IndexOptionType *int32                 `protobuf:"varint,6,opt,name=indexOptionType" json:"indexOptionType,omitempty"` //Qot_Common.IndexOptionType，指数期权的类型，仅用于恒指国指
-	Type            *int32                 `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`                       //Qot_Common.OptionType，期权类型，可选字段，不指定则表示都返回
-	Condition       *int32                 `protobuf:"varint,3,opt,name=condition" json:"condition,omitempty"`             //OptionCondType，价内价外，可选字段，不指定则表示都返回
-	BeginTime       *string                `protobuf:"bytes,4,req,name=beginTime" json:"beginTime,omitempty"`              //期权到期日开始时间
-	EndTime         *string                `protobuf:"bytes,5,req,name=endTime" json:"endTime,omitempty"`                  //期权到期日结束时间，时间跨度最多一个月
-	DataFilter      *DataFilter            `protobuf:"bytes,7,opt,name=dataFilter" json:"dataFilter,omitempty"`            //数据字段筛选
+	Owner           *Security              `protobuf:"bytes,1,req,name=owner" json:"owner,omitempty"`                                                  //期权标的股，目前仅支持传入港美正股以及恒指国指
+	IndexOptionType *IndexOptionType       `protobuf:"varint,6,opt,name=indexOptionType,enum=futupb.IndexOptionType" json:"indexOptionType,omitempty"` //Qot_Common.IndexOptionType，指数期权的类型，仅用于恒指国指
+	Type            *OptionType            `protobuf:"varint,2,opt,name=type,enum=futupb.OptionType" json:"type,omitempty"`                            //Qot_Common.OptionType，期权类型，可选字段，不指定则表示都返回
+	Condition       *OptionCondType        `protobuf:"varint,3,opt,name=condition,enum=futupb.OptionCondType" json:"condition,omitempty"`              //OptionCondType，价内价外，可选字段，不指定则表示都返回
+	BeginTime       *string                `protobuf:"bytes,4,req,name=beginTime" json:"beginTime,omitempty"`                                          //期权到期日开始时间
+	EndTime         *string                `protobuf:"bytes,5,req,name=endTime" json:"endTime,omitempty"`                                              //期权到期日结束时间，时间跨度最多一个月
+	DataFilter      *DataFilter            `protobuf:"bytes,7,opt,name=dataFilter" json:"dataFilter,omitempty"`                                        //数据字段筛选
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -311,25 +311,25 @@ func (x *QotGetOptionChainRequest) GetOwner() *Security {
 	return nil
 }
 
-func (x *QotGetOptionChainRequest) GetIndexOptionType() int32 {
+func (x *QotGetOptionChainRequest) GetIndexOptionType() IndexOptionType {
 	if x != nil && x.IndexOptionType != nil {
 		return *x.IndexOptionType
 	}
-	return 0
+	return IndexOptionType_IndexOptionType_Unknown
 }
 
-func (x *QotGetOptionChainRequest) GetType() int32 {
+func (x *QotGetOptionChainRequest) GetType() OptionType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return OptionType_OptionType_Unknown
 }
 
-func (x *QotGetOptionChainRequest) GetCondition() int32 {
+func (x *QotGetOptionChainRequest) GetCondition() OptionCondType {
 	if x != nil && x.Condition != nil {
 		return *x.Condition
 	}
-	return 0
+	return OptionCondType_OptionCondType_Unknow
 }
 
 func (x *QotGetOptionChainRequest) GetBeginTime() string {
@@ -555,7 +555,7 @@ func (x *QotGetOptionChainRequest_Internal) GetPayload() *QotGetOptionChainReque
 
 type QotGetOptionChainResponse_Internal struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
-	RetType       *int32                     `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType，返回结果
+	RetType       *RetType                   `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType，返回结果
 	RetMsg        *string                    `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                     `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetOptionChainResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -565,7 +565,7 @@ type QotGetOptionChainResponse_Internal struct {
 
 // Default values for QotGetOptionChainResponse_Internal fields.
 const (
-	Default_QotGetOptionChainResponse_Internal_RetType = int32(-400)
+	Default_QotGetOptionChainResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetOptionChainResponse_Internal) Reset() {
@@ -598,7 +598,7 @@ func (*QotGetOptionChainResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetOptionChain_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *QotGetOptionChainResponse_Internal) GetRetType() int32 {
+func (x *QotGetOptionChainResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -651,12 +651,12 @@ const file_Qot_GetOptionChain_proto_rawDesc = "" +
 	"\x0fopenInterestMin\x18\x0f \x01(\x01R\x0fopenInterestMin\x12(\n" +
 	"\x0fopenInterestMax\x18\x10 \x01(\x01R\x0fopenInterestMax\x12\x16\n" +
 	"\x06volMin\x18\x11 \x01(\x01R\x06volMin\x12\x16\n" +
-	"\x06volMax\x18\x12 \x01(\x01R\x06volMax\"\x8a\x02\n" +
+	"\x06volMax\x18\x12 \x01(\x01R\x06volMax\"\xcf\x02\n" +
 	"\x18QotGetOptionChainRequest\x12&\n" +
-	"\x05owner\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05owner\x12(\n" +
-	"\x0findexOptionType\x18\x06 \x01(\x05R\x0findexOptionType\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\x05R\x04type\x12\x1c\n" +
-	"\tcondition\x18\x03 \x01(\x05R\tcondition\x12\x1c\n" +
+	"\x05owner\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05owner\x12A\n" +
+	"\x0findexOptionType\x18\x06 \x01(\x0e2\x17.futupb.IndexOptionTypeR\x0findexOptionType\x12&\n" +
+	"\x04type\x18\x02 \x01(\x0e2\x12.futupb.OptionTypeR\x04type\x124\n" +
+	"\tcondition\x18\x03 \x01(\x0e2\x16.futupb.OptionCondTypeR\tcondition\x12\x1c\n" +
 	"\tbeginTime\x18\x04 \x02(\tR\tbeginTime\x12\x18\n" +
 	"\aendTime\x18\x05 \x02(\tR\aendTime\x122\n" +
 	"\n" +
@@ -675,9 +675,9 @@ const file_Qot_GetOptionChain_proto_rawDesc = "" +
 	"\x19QotGetOptionChainResponse\x125\n" +
 	"\voptionChain\x18\x01 \x03(\v2\x13.futupb.OptionChainR\voptionChain\"_\n" +
 	"!QotGetOptionChainRequest_Internal\x12:\n" +
-	"\apayload\x18\x01 \x02(\v2 .futupb.QotGetOptionChainRequestR\apayload\"\xb3\x01\n" +
-	"\"QotGetOptionChainResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2 .futupb.QotGetOptionChainRequestR\apayload\"\xcf\x01\n" +
+	"\"QotGetOptionChainResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12;\n" +
 	"\apayload\x18\x04 \x01(\v2!.futupb.QotGetOptionChainResponseR\apayload*b\n" +
@@ -711,22 +711,29 @@ var file_Qot_GetOptionChain_proto_goTypes = []any{
 	(*QotGetOptionChainRequest_Internal)(nil),  // 6: futupb.QotGetOptionChainRequest_Internal
 	(*QotGetOptionChainResponse_Internal)(nil), // 7: futupb.QotGetOptionChainResponse_Internal
 	(*Security)(nil),                           // 8: futupb.Security
-	(*SecurityStaticInfo)(nil),                 // 9: futupb.SecurityStaticInfo
+	(IndexOptionType)(0),                       // 9: futupb.IndexOptionType
+	(OptionType)(0),                            // 10: futupb.OptionType
+	(*SecurityStaticInfo)(nil),                 // 11: futupb.SecurityStaticInfo
+	(RetType)(0),                               // 12: futupb.RetType
 }
 var file_Qot_GetOptionChain_proto_depIdxs = []int32{
-	8, // 0: futupb.QotGetOptionChainRequest.owner:type_name -> futupb.Security
-	1, // 1: futupb.QotGetOptionChainRequest.dataFilter:type_name -> futupb.DataFilter
-	9, // 2: futupb.OptionItem.call:type_name -> futupb.SecurityStaticInfo
-	9, // 3: futupb.OptionItem.put:type_name -> futupb.SecurityStaticInfo
-	3, // 4: futupb.OptionChain.option:type_name -> futupb.OptionItem
-	4, // 5: futupb.QotGetOptionChainResponse.optionChain:type_name -> futupb.OptionChain
-	2, // 6: futupb.QotGetOptionChainRequest_Internal.payload:type_name -> futupb.QotGetOptionChainRequest
-	5, // 7: futupb.QotGetOptionChainResponse_Internal.payload:type_name -> futupb.QotGetOptionChainResponse
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	8,  // 0: futupb.QotGetOptionChainRequest.owner:type_name -> futupb.Security
+	9,  // 1: futupb.QotGetOptionChainRequest.indexOptionType:type_name -> futupb.IndexOptionType
+	10, // 2: futupb.QotGetOptionChainRequest.type:type_name -> futupb.OptionType
+	0,  // 3: futupb.QotGetOptionChainRequest.condition:type_name -> futupb.OptionCondType
+	1,  // 4: futupb.QotGetOptionChainRequest.dataFilter:type_name -> futupb.DataFilter
+	11, // 5: futupb.OptionItem.call:type_name -> futupb.SecurityStaticInfo
+	11, // 6: futupb.OptionItem.put:type_name -> futupb.SecurityStaticInfo
+	3,  // 7: futupb.OptionChain.option:type_name -> futupb.OptionItem
+	4,  // 8: futupb.QotGetOptionChainResponse.optionChain:type_name -> futupb.OptionChain
+	2,  // 9: futupb.QotGetOptionChainRequest_Internal.payload:type_name -> futupb.QotGetOptionChainRequest
+	12, // 10: futupb.QotGetOptionChainResponse_Internal.retType:type_name -> futupb.RetType
+	5,  // 11: futupb.QotGetOptionChainResponse_Internal.payload:type_name -> futupb.QotGetOptionChainResponse
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetOptionChain_proto_init() }

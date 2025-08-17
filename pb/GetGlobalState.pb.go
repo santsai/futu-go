@@ -67,21 +67,21 @@ func (x *GetGlobalStateRequest) GetUserID() uint64 {
 
 type GetGlobalStateResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	MarketHK       *int32                 `protobuf:"varint,1,req,name=marketHK" json:"marketHK,omitempty"`              //Qot_Common.QotMarketState,港股主板市场状态
-	MarketUS       *int32                 `protobuf:"varint,2,req,name=marketUS" json:"marketUS,omitempty"`              //Qot_Common.QotMarketState,美股Nasdaq市场状态
-	MarketSH       *int32                 `protobuf:"varint,3,req,name=marketSH" json:"marketSH,omitempty"`              //Qot_Common.QotMarketState,沪市状态
-	MarketSZ       *int32                 `protobuf:"varint,4,req,name=marketSZ" json:"marketSZ,omitempty"`              //Qot_Common.QotMarketState,深市状态
-	MarketHKFuture *int32                 `protobuf:"varint,5,req,name=marketHKFuture" json:"marketHKFuture,omitempty"`  //Qot_Common.QotMarketState,港股期货市场状态
-	MarketUSFuture *int32                 `protobuf:"varint,15,opt,name=marketUSFuture" json:"marketUSFuture,omitempty"` //Qot_Common.QotMarketState,美国期货市场状态
-	MarketSGFuture *int32                 `protobuf:"varint,17,opt,name=marketSGFuture" json:"marketSGFuture,omitempty"` //Qot_Common.QotMarketState,新加坡期货市场状态
-	MarketJPFuture *int32                 `protobuf:"varint,18,opt,name=marketJPFuture" json:"marketJPFuture,omitempty"` //Qot_Common.QotMarketState,日本期货市场状态
-	QotLogined     *bool                  `protobuf:"varint,6,req,name=qotLogined" json:"qotLogined,omitempty"`          //是否登陆行情服务器
-	TrdLogined     *bool                  `protobuf:"varint,7,req,name=trdLogined" json:"trdLogined,omitempty"`          //是否登陆交易服务器
-	ServerVer      *int32                 `protobuf:"varint,8,req,name=serverVer" json:"serverVer,omitempty"`            //版本号
-	ServerBuildNo  *int32                 `protobuf:"varint,9,req,name=serverBuildNo" json:"serverBuildNo,omitempty"`    //buildNo
-	Time           *int64                 `protobuf:"varint,10,req,name=time" json:"time,omitempty"`                     //当前服务器时间
-	LocalTime      *float64               `protobuf:"fixed64,11,opt,name=localTime" json:"localTime,omitempty"`          //当前本地时间
-	ProgramStatus  *ProgramStatus         `protobuf:"bytes,12,opt,name=programStatus" json:"programStatus,omitempty"`    //当前程序状态
+	MarketHK       *int32                 `protobuf:"varint,1,req,name=marketHK" json:"marketHK,omitempty"`                                         //Qot_Common.QotMarketState,港股主板市场状态
+	MarketUS       *int32                 `protobuf:"varint,2,req,name=marketUS" json:"marketUS,omitempty"`                                         //Qot_Common.QotMarketState,美股Nasdaq市场状态
+	MarketSH       *int32                 `protobuf:"varint,3,req,name=marketSH" json:"marketSH,omitempty"`                                         //Qot_Common.QotMarketState,沪市状态
+	MarketSZ       *int32                 `protobuf:"varint,4,req,name=marketSZ" json:"marketSZ,omitempty"`                                         //Qot_Common.QotMarketState,深市状态
+	MarketHKFuture *int32                 `protobuf:"varint,5,req,name=marketHKFuture" json:"marketHKFuture,omitempty"`                             //Qot_Common.QotMarketState,港股期货市场状态
+	MarketUSFuture *int32                 `protobuf:"varint,15,opt,name=marketUSFuture" json:"marketUSFuture,omitempty"`                            //Qot_Common.QotMarketState,美国期货市场状态
+	MarketSGFuture *int32                 `protobuf:"varint,17,opt,name=marketSGFuture" json:"marketSGFuture,omitempty"`                            //Qot_Common.QotMarketState,新加坡期货市场状态
+	MarketJPFuture *QotMarketState        `protobuf:"varint,18,opt,name=marketJPFuture,enum=futupb.QotMarketState" json:"marketJPFuture,omitempty"` //Qot_Common.QotMarketState,日本期货市场状态
+	QotLogined     *bool                  `protobuf:"varint,6,req,name=qotLogined" json:"qotLogined,omitempty"`                                     //是否登陆行情服务器
+	TrdLogined     *bool                  `protobuf:"varint,7,req,name=trdLogined" json:"trdLogined,omitempty"`                                     //是否登陆交易服务器
+	ServerVer      *int32                 `protobuf:"varint,8,req,name=serverVer" json:"serverVer,omitempty"`                                       //版本号
+	ServerBuildNo  *int32                 `protobuf:"varint,9,req,name=serverBuildNo" json:"serverBuildNo,omitempty"`                               //buildNo
+	Time           *int64                 `protobuf:"varint,10,req,name=time" json:"time,omitempty"`                                                //当前服务器时间
+	LocalTime      *float64               `protobuf:"fixed64,11,opt,name=localTime" json:"localTime,omitempty"`                                     //当前本地时间
+	ProgramStatus  *ProgramStatus         `protobuf:"bytes,12,opt,name=programStatus" json:"programStatus,omitempty"`                               //当前程序状态
 	QotSvrIpAddr   *string                `protobuf:"bytes,13,opt,name=qotSvrIpAddr" json:"qotSvrIpAddr,omitempty"`
 	TrdSvrIpAddr   *string                `protobuf:"bytes,14,opt,name=trdSvrIpAddr" json:"trdSvrIpAddr,omitempty"`
 	ConnID         *uint64                `protobuf:"varint,16,opt,name=connID" json:"connID,omitempty"` //此连接的连接ID，连接的唯一标识
@@ -168,11 +168,11 @@ func (x *GetGlobalStateResponse) GetMarketSGFuture() int32 {
 	return 0
 }
 
-func (x *GetGlobalStateResponse) GetMarketJPFuture() int32 {
+func (x *GetGlobalStateResponse) GetMarketJPFuture() QotMarketState {
 	if x != nil && x.MarketJPFuture != nil {
 		return *x.MarketJPFuture
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
 func (x *GetGlobalStateResponse) GetQotLogined() bool {
@@ -291,7 +291,7 @@ func (x *GetGlobalStateRequest_Internal) GetPayload() *GetGlobalStateRequest {
 
 type GetGlobalStateResponse_Internal struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
-	RetType       *int32                  `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                 `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                  `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *GetGlobalStateResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -301,7 +301,7 @@ type GetGlobalStateResponse_Internal struct {
 
 // Default values for GetGlobalStateResponse_Internal fields.
 const (
-	Default_GetGlobalStateResponse_Internal_RetType = int32(-400)
+	Default_GetGlobalStateResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *GetGlobalStateResponse_Internal) Reset() {
@@ -334,7 +334,7 @@ func (*GetGlobalStateResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_GetGlobalState_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetGlobalStateResponse_Internal) GetRetType() int32 {
+func (x *GetGlobalStateResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -368,7 +368,7 @@ const file_GetGlobalState_proto_rawDesc = "" +
 	"\n" +
 	"\x14GetGlobalState.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"/\n" +
 	"\x15GetGlobalStateRequest\x12\x16\n" +
-	"\x06userID\x18\x01 \x02(\x04R\x06userID\"\xfb\x04\n" +
+	"\x06userID\x18\x01 \x02(\x04R\x06userID\"\x93\x05\n" +
 	"\x16GetGlobalStateResponse\x12\x1a\n" +
 	"\bmarketHK\x18\x01 \x02(\x05R\bmarketHK\x12\x1a\n" +
 	"\bmarketUS\x18\x02 \x02(\x05R\bmarketUS\x12\x1a\n" +
@@ -376,8 +376,8 @@ const file_GetGlobalState_proto_rawDesc = "" +
 	"\bmarketSZ\x18\x04 \x02(\x05R\bmarketSZ\x12&\n" +
 	"\x0emarketHKFuture\x18\x05 \x02(\x05R\x0emarketHKFuture\x12&\n" +
 	"\x0emarketUSFuture\x18\x0f \x01(\x05R\x0emarketUSFuture\x12&\n" +
-	"\x0emarketSGFuture\x18\x11 \x01(\x05R\x0emarketSGFuture\x12&\n" +
-	"\x0emarketJPFuture\x18\x12 \x01(\x05R\x0emarketJPFuture\x12\x1e\n" +
+	"\x0emarketSGFuture\x18\x11 \x01(\x05R\x0emarketSGFuture\x12>\n" +
+	"\x0emarketJPFuture\x18\x12 \x01(\x0e2\x16.futupb.QotMarketStateR\x0emarketJPFuture\x12\x1e\n" +
 	"\n" +
 	"qotLogined\x18\x06 \x02(\bR\n" +
 	"qotLogined\x12\x1e\n" +
@@ -394,9 +394,9 @@ const file_GetGlobalState_proto_rawDesc = "" +
 	"\ftrdSvrIpAddr\x18\x0e \x01(\tR\ftrdSvrIpAddr\x12\x16\n" +
 	"\x06connID\x18\x10 \x01(\x04R\x06connID\"Y\n" +
 	"\x1eGetGlobalStateRequest_Internal\x127\n" +
-	"\apayload\x18\x01 \x02(\v2\x1d.futupb.GetGlobalStateRequestR\apayload\"\xad\x01\n" +
-	"\x1fGetGlobalStateResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1d.futupb.GetGlobalStateRequestR\apayload\"\xc9\x01\n" +
+	"\x1fGetGlobalStateResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x128\n" +
 	"\apayload\x18\x04 \x01(\v2\x1e.futupb.GetGlobalStateResponseR\apayloadB4\n" +
@@ -420,17 +420,21 @@ var file_GetGlobalState_proto_goTypes = []any{
 	(*GetGlobalStateResponse)(nil),          // 1: futupb.GetGlobalStateResponse
 	(*GetGlobalStateRequest_Internal)(nil),  // 2: futupb.GetGlobalStateRequest_Internal
 	(*GetGlobalStateResponse_Internal)(nil), // 3: futupb.GetGlobalStateResponse_Internal
-	(*ProgramStatus)(nil),                   // 4: futupb.ProgramStatus
+	(QotMarketState)(0),                     // 4: futupb.QotMarketState
+	(*ProgramStatus)(nil),                   // 5: futupb.ProgramStatus
+	(RetType)(0),                            // 6: futupb.RetType
 }
 var file_GetGlobalState_proto_depIdxs = []int32{
-	4, // 0: futupb.GetGlobalStateResponse.programStatus:type_name -> futupb.ProgramStatus
-	0, // 1: futupb.GetGlobalStateRequest_Internal.payload:type_name -> futupb.GetGlobalStateRequest
-	1, // 2: futupb.GetGlobalStateResponse_Internal.payload:type_name -> futupb.GetGlobalStateResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 0: futupb.GetGlobalStateResponse.marketJPFuture:type_name -> futupb.QotMarketState
+	5, // 1: futupb.GetGlobalStateResponse.programStatus:type_name -> futupb.ProgramStatus
+	0, // 2: futupb.GetGlobalStateRequest_Internal.payload:type_name -> futupb.GetGlobalStateRequest
+	6, // 3: futupb.GetGlobalStateResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 4: futupb.GetGlobalStateResponse_Internal.payload:type_name -> futupb.GetGlobalStateResponse
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_GetGlobalState_proto_init() }

@@ -23,10 +23,10 @@ const (
 
 type TrdGetOrderListRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	Header           *TrdHeader             `protobuf:"bytes,1,req,name=header" json:"header,omitempty"`                      //交易公共参数头
-	FilterConditions *TrdFilterConditions   `protobuf:"bytes,2,opt,name=filterConditions" json:"filterConditions,omitempty"`  //过滤条件
-	FilterStatusList []int32                `protobuf:"varint,3,rep,name=filterStatusList" json:"filterStatusList,omitempty"` //需要过滤的订单状态列表
-	RefreshCache     *bool                  `protobuf:"varint,4,opt,name=refreshCache" json:"refreshCache,omitempty"`         //立即刷新OpenD缓存的此数据，默认不填。true向服务器获取最新数据更新缓存并返回；flase或没填则返回OpenD缓存的数据，不会向服务器请求。
+	Header           *TrdHeader             `protobuf:"bytes,1,req,name=header" json:"header,omitempty"`                                              //交易公共参数头
+	FilterConditions *TrdFilterConditions   `protobuf:"bytes,2,opt,name=filterConditions" json:"filterConditions,omitempty"`                          //过滤条件
+	FilterStatusList []OrderStatus          `protobuf:"varint,3,rep,name=filterStatusList,enum=futupb.OrderStatus" json:"filterStatusList,omitempty"` //需要过滤的订单状态列表
+	RefreshCache     *bool                  `protobuf:"varint,4,opt,name=refreshCache" json:"refreshCache,omitempty"`                                 //立即刷新OpenD缓存的此数据，默认不填。true向服务器获取最新数据更新缓存并返回；flase或没填则返回OpenD缓存的数据，不会向服务器请求。
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -75,7 +75,7 @@ func (x *TrdGetOrderListRequest) GetFilterConditions() *TrdFilterConditions {
 	return nil
 }
 
-func (x *TrdGetOrderListRequest) GetFilterStatusList() []int32 {
+func (x *TrdGetOrderListRequest) GetFilterStatusList() []OrderStatus {
 	if x != nil {
 		return x.FilterStatusList
 	}
@@ -188,7 +188,7 @@ func (x *TrdGetOrderListRequest_Internal) GetPayload() *TrdGetOrderListRequest {
 type TrdGetOrderListResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                   `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                 `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                  `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                   `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdGetOrderListResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -198,7 +198,7 @@ type TrdGetOrderListResponse_Internal struct {
 
 // Default values for TrdGetOrderListResponse_Internal fields.
 const (
-	Default_TrdGetOrderListResponse_Internal_RetType = int32(-400)
+	Default_TrdGetOrderListResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdGetOrderListResponse_Internal) Reset() {
@@ -231,7 +231,7 @@ func (*TrdGetOrderListResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_GetOrderList_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdGetOrderListResponse_Internal) GetRetType() int32 {
+func (x *TrdGetOrderListResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -263,19 +263,19 @@ var File_Trd_GetOrderList_proto protoreflect.FileDescriptor
 
 const file_Trd_GetOrderList_proto_rawDesc = "" +
 	"\n" +
-	"\x16Trd_GetOrderList.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xdc\x01\n" +
+	"\x16Trd_GetOrderList.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xf1\x01\n" +
 	"\x16TrdGetOrderListRequest\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12G\n" +
-	"\x10filterConditions\x18\x02 \x01(\v2\x1b.futupb.TrdFilterConditionsR\x10filterConditions\x12*\n" +
-	"\x10filterStatusList\x18\x03 \x03(\x05R\x10filterStatusList\x12\"\n" +
+	"\x10filterConditions\x18\x02 \x01(\v2\x1b.futupb.TrdFilterConditionsR\x10filterConditions\x12?\n" +
+	"\x10filterStatusList\x18\x03 \x03(\x0e2\x13.futupb.OrderStatusR\x10filterStatusList\x12\"\n" +
 	"\frefreshCache\x18\x04 \x01(\bR\frefreshCache\"q\n" +
 	"\x17TrdGetOrderListResponse\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12+\n" +
 	"\torderList\x18\x02 \x03(\v2\r.futupb.OrderR\torderList\"[\n" +
 	"\x1fTrdGetOrderListRequest_Internal\x128\n" +
-	"\apayload\x18\x01 \x02(\v2\x1e.futupb.TrdGetOrderListRequestR\apayload\"\xaf\x01\n" +
-	" TrdGetOrderListResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1e.futupb.TrdGetOrderListRequestR\apayload\"\xcb\x01\n" +
+	" TrdGetOrderListResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x129\n" +
 	"\apayload\x18\x04 \x01(\v2\x1f.futupb.TrdGetOrderListResponseR\apayloadB4\n" +
@@ -301,20 +301,24 @@ var file_Trd_GetOrderList_proto_goTypes = []any{
 	(*TrdGetOrderListResponse_Internal)(nil), // 3: futupb.TrdGetOrderListResponse_Internal
 	(*TrdHeader)(nil),                        // 4: futupb.TrdHeader
 	(*TrdFilterConditions)(nil),              // 5: futupb.TrdFilterConditions
-	(*Order)(nil),                            // 6: futupb.Order
+	(OrderStatus)(0),                         // 6: futupb.OrderStatus
+	(*Order)(nil),                            // 7: futupb.Order
+	(RetType)(0),                             // 8: futupb.RetType
 }
 var file_Trd_GetOrderList_proto_depIdxs = []int32{
 	4, // 0: futupb.TrdGetOrderListRequest.header:type_name -> futupb.TrdHeader
 	5, // 1: futupb.TrdGetOrderListRequest.filterConditions:type_name -> futupb.TrdFilterConditions
-	4, // 2: futupb.TrdGetOrderListResponse.header:type_name -> futupb.TrdHeader
-	6, // 3: futupb.TrdGetOrderListResponse.orderList:type_name -> futupb.Order
-	0, // 4: futupb.TrdGetOrderListRequest_Internal.payload:type_name -> futupb.TrdGetOrderListRequest
-	1, // 5: futupb.TrdGetOrderListResponse_Internal.payload:type_name -> futupb.TrdGetOrderListResponse
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	6, // 2: futupb.TrdGetOrderListRequest.filterStatusList:type_name -> futupb.OrderStatus
+	4, // 3: futupb.TrdGetOrderListResponse.header:type_name -> futupb.TrdHeader
+	7, // 4: futupb.TrdGetOrderListResponse.orderList:type_name -> futupb.Order
+	0, // 5: futupb.TrdGetOrderListRequest_Internal.payload:type_name -> futupb.TrdGetOrderListRequest
+	8, // 6: futupb.TrdGetOrderListResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 7: futupb.TrdGetOrderListResponse_Internal.payload:type_name -> futupb.TrdGetOrderListResponse
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_Trd_GetOrderList_proto_init() }

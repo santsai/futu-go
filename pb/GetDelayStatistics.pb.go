@@ -222,9 +222,9 @@ func (QotPushType) EnumDescriptor() ([]byte, []int) {
 
 type GetDelayStatisticsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TypeList      []int32                `protobuf:"varint,1,rep,name=typeList" json:"typeList,omitempty"`         //统计数据类型，DelayStatisticsType
-	QotPushStage  *int32                 `protobuf:"varint,2,opt,name=qotPushStage" json:"qotPushStage,omitempty"` //行情推送统计的区间，行情推送统计时有效，QotPushStage
-	SegmentList   []int32                `protobuf:"varint,3,rep,name=segmentList" json:"segmentList,omitempty"`   //统计分段，默认100ms以下以2ms分段，100ms以上以500，1000，2000，-1分段，-1表示无穷大。
+	TypeList      []DelayStatisticsType  `protobuf:"varint,1,rep,name=typeList,enum=futupb.DelayStatisticsType" json:"typeList,omitempty"`  //统计数据类型，DelayStatisticsType
+	QotPushStage  *QotPushStage          `protobuf:"varint,2,opt,name=qotPushStage,enum=futupb.QotPushStage" json:"qotPushStage,omitempty"` //行情推送统计的区间，行情推送统计时有效，QotPushStage
+	SegmentList   []int32                `protobuf:"varint,3,rep,name=segmentList" json:"segmentList,omitempty"`                            //统计分段，默认100ms以下以2ms分段，100ms以上以500，1000，2000，-1分段，-1表示无穷大。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -259,18 +259,18 @@ func (*GetDelayStatisticsRequest) Descriptor() ([]byte, []int) {
 	return file_GetDelayStatistics_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetDelayStatisticsRequest) GetTypeList() []int32 {
+func (x *GetDelayStatisticsRequest) GetTypeList() []DelayStatisticsType {
 	if x != nil {
 		return x.TypeList
 	}
 	return nil
 }
 
-func (x *GetDelayStatisticsRequest) GetQotPushStage() int32 {
+func (x *GetDelayStatisticsRequest) GetQotPushStage() QotPushStage {
 	if x != nil && x.QotPushStage != nil {
 		return *x.QotPushStage
 	}
-	return 0
+	return QotPushStage_QotPushStage_Unknown
 }
 
 func (x *GetDelayStatisticsRequest) GetSegmentList() []int32 {
@@ -359,10 +359,10 @@ func (x *DelayStatisticsItem) GetCumulativeRatio() float32 {
 
 type DelayStatistics struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	QotPushType   *int32                 `protobuf:"varint,1,req,name=qotPushType" json:"qotPushType,omitempty"` //行情推送类型,QotPushType
-	ItemList      []*DelayStatisticsItem `protobuf:"bytes,2,rep,name=itemList" json:"itemList,omitempty"`        //统计信息
-	DelayAvg      *float32               `protobuf:"fixed32,3,req,name=delayAvg" json:"delayAvg,omitempty"`      //平均延迟
-	Count         *int32                 `protobuf:"varint,4,req,name=count" json:"count,omitempty"`             //总包数
+	QotPushType   *QotPushType           `protobuf:"varint,1,req,name=qotPushType,enum=futupb.QotPushType" json:"qotPushType,omitempty"` //行情推送类型,QotPushType
+	ItemList      []*DelayStatisticsItem `protobuf:"bytes,2,rep,name=itemList" json:"itemList,omitempty"`                                //统计信息
+	DelayAvg      *float32               `protobuf:"fixed32,3,req,name=delayAvg" json:"delayAvg,omitempty"`                              //平均延迟
+	Count         *int32                 `protobuf:"varint,4,req,name=count" json:"count,omitempty"`                                     //总包数
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -397,11 +397,11 @@ func (*DelayStatistics) Descriptor() ([]byte, []int) {
 	return file_GetDelayStatistics_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *DelayStatistics) GetQotPushType() int32 {
+func (x *DelayStatistics) GetQotPushType() QotPushType {
 	if x != nil && x.QotPushType != nil {
 		return *x.QotPushType
 	}
-	return 0
+	return QotPushType_QotPushType_Unknown
 }
 
 func (x *DelayStatistics) GetItemList() []*DelayStatisticsItem {
@@ -691,9 +691,9 @@ func (x *GetDelayStatisticsRequest_Internal) GetPayload() *GetDelayStatisticsReq
 
 type GetDelayStatisticsResponse_Internal struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
-	RetType       *int32                      `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
-	RetMsg        *string                     `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`             //返回结果描述
-	ErrCode       *int32                      `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`          //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
+	RetType       *RetType                    `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
+	RetMsg        *string                     `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`                                 //返回结果描述
+	ErrCode       *int32                      `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`                              //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
 	Payload       *GetDelayStatisticsResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -701,7 +701,7 @@ type GetDelayStatisticsResponse_Internal struct {
 
 // Default values for GetDelayStatisticsResponse_Internal fields.
 const (
-	Default_GetDelayStatisticsResponse_Internal_RetType = int32(-400)
+	Default_GetDelayStatisticsResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *GetDelayStatisticsResponse_Internal) Reset() {
@@ -734,7 +734,7 @@ func (*GetDelayStatisticsResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_GetDelayStatistics_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *GetDelayStatisticsResponse_Internal) GetRetType() int32 {
+func (x *GetDelayStatisticsResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -766,10 +766,10 @@ var File_GetDelayStatistics_proto protoreflect.FileDescriptor
 
 const file_GetDelayStatistics_proto_rawDesc = "" +
 	"\n" +
-	"\x18GetDelayStatistics.proto\x12\x06futupb\x1a\fCommon.proto\"}\n" +
-	"\x19GetDelayStatisticsRequest\x12\x1a\n" +
-	"\btypeList\x18\x01 \x03(\x05R\btypeList\x12\"\n" +
-	"\fqotPushStage\x18\x02 \x01(\x05R\fqotPushStage\x12 \n" +
+	"\x18GetDelayStatistics.proto\x12\x06futupb\x1a\fCommon.proto\"\xb0\x01\n" +
+	"\x19GetDelayStatisticsRequest\x127\n" +
+	"\btypeList\x18\x01 \x03(\x0e2\x1b.futupb.DelayStatisticsTypeR\btypeList\x128\n" +
+	"\fqotPushStage\x18\x02 \x01(\x0e2\x14.futupb.QotPushStageR\fqotPushStage\x12 \n" +
 	"\vsegmentList\x18\x03 \x03(\x05R\vsegmentList\"\x9d\x01\n" +
 	"\x13DelayStatisticsItem\x12\x14\n" +
 	"\x05begin\x18\x01 \x02(\x05R\x05begin\x12\x10\n" +
@@ -778,9 +778,9 @@ const file_GetDelayStatistics_proto_rawDesc = "" +
 	"\n" +
 	"proportion\x18\x04 \x02(\x02R\n" +
 	"proportion\x12(\n" +
-	"\x0fcumulativeRatio\x18\x05 \x02(\x02R\x0fcumulativeRatio\"\x9e\x01\n" +
-	"\x0fDelayStatistics\x12 \n" +
-	"\vqotPushType\x18\x01 \x02(\x05R\vqotPushType\x127\n" +
+	"\x0fcumulativeRatio\x18\x05 \x02(\x02R\x0fcumulativeRatio\"\xb3\x01\n" +
+	"\x0fDelayStatistics\x125\n" +
+	"\vqotPushType\x18\x01 \x02(\x0e2\x13.futupb.QotPushTypeR\vqotPushType\x127\n" +
 	"\bitemList\x18\x02 \x03(\v2\x1b.futupb.DelayStatisticsItemR\bitemList\x12\x1a\n" +
 	"\bdelayAvg\x18\x03 \x02(\x02R\bdelayAvg\x12\x14\n" +
 	"\x05count\x18\x04 \x02(\x05R\x05count\"\xd6\x01\n" +
@@ -804,9 +804,9 @@ const file_GetDelayStatistics_proto_rawDesc = "" +
 	"\x16reqReplyStatisticsList\x18\x02 \x03(\v2\x1e.futupb.ReqReplyStatisticsItemR\x16reqReplyStatisticsList\x12\\\n" +
 	"\x18placeOrderStatisticsList\x18\x03 \x03(\v2 .futupb.PlaceOrderStatisticsItemR\x18placeOrderStatisticsList\"a\n" +
 	"\"GetDelayStatisticsRequest_Internal\x12;\n" +
-	"\apayload\x18\x01 \x02(\v2!.futupb.GetDelayStatisticsRequestR\apayload\"\xb5\x01\n" +
-	"#GetDelayStatisticsResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2!.futupb.GetDelayStatisticsRequestR\apayload\"\xd1\x01\n" +
+	"#GetDelayStatisticsResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12<\n" +
 	"\apayload\x18\x04 \x01(\v2\".futupb.GetDelayStatisticsResponseR\apayload*\x9d\x01\n" +
@@ -856,19 +856,24 @@ var file_GetDelayStatistics_proto_goTypes = []any{
 	(*GetDelayStatisticsResponse)(nil),          // 8: futupb.GetDelayStatisticsResponse
 	(*GetDelayStatisticsRequest_Internal)(nil),  // 9: futupb.GetDelayStatisticsRequest_Internal
 	(*GetDelayStatisticsResponse_Internal)(nil), // 10: futupb.GetDelayStatisticsResponse_Internal
+	(RetType)(0),                                // 11: futupb.RetType
 }
 var file_GetDelayStatistics_proto_depIdxs = []int32{
-	4, // 0: futupb.DelayStatistics.itemList:type_name -> futupb.DelayStatisticsItem
-	5, // 1: futupb.GetDelayStatisticsResponse.qotPushStatisticsList:type_name -> futupb.DelayStatistics
-	6, // 2: futupb.GetDelayStatisticsResponse.reqReplyStatisticsList:type_name -> futupb.ReqReplyStatisticsItem
-	7, // 3: futupb.GetDelayStatisticsResponse.placeOrderStatisticsList:type_name -> futupb.PlaceOrderStatisticsItem
-	3, // 4: futupb.GetDelayStatisticsRequest_Internal.payload:type_name -> futupb.GetDelayStatisticsRequest
-	8, // 5: futupb.GetDelayStatisticsResponse_Internal.payload:type_name -> futupb.GetDelayStatisticsResponse
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	0,  // 0: futupb.GetDelayStatisticsRequest.typeList:type_name -> futupb.DelayStatisticsType
+	1,  // 1: futupb.GetDelayStatisticsRequest.qotPushStage:type_name -> futupb.QotPushStage
+	2,  // 2: futupb.DelayStatistics.qotPushType:type_name -> futupb.QotPushType
+	4,  // 3: futupb.DelayStatistics.itemList:type_name -> futupb.DelayStatisticsItem
+	5,  // 4: futupb.GetDelayStatisticsResponse.qotPushStatisticsList:type_name -> futupb.DelayStatistics
+	6,  // 5: futupb.GetDelayStatisticsResponse.reqReplyStatisticsList:type_name -> futupb.ReqReplyStatisticsItem
+	7,  // 6: futupb.GetDelayStatisticsResponse.placeOrderStatisticsList:type_name -> futupb.PlaceOrderStatisticsItem
+	3,  // 7: futupb.GetDelayStatisticsRequest_Internal.payload:type_name -> futupb.GetDelayStatisticsRequest
+	11, // 8: futupb.GetDelayStatisticsResponse_Internal.retType:type_name -> futupb.RetType
+	8,  // 9: futupb.GetDelayStatisticsResponse_Internal.payload:type_name -> futupb.GetDelayStatisticsResponse
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_GetDelayStatistics_proto_init() }

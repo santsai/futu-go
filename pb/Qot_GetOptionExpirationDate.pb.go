@@ -23,8 +23,8 @@ const (
 
 type QotGetOptionExpirationDateRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	Owner           *Security              `protobuf:"bytes,1,req,name=owner" json:"owner,omitempty"`                      //期权标的股，目前仅支持传入港美正股以及恒指国指
-	IndexOptionType *int32                 `protobuf:"varint,2,opt,name=indexOptionType" json:"indexOptionType,omitempty"` //Qot_Common.IndexOptionType，指数期权的类型，仅用于恒指国指
+	Owner           *Security              `protobuf:"bytes,1,req,name=owner" json:"owner,omitempty"`                                                  //期权标的股，目前仅支持传入港美正股以及恒指国指
+	IndexOptionType *IndexOptionType       `protobuf:"varint,2,opt,name=indexOptionType,enum=futupb.IndexOptionType" json:"indexOptionType,omitempty"` //Qot_Common.IndexOptionType，指数期权的类型，仅用于恒指国指
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -66,11 +66,11 @@ func (x *QotGetOptionExpirationDateRequest) GetOwner() *Security {
 	return nil
 }
 
-func (x *QotGetOptionExpirationDateRequest) GetIndexOptionType() int32 {
+func (x *QotGetOptionExpirationDateRequest) GetIndexOptionType() IndexOptionType {
 	if x != nil && x.IndexOptionType != nil {
 		return *x.IndexOptionType
 	}
-	return 0
+	return IndexOptionType_IndexOptionType_Unknown
 }
 
 type OptionExpirationDate struct {
@@ -78,7 +78,7 @@ type OptionExpirationDate struct {
 	StrikeTime               *string                `protobuf:"bytes,1,opt,name=strikeTime" json:"strikeTime,omitempty"`                              //期权链行权日（港股和 A 股市场默认是北京时间，美股市场默认是美东时间）
 	StrikeTimestamp          *float64               `protobuf:"fixed64,2,opt,name=strikeTimestamp" json:"strikeTimestamp,omitempty"`                  //行权日时间戳
 	OptionExpiryDateDistance *int32                 `protobuf:"varint,3,req,name=optionExpiryDateDistance" json:"optionExpiryDateDistance,omitempty"` //距离到期日天数，负数表示已过期
-	Cycle                    *int32                 `protobuf:"varint,4,opt,name=cycle" json:"cycle,omitempty"`                                       //Qot_Common.ExpirationCycle,交割周期（仅用于香港指数期权）
+	Cycle                    *ExpirationCycle       `protobuf:"varint,4,opt,name=cycle,enum=futupb.ExpirationCycle" json:"cycle,omitempty"`           //Qot_Common.ExpirationCycle,交割周期（仅用于香港指数期权）
 	unknownFields            protoimpl.UnknownFields
 	sizeCache                protoimpl.SizeCache
 }
@@ -134,11 +134,11 @@ func (x *OptionExpirationDate) GetOptionExpiryDateDistance() int32 {
 	return 0
 }
 
-func (x *OptionExpirationDate) GetCycle() int32 {
+func (x *OptionExpirationDate) GetCycle() ExpirationCycle {
 	if x != nil && x.Cycle != nil {
 		return *x.Cycle
 	}
-	return 0
+	return ExpirationCycle_ExpirationCycle_Unknown
 }
 
 type QotGetOptionExpirationDateResponse struct {
@@ -231,7 +231,7 @@ func (x *QotGetOptionExpirationDateRequest_Internal) GetPayload() *QotGetOptionE
 
 type QotGetOptionExpirationDateResponse_Internal struct {
 	state         protoimpl.MessageState              `protogen:"open.v1"`
-	RetType       *int32                              `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                            `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                             `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                              `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetOptionExpirationDateResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -241,7 +241,7 @@ type QotGetOptionExpirationDateResponse_Internal struct {
 
 // Default values for QotGetOptionExpirationDateResponse_Internal fields.
 const (
-	Default_QotGetOptionExpirationDateResponse_Internal_RetType = int32(-400)
+	Default_QotGetOptionExpirationDateResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetOptionExpirationDateResponse_Internal) Reset() {
@@ -274,7 +274,7 @@ func (*QotGetOptionExpirationDateResponse_Internal) Descriptor() ([]byte, []int)
 	return file_Qot_GetOptionExpirationDate_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *QotGetOptionExpirationDateResponse_Internal) GetRetType() int32 {
+func (x *QotGetOptionExpirationDateResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -306,23 +306,23 @@ var File_Qot_GetOptionExpirationDate_proto protoreflect.FileDescriptor
 
 const file_Qot_GetOptionExpirationDate_proto_rawDesc = "" +
 	"\n" +
-	"!Qot_GetOptionExpirationDate.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"u\n" +
+	"!Qot_GetOptionExpirationDate.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x8e\x01\n" +
 	"!QotGetOptionExpirationDateRequest\x12&\n" +
-	"\x05owner\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05owner\x12(\n" +
-	"\x0findexOptionType\x18\x02 \x01(\x05R\x0findexOptionType\"\xb2\x01\n" +
+	"\x05owner\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05owner\x12A\n" +
+	"\x0findexOptionType\x18\x02 \x01(\x0e2\x17.futupb.IndexOptionTypeR\x0findexOptionType\"\xcb\x01\n" +
 	"\x14OptionExpirationDate\x12\x1e\n" +
 	"\n" +
 	"strikeTime\x18\x01 \x01(\tR\n" +
 	"strikeTime\x12(\n" +
 	"\x0fstrikeTimestamp\x18\x02 \x01(\x01R\x0fstrikeTimestamp\x12:\n" +
-	"\x18optionExpiryDateDistance\x18\x03 \x02(\x05R\x18optionExpiryDateDistance\x12\x14\n" +
-	"\x05cycle\x18\x04 \x01(\x05R\x05cycle\"^\n" +
+	"\x18optionExpiryDateDistance\x18\x03 \x02(\x05R\x18optionExpiryDateDistance\x12-\n" +
+	"\x05cycle\x18\x04 \x01(\x0e2\x17.futupb.ExpirationCycleR\x05cycle\"^\n" +
 	"\"QotGetOptionExpirationDateResponse\x128\n" +
 	"\bdateList\x18\x01 \x03(\v2\x1c.futupb.OptionExpirationDateR\bdateList\"q\n" +
 	"*QotGetOptionExpirationDateRequest_Internal\x12C\n" +
-	"\apayload\x18\x01 \x02(\v2).futupb.QotGetOptionExpirationDateRequestR\apayload\"\xc5\x01\n" +
-	"+QotGetOptionExpirationDateResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2).futupb.QotGetOptionExpirationDateRequestR\apayload\"\xe1\x01\n" +
+	"+QotGetOptionExpirationDateResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12D\n" +
 	"\apayload\x18\x04 \x01(\v2*.futupb.QotGetOptionExpirationDateResponseR\apayloadB4\n" +
@@ -347,18 +347,24 @@ var file_Qot_GetOptionExpirationDate_proto_goTypes = []any{
 	(*QotGetOptionExpirationDateResponse)(nil),          // 2: futupb.QotGetOptionExpirationDateResponse
 	(*QotGetOptionExpirationDateRequest_Internal)(nil),  // 3: futupb.QotGetOptionExpirationDateRequest_Internal
 	(*QotGetOptionExpirationDateResponse_Internal)(nil), // 4: futupb.QotGetOptionExpirationDateResponse_Internal
-	(*Security)(nil), // 5: futupb.Security
+	(*Security)(nil),     // 5: futupb.Security
+	(IndexOptionType)(0), // 6: futupb.IndexOptionType
+	(ExpirationCycle)(0), // 7: futupb.ExpirationCycle
+	(RetType)(0),         // 8: futupb.RetType
 }
 var file_Qot_GetOptionExpirationDate_proto_depIdxs = []int32{
 	5, // 0: futupb.QotGetOptionExpirationDateRequest.owner:type_name -> futupb.Security
-	1, // 1: futupb.QotGetOptionExpirationDateResponse.dateList:type_name -> futupb.OptionExpirationDate
-	0, // 2: futupb.QotGetOptionExpirationDateRequest_Internal.payload:type_name -> futupb.QotGetOptionExpirationDateRequest
-	2, // 3: futupb.QotGetOptionExpirationDateResponse_Internal.payload:type_name -> futupb.QotGetOptionExpirationDateResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	6, // 1: futupb.QotGetOptionExpirationDateRequest.indexOptionType:type_name -> futupb.IndexOptionType
+	7, // 2: futupb.OptionExpirationDate.cycle:type_name -> futupb.ExpirationCycle
+	1, // 3: futupb.QotGetOptionExpirationDateResponse.dateList:type_name -> futupb.OptionExpirationDate
+	0, // 4: futupb.QotGetOptionExpirationDateRequest_Internal.payload:type_name -> futupb.QotGetOptionExpirationDateRequest
+	8, // 5: futupb.QotGetOptionExpirationDateResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 6: futupb.QotGetOptionExpirationDateResponse_Internal.payload:type_name -> futupb.QotGetOptionExpirationDateResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetOptionExpirationDate_proto_init() }

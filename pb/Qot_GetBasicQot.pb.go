@@ -155,7 +155,7 @@ func (x *QotGetBasicQotRequest_Internal) GetPayload() *QotGetBasicQotRequest {
 
 type QotGetBasicQotResponse_Internal struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
-	RetType       *int32                  `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                 `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                  `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetBasicQotResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -165,7 +165,7 @@ type QotGetBasicQotResponse_Internal struct {
 
 // Default values for QotGetBasicQotResponse_Internal fields.
 const (
-	Default_QotGetBasicQotResponse_Internal_RetType = int32(-400)
+	Default_QotGetBasicQotResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetBasicQotResponse_Internal) Reset() {
@@ -198,7 +198,7 @@ func (*QotGetBasicQotResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetBasicQot_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetBasicQotResponse_Internal) GetRetType() int32 {
+func (x *QotGetBasicQotResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -236,9 +236,9 @@ const file_Qot_GetBasicQot_proto_rawDesc = "" +
 	"\x16QotGetBasicQotResponse\x124\n" +
 	"\fbasicQotList\x18\x01 \x03(\v2\x10.futupb.BasicQotR\fbasicQotList\"Y\n" +
 	"\x1eQotGetBasicQotRequest_Internal\x127\n" +
-	"\apayload\x18\x01 \x02(\v2\x1d.futupb.QotGetBasicQotRequestR\apayload\"\xad\x01\n" +
-	"\x1fQotGetBasicQotResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1d.futupb.QotGetBasicQotRequestR\apayload\"\xc9\x01\n" +
+	"\x1fQotGetBasicQotResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x128\n" +
 	"\apayload\x18\x04 \x01(\v2\x1e.futupb.QotGetBasicQotResponseR\apayloadB4\n" +
@@ -264,17 +264,19 @@ var file_Qot_GetBasicQot_proto_goTypes = []any{
 	(*QotGetBasicQotResponse_Internal)(nil), // 3: futupb.QotGetBasicQotResponse_Internal
 	(*Security)(nil),                        // 4: futupb.Security
 	(*BasicQot)(nil),                        // 5: futupb.BasicQot
+	(RetType)(0),                            // 6: futupb.RetType
 }
 var file_Qot_GetBasicQot_proto_depIdxs = []int32{
 	4, // 0: futupb.QotGetBasicQotRequest.securityList:type_name -> futupb.Security
 	5, // 1: futupb.QotGetBasicQotResponse.basicQotList:type_name -> futupb.BasicQot
 	0, // 2: futupb.QotGetBasicQotRequest_Internal.payload:type_name -> futupb.QotGetBasicQotRequest
-	1, // 3: futupb.QotGetBasicQotResponse_Internal.payload:type_name -> futupb.QotGetBasicQotResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	6, // 3: futupb.QotGetBasicQotResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 4: futupb.QotGetBasicQotResponse_Internal.payload:type_name -> futupb.QotGetBasicQotResponse
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetBasicQot_proto_init() }

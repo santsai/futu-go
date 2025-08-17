@@ -23,25 +23,25 @@ const (
 
 type TrdPlaceOrderRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
-	PacketID  *PacketID              `protobuf:"bytes,1,req,name=packetID" json:"packetID,omitempty"`    //交易写操作防重放攻击
-	Header    *TrdHeader             `protobuf:"bytes,2,req,name=header" json:"header,omitempty"`        //交易公共参数头
-	TrdSide   *int32                 `protobuf:"varint,3,req,name=trdSide" json:"trdSide,omitempty"`     //交易方向, 参见Trd_Common.TrdSide的枚举定义
-	OrderType *int32                 `protobuf:"varint,4,req,name=orderType" json:"orderType,omitempty"` //订单类型, 参见Trd_Common.OrderType的枚举定义
-	Code      *string                `protobuf:"bytes,5,req,name=code" json:"code,omitempty"`            //代码，港股必须是5位数字，A股必须是6位数字，美股没限制
-	Qty       *float64               `protobuf:"fixed64,6,req,name=qty" json:"qty,omitempty"`            //数量，期权单位是"张"（精确到小数点后 0 位，超出部分会被舍弃。期权期货单位是"张"）
-	Price     *float64               `protobuf:"fixed64,7,opt,name=price" json:"price,omitempty"`        //价格，（证券账户精确到小数点后 3 位，期货账户精确到小数点后 9 位，超出部分会被舍弃）
+	PacketID  *PacketID              `protobuf:"bytes,1,req,name=packetID" json:"packetID,omitempty"`                          //交易写操作防重放攻击
+	Header    *TrdHeader             `protobuf:"bytes,2,req,name=header" json:"header,omitempty"`                              //交易公共参数头
+	TrdSide   *TrdSide               `protobuf:"varint,3,req,name=trdSide,enum=futupb.TrdSide" json:"trdSide,omitempty"`       //交易方向, 参见Trd_Common.TrdSide的枚举定义
+	OrderType *OrderType             `protobuf:"varint,4,req,name=orderType,enum=futupb.OrderType" json:"orderType,omitempty"` //订单类型, 参见Trd_Common.OrderType的枚举定义
+	Code      *string                `protobuf:"bytes,5,req,name=code" json:"code,omitempty"`                                  //代码，港股必须是5位数字，A股必须是6位数字，美股没限制
+	Qty       *float64               `protobuf:"fixed64,6,req,name=qty" json:"qty,omitempty"`                                  //数量，期权单位是"张"（精确到小数点后 0 位，超出部分会被舍弃。期权期货单位是"张"）
+	Price     *float64               `protobuf:"fixed64,7,opt,name=price" json:"price,omitempty"`                              //价格，（证券账户精确到小数点后 3 位，期货账户精确到小数点后 9 位，超出部分会被舍弃）
 	// 以下2个为调整价格使用，都传才有效，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传
-	AdjustPrice        *bool    `protobuf:"varint,8,opt,name=adjustPrice" json:"adjustPrice,omitempty"`                //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
-	AdjustSideAndLimit *float64 `protobuf:"fixed64,9,opt,name=adjustSideAndLimit" json:"adjustSideAndLimit,omitempty"` //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
-	SecMarket          *int32   `protobuf:"varint,10,opt,name=secMarket" json:"secMarket,omitempty"`                   //证券所属市场，参见TrdSecMarket的枚举定义
-	Remark             *string  `protobuf:"bytes,11,opt,name=remark" json:"remark,omitempty"`                          //用户备注字符串，最多只能传64字节。可用于标识订单唯一信息等，下单填上，订单结构就会带上。
-	TimeInForce        *int32   `protobuf:"varint,12,opt,name=timeInForce" json:"timeInForce,omitempty"`               //订单有效期限，参见TrdCommon_TimeInForce的枚举定义
-	FillOutsideRTH     *bool    `protobuf:"varint,13,opt,name=fillOutsideRTH" json:"fillOutsideRTH,omitempty"`         //是否允许盘前盘后成交。仅适用于美股限价单。默认false
-	AuxPrice           *float64 `protobuf:"fixed64,14,opt,name=auxPrice" json:"auxPrice,omitempty"`                    //触发价格
-	TrailType          *int32   `protobuf:"varint,15,opt,name=trailType" json:"trailType,omitempty"`                   //跟踪类型, 参见Trd_Common.TrailType的枚举定义
-	TrailValue         *float64 `protobuf:"fixed64,16,opt,name=trailValue" json:"trailValue,omitempty"`                //跟踪金额/百分比
-	TrailSpread        *float64 `protobuf:"fixed64,17,opt,name=trailSpread" json:"trailSpread,omitempty"`              //指定价差
-	Session            *int32   `protobuf:"varint,18,opt,name=session" json:"session,omitempty"`                       //美股订单时段, 参见Common.Session的枚举定义
+	AdjustPrice        *bool         `protobuf:"varint,8,opt,name=adjustPrice" json:"adjustPrice,omitempty"`                          //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
+	AdjustSideAndLimit *float64      `protobuf:"fixed64,9,opt,name=adjustSideAndLimit" json:"adjustSideAndLimit,omitempty"`           //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
+	SecMarket          *TrdSecMarket `protobuf:"varint,10,opt,name=secMarket,enum=futupb.TrdSecMarket" json:"secMarket,omitempty"`    //证券所属市场，参见TrdSecMarket的枚举定义
+	Remark             *string       `protobuf:"bytes,11,opt,name=remark" json:"remark,omitempty"`                                    //用户备注字符串，最多只能传64字节。可用于标识订单唯一信息等，下单填上，订单结构就会带上。
+	TimeInForce        *TimeInForce  `protobuf:"varint,12,opt,name=timeInForce,enum=futupb.TimeInForce" json:"timeInForce,omitempty"` //订单有效期限，参见TrdCommon_TimeInForce的枚举定义
+	FillOutsideRTH     *bool         `protobuf:"varint,13,opt,name=fillOutsideRTH" json:"fillOutsideRTH,omitempty"`                   //是否允许盘前盘后成交。仅适用于美股限价单。默认false
+	AuxPrice           *float64      `protobuf:"fixed64,14,opt,name=auxPrice" json:"auxPrice,omitempty"`                              //触发价格
+	TrailType          *TrailType    `protobuf:"varint,15,opt,name=trailType,enum=futupb.TrailType" json:"trailType,omitempty"`       //跟踪类型, 参见Trd_Common.TrailType的枚举定义
+	TrailValue         *float64      `protobuf:"fixed64,16,opt,name=trailValue" json:"trailValue,omitempty"`                          //跟踪金额/百分比
+	TrailSpread        *float64      `protobuf:"fixed64,17,opt,name=trailSpread" json:"trailSpread,omitempty"`                        //指定价差
+	Session            *Session      `protobuf:"varint,18,opt,name=session,enum=futupb.Session" json:"session,omitempty"`             //美股订单时段, 参见Common.Session的枚举定义
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -90,18 +90,18 @@ func (x *TrdPlaceOrderRequest) GetHeader() *TrdHeader {
 	return nil
 }
 
-func (x *TrdPlaceOrderRequest) GetTrdSide() int32 {
+func (x *TrdPlaceOrderRequest) GetTrdSide() TrdSide {
 	if x != nil && x.TrdSide != nil {
 		return *x.TrdSide
 	}
-	return 0
+	return TrdSide_TrdSide_Unknown
 }
 
-func (x *TrdPlaceOrderRequest) GetOrderType() int32 {
+func (x *TrdPlaceOrderRequest) GetOrderType() OrderType {
 	if x != nil && x.OrderType != nil {
 		return *x.OrderType
 	}
-	return 0
+	return OrderType_OrderType_Unknown
 }
 
 func (x *TrdPlaceOrderRequest) GetCode() string {
@@ -139,11 +139,11 @@ func (x *TrdPlaceOrderRequest) GetAdjustSideAndLimit() float64 {
 	return 0
 }
 
-func (x *TrdPlaceOrderRequest) GetSecMarket() int32 {
+func (x *TrdPlaceOrderRequest) GetSecMarket() TrdSecMarket {
 	if x != nil && x.SecMarket != nil {
 		return *x.SecMarket
 	}
-	return 0
+	return TrdSecMarket_TrdSecMarket_Unknown
 }
 
 func (x *TrdPlaceOrderRequest) GetRemark() string {
@@ -153,11 +153,11 @@ func (x *TrdPlaceOrderRequest) GetRemark() string {
 	return ""
 }
 
-func (x *TrdPlaceOrderRequest) GetTimeInForce() int32 {
+func (x *TrdPlaceOrderRequest) GetTimeInForce() TimeInForce {
 	if x != nil && x.TimeInForce != nil {
 		return *x.TimeInForce
 	}
-	return 0
+	return TimeInForce_TimeInForce_DAY
 }
 
 func (x *TrdPlaceOrderRequest) GetFillOutsideRTH() bool {
@@ -174,11 +174,11 @@ func (x *TrdPlaceOrderRequest) GetAuxPrice() float64 {
 	return 0
 }
 
-func (x *TrdPlaceOrderRequest) GetTrailType() int32 {
+func (x *TrdPlaceOrderRequest) GetTrailType() TrailType {
 	if x != nil && x.TrailType != nil {
 		return *x.TrailType
 	}
-	return 0
+	return TrailType_TrailType_Unknown
 }
 
 func (x *TrdPlaceOrderRequest) GetTrailValue() float64 {
@@ -195,11 +195,11 @@ func (x *TrdPlaceOrderRequest) GetTrailSpread() float64 {
 	return 0
 }
 
-func (x *TrdPlaceOrderRequest) GetSession() int32 {
+func (x *TrdPlaceOrderRequest) GetSession() Session {
 	if x != nil && x.Session != nil {
 		return *x.Session
 	}
-	return 0
+	return Session_Session_NONE
 }
 
 type TrdPlaceOrderResponse struct {
@@ -309,7 +309,7 @@ func (x *TrdPlaceOrderRequest_Internal) GetPayload() *TrdPlaceOrderRequest {
 type TrdPlaceOrderResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdPlaceOrderResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -319,7 +319,7 @@ type TrdPlaceOrderResponse_Internal struct {
 
 // Default values for TrdPlaceOrderResponse_Internal fields.
 const (
-	Default_TrdPlaceOrderResponse_Internal_RetType = int32(-400)
+	Default_TrdPlaceOrderResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdPlaceOrderResponse_Internal) Reset() {
@@ -352,7 +352,7 @@ func (*TrdPlaceOrderResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_PlaceOrder_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdPlaceOrderResponse_Internal) GetRetType() int32 {
+func (x *TrdPlaceOrderResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -384,37 +384,37 @@ var File_Trd_PlaceOrder_proto protoreflect.FileDescriptor
 
 const file_Trd_PlaceOrder_proto_rawDesc = "" +
 	"\n" +
-	"\x14Trd_PlaceOrder.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xcb\x04\n" +
+	"\x14Trd_PlaceOrder.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xbe\x05\n" +
 	"\x14TrdPlaceOrderRequest\x12,\n" +
 	"\bpacketID\x18\x01 \x02(\v2\x10.futupb.PacketIDR\bpacketID\x12)\n" +
-	"\x06header\x18\x02 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12\x18\n" +
-	"\atrdSide\x18\x03 \x02(\x05R\atrdSide\x12\x1c\n" +
-	"\torderType\x18\x04 \x02(\x05R\torderType\x12\x12\n" +
+	"\x06header\x18\x02 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12)\n" +
+	"\atrdSide\x18\x03 \x02(\x0e2\x0f.futupb.TrdSideR\atrdSide\x12/\n" +
+	"\torderType\x18\x04 \x02(\x0e2\x11.futupb.OrderTypeR\torderType\x12\x12\n" +
 	"\x04code\x18\x05 \x02(\tR\x04code\x12\x10\n" +
 	"\x03qty\x18\x06 \x02(\x01R\x03qty\x12\x14\n" +
 	"\x05price\x18\a \x01(\x01R\x05price\x12 \n" +
 	"\vadjustPrice\x18\b \x01(\bR\vadjustPrice\x12.\n" +
-	"\x12adjustSideAndLimit\x18\t \x01(\x01R\x12adjustSideAndLimit\x12\x1c\n" +
+	"\x12adjustSideAndLimit\x18\t \x01(\x01R\x12adjustSideAndLimit\x122\n" +
 	"\tsecMarket\x18\n" +
-	" \x01(\x05R\tsecMarket\x12\x16\n" +
-	"\x06remark\x18\v \x01(\tR\x06remark\x12 \n" +
-	"\vtimeInForce\x18\f \x01(\x05R\vtimeInForce\x12&\n" +
+	" \x01(\x0e2\x14.futupb.TrdSecMarketR\tsecMarket\x12\x16\n" +
+	"\x06remark\x18\v \x01(\tR\x06remark\x125\n" +
+	"\vtimeInForce\x18\f \x01(\x0e2\x13.futupb.TimeInForceR\vtimeInForce\x12&\n" +
 	"\x0efillOutsideRTH\x18\r \x01(\bR\x0efillOutsideRTH\x12\x1a\n" +
-	"\bauxPrice\x18\x0e \x01(\x01R\bauxPrice\x12\x1c\n" +
-	"\ttrailType\x18\x0f \x01(\x05R\ttrailType\x12\x1e\n" +
+	"\bauxPrice\x18\x0e \x01(\x01R\bauxPrice\x12/\n" +
+	"\ttrailType\x18\x0f \x01(\x0e2\x11.futupb.TrailTypeR\ttrailType\x12\x1e\n" +
 	"\n" +
 	"trailValue\x18\x10 \x01(\x01R\n" +
 	"trailValue\x12 \n" +
-	"\vtrailSpread\x18\x11 \x01(\x01R\vtrailSpread\x12\x18\n" +
-	"\asession\x18\x12 \x01(\x05R\asession\"z\n" +
+	"\vtrailSpread\x18\x11 \x01(\x01R\vtrailSpread\x12)\n" +
+	"\asession\x18\x12 \x01(\x0e2\x0f.futupb.SessionR\asession\"z\n" +
 	"\x15TrdPlaceOrderResponse\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12\x18\n" +
 	"\aorderID\x18\x02 \x01(\x04R\aorderID\x12\x1c\n" +
 	"\torderIDEx\x18\x03 \x01(\tR\torderIDEx\"W\n" +
 	"\x1dTrdPlaceOrderRequest_Internal\x126\n" +
-	"\apayload\x18\x01 \x02(\v2\x1c.futupb.TrdPlaceOrderRequestR\apayload\"\xab\x01\n" +
-	"\x1eTrdPlaceOrderResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1c.futupb.TrdPlaceOrderRequestR\apayload\"\xc7\x01\n" +
+	"\x1eTrdPlaceOrderResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x127\n" +
 	"\apayload\x18\x04 \x01(\v2\x1d.futupb.TrdPlaceOrderResponseR\apayloadB4\n" +
@@ -440,18 +440,32 @@ var file_Trd_PlaceOrder_proto_goTypes = []any{
 	(*TrdPlaceOrderResponse_Internal)(nil), // 3: futupb.TrdPlaceOrderResponse_Internal
 	(*PacketID)(nil),                       // 4: futupb.PacketID
 	(*TrdHeader)(nil),                      // 5: futupb.TrdHeader
+	(TrdSide)(0),                           // 6: futupb.TrdSide
+	(OrderType)(0),                         // 7: futupb.OrderType
+	(TrdSecMarket)(0),                      // 8: futupb.TrdSecMarket
+	(TimeInForce)(0),                       // 9: futupb.TimeInForce
+	(TrailType)(0),                         // 10: futupb.TrailType
+	(Session)(0),                           // 11: futupb.Session
+	(RetType)(0),                           // 12: futupb.RetType
 }
 var file_Trd_PlaceOrder_proto_depIdxs = []int32{
-	4, // 0: futupb.TrdPlaceOrderRequest.packetID:type_name -> futupb.PacketID
-	5, // 1: futupb.TrdPlaceOrderRequest.header:type_name -> futupb.TrdHeader
-	5, // 2: futupb.TrdPlaceOrderResponse.header:type_name -> futupb.TrdHeader
-	0, // 3: futupb.TrdPlaceOrderRequest_Internal.payload:type_name -> futupb.TrdPlaceOrderRequest
-	1, // 4: futupb.TrdPlaceOrderResponse_Internal.payload:type_name -> futupb.TrdPlaceOrderResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4,  // 0: futupb.TrdPlaceOrderRequest.packetID:type_name -> futupb.PacketID
+	5,  // 1: futupb.TrdPlaceOrderRequest.header:type_name -> futupb.TrdHeader
+	6,  // 2: futupb.TrdPlaceOrderRequest.trdSide:type_name -> futupb.TrdSide
+	7,  // 3: futupb.TrdPlaceOrderRequest.orderType:type_name -> futupb.OrderType
+	8,  // 4: futupb.TrdPlaceOrderRequest.secMarket:type_name -> futupb.TrdSecMarket
+	9,  // 5: futupb.TrdPlaceOrderRequest.timeInForce:type_name -> futupb.TimeInForce
+	10, // 6: futupb.TrdPlaceOrderRequest.trailType:type_name -> futupb.TrailType
+	11, // 7: futupb.TrdPlaceOrderRequest.session:type_name -> futupb.Session
+	5,  // 8: futupb.TrdPlaceOrderResponse.header:type_name -> futupb.TrdHeader
+	0,  // 9: futupb.TrdPlaceOrderRequest_Internal.payload:type_name -> futupb.TrdPlaceOrderRequest
+	12, // 10: futupb.TrdPlaceOrderResponse_Internal.retType:type_name -> futupb.RetType
+	1,  // 11: futupb.TrdPlaceOrderResponse_Internal.payload:type_name -> futupb.TrdPlaceOrderResponse
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_Trd_PlaceOrder_proto_init() }

@@ -23,9 +23,9 @@ const (
 
 type TrdGetAccListRequest struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
-	UserID                *uint64                `protobuf:"varint,1,req,name=userID" json:"userID,omitempty"`                               //历史原因，目前已废弃，填0即可
-	TrdCategory           *int32                 `protobuf:"varint,2,opt,name=trdCategory" json:"trdCategory,omitempty"`                     //交易品类，参考 TrdCategory
-	NeedGeneralSecAccount *bool                  `protobuf:"varint,3,opt,name=needGeneralSecAccount" json:"needGeneralSecAccount,omitempty"` //是否返回全能账户，仅SG用户需要
+	UserID                *uint64                `protobuf:"varint,1,req,name=userID" json:"userID,omitempty"`                                   //历史原因，目前已废弃，填0即可
+	TrdCategory           *TrdCategory           `protobuf:"varint,2,opt,name=trdCategory,enum=futupb.TrdCategory" json:"trdCategory,omitempty"` //交易品类，参考 TrdCategory
+	NeedGeneralSecAccount *bool                  `protobuf:"varint,3,opt,name=needGeneralSecAccount" json:"needGeneralSecAccount,omitempty"`     //是否返回全能账户，仅SG用户需要
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -67,11 +67,11 @@ func (x *TrdGetAccListRequest) GetUserID() uint64 {
 	return 0
 }
 
-func (x *TrdGetAccListRequest) GetTrdCategory() int32 {
+func (x *TrdGetAccListRequest) GetTrdCategory() TrdCategory {
 	if x != nil && x.TrdCategory != nil {
 		return *x.TrdCategory
 	}
-	return 0
+	return TrdCategory_TrdCategory_Unknown
 }
 
 func (x *TrdGetAccListRequest) GetNeedGeneralSecAccount() bool {
@@ -172,7 +172,7 @@ func (x *TrdGetAccListRequest_Internal) GetPayload() *TrdGetAccListRequest {
 type TrdGetAccListResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdGetAccListResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -182,7 +182,7 @@ type TrdGetAccListResponse_Internal struct {
 
 // Default values for TrdGetAccListResponse_Internal fields.
 const (
-	Default_TrdGetAccListResponse_Internal_RetType = int32(-400)
+	Default_TrdGetAccListResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdGetAccListResponse_Internal) Reset() {
@@ -215,7 +215,7 @@ func (*TrdGetAccListResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_GetAccList_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdGetAccListResponse_Internal) GetRetType() int32 {
+func (x *TrdGetAccListResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -247,17 +247,17 @@ var File_Trd_GetAccList_proto protoreflect.FileDescriptor
 
 const file_Trd_GetAccList_proto_rawDesc = "" +
 	"\n" +
-	"\x14Trd_GetAccList.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\x86\x01\n" +
+	"\x14Trd_GetAccList.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\x9b\x01\n" +
 	"\x14TrdGetAccListRequest\x12\x16\n" +
-	"\x06userID\x18\x01 \x02(\x04R\x06userID\x12 \n" +
-	"\vtrdCategory\x18\x02 \x01(\x05R\vtrdCategory\x124\n" +
+	"\x06userID\x18\x01 \x02(\x04R\x06userID\x125\n" +
+	"\vtrdCategory\x18\x02 \x01(\x0e2\x13.futupb.TrdCategoryR\vtrdCategory\x124\n" +
 	"\x15needGeneralSecAccount\x18\x03 \x01(\bR\x15needGeneralSecAccount\"A\n" +
 	"\x15TrdGetAccListResponse\x12(\n" +
 	"\aaccList\x18\x01 \x03(\v2\x0e.futupb.TrdAccR\aaccList\"W\n" +
 	"\x1dTrdGetAccListRequest_Internal\x126\n" +
-	"\apayload\x18\x01 \x02(\v2\x1c.futupb.TrdGetAccListRequestR\apayload\"\xab\x01\n" +
-	"\x1eTrdGetAccListResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1c.futupb.TrdGetAccListRequestR\apayload\"\xc7\x01\n" +
+	"\x1eTrdGetAccListResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x127\n" +
 	"\apayload\x18\x04 \x01(\v2\x1d.futupb.TrdGetAccListResponseR\apayloadB4\n" +
@@ -281,17 +281,21 @@ var file_Trd_GetAccList_proto_goTypes = []any{
 	(*TrdGetAccListResponse)(nil),          // 1: futupb.TrdGetAccListResponse
 	(*TrdGetAccListRequest_Internal)(nil),  // 2: futupb.TrdGetAccListRequest_Internal
 	(*TrdGetAccListResponse_Internal)(nil), // 3: futupb.TrdGetAccListResponse_Internal
-	(*TrdAcc)(nil),                         // 4: futupb.TrdAcc
+	(TrdCategory)(0),                       // 4: futupb.TrdCategory
+	(*TrdAcc)(nil),                         // 5: futupb.TrdAcc
+	(RetType)(0),                           // 6: futupb.RetType
 }
 var file_Trd_GetAccList_proto_depIdxs = []int32{
-	4, // 0: futupb.TrdGetAccListResponse.accList:type_name -> futupb.TrdAcc
-	0, // 1: futupb.TrdGetAccListRequest_Internal.payload:type_name -> futupb.TrdGetAccListRequest
-	1, // 2: futupb.TrdGetAccListResponse_Internal.payload:type_name -> futupb.TrdGetAccListResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 0: futupb.TrdGetAccListRequest.trdCategory:type_name -> futupb.TrdCategory
+	5, // 1: futupb.TrdGetAccListResponse.accList:type_name -> futupb.TrdAcc
+	0, // 2: futupb.TrdGetAccListRequest_Internal.payload:type_name -> futupb.TrdGetAccListRequest
+	6, // 3: futupb.TrdGetAccListResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 4: futupb.TrdGetAccListResponse_Internal.payload:type_name -> futupb.TrdGetAccListResponse
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_Trd_GetAccList_proto_init() }

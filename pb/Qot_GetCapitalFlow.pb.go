@@ -23,10 +23,10 @@ const (
 
 type QotGetCapitalFlowRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Security      *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`      //股票
-	PeriodType    *int32                 `protobuf:"varint,2,opt,name=periodType" json:"periodType,omitempty"` // PeriodType 周期类型
-	BeginTime     *string                `protobuf:"bytes,3,opt,name=beginTime" json:"beginTime,omitempty"`    // 开始时间（格式：yyyy-MM-dd），仅周期类型不为实时有效
-	EndTime       *string                `protobuf:"bytes,4,opt,name=endTime" json:"endTime,omitempty"`        // 结束时间（格式：yyyy-MM-dd），仅周期类型不为实时有效
+	Security      *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`                             //股票
+	PeriodType    *PeriodType            `protobuf:"varint,2,opt,name=periodType,enum=futupb.PeriodType" json:"periodType,omitempty"` // PeriodType 周期类型
+	BeginTime     *string                `protobuf:"bytes,3,opt,name=beginTime" json:"beginTime,omitempty"`                           // 开始时间（格式：yyyy-MM-dd），仅周期类型不为实时有效
+	EndTime       *string                `protobuf:"bytes,4,opt,name=endTime" json:"endTime,omitempty"`                               // 结束时间（格式：yyyy-MM-dd），仅周期类型不为实时有效
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -68,11 +68,11 @@ func (x *QotGetCapitalFlowRequest) GetSecurity() *Security {
 	return nil
 }
 
-func (x *QotGetCapitalFlowRequest) GetPeriodType() int32 {
+func (x *QotGetCapitalFlowRequest) GetPeriodType() PeriodType {
 	if x != nil && x.PeriodType != nil {
 		return *x.PeriodType
 	}
-	return 0
+	return PeriodType_PeriodType_Unknown
 }
 
 func (x *QotGetCapitalFlowRequest) GetBeginTime() string {
@@ -295,7 +295,7 @@ func (x *QotGetCapitalFlowRequest_Internal) GetPayload() *QotGetCapitalFlowReque
 
 type QotGetCapitalFlowResponse_Internal struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
-	RetType       *int32                     `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                   `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                    `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                     `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetCapitalFlowResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -305,7 +305,7 @@ type QotGetCapitalFlowResponse_Internal struct {
 
 // Default values for QotGetCapitalFlowResponse_Internal fields.
 const (
-	Default_QotGetCapitalFlowResponse_Internal_RetType = int32(-400)
+	Default_QotGetCapitalFlowResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetCapitalFlowResponse_Internal) Reset() {
@@ -338,7 +338,7 @@ func (*QotGetCapitalFlowResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetCapitalFlow_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *QotGetCapitalFlowResponse_Internal) GetRetType() int32 {
+func (x *QotGetCapitalFlowResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -370,11 +370,11 @@ var File_Qot_GetCapitalFlow_proto protoreflect.FileDescriptor
 
 const file_Qot_GetCapitalFlow_proto_rawDesc = "" +
 	"\n" +
-	"\x18Qot_GetCapitalFlow.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xa0\x01\n" +
+	"\x18Qot_GetCapitalFlow.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xb4\x01\n" +
 	"\x18QotGetCapitalFlowRequest\x12,\n" +
-	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x1e\n" +
+	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x122\n" +
 	"\n" +
-	"periodType\x18\x02 \x01(\x05R\n" +
+	"periodType\x18\x02 \x01(\x0e2\x12.futupb.PeriodTypeR\n" +
 	"periodType\x12\x1c\n" +
 	"\tbeginTime\x18\x03 \x01(\tR\tbeginTime\x12\x18\n" +
 	"\aendTime\x18\x04 \x01(\tR\aendTime\"\xf7\x01\n" +
@@ -394,9 +394,9 @@ const file_Qot_GetCapitalFlow_proto_rawDesc = "" +
 	"\rlastValidTime\x18\x02 \x01(\tR\rlastValidTime\x12.\n" +
 	"\x12lastValidTimestamp\x18\x03 \x01(\x01R\x12lastValidTimestamp\"_\n" +
 	"!QotGetCapitalFlowRequest_Internal\x12:\n" +
-	"\apayload\x18\x01 \x02(\v2 .futupb.QotGetCapitalFlowRequestR\apayload\"\xb3\x01\n" +
-	"\"QotGetCapitalFlowResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2 .futupb.QotGetCapitalFlowRequestR\apayload\"\xcf\x01\n" +
+	"\"QotGetCapitalFlowResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12;\n" +
 	"\apayload\x18\x04 \x01(\v2!.futupb.QotGetCapitalFlowResponseR\apayloadB4\n" +
@@ -422,17 +422,21 @@ var file_Qot_GetCapitalFlow_proto_goTypes = []any{
 	(*QotGetCapitalFlowRequest_Internal)(nil),  // 3: futupb.QotGetCapitalFlowRequest_Internal
 	(*QotGetCapitalFlowResponse_Internal)(nil), // 4: futupb.QotGetCapitalFlowResponse_Internal
 	(*Security)(nil),                           // 5: futupb.Security
+	(PeriodType)(0),                            // 6: futupb.PeriodType
+	(RetType)(0),                               // 7: futupb.RetType
 }
 var file_Qot_GetCapitalFlow_proto_depIdxs = []int32{
 	5, // 0: futupb.QotGetCapitalFlowRequest.security:type_name -> futupb.Security
-	1, // 1: futupb.QotGetCapitalFlowResponse.flowItemList:type_name -> futupb.CapitalFlowItem
-	0, // 2: futupb.QotGetCapitalFlowRequest_Internal.payload:type_name -> futupb.QotGetCapitalFlowRequest
-	2, // 3: futupb.QotGetCapitalFlowResponse_Internal.payload:type_name -> futupb.QotGetCapitalFlowResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	6, // 1: futupb.QotGetCapitalFlowRequest.periodType:type_name -> futupb.PeriodType
+	1, // 2: futupb.QotGetCapitalFlowResponse.flowItemList:type_name -> futupb.CapitalFlowItem
+	0, // 3: futupb.QotGetCapitalFlowRequest_Internal.payload:type_name -> futupb.QotGetCapitalFlowRequest
+	7, // 4: futupb.QotGetCapitalFlowResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 5: futupb.QotGetCapitalFlowResponse_Internal.payload:type_name -> futupb.QotGetCapitalFlowResponse
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetCapitalFlow_proto_init() }

@@ -76,7 +76,7 @@ func (x *TrdUpdateOrderResponse) GetOrder() *Order {
 type TrdUpdateOrderResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                  `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                 `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                  `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdUpdateOrderResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -86,7 +86,7 @@ type TrdUpdateOrderResponse_Internal struct {
 
 // Default values for TrdUpdateOrderResponse_Internal fields.
 const (
-	Default_TrdUpdateOrderResponse_Internal_RetType = int32(-400)
+	Default_TrdUpdateOrderResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdUpdateOrderResponse_Internal) Reset() {
@@ -119,7 +119,7 @@ func (*TrdUpdateOrderResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_UpdateOrder_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *TrdUpdateOrderResponse_Internal) GetRetType() int32 {
+func (x *TrdUpdateOrderResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -154,9 +154,9 @@ const file_Trd_UpdateOrder_proto_rawDesc = "" +
 	"\x15Trd_UpdateOrder.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"h\n" +
 	"\x16TrdUpdateOrderResponse\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12#\n" +
-	"\x05order\x18\x02 \x02(\v2\r.futupb.OrderR\x05order\"\xad\x01\n" +
-	"\x1fTrdUpdateOrderResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\x05order\x18\x02 \x02(\v2\r.futupb.OrderR\x05order\"\xc9\x01\n" +
+	"\x1fTrdUpdateOrderResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x128\n" +
 	"\apayload\x18\x04 \x01(\v2\x1e.futupb.TrdUpdateOrderResponseR\apayloadB4\n" +
@@ -180,16 +180,18 @@ var file_Trd_UpdateOrder_proto_goTypes = []any{
 	(*TrdUpdateOrderResponse_Internal)(nil), // 1: futupb.TrdUpdateOrderResponse_Internal
 	(*TrdHeader)(nil),                       // 2: futupb.TrdHeader
 	(*Order)(nil),                           // 3: futupb.Order
+	(RetType)(0),                            // 4: futupb.RetType
 }
 var file_Trd_UpdateOrder_proto_depIdxs = []int32{
 	2, // 0: futupb.TrdUpdateOrderResponse.header:type_name -> futupb.TrdHeader
 	3, // 1: futupb.TrdUpdateOrderResponse.order:type_name -> futupb.Order
-	0, // 2: futupb.TrdUpdateOrderResponse_Internal.payload:type_name -> futupb.TrdUpdateOrderResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 2: futupb.TrdUpdateOrderResponse_Internal.retType:type_name -> futupb.RetType
+	0, // 3: futupb.TrdUpdateOrderResponse_Internal.payload:type_name -> futupb.TrdUpdateOrderResponse
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_Trd_UpdateOrder_proto_init() }

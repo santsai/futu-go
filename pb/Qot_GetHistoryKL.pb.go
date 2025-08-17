@@ -23,13 +23,13 @@ const (
 
 type QotGetHistoryKLRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	RehabType        *int32                 `protobuf:"varint,1,req,name=rehabType" json:"rehabType,omitempty"`               //Qot_Common.RehabType,复权类型
-	KlType           *int32                 `protobuf:"varint,2,req,name=klType" json:"klType,omitempty"`                     //Qot_Common.KLType,K线类型
-	Security         *Security              `protobuf:"bytes,3,req,name=security" json:"security,omitempty"`                  //股票市场以及股票代码
-	BeginTime        *string                `protobuf:"bytes,4,req,name=beginTime" json:"beginTime,omitempty"`                //开始时间字符串
-	EndTime          *string                `protobuf:"bytes,5,req,name=endTime" json:"endTime,omitempty"`                    //结束时间字符串
-	MaxAckKLNum      *int32                 `protobuf:"varint,6,opt,name=maxAckKLNum" json:"maxAckKLNum,omitempty"`           //最多返回多少根K线，如果未指定表示不限制
-	NeedKLFieldsFlag *int64                 `protobuf:"varint,7,opt,name=needKLFieldsFlag" json:"needKLFieldsFlag,omitempty"` //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
+	RehabType        *RehabType             `protobuf:"varint,1,req,name=rehabType,enum=futupb.RehabType" json:"rehabType,omitempty"` //Qot_Common.RehabType,复权类型
+	KlType           *KLType                `protobuf:"varint,2,req,name=klType,enum=futupb.KLType" json:"klType,omitempty"`          //Qot_Common.KLType,K线类型
+	Security         *Security              `protobuf:"bytes,3,req,name=security" json:"security,omitempty"`                          //股票市场以及股票代码
+	BeginTime        *string                `protobuf:"bytes,4,req,name=beginTime" json:"beginTime,omitempty"`                        //开始时间字符串
+	EndTime          *string                `protobuf:"bytes,5,req,name=endTime" json:"endTime,omitempty"`                            //结束时间字符串
+	MaxAckKLNum      *int32                 `protobuf:"varint,6,opt,name=maxAckKLNum" json:"maxAckKLNum,omitempty"`                   //最多返回多少根K线，如果未指定表示不限制
+	NeedKLFieldsFlag *int64                 `protobuf:"varint,7,opt,name=needKLFieldsFlag" json:"needKLFieldsFlag,omitempty"`         //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -64,18 +64,18 @@ func (*QotGetHistoryKLRequest) Descriptor() ([]byte, []int) {
 	return file_Qot_GetHistoryKL_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *QotGetHistoryKLRequest) GetRehabType() int32 {
+func (x *QotGetHistoryKLRequest) GetRehabType() RehabType {
 	if x != nil && x.RehabType != nil {
 		return *x.RehabType
 	}
-	return 0
+	return RehabType_RehabType_None
 }
 
-func (x *QotGetHistoryKLRequest) GetKlType() int32 {
+func (x *QotGetHistoryKLRequest) GetKlType() KLType {
 	if x != nil && x.KlType != nil {
 		return *x.KlType
 	}
-	return 0
+	return KLType_KLType_Unknown
 }
 
 func (x *QotGetHistoryKLRequest) GetSecurity() *Security {
@@ -227,7 +227,7 @@ func (x *QotGetHistoryKLRequest_Internal) GetPayload() *QotGetHistoryKLRequest {
 
 type QotGetHistoryKLResponse_Internal struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
-	RetType       *int32                   `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                 `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                  `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                   `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetHistoryKLResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -237,7 +237,7 @@ type QotGetHistoryKLResponse_Internal struct {
 
 // Default values for QotGetHistoryKLResponse_Internal fields.
 const (
-	Default_QotGetHistoryKLResponse_Internal_RetType = int32(-400)
+	Default_QotGetHistoryKLResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetHistoryKLResponse_Internal) Reset() {
@@ -270,7 +270,7 @@ func (*QotGetHistoryKLResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetHistoryKL_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotGetHistoryKLResponse_Internal) GetRetType() int32 {
+func (x *QotGetHistoryKLResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -302,10 +302,10 @@ var File_Qot_GetHistoryKL_proto protoreflect.FileDescriptor
 
 const file_Qot_GetHistoryKL_proto_rawDesc = "" +
 	"\n" +
-	"\x16Qot_GetHistoryKL.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x82\x02\n" +
-	"\x16QotGetHistoryKLRequest\x12\x1c\n" +
-	"\trehabType\x18\x01 \x02(\x05R\trehabType\x12\x16\n" +
-	"\x06klType\x18\x02 \x02(\x05R\x06klType\x12,\n" +
+	"\x16Qot_GetHistoryKL.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xa5\x02\n" +
+	"\x16QotGetHistoryKLRequest\x12/\n" +
+	"\trehabType\x18\x01 \x02(\x0e2\x11.futupb.RehabTypeR\trehabType\x12&\n" +
+	"\x06klType\x18\x02 \x02(\x0e2\x0e.futupb.KLTypeR\x06klType\x12,\n" +
 	"\bsecurity\x18\x03 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x1c\n" +
 	"\tbeginTime\x18\x04 \x02(\tR\tbeginTime\x12\x18\n" +
 	"\aendTime\x18\x05 \x02(\tR\aendTime\x12 \n" +
@@ -319,9 +319,9 @@ const file_Qot_GetHistoryKL_proto_rawDesc = "" +
 	"nextKLTime\x12(\n" +
 	"\x0fnextKLTimestamp\x18\x04 \x01(\x01R\x0fnextKLTimestamp\"[\n" +
 	"\x1fQotGetHistoryKLRequest_Internal\x128\n" +
-	"\apayload\x18\x01 \x02(\v2\x1e.futupb.QotGetHistoryKLRequestR\apayload\"\xaf\x01\n" +
-	" QotGetHistoryKLResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1e.futupb.QotGetHistoryKLRequestR\apayload\"\xcb\x01\n" +
+	" QotGetHistoryKLResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x129\n" +
 	"\apayload\x18\x04 \x01(\v2\x1f.futupb.QotGetHistoryKLResponseR\apayloadB4\n" +
@@ -345,20 +345,26 @@ var file_Qot_GetHistoryKL_proto_goTypes = []any{
 	(*QotGetHistoryKLResponse)(nil),          // 1: futupb.QotGetHistoryKLResponse
 	(*QotGetHistoryKLRequest_Internal)(nil),  // 2: futupb.QotGetHistoryKLRequest_Internal
 	(*QotGetHistoryKLResponse_Internal)(nil), // 3: futupb.QotGetHistoryKLResponse_Internal
-	(*Security)(nil),                         // 4: futupb.Security
-	(*KLine)(nil),                            // 5: futupb.KLine
+	(RehabType)(0),                           // 4: futupb.RehabType
+	(KLType)(0),                              // 5: futupb.KLType
+	(*Security)(nil),                         // 6: futupb.Security
+	(*KLine)(nil),                            // 7: futupb.KLine
+	(RetType)(0),                             // 8: futupb.RetType
 }
 var file_Qot_GetHistoryKL_proto_depIdxs = []int32{
-	4, // 0: futupb.QotGetHistoryKLRequest.security:type_name -> futupb.Security
-	4, // 1: futupb.QotGetHistoryKLResponse.security:type_name -> futupb.Security
-	5, // 2: futupb.QotGetHistoryKLResponse.klList:type_name -> futupb.KLine
-	0, // 3: futupb.QotGetHistoryKLRequest_Internal.payload:type_name -> futupb.QotGetHistoryKLRequest
-	1, // 4: futupb.QotGetHistoryKLResponse_Internal.payload:type_name -> futupb.QotGetHistoryKLResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 0: futupb.QotGetHistoryKLRequest.rehabType:type_name -> futupb.RehabType
+	5, // 1: futupb.QotGetHistoryKLRequest.klType:type_name -> futupb.KLType
+	6, // 2: futupb.QotGetHistoryKLRequest.security:type_name -> futupb.Security
+	6, // 3: futupb.QotGetHistoryKLResponse.security:type_name -> futupb.Security
+	7, // 4: futupb.QotGetHistoryKLResponse.klList:type_name -> futupb.KLine
+	0, // 5: futupb.QotGetHistoryKLRequest_Internal.payload:type_name -> futupb.QotGetHistoryKLRequest
+	8, // 6: futupb.QotGetHistoryKLResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 7: futupb.QotGetHistoryKLResponse_Internal.payload:type_name -> futupb.QotGetHistoryKLResponse
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetHistoryKL_proto_init() }

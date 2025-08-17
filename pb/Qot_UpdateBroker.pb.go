@@ -91,7 +91,7 @@ func (x *QotUpdateBrokerResponse) GetBrokerBidList() []*Broker {
 
 type QotUpdateBrokerResponse_Internal struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
-	RetType       *int32                   `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                 `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                  `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                   `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotUpdateBrokerResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -101,7 +101,7 @@ type QotUpdateBrokerResponse_Internal struct {
 
 // Default values for QotUpdateBrokerResponse_Internal fields.
 const (
-	Default_QotUpdateBrokerResponse_Internal_RetType = int32(-400)
+	Default_QotUpdateBrokerResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotUpdateBrokerResponse_Internal) Reset() {
@@ -134,7 +134,7 @@ func (*QotUpdateBrokerResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_UpdateBroker_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *QotUpdateBrokerResponse_Internal) GetRetType() int32 {
+func (x *QotUpdateBrokerResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -171,9 +171,9 @@ const file_Qot_UpdateBroker_proto_rawDesc = "" +
 	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x12\n" +
 	"\x04name\x18\x04 \x01(\tR\x04name\x124\n" +
 	"\rbrokerAskList\x18\x02 \x03(\v2\x0e.futupb.BrokerR\rbrokerAskList\x124\n" +
-	"\rbrokerBidList\x18\x03 \x03(\v2\x0e.futupb.BrokerR\rbrokerBidList\"\xaf\x01\n" +
-	" QotUpdateBrokerResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\rbrokerBidList\x18\x03 \x03(\v2\x0e.futupb.BrokerR\rbrokerBidList\"\xcb\x01\n" +
+	" QotUpdateBrokerResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x129\n" +
 	"\apayload\x18\x04 \x01(\v2\x1f.futupb.QotUpdateBrokerResponseR\apayloadB4\n" +
@@ -197,17 +197,19 @@ var file_Qot_UpdateBroker_proto_goTypes = []any{
 	(*QotUpdateBrokerResponse_Internal)(nil), // 1: futupb.QotUpdateBrokerResponse_Internal
 	(*Security)(nil),                         // 2: futupb.Security
 	(*Broker)(nil),                           // 3: futupb.Broker
+	(RetType)(0),                             // 4: futupb.RetType
 }
 var file_Qot_UpdateBroker_proto_depIdxs = []int32{
 	2, // 0: futupb.QotUpdateBrokerResponse.security:type_name -> futupb.Security
 	3, // 1: futupb.QotUpdateBrokerResponse.brokerAskList:type_name -> futupb.Broker
 	3, // 2: futupb.QotUpdateBrokerResponse.brokerBidList:type_name -> futupb.Broker
-	0, // 3: futupb.QotUpdateBrokerResponse_Internal.payload:type_name -> futupb.QotUpdateBrokerResponse
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 3: futupb.QotUpdateBrokerResponse_Internal.retType:type_name -> futupb.RetType
+	0, // 4: futupb.QotUpdateBrokerResponse_Internal.payload:type_name -> futupb.QotUpdateBrokerResponse
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_Qot_UpdateBroker_proto_init() }

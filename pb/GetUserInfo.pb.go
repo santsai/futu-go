@@ -194,38 +194,38 @@ func (x *GetUserInfoRequest) GetFlag() int32 {
 
 type GetUserInfoResponse struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
-	NickName              *string                `protobuf:"bytes,1,opt,name=nickName" json:"nickName,omitempty"`                            //用户昵称
-	AvatarUrl             *string                `protobuf:"bytes,2,opt,name=avatarUrl" json:"avatarUrl,omitempty"`                          //用户头像url
-	ApiLevel              *string                `protobuf:"bytes,3,opt,name=apiLevel" json:"apiLevel,omitempty"`                            //api用户等级描述, 已在2.10版本之后废弃
-	HkQotRight            *int32                 `protobuf:"varint,4,opt,name=hkQotRight" json:"hkQotRight,omitempty"`                       //港股行情权限, QotRight
-	UsQotRight            *int32                 `protobuf:"varint,5,opt,name=usQotRight" json:"usQotRight,omitempty"`                       //美股行情权限, QotRight
-	CnQotRight            *int32                 `protobuf:"varint,6,opt,name=cnQotRight" json:"cnQotRight,omitempty"`                       //A股行情权限, QotRight // 废弃，使用shQotRight和szQotRight
-	IsNeedAgreeDisclaimer *bool                  `protobuf:"varint,7,opt,name=isNeedAgreeDisclaimer" json:"isNeedAgreeDisclaimer,omitempty"` //已开户用户需要同意免责声明，未开户或已同意的用户返回false
-	UserID                *int64                 `protobuf:"varint,8,opt,name=userID" json:"userID,omitempty"`                               //用户牛牛号
-	UpdateType            *int32                 `protobuf:"varint,9,opt,name=updateType" json:"updateType,omitempty"`                       //升级类型，UpdateType
+	NickName              *string                `protobuf:"bytes,1,opt,name=nickName" json:"nickName,omitempty"`                             //用户昵称
+	AvatarUrl             *string                `protobuf:"bytes,2,opt,name=avatarUrl" json:"avatarUrl,omitempty"`                           //用户头像url
+	ApiLevel              *string                `protobuf:"bytes,3,opt,name=apiLevel" json:"apiLevel,omitempty"`                             //api用户等级描述, 已在2.10版本之后废弃
+	HkQotRight            *QotRight              `protobuf:"varint,4,opt,name=hkQotRight,enum=futupb.QotRight" json:"hkQotRight,omitempty"`   //港股行情权限, QotRight
+	UsQotRight            *QotRight              `protobuf:"varint,5,opt,name=usQotRight,enum=futupb.QotRight" json:"usQotRight,omitempty"`   //美股行情权限, QotRight
+	CnQotRight            *int32                 `protobuf:"varint,6,opt,name=cnQotRight" json:"cnQotRight,omitempty"`                        //A股行情权限, QotRight // 废弃，使用shQotRight和szQotRight
+	IsNeedAgreeDisclaimer *bool                  `protobuf:"varint,7,opt,name=isNeedAgreeDisclaimer" json:"isNeedAgreeDisclaimer,omitempty"`  //已开户用户需要同意免责声明，未开户或已同意的用户返回false
+	UserID                *int64                 `protobuf:"varint,8,opt,name=userID" json:"userID,omitempty"`                                //用户牛牛号
+	UpdateType            *UpdateType            `protobuf:"varint,9,opt,name=updateType,enum=futupb.UpdateType" json:"updateType,omitempty"` //升级类型，UpdateType
 	WebKey                *string                `protobuf:"bytes,10,opt,name=webKey" json:"webKey,omitempty"`
 	WebJumpUrlHead        *string                `protobuf:"bytes,18,opt,name=webJumpUrlHead" json:"webJumpUrlHead,omitempty"`
-	HkOptionQotRight      *int32                 `protobuf:"varint,11,opt,name=hkOptionQotRight" json:"hkOptionQotRight,omitempty"`           //港股期权行情权限, QotRight
-	HasUSOptionQotRight   *bool                  `protobuf:"varint,12,opt,name=hasUSOptionQotRight" json:"hasUSOptionQotRight,omitempty"`     //是否有美股期权行情权限
-	HkFutureQotRight      *int32                 `protobuf:"varint,13,opt,name=hkFutureQotRight" json:"hkFutureQotRight,omitempty"`           //港股期货行情权限, QotRight
-	SubQuota              *int32                 `protobuf:"varint,14,opt,name=subQuota" json:"subQuota,omitempty"`                           //订阅额度
-	HistoryKLQuota        *int32                 `protobuf:"varint,15,opt,name=historyKLQuota" json:"historyKLQuota,omitempty"`               //历史K线额度
-	UsFutureQotRight      *int32                 `protobuf:"varint,16,opt,name=usFutureQotRight" json:"usFutureQotRight,omitempty"`           //美股期货行情权限, QotRight(已废弃)
-	UsOptionQotRight      *int32                 `protobuf:"varint,17,opt,name=usOptionQotRight" json:"usOptionQotRight,omitempty"`           //美股期货行情权限, QotRight
-	UserAttribution       *int32                 `protobuf:"varint,19,opt,name=userAttribution" json:"userAttribution,omitempty"`             //用户注册归属地, UserAttribution
-	UpdateWhatsNew        *string                `protobuf:"bytes,20,opt,name=updateWhatsNew" json:"updateWhatsNew,omitempty"`                //升级提示
-	UsIndexQotRight       *int32                 `protobuf:"varint,21,opt,name=usIndexQotRight" json:"usIndexQotRight,omitempty"`             //美股指数行情权限, QotRight
-	UsOtcQotRight         *int32                 `protobuf:"varint,22,opt,name=usOtcQotRight" json:"usOtcQotRight,omitempty"`                 //美股OTC市场行情权限, QotRight
-	UsCMEFutureQotRight   *int32                 `protobuf:"varint,23,opt,name=usCMEFutureQotRight" json:"usCMEFutureQotRight,omitempty"`     //美股CME期货行情权限, QotRight
-	UsCBOTFutureQotRight  *int32                 `protobuf:"varint,24,opt,name=usCBOTFutureQotRight" json:"usCBOTFutureQotRight,omitempty"`   //美股CBOT期货行情权限, QotRight
-	UsNYMEXFutureQotRight *int32                 `protobuf:"varint,25,opt,name=usNYMEXFutureQotRight" json:"usNYMEXFutureQotRight,omitempty"` //美股NYMEX期货行情权限, QotRight
-	UsCOMEXFutureQotRight *int32                 `protobuf:"varint,26,opt,name=usCOMEXFutureQotRight" json:"usCOMEXFutureQotRight,omitempty"` //美股COMEX期货行情权限, QotRight
-	UsCBOEFutureQotRight  *int32                 `protobuf:"varint,27,opt,name=usCBOEFutureQotRight" json:"usCBOEFutureQotRight,omitempty"`   //美股CBOE期货行情权限, QotRight
-	SgFutureQotRight      *int32                 `protobuf:"varint,28,opt,name=sgFutureQotRight" json:"sgFutureQotRight,omitempty"`           //新加坡市场期货行情权限, QotRight
-	JpFutureQotRight      *int32                 `protobuf:"varint,29,opt,name=jpFutureQotRight" json:"jpFutureQotRight,omitempty"`           //日本市场期货行情权限, QotRight
-	IsAppNNOrMM           *bool                  `protobuf:"varint,30,opt,name=isAppNNOrMM" json:"isAppNNOrMM,omitempty"`                     //true:NN false:MM
-	ShQotRight            *int32                 `protobuf:"varint,31,opt,name=shQotRight" json:"shQotRight,omitempty"`                       //上海市场行情权限, QotRight
-	SzQotRight            *int32                 `protobuf:"varint,32,opt,name=szQotRight" json:"szQotRight,omitempty"`                       //深圳市场行情权限, QotRight
+	HkOptionQotRight      *QotRight              `protobuf:"varint,11,opt,name=hkOptionQotRight,enum=futupb.QotRight" json:"hkOptionQotRight,omitempty"`           //港股期权行情权限, QotRight
+	HasUSOptionQotRight   *bool                  `protobuf:"varint,12,opt,name=hasUSOptionQotRight" json:"hasUSOptionQotRight,omitempty"`                          //是否有美股期权行情权限
+	HkFutureQotRight      *QotRight              `protobuf:"varint,13,opt,name=hkFutureQotRight,enum=futupb.QotRight" json:"hkFutureQotRight,omitempty"`           //港股期货行情权限, QotRight
+	SubQuota              *int32                 `protobuf:"varint,14,opt,name=subQuota" json:"subQuota,omitempty"`                                                //订阅额度
+	HistoryKLQuota        *int32                 `protobuf:"varint,15,opt,name=historyKLQuota" json:"historyKLQuota,omitempty"`                                    //历史K线额度
+	UsFutureQotRight      *int32                 `protobuf:"varint,16,opt,name=usFutureQotRight" json:"usFutureQotRight,omitempty"`                                //美股期货行情权限, QotRight(已废弃)
+	UsOptionQotRight      *QotRight              `protobuf:"varint,17,opt,name=usOptionQotRight,enum=futupb.QotRight" json:"usOptionQotRight,omitempty"`           //美股期货行情权限, QotRight
+	UserAttribution       *UserAttribution       `protobuf:"varint,19,opt,name=userAttribution,enum=futupb.UserAttribution" json:"userAttribution,omitempty"`      //用户注册归属地, UserAttribution
+	UpdateWhatsNew        *string                `protobuf:"bytes,20,opt,name=updateWhatsNew" json:"updateWhatsNew,omitempty"`                                     //升级提示
+	UsIndexQotRight       *QotRight              `protobuf:"varint,21,opt,name=usIndexQotRight,enum=futupb.QotRight" json:"usIndexQotRight,omitempty"`             //美股指数行情权限, QotRight
+	UsOtcQotRight         *QotRight              `protobuf:"varint,22,opt,name=usOtcQotRight,enum=futupb.QotRight" json:"usOtcQotRight,omitempty"`                 //美股OTC市场行情权限, QotRight
+	UsCMEFutureQotRight   *QotRight              `protobuf:"varint,23,opt,name=usCMEFutureQotRight,enum=futupb.QotRight" json:"usCMEFutureQotRight,omitempty"`     //美股CME期货行情权限, QotRight
+	UsCBOTFutureQotRight  *int32                 `protobuf:"varint,24,opt,name=usCBOTFutureQotRight" json:"usCBOTFutureQotRight,omitempty"`                        //美股CBOT期货行情权限, QotRight
+	UsNYMEXFutureQotRight *QotRight              `protobuf:"varint,25,opt,name=usNYMEXFutureQotRight,enum=futupb.QotRight" json:"usNYMEXFutureQotRight,omitempty"` //美股NYMEX期货行情权限, QotRight
+	UsCOMEXFutureQotRight *QotRight              `protobuf:"varint,26,opt,name=usCOMEXFutureQotRight,enum=futupb.QotRight" json:"usCOMEXFutureQotRight,omitempty"` //美股COMEX期货行情权限, QotRight
+	UsCBOEFutureQotRight  *QotRight              `protobuf:"varint,27,opt,name=usCBOEFutureQotRight,enum=futupb.QotRight" json:"usCBOEFutureQotRight,omitempty"`   //美股CBOE期货行情权限, QotRight
+	SgFutureQotRight      *QotRight              `protobuf:"varint,28,opt,name=sgFutureQotRight,enum=futupb.QotRight" json:"sgFutureQotRight,omitempty"`           //新加坡市场期货行情权限, QotRight
+	JpFutureQotRight      *QotRight              `protobuf:"varint,29,opt,name=jpFutureQotRight,enum=futupb.QotRight" json:"jpFutureQotRight,omitempty"`           //日本市场期货行情权限, QotRight
+	IsAppNNOrMM           *bool                  `protobuf:"varint,30,opt,name=isAppNNOrMM" json:"isAppNNOrMM,omitempty"`                                          //true:NN false:MM
+	ShQotRight            *QotRight              `protobuf:"varint,31,opt,name=shQotRight,enum=futupb.QotRight" json:"shQotRight,omitempty"`                       //上海市场行情权限, QotRight
+	SzQotRight            *QotRight              `protobuf:"varint,32,opt,name=szQotRight,enum=futupb.QotRight" json:"szQotRight,omitempty"`                       //深圳市场行情权限, QotRight
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -281,18 +281,18 @@ func (x *GetUserInfoResponse) GetApiLevel() string {
 	return ""
 }
 
-func (x *GetUserInfoResponse) GetHkQotRight() int32 {
+func (x *GetUserInfoResponse) GetHkQotRight() QotRight {
 	if x != nil && x.HkQotRight != nil {
 		return *x.HkQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetUsQotRight() int32 {
+func (x *GetUserInfoResponse) GetUsQotRight() QotRight {
 	if x != nil && x.UsQotRight != nil {
 		return *x.UsQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *GetUserInfoResponse) GetCnQotRight() int32 {
@@ -316,11 +316,11 @@ func (x *GetUserInfoResponse) GetUserID() int64 {
 	return 0
 }
 
-func (x *GetUserInfoResponse) GetUpdateType() int32 {
+func (x *GetUserInfoResponse) GetUpdateType() UpdateType {
 	if x != nil && x.UpdateType != nil {
 		return *x.UpdateType
 	}
-	return 0
+	return UpdateType_UpdateType_None
 }
 
 func (x *GetUserInfoResponse) GetWebKey() string {
@@ -337,11 +337,11 @@ func (x *GetUserInfoResponse) GetWebJumpUrlHead() string {
 	return ""
 }
 
-func (x *GetUserInfoResponse) GetHkOptionQotRight() int32 {
+func (x *GetUserInfoResponse) GetHkOptionQotRight() QotRight {
 	if x != nil && x.HkOptionQotRight != nil {
 		return *x.HkOptionQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *GetUserInfoResponse) GetHasUSOptionQotRight() bool {
@@ -351,11 +351,11 @@ func (x *GetUserInfoResponse) GetHasUSOptionQotRight() bool {
 	return false
 }
 
-func (x *GetUserInfoResponse) GetHkFutureQotRight() int32 {
+func (x *GetUserInfoResponse) GetHkFutureQotRight() QotRight {
 	if x != nil && x.HkFutureQotRight != nil {
 		return *x.HkFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *GetUserInfoResponse) GetSubQuota() int32 {
@@ -379,18 +379,18 @@ func (x *GetUserInfoResponse) GetUsFutureQotRight() int32 {
 	return 0
 }
 
-func (x *GetUserInfoResponse) GetUsOptionQotRight() int32 {
+func (x *GetUserInfoResponse) GetUsOptionQotRight() QotRight {
 	if x != nil && x.UsOptionQotRight != nil {
 		return *x.UsOptionQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetUserAttribution() int32 {
+func (x *GetUserInfoResponse) GetUserAttribution() UserAttribution {
 	if x != nil && x.UserAttribution != nil {
 		return *x.UserAttribution
 	}
-	return 0
+	return UserAttribution_UserAttribution_Unknown
 }
 
 func (x *GetUserInfoResponse) GetUpdateWhatsNew() string {
@@ -400,25 +400,25 @@ func (x *GetUserInfoResponse) GetUpdateWhatsNew() string {
 	return ""
 }
 
-func (x *GetUserInfoResponse) GetUsIndexQotRight() int32 {
+func (x *GetUserInfoResponse) GetUsIndexQotRight() QotRight {
 	if x != nil && x.UsIndexQotRight != nil {
 		return *x.UsIndexQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetUsOtcQotRight() int32 {
+func (x *GetUserInfoResponse) GetUsOtcQotRight() QotRight {
 	if x != nil && x.UsOtcQotRight != nil {
 		return *x.UsOtcQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetUsCMEFutureQotRight() int32 {
+func (x *GetUserInfoResponse) GetUsCMEFutureQotRight() QotRight {
 	if x != nil && x.UsCMEFutureQotRight != nil {
 		return *x.UsCMEFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *GetUserInfoResponse) GetUsCBOTFutureQotRight() int32 {
@@ -428,39 +428,39 @@ func (x *GetUserInfoResponse) GetUsCBOTFutureQotRight() int32 {
 	return 0
 }
 
-func (x *GetUserInfoResponse) GetUsNYMEXFutureQotRight() int32 {
+func (x *GetUserInfoResponse) GetUsNYMEXFutureQotRight() QotRight {
 	if x != nil && x.UsNYMEXFutureQotRight != nil {
 		return *x.UsNYMEXFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetUsCOMEXFutureQotRight() int32 {
+func (x *GetUserInfoResponse) GetUsCOMEXFutureQotRight() QotRight {
 	if x != nil && x.UsCOMEXFutureQotRight != nil {
 		return *x.UsCOMEXFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetUsCBOEFutureQotRight() int32 {
+func (x *GetUserInfoResponse) GetUsCBOEFutureQotRight() QotRight {
 	if x != nil && x.UsCBOEFutureQotRight != nil {
 		return *x.UsCBOEFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetSgFutureQotRight() int32 {
+func (x *GetUserInfoResponse) GetSgFutureQotRight() QotRight {
 	if x != nil && x.SgFutureQotRight != nil {
 		return *x.SgFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetJpFutureQotRight() int32 {
+func (x *GetUserInfoResponse) GetJpFutureQotRight() QotRight {
 	if x != nil && x.JpFutureQotRight != nil {
 		return *x.JpFutureQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 func (x *GetUserInfoResponse) GetIsAppNNOrMM() bool {
@@ -470,18 +470,18 @@ func (x *GetUserInfoResponse) GetIsAppNNOrMM() bool {
 	return false
 }
 
-func (x *GetUserInfoResponse) GetShQotRight() int32 {
+func (x *GetUserInfoResponse) GetShQotRight() QotRight {
 	if x != nil && x.ShQotRight != nil {
 		return *x.ShQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
-func (x *GetUserInfoResponse) GetSzQotRight() int32 {
+func (x *GetUserInfoResponse) GetSzQotRight() QotRight {
 	if x != nil && x.SzQotRight != nil {
 		return *x.SzQotRight
 	}
-	return 0
+	return QotRight_QotRight_Unknow
 }
 
 type GetUserInfoRequest_Internal struct {
@@ -530,9 +530,9 @@ func (x *GetUserInfoRequest_Internal) GetPayload() *GetUserInfoRequest {
 
 type GetUserInfoResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
-	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`             //返回结果描述
-	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`          //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //返回结果，参见Common.RetType的枚举定义
+	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`                                 //返回结果描述
+	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`                              //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
 	Payload       *GetUserInfoResponse   `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -540,7 +540,7 @@ type GetUserInfoResponse_Internal struct {
 
 // Default values for GetUserInfoResponse_Internal fields.
 const (
-	Default_GetUserInfoResponse_Internal_RetType = int32(-400)
+	Default_GetUserInfoResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *GetUserInfoResponse_Internal) Reset() {
@@ -573,7 +573,7 @@ func (*GetUserInfoResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_GetUserInfo_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetUserInfoResponse_Internal) GetRetType() int32 {
+func (x *GetUserInfoResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -605,60 +605,59 @@ var File_GetUserInfo_proto protoreflect.FileDescriptor
 
 const file_GetUserInfo_proto_rawDesc = "" +
 	"\n" +
-	"\x11GetUserInfo.proto\x12\x06futupb\x1a\fCommon.proto\"(\n" +
+	"\x11GetUserInfo.proto\x12\x06futupb\x1a\x10Qot_Common.proto\x1a\fCommon.proto\"(\n" +
 	"\x12GetUserInfoRequest\x12\x12\n" +
-	"\x04flag\x18\x02 \x01(\x05R\x04flag\"\x81\n" +
-	"\n" +
+	"\x04flag\x18\x02 \x01(\x05R\x04flag\"\xbc\f\n" +
 	"\x13GetUserInfoResponse\x12\x1a\n" +
 	"\bnickName\x18\x01 \x01(\tR\bnickName\x12\x1c\n" +
 	"\tavatarUrl\x18\x02 \x01(\tR\tavatarUrl\x12\x1a\n" +
-	"\bapiLevel\x18\x03 \x01(\tR\bapiLevel\x12\x1e\n" +
+	"\bapiLevel\x18\x03 \x01(\tR\bapiLevel\x120\n" +
 	"\n" +
-	"hkQotRight\x18\x04 \x01(\x05R\n" +
-	"hkQotRight\x12\x1e\n" +
+	"hkQotRight\x18\x04 \x01(\x0e2\x10.futupb.QotRightR\n" +
+	"hkQotRight\x120\n" +
 	"\n" +
-	"usQotRight\x18\x05 \x01(\x05R\n" +
+	"usQotRight\x18\x05 \x01(\x0e2\x10.futupb.QotRightR\n" +
 	"usQotRight\x12\x1e\n" +
 	"\n" +
 	"cnQotRight\x18\x06 \x01(\x05R\n" +
 	"cnQotRight\x124\n" +
 	"\x15isNeedAgreeDisclaimer\x18\a \x01(\bR\x15isNeedAgreeDisclaimer\x12\x16\n" +
-	"\x06userID\x18\b \x01(\x03R\x06userID\x12\x1e\n" +
+	"\x06userID\x18\b \x01(\x03R\x06userID\x122\n" +
 	"\n" +
-	"updateType\x18\t \x01(\x05R\n" +
+	"updateType\x18\t \x01(\x0e2\x12.futupb.UpdateTypeR\n" +
 	"updateType\x12\x16\n" +
 	"\x06webKey\x18\n" +
 	" \x01(\tR\x06webKey\x12&\n" +
-	"\x0ewebJumpUrlHead\x18\x12 \x01(\tR\x0ewebJumpUrlHead\x12*\n" +
-	"\x10hkOptionQotRight\x18\v \x01(\x05R\x10hkOptionQotRight\x120\n" +
-	"\x13hasUSOptionQotRight\x18\f \x01(\bR\x13hasUSOptionQotRight\x12*\n" +
-	"\x10hkFutureQotRight\x18\r \x01(\x05R\x10hkFutureQotRight\x12\x1a\n" +
+	"\x0ewebJumpUrlHead\x18\x12 \x01(\tR\x0ewebJumpUrlHead\x12<\n" +
+	"\x10hkOptionQotRight\x18\v \x01(\x0e2\x10.futupb.QotRightR\x10hkOptionQotRight\x120\n" +
+	"\x13hasUSOptionQotRight\x18\f \x01(\bR\x13hasUSOptionQotRight\x12<\n" +
+	"\x10hkFutureQotRight\x18\r \x01(\x0e2\x10.futupb.QotRightR\x10hkFutureQotRight\x12\x1a\n" +
 	"\bsubQuota\x18\x0e \x01(\x05R\bsubQuota\x12&\n" +
 	"\x0ehistoryKLQuota\x18\x0f \x01(\x05R\x0ehistoryKLQuota\x12*\n" +
-	"\x10usFutureQotRight\x18\x10 \x01(\x05R\x10usFutureQotRight\x12*\n" +
-	"\x10usOptionQotRight\x18\x11 \x01(\x05R\x10usOptionQotRight\x12(\n" +
-	"\x0fuserAttribution\x18\x13 \x01(\x05R\x0fuserAttribution\x12&\n" +
-	"\x0eupdateWhatsNew\x18\x14 \x01(\tR\x0eupdateWhatsNew\x12(\n" +
-	"\x0fusIndexQotRight\x18\x15 \x01(\x05R\x0fusIndexQotRight\x12$\n" +
-	"\rusOtcQotRight\x18\x16 \x01(\x05R\rusOtcQotRight\x120\n" +
-	"\x13usCMEFutureQotRight\x18\x17 \x01(\x05R\x13usCMEFutureQotRight\x122\n" +
-	"\x14usCBOTFutureQotRight\x18\x18 \x01(\x05R\x14usCBOTFutureQotRight\x124\n" +
-	"\x15usNYMEXFutureQotRight\x18\x19 \x01(\x05R\x15usNYMEXFutureQotRight\x124\n" +
-	"\x15usCOMEXFutureQotRight\x18\x1a \x01(\x05R\x15usCOMEXFutureQotRight\x122\n" +
-	"\x14usCBOEFutureQotRight\x18\x1b \x01(\x05R\x14usCBOEFutureQotRight\x12*\n" +
-	"\x10sgFutureQotRight\x18\x1c \x01(\x05R\x10sgFutureQotRight\x12*\n" +
-	"\x10jpFutureQotRight\x18\x1d \x01(\x05R\x10jpFutureQotRight\x12 \n" +
-	"\visAppNNOrMM\x18\x1e \x01(\bR\visAppNNOrMM\x12\x1e\n" +
+	"\x10usFutureQotRight\x18\x10 \x01(\x05R\x10usFutureQotRight\x12<\n" +
+	"\x10usOptionQotRight\x18\x11 \x01(\x0e2\x10.futupb.QotRightR\x10usOptionQotRight\x12A\n" +
+	"\x0fuserAttribution\x18\x13 \x01(\x0e2\x17.futupb.UserAttributionR\x0fuserAttribution\x12&\n" +
+	"\x0eupdateWhatsNew\x18\x14 \x01(\tR\x0eupdateWhatsNew\x12:\n" +
+	"\x0fusIndexQotRight\x18\x15 \x01(\x0e2\x10.futupb.QotRightR\x0fusIndexQotRight\x126\n" +
+	"\rusOtcQotRight\x18\x16 \x01(\x0e2\x10.futupb.QotRightR\rusOtcQotRight\x12B\n" +
+	"\x13usCMEFutureQotRight\x18\x17 \x01(\x0e2\x10.futupb.QotRightR\x13usCMEFutureQotRight\x122\n" +
+	"\x14usCBOTFutureQotRight\x18\x18 \x01(\x05R\x14usCBOTFutureQotRight\x12F\n" +
+	"\x15usNYMEXFutureQotRight\x18\x19 \x01(\x0e2\x10.futupb.QotRightR\x15usNYMEXFutureQotRight\x12F\n" +
+	"\x15usCOMEXFutureQotRight\x18\x1a \x01(\x0e2\x10.futupb.QotRightR\x15usCOMEXFutureQotRight\x12D\n" +
+	"\x14usCBOEFutureQotRight\x18\x1b \x01(\x0e2\x10.futupb.QotRightR\x14usCBOEFutureQotRight\x12<\n" +
+	"\x10sgFutureQotRight\x18\x1c \x01(\x0e2\x10.futupb.QotRightR\x10sgFutureQotRight\x12<\n" +
+	"\x10jpFutureQotRight\x18\x1d \x01(\x0e2\x10.futupb.QotRightR\x10jpFutureQotRight\x12 \n" +
+	"\visAppNNOrMM\x18\x1e \x01(\bR\visAppNNOrMM\x120\n" +
 	"\n" +
-	"shQotRight\x18\x1f \x01(\x05R\n" +
-	"shQotRight\x12\x1e\n" +
+	"shQotRight\x18\x1f \x01(\x0e2\x10.futupb.QotRightR\n" +
+	"shQotRight\x120\n" +
 	"\n" +
-	"szQotRight\x18  \x01(\x05R\n" +
+	"szQotRight\x18  \x01(\x0e2\x10.futupb.QotRightR\n" +
 	"szQotRight\"S\n" +
 	"\x1bGetUserInfoRequest_Internal\x124\n" +
-	"\apayload\x18\x01 \x02(\v2\x1a.futupb.GetUserInfoRequestR\apayload\"\xa7\x01\n" +
-	"\x1cGetUserInfoResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1a.futupb.GetUserInfoRequestR\apayload\"\xc3\x01\n" +
+	"\x1cGetUserInfoResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x125\n" +
 	"\apayload\x18\x04 \x01(\v2\x1b.futupb.GetUserInfoResponseR\apayload*N\n" +
@@ -697,15 +696,36 @@ var file_GetUserInfo_proto_goTypes = []any{
 	(*GetUserInfoResponse)(nil),          // 3: futupb.GetUserInfoResponse
 	(*GetUserInfoRequest_Internal)(nil),  // 4: futupb.GetUserInfoRequest_Internal
 	(*GetUserInfoResponse_Internal)(nil), // 5: futupb.GetUserInfoResponse_Internal
+	(QotRight)(0),                        // 6: futupb.QotRight
+	(UserAttribution)(0),                 // 7: futupb.UserAttribution
+	(RetType)(0),                         // 8: futupb.RetType
 }
 var file_GetUserInfo_proto_depIdxs = []int32{
-	2, // 0: futupb.GetUserInfoRequest_Internal.payload:type_name -> futupb.GetUserInfoRequest
-	3, // 1: futupb.GetUserInfoResponse_Internal.payload:type_name -> futupb.GetUserInfoResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	6,  // 0: futupb.GetUserInfoResponse.hkQotRight:type_name -> futupb.QotRight
+	6,  // 1: futupb.GetUserInfoResponse.usQotRight:type_name -> futupb.QotRight
+	0,  // 2: futupb.GetUserInfoResponse.updateType:type_name -> futupb.UpdateType
+	6,  // 3: futupb.GetUserInfoResponse.hkOptionQotRight:type_name -> futupb.QotRight
+	6,  // 4: futupb.GetUserInfoResponse.hkFutureQotRight:type_name -> futupb.QotRight
+	6,  // 5: futupb.GetUserInfoResponse.usOptionQotRight:type_name -> futupb.QotRight
+	7,  // 6: futupb.GetUserInfoResponse.userAttribution:type_name -> futupb.UserAttribution
+	6,  // 7: futupb.GetUserInfoResponse.usIndexQotRight:type_name -> futupb.QotRight
+	6,  // 8: futupb.GetUserInfoResponse.usOtcQotRight:type_name -> futupb.QotRight
+	6,  // 9: futupb.GetUserInfoResponse.usCMEFutureQotRight:type_name -> futupb.QotRight
+	6,  // 10: futupb.GetUserInfoResponse.usNYMEXFutureQotRight:type_name -> futupb.QotRight
+	6,  // 11: futupb.GetUserInfoResponse.usCOMEXFutureQotRight:type_name -> futupb.QotRight
+	6,  // 12: futupb.GetUserInfoResponse.usCBOEFutureQotRight:type_name -> futupb.QotRight
+	6,  // 13: futupb.GetUserInfoResponse.sgFutureQotRight:type_name -> futupb.QotRight
+	6,  // 14: futupb.GetUserInfoResponse.jpFutureQotRight:type_name -> futupb.QotRight
+	6,  // 15: futupb.GetUserInfoResponse.shQotRight:type_name -> futupb.QotRight
+	6,  // 16: futupb.GetUserInfoResponse.szQotRight:type_name -> futupb.QotRight
+	2,  // 17: futupb.GetUserInfoRequest_Internal.payload:type_name -> futupb.GetUserInfoRequest
+	8,  // 18: futupb.GetUserInfoResponse_Internal.retType:type_name -> futupb.RetType
+	3,  // 19: futupb.GetUserInfoResponse_Internal.payload:type_name -> futupb.GetUserInfoResponse
+	20, // [20:20] is the sub-list for method output_type
+	20, // [20:20] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_GetUserInfo_proto_init() }
@@ -713,6 +733,7 @@ func file_GetUserInfo_proto_init() {
 	if File_GetUserInfo_proto != nil {
 		return
 	}
+	file_Qot_Common_proto_init()
 	file_Common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

@@ -233,31 +233,31 @@ func (x *EquitySnapshotExData) GetDividendLFYRatio() float64 {
 // 窝轮类型额外数据
 type WarrantSnapshotExData struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
-	ConversionRate     *float64               `protobuf:"fixed64,1,req,name=conversionRate" json:"conversionRate,omitempty"`          //换股比率
-	WarrantType        *int32                 `protobuf:"varint,2,req,name=warrantType" json:"warrantType,omitempty"`                 //Qot_Common.WarrantType,窝轮类型
-	StrikePrice        *float64               `protobuf:"fixed64,3,req,name=strikePrice" json:"strikePrice,omitempty"`                //行使价
-	MaturityTime       *string                `protobuf:"bytes,4,req,name=maturityTime" json:"maturityTime,omitempty"`                //到期日时间字符串
-	EndTradeTime       *string                `protobuf:"bytes,5,req,name=endTradeTime" json:"endTradeTime,omitempty"`                //最后交易日时间字符串
-	Owner              *Security              `protobuf:"bytes,6,req,name=owner" json:"owner,omitempty"`                              //所属正股
-	RecoveryPrice      *float64               `protobuf:"fixed64,7,req,name=recoveryPrice" json:"recoveryPrice,omitempty"`            //收回价,仅牛熊证支持该字段
-	StreetVolumn       *int64                 `protobuf:"varint,8,req,name=streetVolumn" json:"streetVolumn,omitempty"`               //街货量
-	IssueVolumn        *int64                 `protobuf:"varint,9,req,name=issueVolumn" json:"issueVolumn,omitempty"`                 //发行量
-	StreetRate         *float64               `protobuf:"fixed64,10,req,name=streetRate" json:"streetRate,omitempty"`                 //街货占比（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	Delta              *float64               `protobuf:"fixed64,11,req,name=delta" json:"delta,omitempty"`                           //对冲值,仅认购认沽支持该字段
-	ImpliedVolatility  *float64               `protobuf:"fixed64,12,req,name=impliedVolatility" json:"impliedVolatility,omitempty"`   //引申波幅,仅认购认沽支持该字段
-	Premium            *float64               `protobuf:"fixed64,13,req,name=premium" json:"premium,omitempty"`                       //溢价（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	MaturityTimestamp  *float64               `protobuf:"fixed64,14,opt,name=maturityTimestamp" json:"maturityTimestamp,omitempty"`   //到期日时间戳
-	EndTradeTimestamp  *float64               `protobuf:"fixed64,15,opt,name=endTradeTimestamp" json:"endTradeTimestamp,omitempty"`   //最后交易日时间戳
-	Leverage           *float64               `protobuf:"fixed64,16,opt,name=leverage" json:"leverage,omitempty"`                     // 杠杆比率（倍）
-	Ipop               *float64               `protobuf:"fixed64,17,opt,name=ipop" json:"ipop,omitempty"`                             // 价内/价外（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	BreakEvenPoint     *float64               `protobuf:"fixed64,18,opt,name=breakEvenPoint" json:"breakEvenPoint,omitempty"`         // 打和点
-	ConversionPrice    *float64               `protobuf:"fixed64,19,opt,name=conversionPrice" json:"conversionPrice,omitempty"`       // 换股价
-	PriceRecoveryRatio *float64               `protobuf:"fixed64,20,opt,name=priceRecoveryRatio" json:"priceRecoveryRatio,omitempty"` // 正股距收回价（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	Score              *float64               `protobuf:"fixed64,21,opt,name=score" json:"score,omitempty"`                           // 综合评分
-	UpperStrikePrice   *float64               `protobuf:"fixed64,22,opt,name=upperStrikePrice" json:"upperStrikePrice,omitempty"`     //上限价，仅界内证支持该字段
-	LowerStrikePrice   *float64               `protobuf:"fixed64,23,opt,name=lowerStrikePrice" json:"lowerStrikePrice,omitempty"`     //下限价，仅界内证支持该字段
-	InLinePriceStatus  *int32                 `protobuf:"varint,24,opt,name=inLinePriceStatus" json:"inLinePriceStatus,omitempty"`    //Qot_Common.PriceType, 界内界外，仅界内证支持该字段
-	IssuerCode         *string                `protobuf:"bytes,25,opt,name=issuerCode" json:"issuerCode,omitempty"`                   //发行人代码
+	ConversionRate     *float64               `protobuf:"fixed64,1,req,name=conversionRate" json:"conversionRate,omitempty"`                             //换股比率
+	WarrantType        *WarrantType           `protobuf:"varint,2,req,name=warrantType,enum=futupb.WarrantType" json:"warrantType,omitempty"`            //Qot_Common.WarrantType,窝轮类型
+	StrikePrice        *float64               `protobuf:"fixed64,3,req,name=strikePrice" json:"strikePrice,omitempty"`                                   //行使价
+	MaturityTime       *string                `protobuf:"bytes,4,req,name=maturityTime" json:"maturityTime,omitempty"`                                   //到期日时间字符串
+	EndTradeTime       *string                `protobuf:"bytes,5,req,name=endTradeTime" json:"endTradeTime,omitempty"`                                   //最后交易日时间字符串
+	Owner              *Security              `protobuf:"bytes,6,req,name=owner" json:"owner,omitempty"`                                                 //所属正股
+	RecoveryPrice      *float64               `protobuf:"fixed64,7,req,name=recoveryPrice" json:"recoveryPrice,omitempty"`                               //收回价,仅牛熊证支持该字段
+	StreetVolumn       *int64                 `protobuf:"varint,8,req,name=streetVolumn" json:"streetVolumn,omitempty"`                                  //街货量
+	IssueVolumn        *int64                 `protobuf:"varint,9,req,name=issueVolumn" json:"issueVolumn,omitempty"`                                    //发行量
+	StreetRate         *float64               `protobuf:"fixed64,10,req,name=streetRate" json:"streetRate,omitempty"`                                    //街货占比（该字段为百分比字段，默认不展示%，如20实际对应20%）
+	Delta              *float64               `protobuf:"fixed64,11,req,name=delta" json:"delta,omitempty"`                                              //对冲值,仅认购认沽支持该字段
+	ImpliedVolatility  *float64               `protobuf:"fixed64,12,req,name=impliedVolatility" json:"impliedVolatility,omitempty"`                      //引申波幅,仅认购认沽支持该字段
+	Premium            *float64               `protobuf:"fixed64,13,req,name=premium" json:"premium,omitempty"`                                          //溢价（该字段为百分比字段，默认不展示%，如20实际对应20%）
+	MaturityTimestamp  *float64               `protobuf:"fixed64,14,opt,name=maturityTimestamp" json:"maturityTimestamp,omitempty"`                      //到期日时间戳
+	EndTradeTimestamp  *float64               `protobuf:"fixed64,15,opt,name=endTradeTimestamp" json:"endTradeTimestamp,omitempty"`                      //最后交易日时间戳
+	Leverage           *float64               `protobuf:"fixed64,16,opt,name=leverage" json:"leverage,omitempty"`                                        // 杠杆比率（倍）
+	Ipop               *float64               `protobuf:"fixed64,17,opt,name=ipop" json:"ipop,omitempty"`                                                // 价内/价外（该字段为百分比字段，默认不展示%，如20实际对应20%）
+	BreakEvenPoint     *float64               `protobuf:"fixed64,18,opt,name=breakEvenPoint" json:"breakEvenPoint,omitempty"`                            // 打和点
+	ConversionPrice    *float64               `protobuf:"fixed64,19,opt,name=conversionPrice" json:"conversionPrice,omitempty"`                          // 换股价
+	PriceRecoveryRatio *float64               `protobuf:"fixed64,20,opt,name=priceRecoveryRatio" json:"priceRecoveryRatio,omitempty"`                    // 正股距收回价（该字段为百分比字段，默认不展示%，如20实际对应20%）
+	Score              *float64               `protobuf:"fixed64,21,opt,name=score" json:"score,omitempty"`                                              // 综合评分
+	UpperStrikePrice   *float64               `protobuf:"fixed64,22,opt,name=upperStrikePrice" json:"upperStrikePrice,omitempty"`                        //上限价，仅界内证支持该字段
+	LowerStrikePrice   *float64               `protobuf:"fixed64,23,opt,name=lowerStrikePrice" json:"lowerStrikePrice,omitempty"`                        //下限价，仅界内证支持该字段
+	InLinePriceStatus  *PriceType             `protobuf:"varint,24,opt,name=inLinePriceStatus,enum=futupb.PriceType" json:"inLinePriceStatus,omitempty"` //Qot_Common.PriceType, 界内界外，仅界内证支持该字段
+	IssuerCode         *string                `protobuf:"bytes,25,opt,name=issuerCode" json:"issuerCode,omitempty"`                                      //发行人代码
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -299,11 +299,11 @@ func (x *WarrantSnapshotExData) GetConversionRate() float64 {
 	return 0
 }
 
-func (x *WarrantSnapshotExData) GetWarrantType() int32 {
+func (x *WarrantSnapshotExData) GetWarrantType() WarrantType {
 	if x != nil && x.WarrantType != nil {
 		return *x.WarrantType
 	}
-	return 0
+	return WarrantType_WarrantType_Unknown
 }
 
 func (x *WarrantSnapshotExData) GetStrikePrice() float64 {
@@ -453,11 +453,11 @@ func (x *WarrantSnapshotExData) GetLowerStrikePrice() float64 {
 	return 0
 }
 
-func (x *WarrantSnapshotExData) GetInLinePriceStatus() int32 {
+func (x *WarrantSnapshotExData) GetInLinePriceStatus() PriceType {
 	if x != nil && x.InLinePriceStatus != nil {
 		return *x.InLinePriceStatus
 	}
-	return 0
+	return PriceType_PriceType_Unknow
 }
 
 func (x *WarrantSnapshotExData) GetIssuerCode() string {
@@ -470,28 +470,28 @@ func (x *WarrantSnapshotExData) GetIssuerCode() string {
 // 期权类型额外数据
 type OptionSnapshotExData struct {
 	state                protoimpl.MessageState `protogen:"open.v1"`
-	Type                 *int32                 `protobuf:"varint,1,req,name=type" json:"type,omitempty"`                                   //Qot_Common.OptionType,期权
-	Owner                *Security              `protobuf:"bytes,2,req,name=owner" json:"owner,omitempty"`                                  //标的股
-	StrikeTime           *string                `protobuf:"bytes,3,req,name=strikeTime" json:"strikeTime,omitempty"`                        //行权日
-	StrikePrice          *float64               `protobuf:"fixed64,4,req,name=strikePrice" json:"strikePrice,omitempty"`                    //行权价
-	ContractSize         *int32                 `protobuf:"varint,5,req,name=contractSize" json:"contractSize,omitempty"`                   //每份合约数(整型数据)
-	ContractSizeFloat    *float64               `protobuf:"fixed64,22,opt,name=contractSizeFloat" json:"contractSizeFloat,omitempty"`       //每份合约数（浮点型数据）
-	OpenInterest         *int32                 `protobuf:"varint,6,req,name=openInterest" json:"openInterest,omitempty"`                   //未平仓合约数
-	ImpliedVolatility    *float64               `protobuf:"fixed64,7,req,name=impliedVolatility" json:"impliedVolatility,omitempty"`        //隐含波动率（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	Premium              *float64               `protobuf:"fixed64,8,req,name=premium" json:"premium,omitempty"`                            //溢价（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	Delta                *float64               `protobuf:"fixed64,9,req,name=delta" json:"delta,omitempty"`                                //希腊值 Delta
-	Gamma                *float64               `protobuf:"fixed64,10,req,name=gamma" json:"gamma,omitempty"`                               //希腊值 Gamma
-	Vega                 *float64               `protobuf:"fixed64,11,req,name=vega" json:"vega,omitempty"`                                 //希腊值 Vega
-	Theta                *float64               `protobuf:"fixed64,12,req,name=theta" json:"theta,omitempty"`                               //希腊值 Theta
-	Rho                  *float64               `protobuf:"fixed64,13,req,name=rho" json:"rho,omitempty"`                                   //希腊值 Rho
-	StrikeTimestamp      *float64               `protobuf:"fixed64,14,opt,name=strikeTimestamp" json:"strikeTimestamp,omitempty"`           //行权日时间戳
-	IndexOptionType      *int32                 `protobuf:"varint,15,opt,name=indexOptionType" json:"indexOptionType,omitempty"`            //Qot_Common.IndexOptionType，指数期权类型
-	NetOpenInterest      *int32                 `protobuf:"varint,16,opt,name=netOpenInterest" json:"netOpenInterest,omitempty"`            //净未平仓合约数，仅港股期权适用
-	ExpiryDateDistance   *int32                 `protobuf:"varint,17,opt,name=expiryDateDistance" json:"expiryDateDistance,omitempty"`      //距离到期日天数，负数表示已过期
-	ContractNominalValue *float64               `protobuf:"fixed64,18,opt,name=contractNominalValue" json:"contractNominalValue,omitempty"` //合约名义金额，仅港股期权适用
-	OwnerLotMultiplier   *float64               `protobuf:"fixed64,19,opt,name=ownerLotMultiplier" json:"ownerLotMultiplier,omitempty"`     //相等正股手数，指数期权无该字段，仅港股期权适用
-	OptionAreaType       *int32                 `protobuf:"varint,20,opt,name=optionAreaType" json:"optionAreaType,omitempty"`              //Qot_Common.OptionAreaType，期权类型（按行权时间）
-	ContractMultiplier   *float64               `protobuf:"fixed64,21,opt,name=contractMultiplier" json:"contractMultiplier,omitempty"`     //合约乘数
+	Type                 *OptionType            `protobuf:"varint,1,req,name=type,enum=futupb.OptionType" json:"type,omitempty"`                             //Qot_Common.OptionType,期权
+	Owner                *Security              `protobuf:"bytes,2,req,name=owner" json:"owner,omitempty"`                                                   //标的股
+	StrikeTime           *string                `protobuf:"bytes,3,req,name=strikeTime" json:"strikeTime,omitempty"`                                         //行权日
+	StrikePrice          *float64               `protobuf:"fixed64,4,req,name=strikePrice" json:"strikePrice,omitempty"`                                     //行权价
+	ContractSize         *int32                 `protobuf:"varint,5,req,name=contractSize" json:"contractSize,omitempty"`                                    //每份合约数(整型数据)
+	ContractSizeFloat    *float64               `protobuf:"fixed64,22,opt,name=contractSizeFloat" json:"contractSizeFloat,omitempty"`                        //每份合约数（浮点型数据）
+	OpenInterest         *int32                 `protobuf:"varint,6,req,name=openInterest" json:"openInterest,omitempty"`                                    //未平仓合约数
+	ImpliedVolatility    *float64               `protobuf:"fixed64,7,req,name=impliedVolatility" json:"impliedVolatility,omitempty"`                         //隐含波动率（该字段为百分比字段，默认不展示%，如20实际对应20%）
+	Premium              *float64               `protobuf:"fixed64,8,req,name=premium" json:"premium,omitempty"`                                             //溢价（该字段为百分比字段，默认不展示%，如20实际对应20%）
+	Delta                *float64               `protobuf:"fixed64,9,req,name=delta" json:"delta,omitempty"`                                                 //希腊值 Delta
+	Gamma                *float64               `protobuf:"fixed64,10,req,name=gamma" json:"gamma,omitempty"`                                                //希腊值 Gamma
+	Vega                 *float64               `protobuf:"fixed64,11,req,name=vega" json:"vega,omitempty"`                                                  //希腊值 Vega
+	Theta                *float64               `protobuf:"fixed64,12,req,name=theta" json:"theta,omitempty"`                                                //希腊值 Theta
+	Rho                  *float64               `protobuf:"fixed64,13,req,name=rho" json:"rho,omitempty"`                                                    //希腊值 Rho
+	StrikeTimestamp      *float64               `protobuf:"fixed64,14,opt,name=strikeTimestamp" json:"strikeTimestamp,omitempty"`                            //行权日时间戳
+	IndexOptionType      *IndexOptionType       `protobuf:"varint,15,opt,name=indexOptionType,enum=futupb.IndexOptionType" json:"indexOptionType,omitempty"` //Qot_Common.IndexOptionType，指数期权类型
+	NetOpenInterest      *int32                 `protobuf:"varint,16,opt,name=netOpenInterest" json:"netOpenInterest,omitempty"`                             //净未平仓合约数，仅港股期权适用
+	ExpiryDateDistance   *int32                 `protobuf:"varint,17,opt,name=expiryDateDistance" json:"expiryDateDistance,omitempty"`                       //距离到期日天数，负数表示已过期
+	ContractNominalValue *float64               `protobuf:"fixed64,18,opt,name=contractNominalValue" json:"contractNominalValue,omitempty"`                  //合约名义金额，仅港股期权适用
+	OwnerLotMultiplier   *float64               `protobuf:"fixed64,19,opt,name=ownerLotMultiplier" json:"ownerLotMultiplier,omitempty"`                      //相等正股手数，指数期权无该字段，仅港股期权适用
+	OptionAreaType       *OptionAreaType        `protobuf:"varint,20,opt,name=optionAreaType,enum=futupb.OptionAreaType" json:"optionAreaType,omitempty"`    //Qot_Common.OptionAreaType，期权类型（按行权时间）
+	ContractMultiplier   *float64               `protobuf:"fixed64,21,opt,name=contractMultiplier" json:"contractMultiplier,omitempty"`                      //合约乘数
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -526,11 +526,11 @@ func (*OptionSnapshotExData) Descriptor() ([]byte, []int) {
 	return file_Qot_GetSecuritySnapshot_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *OptionSnapshotExData) GetType() int32 {
+func (x *OptionSnapshotExData) GetType() OptionType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return OptionType_OptionType_Unknown
 }
 
 func (x *OptionSnapshotExData) GetOwner() *Security {
@@ -631,11 +631,11 @@ func (x *OptionSnapshotExData) GetStrikeTimestamp() float64 {
 	return 0
 }
 
-func (x *OptionSnapshotExData) GetIndexOptionType() int32 {
+func (x *OptionSnapshotExData) GetIndexOptionType() IndexOptionType {
 	if x != nil && x.IndexOptionType != nil {
 		return *x.IndexOptionType
 	}
-	return 0
+	return IndexOptionType_IndexOptionType_Unknown
 }
 
 func (x *OptionSnapshotExData) GetNetOpenInterest() int32 {
@@ -666,11 +666,11 @@ func (x *OptionSnapshotExData) GetOwnerLotMultiplier() float64 {
 	return 0
 }
 
-func (x *OptionSnapshotExData) GetOptionAreaType() int32 {
+func (x *OptionSnapshotExData) GetOptionAreaType() OptionAreaType {
 	if x != nil && x.OptionAreaType != nil {
 		return *x.OptionAreaType
 	}
-	return 0
+	return OptionAreaType_OptionAreaType_Unknown
 }
 
 func (x *OptionSnapshotExData) GetContractMultiplier() float64 {
@@ -890,12 +890,12 @@ func (x *FutureSnapshotExData) GetIsMainContract() bool {
 // 基金类型额外数据
 type TrustSnapshotExData struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	DividendYield    *float64               `protobuf:"fixed64,1,req,name=dividendYield" json:"dividendYield,omitempty"`      //股息率（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	Aum              *float64               `protobuf:"fixed64,2,req,name=aum" json:"aum,omitempty"`                          //资产规模（单位：元）
-	OutstandingUnits *int64                 `protobuf:"varint,3,req,name=outstandingUnits" json:"outstandingUnits,omitempty"` //总发行量
-	NetAssetValue    *float64               `protobuf:"fixed64,4,req,name=netAssetValue" json:"netAssetValue,omitempty"`      //单位净值
-	Premium          *float64               `protobuf:"fixed64,5,req,name=premium" json:"premium,omitempty"`                  //溢价（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	AssetClass       *int32                 `protobuf:"varint,6,req,name=assetClass" json:"assetClass,omitempty"`             //Qot_Common.AssetClass，资产类别
+	DividendYield    *float64               `protobuf:"fixed64,1,req,name=dividendYield" json:"dividendYield,omitempty"`                 //股息率（该字段为百分比字段，默认不展示%，如20实际对应20%）
+	Aum              *float64               `protobuf:"fixed64,2,req,name=aum" json:"aum,omitempty"`                                     //资产规模（单位：元）
+	OutstandingUnits *int64                 `protobuf:"varint,3,req,name=outstandingUnits" json:"outstandingUnits,omitempty"`            //总发行量
+	NetAssetValue    *float64               `protobuf:"fixed64,4,req,name=netAssetValue" json:"netAssetValue,omitempty"`                 //单位净值
+	Premium          *float64               `protobuf:"fixed64,5,req,name=premium" json:"premium,omitempty"`                             //溢价（该字段为百分比字段，默认不展示%，如20实际对应20%）
+	AssetClass       *AssetClass            `protobuf:"varint,6,req,name=assetClass,enum=futupb.AssetClass" json:"assetClass,omitempty"` //Qot_Common.AssetClass，资产类别
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -965,11 +965,11 @@ func (x *TrustSnapshotExData) GetPremium() float64 {
 	return 0
 }
 
-func (x *TrustSnapshotExData) GetAssetClass() int32 {
+func (x *TrustSnapshotExData) GetAssetClass() AssetClass {
 	if x != nil && x.AssetClass != nil {
 		return *x.AssetClass
 	}
-	return 0
+	return AssetClass_AssetClass_Unknow
 }
 
 // 基本快照数据
@@ -977,7 +977,7 @@ type SnapshotBasicData struct {
 	state                   protoimpl.MessageState `protogen:"open.v1"`
 	Security                *Security              `protobuf:"bytes,1,req,name=security" json:"security,omitempty"`                                  //股票
 	Name                    *string                `protobuf:"bytes,41,opt,name=name" json:"name,omitempty"`                                         //股票名称
-	Type                    *int32                 `protobuf:"varint,2,req,name=type" json:"type,omitempty"`                                         //Qot_Common.SecurityType,股票类型
+	Type                    *SecurityType          `protobuf:"varint,2,req,name=type,enum=futupb.SecurityType" json:"type,omitempty"`                //Qot_Common.SecurityType,股票类型
 	IsSuspend               *bool                  `protobuf:"varint,3,req,name=isSuspend" json:"isSuspend,omitempty"`                               //是否停牌
 	ListTime                *string                `protobuf:"bytes,4,req,name=listTime" json:"listTime,omitempty"`                                  //上市时间字符串
 	LotSize                 *int32                 `protobuf:"varint,5,req,name=lotSize" json:"lotSize,omitempty"`                                   //每手数量
@@ -1014,7 +1014,7 @@ type SnapshotBasicData struct {
 	LowestHistoryPrice      *float64               `protobuf:"fixed64,36,opt,name=lowestHistoryPrice" json:"lowestHistoryPrice,omitempty"`           // 历史最低价
 	PreMarket               *PreAfterMarketData    `protobuf:"bytes,37,opt,name=preMarket" json:"preMarket,omitempty"`                               //Qot_Common::PreAfterMarketData 盘前数据
 	AfterMarket             *PreAfterMarketData    `protobuf:"bytes,38,opt,name=afterMarket" json:"afterMarket,omitempty"`                           //Qot_Common::PreAfterMarketData 盘后数据
-	SecStatus               *int32                 `protobuf:"varint,39,opt,name=secStatus" json:"secStatus,omitempty"`                              //Qot_Common::SecurityStatus 股票状态
+	SecStatus               *SecurityStatus        `protobuf:"varint,39,opt,name=secStatus,enum=futupb.SecurityStatus" json:"secStatus,omitempty"`   //Qot_Common::SecurityStatus 股票状态
 	ClosePrice5Minute       *float64               `protobuf:"fixed64,40,opt,name=closePrice5Minute" json:"closePrice5Minute,omitempty"`             //5分钟收盘价
 	Overnight               *PreAfterMarketData    `protobuf:"bytes,42,opt,name=overnight" json:"overnight,omitempty"`                               //Qot_Common::PreAfterMarketData 夜盘数据
 	unknownFields           protoimpl.UnknownFields
@@ -1065,11 +1065,11 @@ func (x *SnapshotBasicData) GetName() string {
 	return ""
 }
 
-func (x *SnapshotBasicData) GetType() int32 {
+func (x *SnapshotBasicData) GetType() SecurityType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return SecurityType_SecurityType_Unknown
 }
 
 func (x *SnapshotBasicData) GetIsSuspend() bool {
@@ -1324,11 +1324,11 @@ func (x *SnapshotBasicData) GetAfterMarket() *PreAfterMarketData {
 	return nil
 }
 
-func (x *SnapshotBasicData) GetSecStatus() int32 {
+func (x *SnapshotBasicData) GetSecStatus() SecurityStatus {
 	if x != nil && x.SecStatus != nil {
 		return *x.SecStatus
 	}
-	return 0
+	return SecurityStatus_SecurityStatus_Unknown
 }
 
 func (x *SnapshotBasicData) GetClosePrice5Minute() float64 {
@@ -1535,7 +1535,7 @@ func (x *QotGetSecuritySnapshotRequest_Internal) GetPayload() *QotGetSecuritySna
 
 type QotGetSecuritySnapshotResponse_Internal struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	RetType       *int32                          `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                        `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                         `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                          `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetSecuritySnapshotResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -1545,7 +1545,7 @@ type QotGetSecuritySnapshotResponse_Internal struct {
 
 // Default values for QotGetSecuritySnapshotResponse_Internal fields.
 const (
-	Default_QotGetSecuritySnapshotResponse_Internal_RetType = int32(-400)
+	Default_QotGetSecuritySnapshotResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetSecuritySnapshotResponse_Internal) Reset() {
@@ -1578,7 +1578,7 @@ func (*QotGetSecuritySnapshotResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetSecuritySnapshot_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *QotGetSecuritySnapshotResponse_Internal) GetRetType() int32 {
+func (x *QotGetSecuritySnapshotResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -1630,10 +1630,10 @@ const file_Qot_GetSecuritySnapshot_proto_rawDesc = "" +
 	"\vdividendTTM\x18\r \x01(\x01R\vdividendTTM\x12*\n" +
 	"\x10dividendRatioTTM\x18\x0e \x01(\x01R\x10dividendRatioTTM\x12 \n" +
 	"\vdividendLFY\x18\x0f \x01(\x01R\vdividendLFY\x12*\n" +
-	"\x10dividendLFYRatio\x18\x10 \x01(\x01R\x10dividendLFYRatio\"\xa7\a\n" +
+	"\x10dividendLFYRatio\x18\x10 \x01(\x01R\x10dividendLFYRatio\"\xcf\a\n" +
 	"\x15WarrantSnapshotExData\x12&\n" +
-	"\x0econversionRate\x18\x01 \x02(\x01R\x0econversionRate\x12 \n" +
-	"\vwarrantType\x18\x02 \x02(\x05R\vwarrantType\x12 \n" +
+	"\x0econversionRate\x18\x01 \x02(\x01R\x0econversionRate\x125\n" +
+	"\vwarrantType\x18\x02 \x02(\x0e2\x13.futupb.WarrantTypeR\vwarrantType\x12 \n" +
 	"\vstrikePrice\x18\x03 \x02(\x01R\vstrikePrice\x12\"\n" +
 	"\fmaturityTime\x18\x04 \x02(\tR\fmaturityTime\x12\"\n" +
 	"\fendTradeTime\x18\x05 \x02(\tR\fendTradeTime\x12&\n" +
@@ -1657,13 +1657,13 @@ const file_Qot_GetSecuritySnapshot_proto_rawDesc = "" +
 	"\x12priceRecoveryRatio\x18\x14 \x01(\x01R\x12priceRecoveryRatio\x12\x14\n" +
 	"\x05score\x18\x15 \x01(\x01R\x05score\x12*\n" +
 	"\x10upperStrikePrice\x18\x16 \x01(\x01R\x10upperStrikePrice\x12*\n" +
-	"\x10lowerStrikePrice\x18\x17 \x01(\x01R\x10lowerStrikePrice\x12,\n" +
-	"\x11inLinePriceStatus\x18\x18 \x01(\x05R\x11inLinePriceStatus\x12\x1e\n" +
+	"\x10lowerStrikePrice\x18\x17 \x01(\x01R\x10lowerStrikePrice\x12?\n" +
+	"\x11inLinePriceStatus\x18\x18 \x01(\x0e2\x11.futupb.PriceTypeR\x11inLinePriceStatus\x12\x1e\n" +
 	"\n" +
 	"issuerCode\x18\x19 \x01(\tR\n" +
-	"issuerCode\"\xa4\x06\n" +
-	"\x14OptionSnapshotExData\x12\x12\n" +
-	"\x04type\x18\x01 \x02(\x05R\x04type\x12&\n" +
+	"issuerCode\"\xe9\x06\n" +
+	"\x14OptionSnapshotExData\x12&\n" +
+	"\x04type\x18\x01 \x02(\x0e2\x12.futupb.OptionTypeR\x04type\x12&\n" +
 	"\x05owner\x18\x02 \x02(\v2\x10.futupb.SecurityR\x05owner\x12\x1e\n" +
 	"\n" +
 	"strikeTime\x18\x03 \x02(\tR\n" +
@@ -1680,13 +1680,13 @@ const file_Qot_GetSecuritySnapshot_proto_rawDesc = "" +
 	"\x04vega\x18\v \x02(\x01R\x04vega\x12\x14\n" +
 	"\x05theta\x18\f \x02(\x01R\x05theta\x12\x10\n" +
 	"\x03rho\x18\r \x02(\x01R\x03rho\x12(\n" +
-	"\x0fstrikeTimestamp\x18\x0e \x01(\x01R\x0fstrikeTimestamp\x12(\n" +
-	"\x0findexOptionType\x18\x0f \x01(\x05R\x0findexOptionType\x12(\n" +
+	"\x0fstrikeTimestamp\x18\x0e \x01(\x01R\x0fstrikeTimestamp\x12A\n" +
+	"\x0findexOptionType\x18\x0f \x01(\x0e2\x17.futupb.IndexOptionTypeR\x0findexOptionType\x12(\n" +
 	"\x0fnetOpenInterest\x18\x10 \x01(\x05R\x0fnetOpenInterest\x12.\n" +
 	"\x12expiryDateDistance\x18\x11 \x01(\x05R\x12expiryDateDistance\x122\n" +
 	"\x14contractNominalValue\x18\x12 \x01(\x01R\x14contractNominalValue\x12.\n" +
-	"\x12ownerLotMultiplier\x18\x13 \x01(\x01R\x12ownerLotMultiplier\x12&\n" +
-	"\x0eoptionAreaType\x18\x14 \x01(\x05R\x0eoptionAreaType\x12.\n" +
+	"\x12ownerLotMultiplier\x18\x13 \x01(\x01R\x12ownerLotMultiplier\x12>\n" +
+	"\x0eoptionAreaType\x18\x14 \x01(\x0e2\x16.futupb.OptionAreaTypeR\x0eoptionAreaType\x12.\n" +
 	"\x12contractMultiplier\x18\x15 \x01(\x01R\x12contractMultiplier\"s\n" +
 	"\x13IndexSnapshotExData\x12\x1e\n" +
 	"\n" +
@@ -1710,20 +1710,20 @@ const file_Qot_GetSecuritySnapshot_proto_rawDesc = "" +
 	"\x0epositionChange\x18\x03 \x02(\x05R\x0epositionChange\x12$\n" +
 	"\rlastTradeTime\x18\x04 \x02(\tR\rlastTradeTime\x12.\n" +
 	"\x12lastTradeTimestamp\x18\x05 \x01(\x01R\x12lastTradeTimestamp\x12&\n" +
-	"\x0eisMainContract\x18\x06 \x02(\bR\x0eisMainContract\"\xd9\x01\n" +
+	"\x0eisMainContract\x18\x06 \x02(\bR\x0eisMainContract\"\xed\x01\n" +
 	"\x13TrustSnapshotExData\x12$\n" +
 	"\rdividendYield\x18\x01 \x02(\x01R\rdividendYield\x12\x10\n" +
 	"\x03aum\x18\x02 \x02(\x01R\x03aum\x12*\n" +
 	"\x10outstandingUnits\x18\x03 \x02(\x03R\x10outstandingUnits\x12$\n" +
 	"\rnetAssetValue\x18\x04 \x02(\x01R\rnetAssetValue\x12\x18\n" +
-	"\apremium\x18\x05 \x02(\x01R\apremium\x12\x1e\n" +
+	"\apremium\x18\x05 \x02(\x01R\apremium\x122\n" +
 	"\n" +
-	"assetClass\x18\x06 \x02(\x05R\n" +
-	"assetClass\"\xab\f\n" +
+	"assetClass\x18\x06 \x02(\x0e2\x12.futupb.AssetClassR\n" +
+	"assetClass\"\xd9\f\n" +
 	"\x11SnapshotBasicData\x12,\n" +
 	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x12\n" +
-	"\x04name\x18) \x01(\tR\x04name\x12\x12\n" +
-	"\x04type\x18\x02 \x02(\x05R\x04type\x12\x1c\n" +
+	"\x04name\x18) \x01(\tR\x04name\x12(\n" +
+	"\x04type\x18\x02 \x02(\x0e2\x14.futupb.SecurityTypeR\x04type\x12\x1c\n" +
 	"\tisSuspend\x18\x03 \x02(\bR\tisSuspend\x12\x1a\n" +
 	"\blistTime\x18\x04 \x02(\tR\blistTime\x12\x18\n" +
 	"\alotSize\x18\x05 \x02(\x05R\alotSize\x12 \n" +
@@ -1762,8 +1762,8 @@ const file_Qot_GetSecuritySnapshot_proto_rawDesc = "" +
 	"\x13highestHistoryPrice\x18# \x01(\x01R\x13highestHistoryPrice\x12.\n" +
 	"\x12lowestHistoryPrice\x18$ \x01(\x01R\x12lowestHistoryPrice\x128\n" +
 	"\tpreMarket\x18% \x01(\v2\x1a.futupb.PreAfterMarketDataR\tpreMarket\x12<\n" +
-	"\vafterMarket\x18& \x01(\v2\x1a.futupb.PreAfterMarketDataR\vafterMarket\x12\x1c\n" +
-	"\tsecStatus\x18' \x01(\x05R\tsecStatus\x12,\n" +
+	"\vafterMarket\x18& \x01(\v2\x1a.futupb.PreAfterMarketDataR\vafterMarket\x124\n" +
+	"\tsecStatus\x18' \x01(\x0e2\x16.futupb.SecurityStatusR\tsecStatus\x12,\n" +
 	"\x11closePrice5Minute\x18( \x01(\x01R\x11closePrice5Minute\x128\n" +
 	"\tovernight\x18* \x01(\v2\x1a.futupb.PreAfterMarketDataR\tovernight\"\x83\x04\n" +
 	"\bSnapshot\x12/\n" +
@@ -1778,9 +1778,9 @@ const file_Qot_GetSecuritySnapshot_proto_rawDesc = "" +
 	"\x1eQotGetSecuritySnapshotResponse\x124\n" +
 	"\fsnapshotList\x18\x01 \x03(\v2\x10.futupb.SnapshotR\fsnapshotList\"i\n" +
 	"&QotGetSecuritySnapshotRequest_Internal\x12?\n" +
-	"\apayload\x18\x01 \x02(\v2%.futupb.QotGetSecuritySnapshotRequestR\apayload\"\xbd\x01\n" +
-	"'QotGetSecuritySnapshotResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2%.futupb.QotGetSecuritySnapshotRequestR\apayload\"\xd9\x01\n" +
+	"'QotGetSecuritySnapshotResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12@\n" +
 	"\apayload\x18\x04 \x01(\v2&.futupb.QotGetSecuritySnapshotResponseR\apayloadB4\n" +
@@ -1814,32 +1814,50 @@ var file_Qot_GetSecuritySnapshot_proto_goTypes = []any{
 	(*QotGetSecuritySnapshotRequest_Internal)(nil),  // 11: futupb.QotGetSecuritySnapshotRequest_Internal
 	(*QotGetSecuritySnapshotResponse_Internal)(nil), // 12: futupb.QotGetSecuritySnapshotResponse_Internal
 	(*Security)(nil),                                // 13: futupb.Security
-	(*PreAfterMarketData)(nil),                      // 14: futupb.PreAfterMarketData
+	(WarrantType)(0),                                // 14: futupb.WarrantType
+	(PriceType)(0),                                  // 15: futupb.PriceType
+	(OptionType)(0),                                 // 16: futupb.OptionType
+	(IndexOptionType)(0),                            // 17: futupb.IndexOptionType
+	(OptionAreaType)(0),                             // 18: futupb.OptionAreaType
+	(AssetClass)(0),                                 // 19: futupb.AssetClass
+	(SecurityType)(0),                               // 20: futupb.SecurityType
+	(*PreAfterMarketData)(nil),                      // 21: futupb.PreAfterMarketData
+	(SecurityStatus)(0),                             // 22: futupb.SecurityStatus
+	(RetType)(0),                                    // 23: futupb.RetType
 }
 var file_Qot_GetSecuritySnapshot_proto_depIdxs = []int32{
 	13, // 0: futupb.QotGetSecuritySnapshotRequest.securityList:type_name -> futupb.Security
-	13, // 1: futupb.WarrantSnapshotExData.owner:type_name -> futupb.Security
-	13, // 2: futupb.OptionSnapshotExData.owner:type_name -> futupb.Security
-	13, // 3: futupb.SnapshotBasicData.security:type_name -> futupb.Security
-	14, // 4: futupb.SnapshotBasicData.preMarket:type_name -> futupb.PreAfterMarketData
-	14, // 5: futupb.SnapshotBasicData.afterMarket:type_name -> futupb.PreAfterMarketData
-	14, // 6: futupb.SnapshotBasicData.overnight:type_name -> futupb.PreAfterMarketData
-	8,  // 7: futupb.Snapshot.basic:type_name -> futupb.SnapshotBasicData
-	1,  // 8: futupb.Snapshot.equityExData:type_name -> futupb.EquitySnapshotExData
-	2,  // 9: futupb.Snapshot.warrantExData:type_name -> futupb.WarrantSnapshotExData
-	3,  // 10: futupb.Snapshot.optionExData:type_name -> futupb.OptionSnapshotExData
-	4,  // 11: futupb.Snapshot.indexExData:type_name -> futupb.IndexSnapshotExData
-	5,  // 12: futupb.Snapshot.plateExData:type_name -> futupb.PlateSnapshotExData
-	6,  // 13: futupb.Snapshot.futureExData:type_name -> futupb.FutureSnapshotExData
-	7,  // 14: futupb.Snapshot.trustExData:type_name -> futupb.TrustSnapshotExData
-	9,  // 15: futupb.QotGetSecuritySnapshotResponse.snapshotList:type_name -> futupb.Snapshot
-	0,  // 16: futupb.QotGetSecuritySnapshotRequest_Internal.payload:type_name -> futupb.QotGetSecuritySnapshotRequest
-	10, // 17: futupb.QotGetSecuritySnapshotResponse_Internal.payload:type_name -> futupb.QotGetSecuritySnapshotResponse
-	18, // [18:18] is the sub-list for method output_type
-	18, // [18:18] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	14, // 1: futupb.WarrantSnapshotExData.warrantType:type_name -> futupb.WarrantType
+	13, // 2: futupb.WarrantSnapshotExData.owner:type_name -> futupb.Security
+	15, // 3: futupb.WarrantSnapshotExData.inLinePriceStatus:type_name -> futupb.PriceType
+	16, // 4: futupb.OptionSnapshotExData.type:type_name -> futupb.OptionType
+	13, // 5: futupb.OptionSnapshotExData.owner:type_name -> futupb.Security
+	17, // 6: futupb.OptionSnapshotExData.indexOptionType:type_name -> futupb.IndexOptionType
+	18, // 7: futupb.OptionSnapshotExData.optionAreaType:type_name -> futupb.OptionAreaType
+	19, // 8: futupb.TrustSnapshotExData.assetClass:type_name -> futupb.AssetClass
+	13, // 9: futupb.SnapshotBasicData.security:type_name -> futupb.Security
+	20, // 10: futupb.SnapshotBasicData.type:type_name -> futupb.SecurityType
+	21, // 11: futupb.SnapshotBasicData.preMarket:type_name -> futupb.PreAfterMarketData
+	21, // 12: futupb.SnapshotBasicData.afterMarket:type_name -> futupb.PreAfterMarketData
+	22, // 13: futupb.SnapshotBasicData.secStatus:type_name -> futupb.SecurityStatus
+	21, // 14: futupb.SnapshotBasicData.overnight:type_name -> futupb.PreAfterMarketData
+	8,  // 15: futupb.Snapshot.basic:type_name -> futupb.SnapshotBasicData
+	1,  // 16: futupb.Snapshot.equityExData:type_name -> futupb.EquitySnapshotExData
+	2,  // 17: futupb.Snapshot.warrantExData:type_name -> futupb.WarrantSnapshotExData
+	3,  // 18: futupb.Snapshot.optionExData:type_name -> futupb.OptionSnapshotExData
+	4,  // 19: futupb.Snapshot.indexExData:type_name -> futupb.IndexSnapshotExData
+	5,  // 20: futupb.Snapshot.plateExData:type_name -> futupb.PlateSnapshotExData
+	6,  // 21: futupb.Snapshot.futureExData:type_name -> futupb.FutureSnapshotExData
+	7,  // 22: futupb.Snapshot.trustExData:type_name -> futupb.TrustSnapshotExData
+	9,  // 23: futupb.QotGetSecuritySnapshotResponse.snapshotList:type_name -> futupb.Snapshot
+	0,  // 24: futupb.QotGetSecuritySnapshotRequest_Internal.payload:type_name -> futupb.QotGetSecuritySnapshotRequest
+	23, // 25: futupb.QotGetSecuritySnapshotResponse_Internal.retType:type_name -> futupb.RetType
+	10, // 26: futupb.QotGetSecuritySnapshotResponse_Internal.payload:type_name -> futupb.QotGetSecuritySnapshotResponse
+	27, // [27:27] is the sub-list for method output_type
+	27, // [27:27] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetSecuritySnapshot_proto_init() }

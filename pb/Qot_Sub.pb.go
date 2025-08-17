@@ -23,16 +23,16 @@ const (
 
 type QotSubRequest struct {
 	state                protoimpl.MessageState `protogen:"open.v1"`
-	SecurityList         []*Security            `protobuf:"bytes,1,rep,name=securityList" json:"securityList,omitempty"`                  //股票
-	SubTypeList          []int32                `protobuf:"varint,2,rep,name=subTypeList" json:"subTypeList,omitempty"`                   //Qot_Common.SubType,订阅数据类型
-	IsSubOrUnSub         *bool                  `protobuf:"varint,3,req,name=isSubOrUnSub" json:"isSubOrUnSub,omitempty"`                 //ture表示订阅,false表示反订阅
-	IsRegOrUnRegPush     *bool                  `protobuf:"varint,4,opt,name=isRegOrUnRegPush" json:"isRegOrUnRegPush,omitempty"`         //是否注册或反注册该连接上面行情的推送,该参数不指定不做注册反注册操作
-	RegPushRehabTypeList []int32                `protobuf:"varint,5,rep,name=regPushRehabTypeList" json:"regPushRehabTypeList,omitempty"` //Qot_Common.RehabType,复权类型,注册推送并且是K线类型才生效,其他订阅类型忽略该参数,注册K线推送时该参数不指定默认前复权
-	IsFirstPush          *bool                  `protobuf:"varint,6,opt,name=isFirstPush" json:"isFirstPush,omitempty"`                   //注册后如果本地已有数据是否首推一次已存在数据,该参数不指定则默认true
-	IsUnsubAll           *bool                  `protobuf:"varint,7,opt,name=isUnsubAll" json:"isUnsubAll,omitempty"`                     //当被设置为True时忽略其他参数，取消当前连接的所有订阅，并且反注册推送。
-	IsSubOrderBookDetail *bool                  `protobuf:"varint,8,opt,name=isSubOrderBookDetail" json:"isSubOrderBookDetail,omitempty"` //订阅摆盘可用,是否订阅摆盘明细,仅支持SF行情,该参数不指定则默认false
-	ExtendedTime         *bool                  `protobuf:"varint,9,opt,name=extendedTime" json:"extendedTime,omitempty"`                 // 是否允许美股盘前盘后数据（仅用于订阅美股的实时K线、实时分时、实时逐笔）
-	Session              *int32                 `protobuf:"varint,10,opt,name=session" json:"session,omitempty"`                          // 时段 Session
+	SecurityList         []*Security            `protobuf:"bytes,1,rep,name=securityList" json:"securityList,omitempty"`                                        //股票
+	SubTypeList          []SubType              `protobuf:"varint,2,rep,name=subTypeList,enum=futupb.SubType" json:"subTypeList,omitempty"`                     //Qot_Common.SubType,订阅数据类型
+	IsSubOrUnSub         *bool                  `protobuf:"varint,3,req,name=isSubOrUnSub" json:"isSubOrUnSub,omitempty"`                                       //ture表示订阅,false表示反订阅
+	IsRegOrUnRegPush     *bool                  `protobuf:"varint,4,opt,name=isRegOrUnRegPush" json:"isRegOrUnRegPush,omitempty"`                               //是否注册或反注册该连接上面行情的推送,该参数不指定不做注册反注册操作
+	RegPushRehabTypeList []RehabType            `protobuf:"varint,5,rep,name=regPushRehabTypeList,enum=futupb.RehabType" json:"regPushRehabTypeList,omitempty"` //Qot_Common.RehabType,复权类型,注册推送并且是K线类型才生效,其他订阅类型忽略该参数,注册K线推送时该参数不指定默认前复权
+	IsFirstPush          *bool                  `protobuf:"varint,6,opt,name=isFirstPush" json:"isFirstPush,omitempty"`                                         //注册后如果本地已有数据是否首推一次已存在数据,该参数不指定则默认true
+	IsUnsubAll           *bool                  `protobuf:"varint,7,opt,name=isUnsubAll" json:"isUnsubAll,omitempty"`                                           //当被设置为True时忽略其他参数，取消当前连接的所有订阅，并且反注册推送。
+	IsSubOrderBookDetail *bool                  `protobuf:"varint,8,opt,name=isSubOrderBookDetail" json:"isSubOrderBookDetail,omitempty"`                       //订阅摆盘可用,是否订阅摆盘明细,仅支持SF行情,该参数不指定则默认false
+	ExtendedTime         *bool                  `protobuf:"varint,9,opt,name=extendedTime" json:"extendedTime,omitempty"`                                       // 是否允许美股盘前盘后数据（仅用于订阅美股的实时K线、实时分时、实时逐笔）
+	Session              *Session               `protobuf:"varint,10,opt,name=session,enum=futupb.Session" json:"session,omitempty"`                            // 时段 Session
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -74,7 +74,7 @@ func (x *QotSubRequest) GetSecurityList() []*Security {
 	return nil
 }
 
-func (x *QotSubRequest) GetSubTypeList() []int32 {
+func (x *QotSubRequest) GetSubTypeList() []SubType {
 	if x != nil {
 		return x.SubTypeList
 	}
@@ -95,7 +95,7 @@ func (x *QotSubRequest) GetIsRegOrUnRegPush() bool {
 	return false
 }
 
-func (x *QotSubRequest) GetRegPushRehabTypeList() []int32 {
+func (x *QotSubRequest) GetRegPushRehabTypeList() []RehabType {
 	if x != nil {
 		return x.RegPushRehabTypeList
 	}
@@ -130,11 +130,11 @@ func (x *QotSubRequest) GetExtendedTime() bool {
 	return false
 }
 
-func (x *QotSubRequest) GetSession() int32 {
+func (x *QotSubRequest) GetSession() Session {
 	if x != nil && x.Session != nil {
 		return *x.Session
 	}
-	return 0
+	return Session_Session_NONE
 }
 
 type QotSubResponse struct {
@@ -219,7 +219,7 @@ func (x *QotSubRequest_Internal) GetPayload() *QotSubRequest {
 
 type QotSubResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotSubResponse        `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -229,7 +229,7 @@ type QotSubResponse_Internal struct {
 
 // Default values for QotSubResponse_Internal fields.
 const (
-	Default_QotSubResponse_Internal_RetType = int32(-400)
+	Default_QotSubResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotSubResponse_Internal) Reset() {
@@ -262,7 +262,7 @@ func (*QotSubResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_Sub_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QotSubResponse_Internal) GetRetType() int32 {
+func (x *QotSubResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -294,26 +294,26 @@ var File_Qot_Sub_proto protoreflect.FileDescriptor
 
 const file_Qot_Sub_proto_rawDesc = "" +
 	"\n" +
-	"\rQot_Sub.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x9f\x03\n" +
+	"\rQot_Sub.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xd4\x03\n" +
 	"\rQotSubRequest\x124\n" +
-	"\fsecurityList\x18\x01 \x03(\v2\x10.futupb.SecurityR\fsecurityList\x12 \n" +
-	"\vsubTypeList\x18\x02 \x03(\x05R\vsubTypeList\x12\"\n" +
+	"\fsecurityList\x18\x01 \x03(\v2\x10.futupb.SecurityR\fsecurityList\x121\n" +
+	"\vsubTypeList\x18\x02 \x03(\x0e2\x0f.futupb.SubTypeR\vsubTypeList\x12\"\n" +
 	"\fisSubOrUnSub\x18\x03 \x02(\bR\fisSubOrUnSub\x12*\n" +
-	"\x10isRegOrUnRegPush\x18\x04 \x01(\bR\x10isRegOrUnRegPush\x122\n" +
-	"\x14regPushRehabTypeList\x18\x05 \x03(\x05R\x14regPushRehabTypeList\x12 \n" +
+	"\x10isRegOrUnRegPush\x18\x04 \x01(\bR\x10isRegOrUnRegPush\x12E\n" +
+	"\x14regPushRehabTypeList\x18\x05 \x03(\x0e2\x11.futupb.RehabTypeR\x14regPushRehabTypeList\x12 \n" +
 	"\visFirstPush\x18\x06 \x01(\bR\visFirstPush\x12\x1e\n" +
 	"\n" +
 	"isUnsubAll\x18\a \x01(\bR\n" +
 	"isUnsubAll\x122\n" +
 	"\x14isSubOrderBookDetail\x18\b \x01(\bR\x14isSubOrderBookDetail\x12\"\n" +
-	"\fextendedTime\x18\t \x01(\bR\fextendedTime\x12\x18\n" +
+	"\fextendedTime\x18\t \x01(\bR\fextendedTime\x12)\n" +
 	"\asession\x18\n" +
-	" \x01(\x05R\asession\"\x10\n" +
+	" \x01(\x0e2\x0f.futupb.SessionR\asession\"\x10\n" +
 	"\x0eQotSubResponse\"I\n" +
 	"\x16QotSubRequest_Internal\x12/\n" +
-	"\apayload\x18\x01 \x02(\v2\x15.futupb.QotSubRequestR\apayload\"\x9d\x01\n" +
-	"\x17QotSubResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x15.futupb.QotSubRequestR\apayload\"\xb9\x01\n" +
+	"\x17QotSubResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x120\n" +
 	"\apayload\x18\x04 \x01(\v2\x16.futupb.QotSubResponseR\apayloadB4\n" +
@@ -338,16 +338,24 @@ var file_Qot_Sub_proto_goTypes = []any{
 	(*QotSubRequest_Internal)(nil),  // 2: futupb.QotSubRequest_Internal
 	(*QotSubResponse_Internal)(nil), // 3: futupb.QotSubResponse_Internal
 	(*Security)(nil),                // 4: futupb.Security
+	(SubType)(0),                    // 5: futupb.SubType
+	(RehabType)(0),                  // 6: futupb.RehabType
+	(Session)(0),                    // 7: futupb.Session
+	(RetType)(0),                    // 8: futupb.RetType
 }
 var file_Qot_Sub_proto_depIdxs = []int32{
 	4, // 0: futupb.QotSubRequest.securityList:type_name -> futupb.Security
-	0, // 1: futupb.QotSubRequest_Internal.payload:type_name -> futupb.QotSubRequest
-	1, // 2: futupb.QotSubResponse_Internal.payload:type_name -> futupb.QotSubResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	5, // 1: futupb.QotSubRequest.subTypeList:type_name -> futupb.SubType
+	6, // 2: futupb.QotSubRequest.regPushRehabTypeList:type_name -> futupb.RehabType
+	7, // 3: futupb.QotSubRequest.session:type_name -> futupb.Session
+	0, // 4: futupb.QotSubRequest_Internal.payload:type_name -> futupb.QotSubRequest
+	8, // 5: futupb.QotSubResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 6: futupb.QotSubResponse_Internal.payload:type_name -> futupb.QotSubResponse
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_Qot_Sub_proto_init() }

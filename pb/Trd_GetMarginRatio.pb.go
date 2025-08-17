@@ -312,7 +312,7 @@ func (x *TrdGetMarginRatioRequest_Internal) GetPayload() *TrdGetMarginRatioReque
 type TrdGetMarginRatioResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                     `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                   `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                    `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                     `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdGetMarginRatioResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -322,7 +322,7 @@ type TrdGetMarginRatioResponse_Internal struct {
 
 // Default values for TrdGetMarginRatioResponse_Internal fields.
 const (
-	Default_TrdGetMarginRatioResponse_Internal_RetType = int32(-400)
+	Default_TrdGetMarginRatioResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdGetMarginRatioResponse_Internal) Reset() {
@@ -355,7 +355,7 @@ func (*TrdGetMarginRatioResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_GetMarginRatio_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *TrdGetMarginRatioResponse_Internal) GetRetType() int32 {
+func (x *TrdGetMarginRatioResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -387,7 +387,7 @@ var File_Trd_GetMarginRatio_proto protoreflect.FileDescriptor
 
 const file_Trd_GetMarginRatio_proto_rawDesc = "" +
 	"\n" +
-	"\x18Trd_GetMarginRatio.proto\x12\x06futupb\x1a\x10Trd_Common.proto\x1a\x10Qot_Common.proto\"\xff\x03\n" +
+	"\x18Trd_GetMarginRatio.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\x1a\x10Qot_Common.proto\"\xff\x03\n" +
 	"\x0fMarginRatioInfo\x12,\n" +
 	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\"\n" +
 	"\fisLongPermit\x18\x02 \x01(\bR\fisLongPermit\x12$\n" +
@@ -410,9 +410,9 @@ const file_Trd_GetMarginRatio_proto_rawDesc = "" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12I\n" +
 	"\x13marginRatioInfoList\x18\x02 \x03(\v2\x17.futupb.MarginRatioInfoR\x13marginRatioInfoList\"_\n" +
 	"!TrdGetMarginRatioRequest_Internal\x12:\n" +
-	"\apayload\x18\x01 \x02(\v2 .futupb.TrdGetMarginRatioRequestR\apayload\"\xb3\x01\n" +
-	"\"TrdGetMarginRatioResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2 .futupb.TrdGetMarginRatioRequestR\apayload\"\xcf\x01\n" +
+	"\"TrdGetMarginRatioResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12;\n" +
 	"\apayload\x18\x04 \x01(\v2!.futupb.TrdGetMarginRatioResponseR\apayloadB4\n" +
@@ -439,6 +439,7 @@ var file_Trd_GetMarginRatio_proto_goTypes = []any{
 	(*TrdGetMarginRatioResponse_Internal)(nil), // 4: futupb.TrdGetMarginRatioResponse_Internal
 	(*Security)(nil),                           // 5: futupb.Security
 	(*TrdHeader)(nil),                          // 6: futupb.TrdHeader
+	(RetType)(0),                               // 7: futupb.RetType
 }
 var file_Trd_GetMarginRatio_proto_depIdxs = []int32{
 	5, // 0: futupb.MarginRatioInfo.security:type_name -> futupb.Security
@@ -447,12 +448,13 @@ var file_Trd_GetMarginRatio_proto_depIdxs = []int32{
 	6, // 3: futupb.TrdGetMarginRatioResponse.header:type_name -> futupb.TrdHeader
 	0, // 4: futupb.TrdGetMarginRatioResponse.marginRatioInfoList:type_name -> futupb.MarginRatioInfo
 	1, // 5: futupb.TrdGetMarginRatioRequest_Internal.payload:type_name -> futupb.TrdGetMarginRatioRequest
-	2, // 6: futupb.TrdGetMarginRatioResponse_Internal.payload:type_name -> futupb.TrdGetMarginRatioResponse
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	7, // 6: futupb.TrdGetMarginRatioResponse_Internal.retType:type_name -> futupb.RetType
+	2, // 7: futupb.TrdGetMarginRatioResponse_Internal.payload:type_name -> futupb.TrdGetMarginRatioResponse
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_Trd_GetMarginRatio_proto_init() }
@@ -460,6 +462,7 @@ func file_Trd_GetMarginRatio_proto_init() {
 	if File_Trd_GetMarginRatio_proto != nil {
 		return
 	}
+	file_Common_proto_init()
 	file_Trd_Common_proto_init()
 	file_Qot_Common_proto_init()
 	type x struct{}

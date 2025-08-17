@@ -83,7 +83,7 @@ func (x *QotUpdateRTResponse) GetRtList() []*TimeShare {
 
 type QotUpdateRTResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotUpdateRTResponse   `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -93,7 +93,7 @@ type QotUpdateRTResponse_Internal struct {
 
 // Default values for QotUpdateRTResponse_Internal fields.
 const (
-	Default_QotUpdateRTResponse_Internal_RetType = int32(-400)
+	Default_QotUpdateRTResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotUpdateRTResponse_Internal) Reset() {
@@ -126,7 +126,7 @@ func (*QotUpdateRTResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_UpdateRT_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *QotUpdateRTResponse_Internal) GetRetType() int32 {
+func (x *QotUpdateRTResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -162,9 +162,9 @@ const file_Qot_UpdateRT_proto_rawDesc = "" +
 	"\x13QotUpdateRTResponse\x12,\n" +
 	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12)\n" +
-	"\x06rtList\x18\x02 \x03(\v2\x11.futupb.TimeShareR\x06rtList\"\xa7\x01\n" +
-	"\x1cQotUpdateRTResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\x06rtList\x18\x02 \x03(\v2\x11.futupb.TimeShareR\x06rtList\"\xc3\x01\n" +
+	"\x1cQotUpdateRTResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x125\n" +
 	"\apayload\x18\x04 \x01(\v2\x1b.futupb.QotUpdateRTResponseR\apayloadB4\n" +
@@ -188,16 +188,18 @@ var file_Qot_UpdateRT_proto_goTypes = []any{
 	(*QotUpdateRTResponse_Internal)(nil), // 1: futupb.QotUpdateRTResponse_Internal
 	(*Security)(nil),                     // 2: futupb.Security
 	(*TimeShare)(nil),                    // 3: futupb.TimeShare
+	(RetType)(0),                         // 4: futupb.RetType
 }
 var file_Qot_UpdateRT_proto_depIdxs = []int32{
 	2, // 0: futupb.QotUpdateRTResponse.security:type_name -> futupb.Security
 	3, // 1: futupb.QotUpdateRTResponse.rtList:type_name -> futupb.TimeShare
-	0, // 2: futupb.QotUpdateRTResponse_Internal.payload:type_name -> futupb.QotUpdateRTResponse
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 2: futupb.QotUpdateRTResponse_Internal.retType:type_name -> futupb.RetType
+	0, // 3: futupb.QotUpdateRTResponse_Internal.payload:type_name -> futupb.QotUpdateRTResponse
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_Qot_UpdateRT_proto_init() }

@@ -389,7 +389,7 @@ func (x *QotGetFutureInfoRequest_Internal) GetPayload() *QotGetFutureInfoRequest
 
 type QotGetFutureInfoResponse_Internal struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
-	RetType       *int32                    `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType,返回结果
+	RetType       *RetType                  `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType,返回结果
 	RetMsg        *string                   `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                    `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetFutureInfoResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -399,7 +399,7 @@ type QotGetFutureInfoResponse_Internal struct {
 
 // Default values for QotGetFutureInfoResponse_Internal fields.
 const (
-	Default_QotGetFutureInfoResponse_Internal_RetType = int32(-400)
+	Default_QotGetFutureInfoResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetFutureInfoResponse_Internal) Reset() {
@@ -432,7 +432,7 @@ func (*QotGetFutureInfoResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetFutureInfo_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *QotGetFutureInfoResponse_Internal) GetRetType() int32 {
+func (x *QotGetFutureInfoResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -498,9 +498,9 @@ const file_Qot_GetFutureInfo_proto_rawDesc = "" +
 	"\x18QotGetFutureInfoResponse\x12:\n" +
 	"\x0efutureInfoList\x18\x01 \x03(\v2\x12.futupb.FutureInfoR\x0efutureInfoList\"]\n" +
 	" QotGetFutureInfoRequest_Internal\x129\n" +
-	"\apayload\x18\x01 \x02(\v2\x1f.futupb.QotGetFutureInfoRequestR\apayload\"\xb1\x01\n" +
-	"!QotGetFutureInfoResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1f.futupb.QotGetFutureInfoRequestR\apayload\"\xcd\x01\n" +
+	"!QotGetFutureInfoResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12:\n" +
 	"\apayload\x18\x04 \x01(\v2 .futupb.QotGetFutureInfoResponseR\apayloadB4\n" +
@@ -527,6 +527,7 @@ var file_Qot_GetFutureInfo_proto_goTypes = []any{
 	(*QotGetFutureInfoRequest_Internal)(nil),  // 4: futupb.QotGetFutureInfoRequest_Internal
 	(*QotGetFutureInfoResponse_Internal)(nil), // 5: futupb.QotGetFutureInfoResponse_Internal
 	(*Security)(nil),                          // 6: futupb.Security
+	(RetType)(0),                              // 7: futupb.RetType
 }
 var file_Qot_GetFutureInfo_proto_depIdxs = []int32{
 	6, // 0: futupb.FutureInfo.security:type_name -> futupb.Security
@@ -536,12 +537,13 @@ var file_Qot_GetFutureInfo_proto_depIdxs = []int32{
 	6, // 4: futupb.QotGetFutureInfoRequest.securityList:type_name -> futupb.Security
 	1, // 5: futupb.QotGetFutureInfoResponse.futureInfoList:type_name -> futupb.FutureInfo
 	2, // 6: futupb.QotGetFutureInfoRequest_Internal.payload:type_name -> futupb.QotGetFutureInfoRequest
-	3, // 7: futupb.QotGetFutureInfoResponse_Internal.payload:type_name -> futupb.QotGetFutureInfoResponse
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	7, // 7: futupb.QotGetFutureInfoResponse_Internal.retType:type_name -> futupb.RetType
+	3, // 8: futupb.QotGetFutureInfoResponse_Internal.payload:type_name -> futupb.QotGetFutureInfoResponse
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetFutureInfo_proto_init() }

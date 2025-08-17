@@ -9,8 +9,8 @@ import "Qot_Common.proto";
 message QotGetStaticInfoRequest
 {
 	// 注：当 market 和 code_list 同时存在时，会忽略 market，仅对 code_list 进行查询。
-	optional int32 market = 1; //Qot_Common.QotMarket,股票市场
-	optional int32 secType = 2; //Qot_Common.SecurityType,股票类型
+	optional QotMarket market = 1; //Qot_Common.QotMarket,股票市场
+	optional SecurityType secType = 2; //Qot_Common.SecurityType,股票类型
 	repeated Security securityList = 3; //股票，若该字段存在，忽略其他字段，只返回该字段股票的静态信息
 }
 
@@ -26,7 +26,7 @@ message QotGetStaticInfoRequest_Internal
 
 message QotGetStaticInfoResponse_Internal
 {
-	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

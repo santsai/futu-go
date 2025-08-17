@@ -10,7 +10,7 @@ message TrdGetHistoryOrderListRequest
 {
 	required TrdHeader header = 1; //交易公共参数头
 	required TrdFilterConditions filterConditions = 2; //过滤条件
-	repeated int32 filterStatusList = 3; //需要过滤的订单状态列表
+	repeated OrderStatus filterStatusList = 3; //需要过滤的订单状态列表
 }
 
 message TrdGetHistoryOrderListResponse
@@ -27,7 +27,7 @@ message TrdGetHistoryOrderListRequest_Internal
 message TrdGetHistoryOrderListResponse_Internal
 {
 	//以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	required int32 retType = 1 [default = -400];
+	required RetType retType = 1 [default = RetType_Unknown];
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 

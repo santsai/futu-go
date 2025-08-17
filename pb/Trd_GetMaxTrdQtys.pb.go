@@ -23,16 +23,16 @@ const (
 
 type TrdGetMaxTrdQtysRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
-	Header    *TrdHeader             `protobuf:"bytes,1,req,name=header" json:"header,omitempty"`        //交易公共参数头
-	OrderType *int32                 `protobuf:"varint,2,req,name=orderType" json:"orderType,omitempty"` //订单类型, 参见Trd_Common.OrderType的枚举定义
-	Code      *string                `protobuf:"bytes,3,req,name=code" json:"code,omitempty"`            //代码，港股必须是5位数字，A股必须是6位数字，美股没限制
-	Price     *float64               `protobuf:"fixed64,4,req,name=price" json:"price,omitempty"`        //价格，（证券账户精确到小数点后 3 位，期货账户精确到小数点后 9 位，超出部分会被舍弃）。如果是竞价、市价单，请也填入一个当前价格，服务器才好计算
-	OrderID   *uint64                `protobuf:"varint,5,opt,name=orderID" json:"orderID,omitempty"`     //订单号，新下订单不需要，如果是修改订单就需要把原订单号带上才行，因为改单的最大买卖数量会包含原订单数量。
+	Header    *TrdHeader             `protobuf:"bytes,1,req,name=header" json:"header,omitempty"`                              //交易公共参数头
+	OrderType *OrderType             `protobuf:"varint,2,req,name=orderType,enum=futupb.OrderType" json:"orderType,omitempty"` //订单类型, 参见Trd_Common.OrderType的枚举定义
+	Code      *string                `protobuf:"bytes,3,req,name=code" json:"code,omitempty"`                                  //代码，港股必须是5位数字，A股必须是6位数字，美股没限制
+	Price     *float64               `protobuf:"fixed64,4,req,name=price" json:"price,omitempty"`                              //价格，（证券账户精确到小数点后 3 位，期货账户精确到小数点后 9 位，超出部分会被舍弃）。如果是竞价、市价单，请也填入一个当前价格，服务器才好计算
+	OrderID   *uint64                `protobuf:"varint,5,opt,name=orderID" json:"orderID,omitempty"`                           //订单号，新下订单不需要，如果是修改订单就需要把原订单号带上才行，因为改单的最大买卖数量会包含原订单数量。
 	// 为保证与下单的价格同步，也提供调整价格选项，以下2个为调整价格使用，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传
-	AdjustPrice        *bool    `protobuf:"varint,6,opt,name=adjustPrice" json:"adjustPrice,omitempty"`                //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
-	AdjustSideAndLimit *float64 `protobuf:"fixed64,7,opt,name=adjustSideAndLimit" json:"adjustSideAndLimit,omitempty"` //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
-	SecMarket          *int32   `protobuf:"varint,8,opt,name=secMarket" json:"secMarket,omitempty"`                    //证券所属市场，参见TrdSecMarket的枚举定义
-	OrderIDEx          *string  `protobuf:"bytes,9,opt,name=orderIDEx" json:"orderIDEx,omitempty"`                     //表示服务器订单id，可以用来代替orderID，和orderID二选一
+	AdjustPrice        *bool         `protobuf:"varint,6,opt,name=adjustPrice" json:"adjustPrice,omitempty"`                      //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
+	AdjustSideAndLimit *float64      `protobuf:"fixed64,7,opt,name=adjustSideAndLimit" json:"adjustSideAndLimit,omitempty"`       //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
+	SecMarket          *TrdSecMarket `protobuf:"varint,8,opt,name=secMarket,enum=futupb.TrdSecMarket" json:"secMarket,omitempty"` //证券所属市场，参见TrdSecMarket的枚举定义
+	OrderIDEx          *string       `protobuf:"bytes,9,opt,name=orderIDEx" json:"orderIDEx,omitempty"`                           //表示服务器订单id，可以用来代替orderID，和orderID二选一
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -74,11 +74,11 @@ func (x *TrdGetMaxTrdQtysRequest) GetHeader() *TrdHeader {
 	return nil
 }
 
-func (x *TrdGetMaxTrdQtysRequest) GetOrderType() int32 {
+func (x *TrdGetMaxTrdQtysRequest) GetOrderType() OrderType {
 	if x != nil && x.OrderType != nil {
 		return *x.OrderType
 	}
-	return 0
+	return OrderType_OrderType_Unknown
 }
 
 func (x *TrdGetMaxTrdQtysRequest) GetCode() string {
@@ -116,11 +116,11 @@ func (x *TrdGetMaxTrdQtysRequest) GetAdjustSideAndLimit() float64 {
 	return 0
 }
 
-func (x *TrdGetMaxTrdQtysRequest) GetSecMarket() int32 {
+func (x *TrdGetMaxTrdQtysRequest) GetSecMarket() TrdSecMarket {
 	if x != nil && x.SecMarket != nil {
 		return *x.SecMarket
 	}
-	return 0
+	return TrdSecMarket_TrdSecMarket_Unknown
 }
 
 func (x *TrdGetMaxTrdQtysRequest) GetOrderIDEx() string {
@@ -229,7 +229,7 @@ func (x *TrdGetMaxTrdQtysRequest_Internal) GetPayload() *TrdGetMaxTrdQtysRequest
 type TrdGetMaxTrdQtysResponse_Internal struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	RetType       *int32                    `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"`
+	RetType       *RetType                  `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"`
 	RetMsg        *string                   `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                    `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *TrdGetMaxTrdQtysResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -239,7 +239,7 @@ type TrdGetMaxTrdQtysResponse_Internal struct {
 
 // Default values for TrdGetMaxTrdQtysResponse_Internal fields.
 const (
-	Default_TrdGetMaxTrdQtysResponse_Internal_RetType = int32(-400)
+	Default_TrdGetMaxTrdQtysResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *TrdGetMaxTrdQtysResponse_Internal) Reset() {
@@ -272,7 +272,7 @@ func (*TrdGetMaxTrdQtysResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Trd_GetMaxTrdQtys_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrdGetMaxTrdQtysResponse_Internal) GetRetType() int32 {
+func (x *TrdGetMaxTrdQtysResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -304,16 +304,16 @@ var File_Trd_GetMaxTrdQtys_proto protoreflect.FileDescriptor
 
 const file_Trd_GetMaxTrdQtys_proto_rawDesc = "" +
 	"\n" +
-	"\x17Trd_GetMaxTrdQtys.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xb4\x02\n" +
+	"\x17Trd_GetMaxTrdQtys.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xdd\x02\n" +
 	"\x17TrdGetMaxTrdQtysRequest\x12)\n" +
-	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12\x1c\n" +
-	"\torderType\x18\x02 \x02(\x05R\torderType\x12\x12\n" +
+	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12/\n" +
+	"\torderType\x18\x02 \x02(\x0e2\x11.futupb.OrderTypeR\torderType\x12\x12\n" +
 	"\x04code\x18\x03 \x02(\tR\x04code\x12\x14\n" +
 	"\x05price\x18\x04 \x02(\x01R\x05price\x12\x18\n" +
 	"\aorderID\x18\x05 \x01(\x04R\aorderID\x12 \n" +
 	"\vadjustPrice\x18\x06 \x01(\bR\vadjustPrice\x12.\n" +
-	"\x12adjustSideAndLimit\x18\a \x01(\x01R\x12adjustSideAndLimit\x12\x1c\n" +
-	"\tsecMarket\x18\b \x01(\x05R\tsecMarket\x12\x1c\n" +
+	"\x12adjustSideAndLimit\x18\a \x01(\x01R\x12adjustSideAndLimit\x122\n" +
+	"\tsecMarket\x18\b \x01(\x0e2\x14.futupb.TrdSecMarketR\tsecMarket\x12\x1c\n" +
 	"\torderIDEx\x18\t \x01(\tR\torderIDEx\"y\n" +
 	"\x18TrdGetMaxTrdQtysResponse\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x122\n" +
@@ -321,9 +321,9 @@ const file_Trd_GetMaxTrdQtys_proto_rawDesc = "" +
 	"maxTrdQtys\x18\x02 \x01(\v2\x12.futupb.MaxTrdQtysR\n" +
 	"maxTrdQtys\"]\n" +
 	" TrdGetMaxTrdQtysRequest_Internal\x129\n" +
-	"\apayload\x18\x01 \x02(\v2\x1f.futupb.TrdGetMaxTrdQtysRequestR\apayload\"\xb1\x01\n" +
-	"!TrdGetMaxTrdQtysResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1f.futupb.TrdGetMaxTrdQtysRequestR\apayload\"\xcd\x01\n" +
+	"!TrdGetMaxTrdQtysResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12:\n" +
 	"\apayload\x18\x04 \x01(\v2 .futupb.TrdGetMaxTrdQtysResponseR\apayloadB4\n" +
@@ -348,19 +348,25 @@ var file_Trd_GetMaxTrdQtys_proto_goTypes = []any{
 	(*TrdGetMaxTrdQtysRequest_Internal)(nil),  // 2: futupb.TrdGetMaxTrdQtysRequest_Internal
 	(*TrdGetMaxTrdQtysResponse_Internal)(nil), // 3: futupb.TrdGetMaxTrdQtysResponse_Internal
 	(*TrdHeader)(nil),                         // 4: futupb.TrdHeader
-	(*MaxTrdQtys)(nil),                        // 5: futupb.MaxTrdQtys
+	(OrderType)(0),                            // 5: futupb.OrderType
+	(TrdSecMarket)(0),                         // 6: futupb.TrdSecMarket
+	(*MaxTrdQtys)(nil),                        // 7: futupb.MaxTrdQtys
+	(RetType)(0),                              // 8: futupb.RetType
 }
 var file_Trd_GetMaxTrdQtys_proto_depIdxs = []int32{
 	4, // 0: futupb.TrdGetMaxTrdQtysRequest.header:type_name -> futupb.TrdHeader
-	4, // 1: futupb.TrdGetMaxTrdQtysResponse.header:type_name -> futupb.TrdHeader
-	5, // 2: futupb.TrdGetMaxTrdQtysResponse.maxTrdQtys:type_name -> futupb.MaxTrdQtys
-	0, // 3: futupb.TrdGetMaxTrdQtysRequest_Internal.payload:type_name -> futupb.TrdGetMaxTrdQtysRequest
-	1, // 4: futupb.TrdGetMaxTrdQtysResponse_Internal.payload:type_name -> futupb.TrdGetMaxTrdQtysResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	5, // 1: futupb.TrdGetMaxTrdQtysRequest.orderType:type_name -> futupb.OrderType
+	6, // 2: futupb.TrdGetMaxTrdQtysRequest.secMarket:type_name -> futupb.TrdSecMarket
+	4, // 3: futupb.TrdGetMaxTrdQtysResponse.header:type_name -> futupb.TrdHeader
+	7, // 4: futupb.TrdGetMaxTrdQtysResponse.maxTrdQtys:type_name -> futupb.MaxTrdQtys
+	0, // 5: futupb.TrdGetMaxTrdQtysRequest_Internal.payload:type_name -> futupb.TrdGetMaxTrdQtysRequest
+	8, // 6: futupb.TrdGetMaxTrdQtysResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 7: futupb.TrdGetMaxTrdQtysResponse_Internal.payload:type_name -> futupb.TrdGetMaxTrdQtysResponse
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_Trd_GetMaxTrdQtys_proto_init() }

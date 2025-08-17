@@ -23,41 +23,41 @@ const (
 
 type QotGetWarrantRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
-	Begin     *int32                 `protobuf:"varint,1,req,name=begin" json:"begin,omitempty"`         //数据起始点
-	Num       *int32                 `protobuf:"varint,2,req,name=num" json:"num,omitempty"`             //请求数据个数，最大200
-	SortField *int32                 `protobuf:"varint,3,req,name=sortField" json:"sortField,omitempty"` //Qot_Common.SortField，根据哪个字段排序
-	Ascend    *bool                  `protobuf:"varint,4,req,name=ascend" json:"ascend,omitempty"`       //升序ture，降序false
+	Begin     *int32                 `protobuf:"varint,1,req,name=begin" json:"begin,omitempty"`                               //数据起始点
+	Num       *int32                 `protobuf:"varint,2,req,name=num" json:"num,omitempty"`                                   //请求数据个数，最大200
+	SortField *SortField             `protobuf:"varint,3,req,name=sortField,enum=futupb.SortField" json:"sortField,omitempty"` //Qot_Common.SortField，根据哪个字段排序
+	Ascend    *bool                  `protobuf:"varint,4,req,name=ascend" json:"ascend,omitempty"`                             //升序ture，降序false
 	// 以下为筛选条件，可选字段，不填表示不过滤
-	Owner                 *Security `protobuf:"bytes,5,opt,name=owner" json:"owner,omitempty"`                                    //所属正股
-	TypeList              []int32   `protobuf:"varint,6,rep,name=typeList" json:"typeList,omitempty"`                             //Qot_Common.WarrantType，窝轮类型过滤列表
-	IssuerList            []int32   `protobuf:"varint,7,rep,name=issuerList" json:"issuerList,omitempty"`                         //Qot_Common.Issuer，发行人过滤列表
-	MaturityTimeMin       *string   `protobuf:"bytes,8,opt,name=maturityTimeMin" json:"maturityTimeMin,omitempty"`                //到期日，到期日范围的开始时间戳
-	MaturityTimeMax       *string   `protobuf:"bytes,9,opt,name=maturityTimeMax" json:"maturityTimeMax,omitempty"`                //到期日范围的结束时间戳
-	IpoPeriod             *int32    `protobuf:"varint,10,opt,name=ipoPeriod" json:"ipoPeriod,omitempty"`                          //Qot_Common.IpoPeriod，上市日
-	PriceType             *int32    `protobuf:"varint,11,opt,name=priceType" json:"priceType,omitempty"`                          //Qot_Common.PriceType，价内/价外（暂不支持界内证的界内外筛选）
-	Status                *int32    `protobuf:"varint,12,opt,name=status" json:"status,omitempty"`                                //Qot_Common.WarrantStatus，窝轮状态
-	CurPriceMin           *float64  `protobuf:"fixed64,13,opt,name=curPriceMin" json:"curPriceMin,omitempty"`                     //最新价的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	CurPriceMax           *float64  `protobuf:"fixed64,14,opt,name=curPriceMax" json:"curPriceMax,omitempty"`                     //最新价的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	StrikePriceMin        *float64  `protobuf:"fixed64,15,opt,name=strikePriceMin" json:"strikePriceMin,omitempty"`               //行使价的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	StrikePriceMax        *float64  `protobuf:"fixed64,16,opt,name=strikePriceMax" json:"strikePriceMax,omitempty"`               //行使价的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	StreetMin             *float64  `protobuf:"fixed64,17,opt,name=streetMin" json:"streetMin,omitempty"`                         //街货占比的过滤下限（闭区间），该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	StreetMax             *float64  `protobuf:"fixed64,18,opt,name=streetMax" json:"streetMax,omitempty"`                         //街货占比的过滤上限（闭区间），该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	ConversionMin         *float64  `protobuf:"fixed64,19,opt,name=conversionMin" json:"conversionMin,omitempty"`                 //换股比率的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	ConversionMax         *float64  `protobuf:"fixed64,20,opt,name=conversionMax" json:"conversionMax,omitempty"`                 //换股比率的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	VolMin                *uint64   `protobuf:"varint,21,opt,name=volMin" json:"volMin,omitempty"`                                //成交量的过滤下限（闭区间），不传代表下限为 -∞
-	VolMax                *uint64   `protobuf:"varint,22,opt,name=volMax" json:"volMax,omitempty"`                                //成交量的过滤上限（闭区间），不传代表上限为 +∞
-	PremiumMin            *float64  `protobuf:"fixed64,23,opt,name=premiumMin" json:"premiumMin,omitempty"`                       //溢价的过滤下限（闭区间），该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	PremiumMax            *float64  `protobuf:"fixed64,24,opt,name=premiumMax" json:"premiumMax,omitempty"`                       //溢价的过滤上限（闭区间），该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	LeverageRatioMin      *float64  `protobuf:"fixed64,25,opt,name=leverageRatioMin" json:"leverageRatioMin,omitempty"`           //杠杆比率的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	LeverageRatioMax      *float64  `protobuf:"fixed64,26,opt,name=leverageRatioMax" json:"leverageRatioMax,omitempty"`           //杠杆比率的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	DeltaMin              *float64  `protobuf:"fixed64,27,opt,name=deltaMin" json:"deltaMin,omitempty"`                           //对冲值的过滤下限（闭区间），仅认购认沽支持此字段过滤，不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	DeltaMax              *float64  `protobuf:"fixed64,28,opt,name=deltaMax" json:"deltaMax,omitempty"`                           //对冲值的过滤上限（闭区间），仅认购认沽支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	ImpliedMin            *float64  `protobuf:"fixed64,29,opt,name=impliedMin" json:"impliedMin,omitempty"`                       //引伸波幅的过滤下限（闭区间），仅认购认沽支持此字段过滤，不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	ImpliedMax            *float64  `protobuf:"fixed64,30,opt,name=impliedMax" json:"impliedMax,omitempty"`                       //引伸波幅的过滤上限（闭区间），仅认购认沽支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	RecoveryPriceMin      *float64  `protobuf:"fixed64,31,opt,name=recoveryPriceMin" json:"recoveryPriceMin,omitempty"`           //收回价的过滤下限（闭区间），仅牛熊证支持此字段过滤，不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	RecoveryPriceMax      *float64  `protobuf:"fixed64,32,opt,name=recoveryPriceMax" json:"recoveryPriceMax,omitempty"`           //收回价的过滤上限（闭区间），仅牛熊证支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
-	PriceRecoveryRatioMin *float64  `protobuf:"fixed64,33,opt,name=priceRecoveryRatioMin" json:"priceRecoveryRatioMin,omitempty"` //正股距收回价，的过滤下限（闭区间），仅牛熊证支持此字段过滤。该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
-	PriceRecoveryRatioMax *float64  `protobuf:"fixed64,34,opt,name=priceRecoveryRatioMax" json:"priceRecoveryRatioMax,omitempty"` //正股距收回价，的过滤上限（闭区间），仅牛熊证支持此字段过滤。该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	Owner                 *Security      `protobuf:"bytes,5,opt,name=owner" json:"owner,omitempty"`                                    //所属正股
+	TypeList              []WarrantType  `protobuf:"varint,6,rep,name=typeList,enum=futupb.WarrantType" json:"typeList,omitempty"`     //Qot_Common.WarrantType，窝轮类型过滤列表
+	IssuerList            []Issuer       `protobuf:"varint,7,rep,name=issuerList,enum=futupb.Issuer" json:"issuerList,omitempty"`      //Qot_Common.Issuer，发行人过滤列表
+	MaturityTimeMin       *string        `protobuf:"bytes,8,opt,name=maturityTimeMin" json:"maturityTimeMin,omitempty"`                //到期日，到期日范围的开始时间戳
+	MaturityTimeMax       *string        `protobuf:"bytes,9,opt,name=maturityTimeMax" json:"maturityTimeMax,omitempty"`                //到期日范围的结束时间戳
+	IpoPeriod             *IpoPeriod     `protobuf:"varint,10,opt,name=ipoPeriod,enum=futupb.IpoPeriod" json:"ipoPeriod,omitempty"`    //Qot_Common.IpoPeriod，上市日
+	PriceType             *PriceType     `protobuf:"varint,11,opt,name=priceType,enum=futupb.PriceType" json:"priceType,omitempty"`    //Qot_Common.PriceType，价内/价外（暂不支持界内证的界内外筛选）
+	Status                *WarrantStatus `protobuf:"varint,12,opt,name=status,enum=futupb.WarrantStatus" json:"status,omitempty"`      //Qot_Common.WarrantStatus，窝轮状态
+	CurPriceMin           *float64       `protobuf:"fixed64,13,opt,name=curPriceMin" json:"curPriceMin,omitempty"`                     //最新价的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	CurPriceMax           *float64       `protobuf:"fixed64,14,opt,name=curPriceMax" json:"curPriceMax,omitempty"`                     //最新价的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	StrikePriceMin        *float64       `protobuf:"fixed64,15,opt,name=strikePriceMin" json:"strikePriceMin,omitempty"`               //行使价的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	StrikePriceMax        *float64       `protobuf:"fixed64,16,opt,name=strikePriceMax" json:"strikePriceMax,omitempty"`               //行使价的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	StreetMin             *float64       `protobuf:"fixed64,17,opt,name=streetMin" json:"streetMin,omitempty"`                         //街货占比的过滤下限（闭区间），该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	StreetMax             *float64       `protobuf:"fixed64,18,opt,name=streetMax" json:"streetMax,omitempty"`                         //街货占比的过滤上限（闭区间），该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	ConversionMin         *float64       `protobuf:"fixed64,19,opt,name=conversionMin" json:"conversionMin,omitempty"`                 //换股比率的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	ConversionMax         *float64       `protobuf:"fixed64,20,opt,name=conversionMax" json:"conversionMax,omitempty"`                 //换股比率的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	VolMin                *uint64        `protobuf:"varint,21,opt,name=volMin" json:"volMin,omitempty"`                                //成交量的过滤下限（闭区间），不传代表下限为 -∞
+	VolMax                *uint64        `protobuf:"varint,22,opt,name=volMax" json:"volMax,omitempty"`                                //成交量的过滤上限（闭区间），不传代表上限为 +∞
+	PremiumMin            *float64       `protobuf:"fixed64,23,opt,name=premiumMin" json:"premiumMin,omitempty"`                       //溢价的过滤下限（闭区间），该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	PremiumMax            *float64       `protobuf:"fixed64,24,opt,name=premiumMax" json:"premiumMax,omitempty"`                       //溢价的过滤上限（闭区间），该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	LeverageRatioMin      *float64       `protobuf:"fixed64,25,opt,name=leverageRatioMin" json:"leverageRatioMin,omitempty"`           //杠杆比率的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	LeverageRatioMax      *float64       `protobuf:"fixed64,26,opt,name=leverageRatioMax" json:"leverageRatioMax,omitempty"`           //杠杆比率的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	DeltaMin              *float64       `protobuf:"fixed64,27,opt,name=deltaMin" json:"deltaMin,omitempty"`                           //对冲值的过滤下限（闭区间），仅认购认沽支持此字段过滤，不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	DeltaMax              *float64       `protobuf:"fixed64,28,opt,name=deltaMax" json:"deltaMax,omitempty"`                           //对冲值的过滤上限（闭区间），仅认购认沽支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	ImpliedMin            *float64       `protobuf:"fixed64,29,opt,name=impliedMin" json:"impliedMin,omitempty"`                       //引伸波幅的过滤下限（闭区间），仅认购认沽支持此字段过滤，不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	ImpliedMax            *float64       `protobuf:"fixed64,30,opt,name=impliedMax" json:"impliedMax,omitempty"`                       //引伸波幅的过滤上限（闭区间），仅认购认沽支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	RecoveryPriceMin      *float64       `protobuf:"fixed64,31,opt,name=recoveryPriceMin" json:"recoveryPriceMin,omitempty"`           //收回价的过滤下限（闭区间），仅牛熊证支持此字段过滤，不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	RecoveryPriceMax      *float64       `protobuf:"fixed64,32,opt,name=recoveryPriceMax" json:"recoveryPriceMax,omitempty"`           //收回价的过滤上限（闭区间），仅牛熊证支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+	PriceRecoveryRatioMin *float64       `protobuf:"fixed64,33,opt,name=priceRecoveryRatioMin" json:"priceRecoveryRatioMin,omitempty"` //正股距收回价，的过滤下限（闭区间），仅牛熊证支持此字段过滤。该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
+	PriceRecoveryRatioMax *float64       `protobuf:"fixed64,34,opt,name=priceRecoveryRatioMax" json:"priceRecoveryRatioMax,omitempty"` //正股距收回价，的过滤上限（闭区间），仅牛熊证支持此字段过滤。该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -106,11 +106,11 @@ func (x *QotGetWarrantRequest) GetNum() int32 {
 	return 0
 }
 
-func (x *QotGetWarrantRequest) GetSortField() int32 {
+func (x *QotGetWarrantRequest) GetSortField() SortField {
 	if x != nil && x.SortField != nil {
 		return *x.SortField
 	}
-	return 0
+	return SortField_SortField_Unknow
 }
 
 func (x *QotGetWarrantRequest) GetAscend() bool {
@@ -127,14 +127,14 @@ func (x *QotGetWarrantRequest) GetOwner() *Security {
 	return nil
 }
 
-func (x *QotGetWarrantRequest) GetTypeList() []int32 {
+func (x *QotGetWarrantRequest) GetTypeList() []WarrantType {
 	if x != nil {
 		return x.TypeList
 	}
 	return nil
 }
 
-func (x *QotGetWarrantRequest) GetIssuerList() []int32 {
+func (x *QotGetWarrantRequest) GetIssuerList() []Issuer {
 	if x != nil {
 		return x.IssuerList
 	}
@@ -155,25 +155,25 @@ func (x *QotGetWarrantRequest) GetMaturityTimeMax() string {
 	return ""
 }
 
-func (x *QotGetWarrantRequest) GetIpoPeriod() int32 {
+func (x *QotGetWarrantRequest) GetIpoPeriod() IpoPeriod {
 	if x != nil && x.IpoPeriod != nil {
 		return *x.IpoPeriod
 	}
-	return 0
+	return IpoPeriod_IpoPeriod_Unknow
 }
 
-func (x *QotGetWarrantRequest) GetPriceType() int32 {
+func (x *QotGetWarrantRequest) GetPriceType() PriceType {
 	if x != nil && x.PriceType != nil {
 		return *x.PriceType
 	}
-	return 0
+	return PriceType_PriceType_Unknow
 }
 
-func (x *QotGetWarrantRequest) GetStatus() int32 {
+func (x *QotGetWarrantRequest) GetStatus() WarrantStatus {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return 0
+	return WarrantStatus_WarrantStatus_Unknow
 }
 
 func (x *QotGetWarrantRequest) GetCurPriceMin() float64 {
@@ -333,52 +333,52 @@ func (x *QotGetWarrantRequest) GetPriceRecoveryRatioMax() float64 {
 type WarrantData struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 静态数据项
-	Stock              *Security `protobuf:"bytes,1,req,name=stock" json:"stock,omitempty"`                              //股票
-	Owner              *Security `protobuf:"bytes,2,req,name=owner" json:"owner,omitempty"`                              //所属正股
-	Type               *int32    `protobuf:"varint,3,req,name=type" json:"type,omitempty"`                               //Qot_Common.WarrantType，窝轮类型
-	Issuer             *int32    `protobuf:"varint,4,req,name=issuer" json:"issuer,omitempty"`                           //Qot_Common.Issuer，发行人
-	MaturityTime       *string   `protobuf:"bytes,5,req,name=maturityTime" json:"maturityTime,omitempty"`                //到期日
-	MaturityTimestamp  *float64  `protobuf:"fixed64,6,opt,name=maturityTimestamp" json:"maturityTimestamp,omitempty"`    //到期日时间戳
-	ListTime           *string   `protobuf:"bytes,7,req,name=listTime" json:"listTime,omitempty"`                        //上市时间
-	ListTimestamp      *float64  `protobuf:"fixed64,8,opt,name=listTimestamp" json:"listTimestamp,omitempty"`            //上市时间戳
-	LastTradeTime      *string   `protobuf:"bytes,9,req,name=lastTradeTime" json:"lastTradeTime,omitempty"`              //最后交易日
-	LastTradeTimestamp *float64  `protobuf:"fixed64,10,opt,name=lastTradeTimestamp" json:"lastTradeTimestamp,omitempty"` //最后交易日时间戳
-	RecoveryPrice      *float64  `protobuf:"fixed64,11,opt,name=recoveryPrice" json:"recoveryPrice,omitempty"`           //收回价，仅牛熊证支持此字段
-	ConversionRatio    *float64  `protobuf:"fixed64,12,req,name=conversionRatio" json:"conversionRatio,omitempty"`       //换股比率
-	LotSize            *int32    `protobuf:"varint,13,req,name=lotSize" json:"lotSize,omitempty"`                        //每手数量
-	StrikePrice        *float64  `protobuf:"fixed64,14,req,name=strikePrice" json:"strikePrice,omitempty"`               //行使价
-	LastClosePrice     *float64  `protobuf:"fixed64,15,req,name=lastClosePrice" json:"lastClosePrice,omitempty"`         //昨收价
-	Name               *string   `protobuf:"bytes,16,req,name=name" json:"name,omitempty"`                               //名称
+	Stock              *Security    `protobuf:"bytes,1,req,name=stock" json:"stock,omitempty"`                              //股票
+	Owner              *Security    `protobuf:"bytes,2,req,name=owner" json:"owner,omitempty"`                              //所属正股
+	Type               *WarrantType `protobuf:"varint,3,req,name=type,enum=futupb.WarrantType" json:"type,omitempty"`       //Qot_Common.WarrantType，窝轮类型
+	Issuer             *Issuer      `protobuf:"varint,4,req,name=issuer,enum=futupb.Issuer" json:"issuer,omitempty"`        //Qot_Common.Issuer，发行人
+	MaturityTime       *string      `protobuf:"bytes,5,req,name=maturityTime" json:"maturityTime,omitempty"`                //到期日
+	MaturityTimestamp  *float64     `protobuf:"fixed64,6,opt,name=maturityTimestamp" json:"maturityTimestamp,omitempty"`    //到期日时间戳
+	ListTime           *string      `protobuf:"bytes,7,req,name=listTime" json:"listTime,omitempty"`                        //上市时间
+	ListTimestamp      *float64     `protobuf:"fixed64,8,opt,name=listTimestamp" json:"listTimestamp,omitempty"`            //上市时间戳
+	LastTradeTime      *string      `protobuf:"bytes,9,req,name=lastTradeTime" json:"lastTradeTime,omitempty"`              //最后交易日
+	LastTradeTimestamp *float64     `protobuf:"fixed64,10,opt,name=lastTradeTimestamp" json:"lastTradeTimestamp,omitempty"` //最后交易日时间戳
+	RecoveryPrice      *float64     `protobuf:"fixed64,11,opt,name=recoveryPrice" json:"recoveryPrice,omitempty"`           //收回价，仅牛熊证支持此字段
+	ConversionRatio    *float64     `protobuf:"fixed64,12,req,name=conversionRatio" json:"conversionRatio,omitempty"`       //换股比率
+	LotSize            *int32       `protobuf:"varint,13,req,name=lotSize" json:"lotSize,omitempty"`                        //每手数量
+	StrikePrice        *float64     `protobuf:"fixed64,14,req,name=strikePrice" json:"strikePrice,omitempty"`               //行使价
+	LastClosePrice     *float64     `protobuf:"fixed64,15,req,name=lastClosePrice" json:"lastClosePrice,omitempty"`         //昨收价
+	Name               *string      `protobuf:"bytes,16,req,name=name" json:"name,omitempty"`                               //名称
 	// 动态数据项
-	CurPrice           *float64 `protobuf:"fixed64,17,req,name=curPrice" json:"curPrice,omitempty"`                     //当前价
-	PriceChangeVal     *float64 `protobuf:"fixed64,18,req,name=priceChangeVal" json:"priceChangeVal,omitempty"`         //涨跌额
-	ChangeRate         *float64 `protobuf:"fixed64,19,req,name=changeRate" json:"changeRate,omitempty"`                 //涨跌幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	Status             *int32   `protobuf:"varint,20,req,name=status" json:"status,omitempty"`                          //Qot_Common.WarrantStatus，窝轮状态
-	BidPrice           *float64 `protobuf:"fixed64,21,req,name=bidPrice" json:"bidPrice,omitempty"`                     //买入价
-	AskPrice           *float64 `protobuf:"fixed64,22,req,name=askPrice" json:"askPrice,omitempty"`                     //卖出价
-	BidVol             *int64   `protobuf:"varint,23,req,name=bidVol" json:"bidVol,omitempty"`                          //买量
-	AskVol             *int64   `protobuf:"varint,24,req,name=askVol" json:"askVol,omitempty"`                          //卖量
-	Volume             *int64   `protobuf:"varint,25,req,name=volume" json:"volume,omitempty"`                          //成交量
-	Turnover           *float64 `protobuf:"fixed64,26,req,name=turnover" json:"turnover,omitempty"`                     //成交额
-	Score              *float64 `protobuf:"fixed64,27,req,name=score" json:"score,omitempty"`                           //综合评分
-	Premium            *float64 `protobuf:"fixed64,28,req,name=premium" json:"premium,omitempty"`                       //溢价（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	BreakEvenPoint     *float64 `protobuf:"fixed64,29,req,name=breakEvenPoint" json:"breakEvenPoint,omitempty"`         //打和点
-	Leverage           *float64 `protobuf:"fixed64,30,req,name=leverage" json:"leverage,omitempty"`                     //杠杆比率（倍）
-	Ipop               *float64 `protobuf:"fixed64,31,req,name=ipop" json:"ipop,omitempty"`                             //价内/价外，正数表示价内，负数表示价外（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	PriceRecoveryRatio *float64 `protobuf:"fixed64,32,opt,name=priceRecoveryRatio" json:"priceRecoveryRatio,omitempty"` //正股距收回价，仅牛熊证支持此字段（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	ConversionPrice    *float64 `protobuf:"fixed64,33,req,name=conversionPrice" json:"conversionPrice,omitempty"`       //换股价
-	StreetRate         *float64 `protobuf:"fixed64,34,req,name=streetRate" json:"streetRate,omitempty"`                 //街货占比（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	StreetVol          *int64   `protobuf:"varint,35,req,name=streetVol" json:"streetVol,omitempty"`                    //街货量
-	Amplitude          *float64 `protobuf:"fixed64,36,req,name=amplitude" json:"amplitude,omitempty"`                   //振幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	IssueSize          *int64   `protobuf:"varint,37,req,name=issueSize" json:"issueSize,omitempty"`                    //发行量
-	HighPrice          *float64 `protobuf:"fixed64,39,req,name=highPrice" json:"highPrice,omitempty"`                   //最高价
-	LowPrice           *float64 `protobuf:"fixed64,40,req,name=lowPrice" json:"lowPrice,omitempty"`                     //最低价
-	ImpliedVolatility  *float64 `protobuf:"fixed64,41,opt,name=impliedVolatility" json:"impliedVolatility,omitempty"`   //引申波幅，仅认购认沽支持此字段
-	Delta              *float64 `protobuf:"fixed64,42,opt,name=delta" json:"delta,omitempty"`                           //对冲值，仅认购认沽支持此字段
-	EffectiveLeverage  *float64 `protobuf:"fixed64,43,req,name=effectiveLeverage" json:"effectiveLeverage,omitempty"`   //有效杠杆
-	UpperStrikePrice   *float64 `protobuf:"fixed64,44,opt,name=upperStrikePrice" json:"upperStrikePrice,omitempty"`     //上限价，仅界内证支持此字段
-	LowerStrikePrice   *float64 `protobuf:"fixed64,45,opt,name=lowerStrikePrice" json:"lowerStrikePrice,omitempty"`     //下限价，仅界内证支持此字段
-	InLinePriceStatus  *int32   `protobuf:"varint,46,opt,name=inLinePriceStatus" json:"inLinePriceStatus,omitempty"`    //Qot_Common.PriceType，界内界外，仅界内证支持此字段
+	CurPrice           *float64   `protobuf:"fixed64,17,req,name=curPrice" json:"curPrice,omitempty"`                                        //当前价
+	PriceChangeVal     *float64   `protobuf:"fixed64,18,req,name=priceChangeVal" json:"priceChangeVal,omitempty"`                            //涨跌额
+	ChangeRate         *float64   `protobuf:"fixed64,19,req,name=changeRate" json:"changeRate,omitempty"`                                    //涨跌幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	Status             *int32     `protobuf:"varint,20,req,name=status" json:"status,omitempty"`                                             //Qot_Common.WarrantStatus，窝轮状态
+	BidPrice           *float64   `protobuf:"fixed64,21,req,name=bidPrice" json:"bidPrice,omitempty"`                                        //买入价
+	AskPrice           *float64   `protobuf:"fixed64,22,req,name=askPrice" json:"askPrice,omitempty"`                                        //卖出价
+	BidVol             *int64     `protobuf:"varint,23,req,name=bidVol" json:"bidVol,omitempty"`                                             //买量
+	AskVol             *int64     `protobuf:"varint,24,req,name=askVol" json:"askVol,omitempty"`                                             //卖量
+	Volume             *int64     `protobuf:"varint,25,req,name=volume" json:"volume,omitempty"`                                             //成交量
+	Turnover           *float64   `protobuf:"fixed64,26,req,name=turnover" json:"turnover,omitempty"`                                        //成交额
+	Score              *float64   `protobuf:"fixed64,27,req,name=score" json:"score,omitempty"`                                              //综合评分
+	Premium            *float64   `protobuf:"fixed64,28,req,name=premium" json:"premium,omitempty"`                                          //溢价（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	BreakEvenPoint     *float64   `protobuf:"fixed64,29,req,name=breakEvenPoint" json:"breakEvenPoint,omitempty"`                            //打和点
+	Leverage           *float64   `protobuf:"fixed64,30,req,name=leverage" json:"leverage,omitempty"`                                        //杠杆比率（倍）
+	Ipop               *float64   `protobuf:"fixed64,31,req,name=ipop" json:"ipop,omitempty"`                                                //价内/价外，正数表示价内，负数表示价外（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	PriceRecoveryRatio *float64   `protobuf:"fixed64,32,opt,name=priceRecoveryRatio" json:"priceRecoveryRatio,omitempty"`                    //正股距收回价，仅牛熊证支持此字段（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	ConversionPrice    *float64   `protobuf:"fixed64,33,req,name=conversionPrice" json:"conversionPrice,omitempty"`                          //换股价
+	StreetRate         *float64   `protobuf:"fixed64,34,req,name=streetRate" json:"streetRate,omitempty"`                                    //街货占比（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StreetVol          *int64     `protobuf:"varint,35,req,name=streetVol" json:"streetVol,omitempty"`                                       //街货量
+	Amplitude          *float64   `protobuf:"fixed64,36,req,name=amplitude" json:"amplitude,omitempty"`                                      //振幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	IssueSize          *int64     `protobuf:"varint,37,req,name=issueSize" json:"issueSize,omitempty"`                                       //发行量
+	HighPrice          *float64   `protobuf:"fixed64,39,req,name=highPrice" json:"highPrice,omitempty"`                                      //最高价
+	LowPrice           *float64   `protobuf:"fixed64,40,req,name=lowPrice" json:"lowPrice,omitempty"`                                        //最低价
+	ImpliedVolatility  *float64   `protobuf:"fixed64,41,opt,name=impliedVolatility" json:"impliedVolatility,omitempty"`                      //引申波幅，仅认购认沽支持此字段
+	Delta              *float64   `protobuf:"fixed64,42,opt,name=delta" json:"delta,omitempty"`                                              //对冲值，仅认购认沽支持此字段
+	EffectiveLeverage  *float64   `protobuf:"fixed64,43,req,name=effectiveLeverage" json:"effectiveLeverage,omitempty"`                      //有效杠杆
+	UpperStrikePrice   *float64   `protobuf:"fixed64,44,opt,name=upperStrikePrice" json:"upperStrikePrice,omitempty"`                        //上限价，仅界内证支持此字段
+	LowerStrikePrice   *float64   `protobuf:"fixed64,45,opt,name=lowerStrikePrice" json:"lowerStrikePrice,omitempty"`                        //下限价，仅界内证支持此字段
+	InLinePriceStatus  *PriceType `protobuf:"varint,46,opt,name=inLinePriceStatus,enum=futupb.PriceType" json:"inLinePriceStatus,omitempty"` //Qot_Common.PriceType，界内界外，仅界内证支持此字段
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -427,18 +427,18 @@ func (x *WarrantData) GetOwner() *Security {
 	return nil
 }
 
-func (x *WarrantData) GetType() int32 {
+func (x *WarrantData) GetType() WarrantType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return 0
+	return WarrantType_WarrantType_Unknown
 }
 
-func (x *WarrantData) GetIssuer() int32 {
+func (x *WarrantData) GetIssuer() Issuer {
 	if x != nil && x.Issuer != nil {
 		return *x.Issuer
 	}
-	return 0
+	return Issuer_Issuer_Unknow
 }
 
 func (x *WarrantData) GetMaturityTime() string {
@@ -721,11 +721,11 @@ func (x *WarrantData) GetLowerStrikePrice() float64 {
 	return 0
 }
 
-func (x *WarrantData) GetInLinePriceStatus() int32 {
+func (x *WarrantData) GetInLinePriceStatus() PriceType {
 	if x != nil && x.InLinePriceStatus != nil {
 		return *x.InLinePriceStatus
 	}
-	return 0
+	return PriceType_PriceType_Unknow
 }
 
 type QotGetWarrantResponse struct {
@@ -834,7 +834,7 @@ func (x *QotGetWarrantRequest_Internal) GetPayload() *QotGetWarrantRequest {
 
 type QotGetWarrantResponse_Internal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetType       *int32                 `protobuf:"varint,1,req,name=retType,def=-400" json:"retType,omitempty"` //RetType，返回结果
+	RetType       *RetType               `protobuf:"varint,1,req,name=retType,enum=futupb.RetType,def=-400" json:"retType,omitempty"` //RetType，返回结果
 	RetMsg        *string                `protobuf:"bytes,2,opt,name=retMsg" json:"retMsg,omitempty"`
 	ErrCode       *int32                 `protobuf:"varint,3,opt,name=errCode" json:"errCode,omitempty"`
 	Payload       *QotGetWarrantResponse `protobuf:"bytes,4,opt,name=payload" json:"payload,omitempty"`
@@ -844,7 +844,7 @@ type QotGetWarrantResponse_Internal struct {
 
 // Default values for QotGetWarrantResponse_Internal fields.
 const (
-	Default_QotGetWarrantResponse_Internal_RetType = int32(-400)
+	Default_QotGetWarrantResponse_Internal_RetType = RetType_RetType_Unknown
 )
 
 func (x *QotGetWarrantResponse_Internal) Reset() {
@@ -877,7 +877,7 @@ func (*QotGetWarrantResponse_Internal) Descriptor() ([]byte, []int) {
 	return file_Qot_GetWarrant_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *QotGetWarrantResponse_Internal) GetRetType() int32 {
+func (x *QotGetWarrantResponse_Internal) GetRetType() RetType {
 	if x != nil && x.RetType != nil {
 		return *x.RetType
 	}
@@ -909,23 +909,24 @@ var File_Qot_GetWarrant_proto protoreflect.FileDescriptor
 
 const file_Qot_GetWarrant_proto_rawDesc = "" +
 	"\n" +
-	"\x14Qot_GetWarrant.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\xa0\t\n" +
+	"\x14Qot_GetWarrant.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"\x95\n" +
+	"\n" +
 	"\x14QotGetWarrantRequest\x12\x14\n" +
 	"\x05begin\x18\x01 \x02(\x05R\x05begin\x12\x10\n" +
-	"\x03num\x18\x02 \x02(\x05R\x03num\x12\x1c\n" +
-	"\tsortField\x18\x03 \x02(\x05R\tsortField\x12\x16\n" +
+	"\x03num\x18\x02 \x02(\x05R\x03num\x12/\n" +
+	"\tsortField\x18\x03 \x02(\x0e2\x11.futupb.SortFieldR\tsortField\x12\x16\n" +
 	"\x06ascend\x18\x04 \x02(\bR\x06ascend\x12&\n" +
-	"\x05owner\x18\x05 \x01(\v2\x10.futupb.SecurityR\x05owner\x12\x1a\n" +
-	"\btypeList\x18\x06 \x03(\x05R\btypeList\x12\x1e\n" +
+	"\x05owner\x18\x05 \x01(\v2\x10.futupb.SecurityR\x05owner\x12/\n" +
+	"\btypeList\x18\x06 \x03(\x0e2\x13.futupb.WarrantTypeR\btypeList\x12.\n" +
 	"\n" +
-	"issuerList\x18\a \x03(\x05R\n" +
+	"issuerList\x18\a \x03(\x0e2\x0e.futupb.IssuerR\n" +
 	"issuerList\x12(\n" +
 	"\x0fmaturityTimeMin\x18\b \x01(\tR\x0fmaturityTimeMin\x12(\n" +
-	"\x0fmaturityTimeMax\x18\t \x01(\tR\x0fmaturityTimeMax\x12\x1c\n" +
+	"\x0fmaturityTimeMax\x18\t \x01(\tR\x0fmaturityTimeMax\x12/\n" +
 	"\tipoPeriod\x18\n" +
-	" \x01(\x05R\tipoPeriod\x12\x1c\n" +
-	"\tpriceType\x18\v \x01(\x05R\tpriceType\x12\x16\n" +
-	"\x06status\x18\f \x01(\x05R\x06status\x12 \n" +
+	" \x01(\x0e2\x11.futupb.IpoPeriodR\tipoPeriod\x12/\n" +
+	"\tpriceType\x18\v \x01(\x0e2\x11.futupb.PriceTypeR\tpriceType\x12-\n" +
+	"\x06status\x18\f \x01(\x0e2\x15.futupb.WarrantStatusR\x06status\x12 \n" +
 	"\vcurPriceMin\x18\r \x01(\x01R\vcurPriceMin\x12 \n" +
 	"\vcurPriceMax\x18\x0e \x01(\x01R\vcurPriceMax\x12&\n" +
 	"\x0estrikePriceMin\x18\x0f \x01(\x01R\x0estrikePriceMin\x12&\n" +
@@ -955,12 +956,12 @@ const file_Qot_GetWarrant_proto_rawDesc = "" +
 	"\x10recoveryPriceMin\x18\x1f \x01(\x01R\x10recoveryPriceMin\x12*\n" +
 	"\x10recoveryPriceMax\x18  \x01(\x01R\x10recoveryPriceMax\x124\n" +
 	"\x15priceRecoveryRatioMin\x18! \x01(\x01R\x15priceRecoveryRatioMin\x124\n" +
-	"\x15priceRecoveryRatioMax\x18\" \x01(\x01R\x15priceRecoveryRatioMax\"\xe1\v\n" +
+	"\x15priceRecoveryRatioMax\x18\" \x01(\x01R\x15priceRecoveryRatioMax\"\x99\f\n" +
 	"\vWarrantData\x12&\n" +
 	"\x05stock\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05stock\x12&\n" +
-	"\x05owner\x18\x02 \x02(\v2\x10.futupb.SecurityR\x05owner\x12\x12\n" +
-	"\x04type\x18\x03 \x02(\x05R\x04type\x12\x16\n" +
-	"\x06issuer\x18\x04 \x02(\x05R\x06issuer\x12\"\n" +
+	"\x05owner\x18\x02 \x02(\v2\x10.futupb.SecurityR\x05owner\x12'\n" +
+	"\x04type\x18\x03 \x02(\x0e2\x13.futupb.WarrantTypeR\x04type\x12&\n" +
+	"\x06issuer\x18\x04 \x02(\x0e2\x0e.futupb.IssuerR\x06issuer\x12\"\n" +
 	"\fmaturityTime\x18\x05 \x02(\tR\fmaturityTime\x12,\n" +
 	"\x11maturityTimestamp\x18\x06 \x01(\x01R\x11maturityTimestamp\x12\x1a\n" +
 	"\blistTime\x18\a \x02(\tR\blistTime\x12$\n" +
@@ -1005,16 +1006,16 @@ const file_Qot_GetWarrant_proto_rawDesc = "" +
 	"\x05delta\x18* \x01(\x01R\x05delta\x12,\n" +
 	"\x11effectiveLeverage\x18+ \x02(\x01R\x11effectiveLeverage\x12*\n" +
 	"\x10upperStrikePrice\x18, \x01(\x01R\x10upperStrikePrice\x12*\n" +
-	"\x10lowerStrikePrice\x18- \x01(\x01R\x10lowerStrikePrice\x12,\n" +
-	"\x11inLinePriceStatus\x18. \x01(\x05R\x11inLinePriceStatus\"\x8e\x01\n" +
+	"\x10lowerStrikePrice\x18- \x01(\x01R\x10lowerStrikePrice\x12?\n" +
+	"\x11inLinePriceStatus\x18. \x01(\x0e2\x11.futupb.PriceTypeR\x11inLinePriceStatus\"\x8e\x01\n" +
 	"\x15QotGetWarrantResponse\x12\x1a\n" +
 	"\blastPage\x18\x01 \x02(\bR\blastPage\x12\x1a\n" +
 	"\ballCount\x18\x02 \x02(\x05R\ballCount\x12=\n" +
 	"\x0fwarrantDataList\x18\x03 \x03(\v2\x13.futupb.WarrantDataR\x0fwarrantDataList\"W\n" +
 	"\x1dQotGetWarrantRequest_Internal\x126\n" +
-	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotGetWarrantRequestR\apayload\"\xab\x01\n" +
-	"\x1eQotGetWarrantResponse_Internal\x12\x1e\n" +
-	"\aretType\x18\x01 \x02(\x05:\x04-400R\aretType\x12\x16\n" +
+	"\apayload\x18\x01 \x02(\v2\x1c.futupb.QotGetWarrantRequestR\apayload\"\xc7\x01\n" +
+	"\x1eQotGetWarrantResponse_Internal\x12:\n" +
+	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x127\n" +
 	"\apayload\x18\x04 \x01(\v2\x1d.futupb.QotGetWarrantResponseR\apayloadB4\n" +
@@ -1039,20 +1040,37 @@ var file_Qot_GetWarrant_proto_goTypes = []any{
 	(*QotGetWarrantResponse)(nil),          // 2: futupb.QotGetWarrantResponse
 	(*QotGetWarrantRequest_Internal)(nil),  // 3: futupb.QotGetWarrantRequest_Internal
 	(*QotGetWarrantResponse_Internal)(nil), // 4: futupb.QotGetWarrantResponse_Internal
-	(*Security)(nil),                       // 5: futupb.Security
+	(SortField)(0),                         // 5: futupb.SortField
+	(*Security)(nil),                       // 6: futupb.Security
+	(WarrantType)(0),                       // 7: futupb.WarrantType
+	(Issuer)(0),                            // 8: futupb.Issuer
+	(IpoPeriod)(0),                         // 9: futupb.IpoPeriod
+	(PriceType)(0),                         // 10: futupb.PriceType
+	(WarrantStatus)(0),                     // 11: futupb.WarrantStatus
+	(RetType)(0),                           // 12: futupb.RetType
 }
 var file_Qot_GetWarrant_proto_depIdxs = []int32{
-	5, // 0: futupb.QotGetWarrantRequest.owner:type_name -> futupb.Security
-	5, // 1: futupb.WarrantData.stock:type_name -> futupb.Security
-	5, // 2: futupb.WarrantData.owner:type_name -> futupb.Security
-	1, // 3: futupb.QotGetWarrantResponse.warrantDataList:type_name -> futupb.WarrantData
-	0, // 4: futupb.QotGetWarrantRequest_Internal.payload:type_name -> futupb.QotGetWarrantRequest
-	2, // 5: futupb.QotGetWarrantResponse_Internal.payload:type_name -> futupb.QotGetWarrantResponse
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5,  // 0: futupb.QotGetWarrantRequest.sortField:type_name -> futupb.SortField
+	6,  // 1: futupb.QotGetWarrantRequest.owner:type_name -> futupb.Security
+	7,  // 2: futupb.QotGetWarrantRequest.typeList:type_name -> futupb.WarrantType
+	8,  // 3: futupb.QotGetWarrantRequest.issuerList:type_name -> futupb.Issuer
+	9,  // 4: futupb.QotGetWarrantRequest.ipoPeriod:type_name -> futupb.IpoPeriod
+	10, // 5: futupb.QotGetWarrantRequest.priceType:type_name -> futupb.PriceType
+	11, // 6: futupb.QotGetWarrantRequest.status:type_name -> futupb.WarrantStatus
+	6,  // 7: futupb.WarrantData.stock:type_name -> futupb.Security
+	6,  // 8: futupb.WarrantData.owner:type_name -> futupb.Security
+	7,  // 9: futupb.WarrantData.type:type_name -> futupb.WarrantType
+	8,  // 10: futupb.WarrantData.issuer:type_name -> futupb.Issuer
+	10, // 11: futupb.WarrantData.inLinePriceStatus:type_name -> futupb.PriceType
+	1,  // 12: futupb.QotGetWarrantResponse.warrantDataList:type_name -> futupb.WarrantData
+	0,  // 13: futupb.QotGetWarrantRequest_Internal.payload:type_name -> futupb.QotGetWarrantRequest
+	12, // 14: futupb.QotGetWarrantResponse_Internal.retType:type_name -> futupb.RetType
+	2,  // 15: futupb.QotGetWarrantResponse_Internal.payload:type_name -> futupb.QotGetWarrantResponse
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetWarrant_proto_init() }
