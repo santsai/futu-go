@@ -73,7 +73,7 @@ func (sdk *SDK) GetAccList(opts ...adapt.Option) ([]*pb.TrdAcc, error) {
 // pwdMD5: MD5 of the password
 //
 // securityFirm: security firm
-func (sdk *SDK) UnlockTrade(unlock bool, pwdMD5 string, securityFirm int32) error {
+func (sdk *SDK) UnlockTrade(unlock bool, pwdMD5 string, securityFirm pb.SecurityFirm) error {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -303,7 +303,7 @@ func (sdk *SDK) GetBroker(code string) (*pb.QotGetBrokerResponse, error) {
 // beginTime: begin time, format: "yyyy-MM-dd"
 //
 // endTime: end time, format: "yyyy-MM-dd"
-func (sdk *SDK) RequestHistoryKL(code string, klType int32, beginTime string, endTime string, opts ...adapt.Option) (*pb.QotRequestHistoryKLResponse, error) {
+func (sdk *SDK) RequestHistoryKL(code string, klType pb.KLType, beginTime string, endTime string, opts ...adapt.Option) (*pb.QotRequestHistoryKLResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -349,7 +349,7 @@ func (sdk *SDK) GetSecuritySnapshot(codes []string) ([]*pb.Snapshot, error) {
 // market: market
 //
 // plateSetType: plate set type
-func (sdk *SDK) GetPlateSet(market int32, plateSetType int32) ([]*pb.PlateInfo, error) {
+func (sdk *SDK) GetPlateSet(market pb.QotMarket, plateSetType pb.PlateSetType) ([]*pb.PlateInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -371,7 +371,7 @@ func (sdk *SDK) GetPlateSecurity(plateCode string, opts ...adapt.Option) ([]*pb.
 // code: security code
 //
 // refType: reference type
-func (sdk *SDK) GetReference(code string, refType int32) ([]*pb.SecurityStaticInfo, error) {
+func (sdk *SDK) GetReference(code string, refType pb.ReferenceType) ([]*pb.SecurityStaticInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -452,7 +452,7 @@ func (sdk *SDK) GetUserSecurity(groupName string) ([]*pb.SecurityStaticInfo, err
 // codes: security codes
 //
 // op: operation, 1 for add, 2 for delete
-func (sdk *SDK) ModifyUserSecurity(groupName string, codes []string, op int32) error {
+func (sdk *SDK) ModifyUserSecurity(groupName string, codes []string, op pb.ModifyUserSecurityOp) error {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -472,7 +472,7 @@ func (sdk *SDK) StockFilter(market int32, opts ...adapt.Option) (*pb.QotStockFil
 // GetIpoList 3217 - gets the IPO list.
 //
 // market: market
-func (sdk *SDK) GetIpoList(market int32) ([]*pb.IpoData, error) {
+func (sdk *SDK) GetIpoList(market pb.QotMarket) ([]*pb.IpoData, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -498,7 +498,7 @@ func (sdk *SDK) GetFutureInfo(codes []string) ([]*pb.FutureInfo, error) {
 // beginTime: begin time, format: "yyyy-MM-dd"
 //
 // endTime: end time, format: "yyyy-MM-dd"
-func (sdk *SDK) RequestTradeDate(market int32, code string, beginTime string, endTime string) ([]*pb.TradeDate, error) {
+func (sdk *SDK) RequestTradeDate(market pb.TradeDateMarket, code string, beginTime, endTime string) ([]*pb.TradeDate, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -510,7 +510,7 @@ func (sdk *SDK) RequestTradeDate(market int32, code string, beginTime string, en
 // code: security code
 //
 // op: operation, 1 for add, 2 for delete
-func (sdk *SDK) SetPriceReminder(code string, op int32, opts ...adapt.Option) (int64, error) {
+func (sdk *SDK) SetPriceReminder(code string, op pb.SetPriceReminderOp, opts ...adapt.Option) (int64, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -522,7 +522,7 @@ func (sdk *SDK) SetPriceReminder(code string, op int32, opts ...adapt.Option) (i
 // code: security code
 //
 // market: market, if security is set, this param is ignored
-func (sdk *SDK) GetPriceReminder(code string, market int32) ([]*pb.PriceReminder, error) {
+func (sdk *SDK) GetPriceReminder(code string, market pb.QotMarket) ([]*pb.PriceReminder, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
@@ -532,7 +532,7 @@ func (sdk *SDK) GetPriceReminder(code string, market int32) ([]*pb.PriceReminder
 // GetUserSecurityGroup 3222 - gets the user security group.
 //
 // groupType: group type
-func (sdk *SDK) GetUserSecurityGroup(groupType int32) ([]*pb.GroupData, error) {
+func (sdk *SDK) GetUserSecurityGroup(groupType pb.GroupType) ([]*pb.GroupData, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 

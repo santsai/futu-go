@@ -73,7 +73,7 @@ func (x *QotGetHoldingChangeListRequest) GetHolderCategory() HolderCategory {
 	if x != nil && x.HolderCategory != nil {
 		return *x.HolderCategory
 	}
-	return HolderCategory_HolderCategory_Unknow
+	return HolderCategory_HolderCategory_Unknown
 }
 
 func (x *QotGetHoldingChangeListRequest) GetBeginTime() string {

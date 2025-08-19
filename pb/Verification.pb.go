@@ -24,7 +24,7 @@ const (
 type VerificationType int32
 
 const (
-	VerificationType_VerificationType_Unknow  VerificationType = 0 //未知操作
+	VerificationType_VerificationType_Unknown VerificationType = 0 //未知操作
 	VerificationType_VerificationType_Picture VerificationType = 1 // 图形验证码
 	VerificationType_VerificationType_Phone   VerificationType = 2 // 手机验证码
 )
@@ -32,12 +32,12 @@ const (
 // Enum value maps for VerificationType.
 var (
 	VerificationType_name = map[int32]string{
-		0: "VerificationType_Unknow",
+		0: "VerificationType_Unknown",
 		1: "VerificationType_Picture",
 		2: "VerificationType_Phone",
 	}
 	VerificationType_value = map[string]int32{
-		"VerificationType_Unknow":  0,
+		"VerificationType_Unknown": 0,
 		"VerificationType_Picture": 1,
 		"VerificationType_Phone":   2,
 	}
@@ -83,7 +83,7 @@ func (VerificationType) EnumDescriptor() ([]byte, []int) {
 type VerificationOp int32
 
 const (
-	VerificationOp_VerificationOp_Unknow        VerificationOp = 0 //未知操作
+	VerificationOp_VerificationOp_Unknown       VerificationOp = 0 //未知操作
 	VerificationOp_VerificationOp_Request       VerificationOp = 1 //请求验证码
 	VerificationOp_VerificationOp_InputAndLogin VerificationOp = 2 //输入验证码并继续登录操作
 )
@@ -91,12 +91,12 @@ const (
 // Enum value maps for VerificationOp.
 var (
 	VerificationOp_name = map[int32]string{
-		0: "VerificationOp_Unknow",
+		0: "VerificationOp_Unknown",
 		1: "VerificationOp_Request",
 		2: "VerificationOp_InputAndLogin",
 	}
 	VerificationOp_value = map[string]int32{
-		"VerificationOp_Unknow":        0,
+		"VerificationOp_Unknown":       0,
 		"VerificationOp_Request":       1,
 		"VerificationOp_InputAndLogin": 2,
 	}
@@ -186,14 +186,14 @@ func (x *VerificationRequest) GetType() VerificationType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return VerificationType_VerificationType_Unknow
+	return VerificationType_VerificationType_Unknown
 }
 
 func (x *VerificationRequest) GetOp() VerificationOp {
 	if x != nil && x.Op != nil {
 		return *x.Op
 	}
-	return VerificationOp_VerificationOp_Unknow
+	return VerificationOp_VerificationOp_Unknown
 }
 
 func (x *VerificationRequest) GetCode() string {
@@ -372,13 +372,13 @@ const file_Verification_proto_rawDesc = "" +
 	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x126\n" +
-	"\apayload\x18\x04 \x01(\v2\x1c.futupb.VerificationResponseR\apayload*i\n" +
-	"\x10VerificationType\x12\x1b\n" +
-	"\x17VerificationType_Unknow\x10\x00\x12\x1c\n" +
+	"\apayload\x18\x04 \x01(\v2\x1c.futupb.VerificationResponseR\apayload*j\n" +
+	"\x10VerificationType\x12\x1c\n" +
+	"\x18VerificationType_Unknown\x10\x00\x12\x1c\n" +
 	"\x18VerificationType_Picture\x10\x01\x12\x1a\n" +
-	"\x16VerificationType_Phone\x10\x02*i\n" +
-	"\x0eVerificationOp\x12\x19\n" +
-	"\x15VerificationOp_Unknow\x10\x00\x12\x1a\n" +
+	"\x16VerificationType_Phone\x10\x02*j\n" +
+	"\x0eVerificationOp\x12\x1a\n" +
+	"\x16VerificationOp_Unknown\x10\x00\x12\x1a\n" +
 	"\x16VerificationOp_Request\x10\x01\x12 \n" +
 	"\x1cVerificationOp_InputAndLogin\x10\x02B4\n" +
 	"\x13com.futu.openapi.pbZ\x1dgithub.com/santsai/futu-go/pb"

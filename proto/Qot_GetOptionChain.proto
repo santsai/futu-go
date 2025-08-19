@@ -8,7 +8,7 @@ import "Qot_Common.proto";
 
 enum OptionCondType
 {
-	OptionCondType_Unknow = 0;
+	OptionCondType_Unknown = 0;
 	OptionCondType_WithIn = 1; //价内
 	OptionCondType_Outside = 2; //价外
 }

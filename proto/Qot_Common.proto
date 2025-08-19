@@ -283,7 +283,7 @@ enum SecurityStatus
 
 enum HolderCategory
 {
-	HolderCategory_Unknow = 0; //未知
+	HolderCategory_Unknown = 0; //未知
 	HolderCategory_Agency = 1; //机构
 	HolderCategory_Fund = 2; //基金
 	HolderCategory_SeniorManager = 3; //高管
@@ -292,7 +292,7 @@ enum HolderCategory
 //推送数据的分类，目前只有逐笔在使用
 enum PushDataType
 {
-	PushDataType_Unknow = 0;
+	PushDataType_Unknown = 0;
 	PushDataType_Realtime = 1; //实时推送的数据
 	PushDataType_ByDisConn = 2; //对后台行情连接断开期间拉取补充的数据 最多50个
 	PushDataType_Cache = 3; //非实时非连接断开补充数据
@@ -301,7 +301,7 @@ enum PushDataType
 //窝轮排序
 enum SortField
 {
-	SortField_Unknow = 0;
+	SortField_Unknown = 0;
     SortField_Code = 1; //代码
     SortField_CurPrice = 2; //最新价
 	SortField_PriceChangeVal = 3; //涨跌额
@@ -363,7 +363,7 @@ enum SortField
 //窝轮发行人
 enum Issuer
 {
-	Issuer_Unknow = 0; //未知
+	Issuer_Unknown = 0; //未知
 	Issuer_SG = 1; //法兴
     Issuer_BP = 2; //法巴
     Issuer_CS = 3; //瑞信
@@ -397,7 +397,7 @@ enum Issuer
 //窝轮上市日
 enum IpoPeriod
 {
-	IpoPeriod_Unknow = 0; //未知
+	IpoPeriod_Unknown = 0; //未知
     IpoPeriod_Today = 1; //今日上市
     IpoPeriod_Tomorrow = 2; //明日上市
     IpoPeriod_Nextweek = 3; //未来一周上市
@@ -408,7 +408,7 @@ enum IpoPeriod
 //窝轮价外/内,界内证表示界内界外
 enum PriceType
 {
-	PriceType_Unknow = 0;
+	PriceType_Unknown = 0;
 	PriceType_Outside = 1; //价外，界内证表示界外
 	PriceType_WithIn = 2; //价内，界内证表示界内
 }
@@ -416,7 +416,7 @@ enum PriceType
 //窝轮状态
 enum WarrantStatus
 {
-    WarrantStatus_Unknow = 0; //未知
+    WarrantStatus_Unknown = 0; //未知
     WarrantStatus_Normal = 1; //正常状态
 	WarrantStatus_Suspend = 2; //停牌
     WarrantStatus_StopTrade = 3; //终止交易
@@ -439,7 +439,7 @@ enum CompanyAct
 //行情权限
 enum QotRight
 {
-	QotRight_Unknow = 0; //未知
+	QotRight_Unknown = 0; //未知
 	QotRight_Bmp = 1; //Bmp，无法订阅
 	QotRight_Level1 = 2; //Level1
 	QotRight_Level2 = 3; //Level2
@@ -480,7 +480,7 @@ enum PriceReminderFreq
 // 提醒市场状态
 enum PriceReminderMarketStatus
 {
-	PriceReminderMarketStatus_Unknow = 0;
+	PriceReminderMarketStatus_Unknown = 0;
 	PriceReminderMarketStatus_Open = 1; // 盘中
 	PriceReminderMarketStatus_USPre = 2;  // 美股盘前
 	PriceReminderMarketStatus_USAfter = 3; // 美股盘后
@@ -490,7 +490,7 @@ enum PriceReminderMarketStatus
 // 资产类别
 enum AssetClass
 {
-	AssetClass_Unknow = 0; //未知
+	AssetClass_Unknown = 0; //未知
 	AssetClass_Stock = 1; //股票
 	AssetClass_Bond = 2; //债券
 	AssetClass_Commodity = 3; //商品
@@ -656,7 +656,7 @@ message BasicQot
 	required double turnover = 12; //成交额
 	required double turnoverRate = 13; //换手率（该字段为百分比字段，默认不展示%，如20实际对应20%）
 	required double amplitude = 14; //振幅（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	optional int32 darkStatus = 15; //DarkStatus, 暗盘交易状态
+	optional DarkStatus darkStatus = 15; //DarkStatus, 暗盘交易状态
 	optional OptionBasicQotExData optionExData = 16; //期权特有字段
 	optional double listTimestamp = 17; //上市日期时间戳
 	optional double updateTimestamp = 18; //最新价的更新时间戳，对其他字段不适用

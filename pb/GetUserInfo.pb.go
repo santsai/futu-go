@@ -285,14 +285,14 @@ func (x *GetUserInfoResponse) GetHkQotRight() QotRight {
 	if x != nil && x.HkQotRight != nil {
 		return *x.HkQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetUsQotRight() QotRight {
 	if x != nil && x.UsQotRight != nil {
 		return *x.UsQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetCnQotRight() int32 {
@@ -341,7 +341,7 @@ func (x *GetUserInfoResponse) GetHkOptionQotRight() QotRight {
 	if x != nil && x.HkOptionQotRight != nil {
 		return *x.HkOptionQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetHasUSOptionQotRight() bool {
@@ -355,7 +355,7 @@ func (x *GetUserInfoResponse) GetHkFutureQotRight() QotRight {
 	if x != nil && x.HkFutureQotRight != nil {
 		return *x.HkFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetSubQuota() int32 {
@@ -383,7 +383,7 @@ func (x *GetUserInfoResponse) GetUsOptionQotRight() QotRight {
 	if x != nil && x.UsOptionQotRight != nil {
 		return *x.UsOptionQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetUserAttribution() UserAttribution {
@@ -404,21 +404,21 @@ func (x *GetUserInfoResponse) GetUsIndexQotRight() QotRight {
 	if x != nil && x.UsIndexQotRight != nil {
 		return *x.UsIndexQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetUsOtcQotRight() QotRight {
 	if x != nil && x.UsOtcQotRight != nil {
 		return *x.UsOtcQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetUsCMEFutureQotRight() QotRight {
 	if x != nil && x.UsCMEFutureQotRight != nil {
 		return *x.UsCMEFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetUsCBOTFutureQotRight() int32 {
@@ -432,35 +432,35 @@ func (x *GetUserInfoResponse) GetUsNYMEXFutureQotRight() QotRight {
 	if x != nil && x.UsNYMEXFutureQotRight != nil {
 		return *x.UsNYMEXFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetUsCOMEXFutureQotRight() QotRight {
 	if x != nil && x.UsCOMEXFutureQotRight != nil {
 		return *x.UsCOMEXFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetUsCBOEFutureQotRight() QotRight {
 	if x != nil && x.UsCBOEFutureQotRight != nil {
 		return *x.UsCBOEFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetSgFutureQotRight() QotRight {
 	if x != nil && x.SgFutureQotRight != nil {
 		return *x.SgFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetJpFutureQotRight() QotRight {
 	if x != nil && x.JpFutureQotRight != nil {
 		return *x.JpFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetIsAppNNOrMM() bool {
@@ -474,14 +474,14 @@ func (x *GetUserInfoResponse) GetShQotRight() QotRight {
 	if x != nil && x.ShQotRight != nil {
 		return *x.ShQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *GetUserInfoResponse) GetSzQotRight() QotRight {
 	if x != nil && x.SzQotRight != nil {
 		return *x.SzQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 type GetUserInfoRequest_Internal struct {

@@ -100,7 +100,7 @@ func (x *QotUpdatePriceReminderResponse) GetMarketStatus() PriceReminderMarketSt
 	if x != nil && x.MarketStatus != nil {
 		return *x.MarketStatus
 	}
-	return PriceReminderMarketStatus_PriceReminderMarketStatus_Unknow
+	return PriceReminderMarketStatus_PriceReminderMarketStatus_Unknown
 }
 
 func (x *QotUpdatePriceReminderResponse) GetContent() string {

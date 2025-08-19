@@ -110,7 +110,7 @@ func (x *QotGetWarrantRequest) GetSortField() SortField {
 	if x != nil && x.SortField != nil {
 		return *x.SortField
 	}
-	return SortField_SortField_Unknow
+	return SortField_SortField_Unknown
 }
 
 func (x *QotGetWarrantRequest) GetAscend() bool {
@@ -159,21 +159,21 @@ func (x *QotGetWarrantRequest) GetIpoPeriod() IpoPeriod {
 	if x != nil && x.IpoPeriod != nil {
 		return *x.IpoPeriod
 	}
-	return IpoPeriod_IpoPeriod_Unknow
+	return IpoPeriod_IpoPeriod_Unknown
 }
 
 func (x *QotGetWarrantRequest) GetPriceType() PriceType {
 	if x != nil && x.PriceType != nil {
 		return *x.PriceType
 	}
-	return PriceType_PriceType_Unknow
+	return PriceType_PriceType_Unknown
 }
 
 func (x *QotGetWarrantRequest) GetStatus() WarrantStatus {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return WarrantStatus_WarrantStatus_Unknow
+	return WarrantStatus_WarrantStatus_Unknown
 }
 
 func (x *QotGetWarrantRequest) GetCurPriceMin() float64 {
@@ -350,35 +350,35 @@ type WarrantData struct {
 	LastClosePrice     *float64     `protobuf:"fixed64,15,req,name=lastClosePrice" json:"lastClosePrice,omitempty"`         //昨收价
 	Name               *string      `protobuf:"bytes,16,req,name=name" json:"name,omitempty"`                               //名称
 	// 动态数据项
-	CurPrice           *float64   `protobuf:"fixed64,17,req,name=curPrice" json:"curPrice,omitempty"`                                        //当前价
-	PriceChangeVal     *float64   `protobuf:"fixed64,18,req,name=priceChangeVal" json:"priceChangeVal,omitempty"`                            //涨跌额
-	ChangeRate         *float64   `protobuf:"fixed64,19,req,name=changeRate" json:"changeRate,omitempty"`                                    //涨跌幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	Status             *int32     `protobuf:"varint,20,req,name=status" json:"status,omitempty"`                                             //Qot_Common.WarrantStatus，窝轮状态
-	BidPrice           *float64   `protobuf:"fixed64,21,req,name=bidPrice" json:"bidPrice,omitempty"`                                        //买入价
-	AskPrice           *float64   `protobuf:"fixed64,22,req,name=askPrice" json:"askPrice,omitempty"`                                        //卖出价
-	BidVol             *int64     `protobuf:"varint,23,req,name=bidVol" json:"bidVol,omitempty"`                                             //买量
-	AskVol             *int64     `protobuf:"varint,24,req,name=askVol" json:"askVol,omitempty"`                                             //卖量
-	Volume             *int64     `protobuf:"varint,25,req,name=volume" json:"volume,omitempty"`                                             //成交量
-	Turnover           *float64   `protobuf:"fixed64,26,req,name=turnover" json:"turnover,omitempty"`                                        //成交额
-	Score              *float64   `protobuf:"fixed64,27,req,name=score" json:"score,omitempty"`                                              //综合评分
-	Premium            *float64   `protobuf:"fixed64,28,req,name=premium" json:"premium,omitempty"`                                          //溢价（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	BreakEvenPoint     *float64   `protobuf:"fixed64,29,req,name=breakEvenPoint" json:"breakEvenPoint,omitempty"`                            //打和点
-	Leverage           *float64   `protobuf:"fixed64,30,req,name=leverage" json:"leverage,omitempty"`                                        //杠杆比率（倍）
-	Ipop               *float64   `protobuf:"fixed64,31,req,name=ipop" json:"ipop,omitempty"`                                                //价内/价外，正数表示价内，负数表示价外（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	PriceRecoveryRatio *float64   `protobuf:"fixed64,32,opt,name=priceRecoveryRatio" json:"priceRecoveryRatio,omitempty"`                    //正股距收回价，仅牛熊证支持此字段（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	ConversionPrice    *float64   `protobuf:"fixed64,33,req,name=conversionPrice" json:"conversionPrice,omitempty"`                          //换股价
-	StreetRate         *float64   `protobuf:"fixed64,34,req,name=streetRate" json:"streetRate,omitempty"`                                    //街货占比（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	StreetVol          *int64     `protobuf:"varint,35,req,name=streetVol" json:"streetVol,omitempty"`                                       //街货量
-	Amplitude          *float64   `protobuf:"fixed64,36,req,name=amplitude" json:"amplitude,omitempty"`                                      //振幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
-	IssueSize          *int64     `protobuf:"varint,37,req,name=issueSize" json:"issueSize,omitempty"`                                       //发行量
-	HighPrice          *float64   `protobuf:"fixed64,39,req,name=highPrice" json:"highPrice,omitempty"`                                      //最高价
-	LowPrice           *float64   `protobuf:"fixed64,40,req,name=lowPrice" json:"lowPrice,omitempty"`                                        //最低价
-	ImpliedVolatility  *float64   `protobuf:"fixed64,41,opt,name=impliedVolatility" json:"impliedVolatility,omitempty"`                      //引申波幅，仅认购认沽支持此字段
-	Delta              *float64   `protobuf:"fixed64,42,opt,name=delta" json:"delta,omitempty"`                                              //对冲值，仅认购认沽支持此字段
-	EffectiveLeverage  *float64   `protobuf:"fixed64,43,req,name=effectiveLeverage" json:"effectiveLeverage,omitempty"`                      //有效杠杆
-	UpperStrikePrice   *float64   `protobuf:"fixed64,44,opt,name=upperStrikePrice" json:"upperStrikePrice,omitempty"`                        //上限价，仅界内证支持此字段
-	LowerStrikePrice   *float64   `protobuf:"fixed64,45,opt,name=lowerStrikePrice" json:"lowerStrikePrice,omitempty"`                        //下限价，仅界内证支持此字段
-	InLinePriceStatus  *PriceType `protobuf:"varint,46,opt,name=inLinePriceStatus,enum=futupb.PriceType" json:"inLinePriceStatus,omitempty"` //Qot_Common.PriceType，界内界外，仅界内证支持此字段
+	CurPrice           *float64       `protobuf:"fixed64,17,req,name=curPrice" json:"curPrice,omitempty"`                                        //当前价
+	PriceChangeVal     *float64       `protobuf:"fixed64,18,req,name=priceChangeVal" json:"priceChangeVal,omitempty"`                            //涨跌额
+	ChangeRate         *float64       `protobuf:"fixed64,19,req,name=changeRate" json:"changeRate,omitempty"`                                    //涨跌幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	Status             *WarrantStatus `protobuf:"varint,20,req,name=status,enum=futupb.WarrantStatus" json:"status,omitempty"`                   //Qot_Common.WarrantStatus，窝轮状态
+	BidPrice           *float64       `protobuf:"fixed64,21,req,name=bidPrice" json:"bidPrice,omitempty"`                                        //买入价
+	AskPrice           *float64       `protobuf:"fixed64,22,req,name=askPrice" json:"askPrice,omitempty"`                                        //卖出价
+	BidVol             *int64         `protobuf:"varint,23,req,name=bidVol" json:"bidVol,omitempty"`                                             //买量
+	AskVol             *int64         `protobuf:"varint,24,req,name=askVol" json:"askVol,omitempty"`                                             //卖量
+	Volume             *int64         `protobuf:"varint,25,req,name=volume" json:"volume,omitempty"`                                             //成交量
+	Turnover           *float64       `protobuf:"fixed64,26,req,name=turnover" json:"turnover,omitempty"`                                        //成交额
+	Score              *float64       `protobuf:"fixed64,27,req,name=score" json:"score,omitempty"`                                              //综合评分
+	Premium            *float64       `protobuf:"fixed64,28,req,name=premium" json:"premium,omitempty"`                                          //溢价（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	BreakEvenPoint     *float64       `protobuf:"fixed64,29,req,name=breakEvenPoint" json:"breakEvenPoint,omitempty"`                            //打和点
+	Leverage           *float64       `protobuf:"fixed64,30,req,name=leverage" json:"leverage,omitempty"`                                        //杠杆比率（倍）
+	Ipop               *float64       `protobuf:"fixed64,31,req,name=ipop" json:"ipop,omitempty"`                                                //价内/价外，正数表示价内，负数表示价外（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	PriceRecoveryRatio *float64       `protobuf:"fixed64,32,opt,name=priceRecoveryRatio" json:"priceRecoveryRatio,omitempty"`                    //正股距收回价，仅牛熊证支持此字段（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	ConversionPrice    *float64       `protobuf:"fixed64,33,req,name=conversionPrice" json:"conversionPrice,omitempty"`                          //换股价
+	StreetRate         *float64       `protobuf:"fixed64,34,req,name=streetRate" json:"streetRate,omitempty"`                                    //街货占比（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StreetVol          *int64         `protobuf:"varint,35,req,name=streetVol" json:"streetVol,omitempty"`                                       //街货量
+	Amplitude          *float64       `protobuf:"fixed64,36,req,name=amplitude" json:"amplitude,omitempty"`                                      //振幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	IssueSize          *int64         `protobuf:"varint,37,req,name=issueSize" json:"issueSize,omitempty"`                                       //发行量
+	HighPrice          *float64       `protobuf:"fixed64,39,req,name=highPrice" json:"highPrice,omitempty"`                                      //最高价
+	LowPrice           *float64       `protobuf:"fixed64,40,req,name=lowPrice" json:"lowPrice,omitempty"`                                        //最低价
+	ImpliedVolatility  *float64       `protobuf:"fixed64,41,opt,name=impliedVolatility" json:"impliedVolatility,omitempty"`                      //引申波幅，仅认购认沽支持此字段
+	Delta              *float64       `protobuf:"fixed64,42,opt,name=delta" json:"delta,omitempty"`                                              //对冲值，仅认购认沽支持此字段
+	EffectiveLeverage  *float64       `protobuf:"fixed64,43,req,name=effectiveLeverage" json:"effectiveLeverage,omitempty"`                      //有效杠杆
+	UpperStrikePrice   *float64       `protobuf:"fixed64,44,opt,name=upperStrikePrice" json:"upperStrikePrice,omitempty"`                        //上限价，仅界内证支持此字段
+	LowerStrikePrice   *float64       `protobuf:"fixed64,45,opt,name=lowerStrikePrice" json:"lowerStrikePrice,omitempty"`                        //下限价，仅界内证支持此字段
+	InLinePriceStatus  *PriceType     `protobuf:"varint,46,opt,name=inLinePriceStatus,enum=futupb.PriceType" json:"inLinePriceStatus,omitempty"` //Qot_Common.PriceType，界内界外，仅界内证支持此字段
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -438,7 +438,7 @@ func (x *WarrantData) GetIssuer() Issuer {
 	if x != nil && x.Issuer != nil {
 		return *x.Issuer
 	}
-	return Issuer_Issuer_Unknow
+	return Issuer_Issuer_Unknown
 }
 
 func (x *WarrantData) GetMaturityTime() string {
@@ -546,11 +546,11 @@ func (x *WarrantData) GetChangeRate() float64 {
 	return 0
 }
 
-func (x *WarrantData) GetStatus() int32 {
+func (x *WarrantData) GetStatus() WarrantStatus {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return 0
+	return WarrantStatus_WarrantStatus_Unknown
 }
 
 func (x *WarrantData) GetBidPrice() float64 {
@@ -725,7 +725,7 @@ func (x *WarrantData) GetInLinePriceStatus() PriceType {
 	if x != nil && x.InLinePriceStatus != nil {
 		return *x.InLinePriceStatus
 	}
-	return PriceType_PriceType_Unknow
+	return PriceType_PriceType_Unknown
 }
 
 type QotGetWarrantResponse struct {
@@ -956,7 +956,7 @@ const file_Qot_GetWarrant_proto_rawDesc = "" +
 	"\x10recoveryPriceMin\x18\x1f \x01(\x01R\x10recoveryPriceMin\x12*\n" +
 	"\x10recoveryPriceMax\x18  \x01(\x01R\x10recoveryPriceMax\x124\n" +
 	"\x15priceRecoveryRatioMin\x18! \x01(\x01R\x15priceRecoveryRatioMin\x124\n" +
-	"\x15priceRecoveryRatioMax\x18\" \x01(\x01R\x15priceRecoveryRatioMax\"\x99\f\n" +
+	"\x15priceRecoveryRatioMax\x18\" \x01(\x01R\x15priceRecoveryRatioMax\"\xb0\f\n" +
 	"\vWarrantData\x12&\n" +
 	"\x05stock\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05stock\x12&\n" +
 	"\x05owner\x18\x02 \x02(\v2\x10.futupb.SecurityR\x05owner\x12'\n" +
@@ -979,8 +979,8 @@ const file_Qot_GetWarrant_proto_rawDesc = "" +
 	"\x0epriceChangeVal\x18\x12 \x02(\x01R\x0epriceChangeVal\x12\x1e\n" +
 	"\n" +
 	"changeRate\x18\x13 \x02(\x01R\n" +
-	"changeRate\x12\x16\n" +
-	"\x06status\x18\x14 \x02(\x05R\x06status\x12\x1a\n" +
+	"changeRate\x12-\n" +
+	"\x06status\x18\x14 \x02(\x0e2\x15.futupb.WarrantStatusR\x06status\x12\x1a\n" +
 	"\bbidPrice\x18\x15 \x02(\x01R\bbidPrice\x12\x1a\n" +
 	"\baskPrice\x18\x16 \x02(\x01R\baskPrice\x12\x16\n" +
 	"\x06bidVol\x18\x17 \x02(\x03R\x06bidVol\x12\x16\n" +
@@ -1061,16 +1061,17 @@ var file_Qot_GetWarrant_proto_depIdxs = []int32{
 	6,  // 8: futupb.WarrantData.owner:type_name -> futupb.Security
 	7,  // 9: futupb.WarrantData.type:type_name -> futupb.WarrantType
 	8,  // 10: futupb.WarrantData.issuer:type_name -> futupb.Issuer
-	10, // 11: futupb.WarrantData.inLinePriceStatus:type_name -> futupb.PriceType
-	1,  // 12: futupb.QotGetWarrantResponse.warrantDataList:type_name -> futupb.WarrantData
-	0,  // 13: futupb.QotGetWarrantRequest_Internal.payload:type_name -> futupb.QotGetWarrantRequest
-	12, // 14: futupb.QotGetWarrantResponse_Internal.retType:type_name -> futupb.RetType
-	2,  // 15: futupb.QotGetWarrantResponse_Internal.payload:type_name -> futupb.QotGetWarrantResponse
-	16, // [16:16] is the sub-list for method output_type
-	16, // [16:16] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	11, // 11: futupb.WarrantData.status:type_name -> futupb.WarrantStatus
+	10, // 12: futupb.WarrantData.inLinePriceStatus:type_name -> futupb.PriceType
+	1,  // 13: futupb.QotGetWarrantResponse.warrantDataList:type_name -> futupb.WarrantData
+	0,  // 14: futupb.QotGetWarrantRequest_Internal.payload:type_name -> futupb.QotGetWarrantRequest
+	12, // 15: futupb.QotGetWarrantResponse_Internal.retType:type_name -> futupb.RetType
+	2,  // 16: futupb.QotGetWarrantResponse_Internal.payload:type_name -> futupb.QotGetWarrantResponse
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_Qot_GetWarrant_proto_init() }

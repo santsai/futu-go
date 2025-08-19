@@ -7,14 +7,14 @@ import "Common.proto";
 
 enum VerificationType
 {
-	VerificationType_Unknow = 0; //未知操作
+	VerificationType_Unknown = 0; //未知操作
 	VerificationType_Picture = 1; // 图形验证码
 	VerificationType_Phone = 2; // 手机验证码
 }
 
 enum VerificationOp
 {
-	VerificationOp_Unknow = 0; //未知操作
+	VerificationOp_Unknown = 0; //未知操作
 	VerificationOp_Request = 1; //请求验证码
 	VerificationOp_InputAndLogin = 2; //输入验证码并继续登录操作
 }

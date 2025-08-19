@@ -70,7 +70,7 @@ func New(opts ...Option) (*Client, error) {
 		Uint64("conn_id", s2c.GetConnID()).
 		Uint64("user_id", s2c.GetLoginUserID()).
 		Int32("keep_alive_interval", s2c.GetKeepAliveInterval()).
-		Int32("user_attr", s2c.GetUserAttribution()).
+		Str("user_attr", s2c.GetUserAttribution().String()).
 		Str("conn_aes_key", s2c.GetConnAESKey()).
 		Str("aes_cbc_iv", s2c.GetAesCBCiv()).
 		Msg("init connect success")
@@ -399,7 +399,7 @@ func (client *Client) initConnect() (*pb.InitConnectResponse, error) {
 		ClientVer:           proto.Int32(ClientVersion),
 		ClientID:            proto.String(client.ID),
 		RecvNotify:          proto.Bool(client.RecvNotify),
-		PacketEncAlgo:       proto.Int32(int32(pb.PacketEncAlgo_AES_CBC)),
+		PacketEncAlgo:       pb.PacketEncAlgo_AES_CBC.Enum(),
 		ProgrammingLanguage: proto.String("Go"),
 	}
 

@@ -34,7 +34,7 @@ message CodeChangeInfo
 
 enum TimeFilterType
 {
-	TimeFilterType_Unknow = 0;
+	TimeFilterType_Unknown = 0;
 	TimeFilterType_Public = 1; //根据公布时间过滤
 	TimeFilterType_Effective = 2; //根据生效时间过滤
 	TimeFilterType_End = 3; //根据结束时间过滤

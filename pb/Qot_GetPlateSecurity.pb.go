@@ -71,7 +71,7 @@ func (x *QotGetPlateSecurityRequest) GetSortField() SortField {
 	if x != nil && x.SortField != nil {
 		return *x.SortField
 	}
-	return SortField_SortField_Unknow
+	return SortField_SortField_Unknown
 }
 
 func (x *QotGetPlateSecurityRequest) GetAscend() bool {

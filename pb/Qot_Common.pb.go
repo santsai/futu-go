@@ -1519,7 +1519,7 @@ func (SecurityStatus) EnumDescriptor() ([]byte, []int) {
 type HolderCategory int32
 
 const (
-	HolderCategory_HolderCategory_Unknow        HolderCategory = 0 //未知
+	HolderCategory_HolderCategory_Unknown       HolderCategory = 0 //未知
 	HolderCategory_HolderCategory_Agency        HolderCategory = 1 //机构
 	HolderCategory_HolderCategory_Fund          HolderCategory = 2 //基金
 	HolderCategory_HolderCategory_SeniorManager HolderCategory = 3 //高管
@@ -1528,13 +1528,13 @@ const (
 // Enum value maps for HolderCategory.
 var (
 	HolderCategory_name = map[int32]string{
-		0: "HolderCategory_Unknow",
+		0: "HolderCategory_Unknown",
 		1: "HolderCategory_Agency",
 		2: "HolderCategory_Fund",
 		3: "HolderCategory_SeniorManager",
 	}
 	HolderCategory_value = map[string]int32{
-		"HolderCategory_Unknow":        0,
+		"HolderCategory_Unknown":       0,
 		"HolderCategory_Agency":        1,
 		"HolderCategory_Fund":          2,
 		"HolderCategory_SeniorManager": 3,
@@ -1582,7 +1582,7 @@ func (HolderCategory) EnumDescriptor() ([]byte, []int) {
 type PushDataType int32
 
 const (
-	PushDataType_PushDataType_Unknow    PushDataType = 0
+	PushDataType_PushDataType_Unknown   PushDataType = 0
 	PushDataType_PushDataType_Realtime  PushDataType = 1 //实时推送的数据
 	PushDataType_PushDataType_ByDisConn PushDataType = 2 //对后台行情连接断开期间拉取补充的数据 最多50个
 	PushDataType_PushDataType_Cache     PushDataType = 3 //非实时非连接断开补充数据
@@ -1591,13 +1591,13 @@ const (
 // Enum value maps for PushDataType.
 var (
 	PushDataType_name = map[int32]string{
-		0: "PushDataType_Unknow",
+		0: "PushDataType_Unknown",
 		1: "PushDataType_Realtime",
 		2: "PushDataType_ByDisConn",
 		3: "PushDataType_Cache",
 	}
 	PushDataType_value = map[string]int32{
-		"PushDataType_Unknow":    0,
+		"PushDataType_Unknown":   0,
 		"PushDataType_Realtime":  1,
 		"PushDataType_ByDisConn": 2,
 		"PushDataType_Cache":     3,
@@ -1645,7 +1645,7 @@ func (PushDataType) EnumDescriptor() ([]byte, []int) {
 type SortField int32
 
 const (
-	SortField_SortField_Unknow         SortField = 0
+	SortField_SortField_Unknown        SortField = 0
 	SortField_SortField_Code           SortField = 1  //代码
 	SortField_SortField_CurPrice       SortField = 2  //最新价
 	SortField_SortField_PriceChangeVal SortField = 3  //涨跌额
@@ -1704,7 +1704,7 @@ const (
 // Enum value maps for SortField.
 var (
 	SortField_name = map[int32]string{
-		0:  "SortField_Unknow",
+		0:  "SortField_Unknown",
 		1:  "SortField_Code",
 		2:  "SortField_CurPrice",
 		3:  "SortField_PriceChangeVal",
@@ -1757,7 +1757,7 @@ var (
 		50: "SortField_PositionChange",
 	}
 	SortField_value = map[string]int32{
-		"SortField_Unknow":              0,
+		"SortField_Unknown":             0,
 		"SortField_Code":                1,
 		"SortField_CurPrice":            2,
 		"SortField_PriceChangeVal":      3,
@@ -1852,41 +1852,41 @@ func (SortField) EnumDescriptor() ([]byte, []int) {
 type Issuer int32
 
 const (
-	Issuer_Issuer_Unknow Issuer = 0  //未知
-	Issuer_Issuer_SG     Issuer = 1  //法兴
-	Issuer_Issuer_BP     Issuer = 2  //法巴
-	Issuer_Issuer_CS     Issuer = 3  //瑞信
-	Issuer_Issuer_CT     Issuer = 4  //花旗
-	Issuer_Issuer_EA     Issuer = 5  //东亚
-	Issuer_Issuer_GS     Issuer = 6  //高盛
-	Issuer_Issuer_HS     Issuer = 7  //汇丰
-	Issuer_Issuer_JP     Issuer = 8  //摩通
-	Issuer_Issuer_MB     Issuer = 9  //麦银
-	Issuer_Issuer_SC     Issuer = 10 //渣打
-	Issuer_Issuer_UB     Issuer = 11 //瑞银
-	Issuer_Issuer_BI     Issuer = 12 //中银
-	Issuer_Issuer_DB     Issuer = 13 //德银
-	Issuer_Issuer_DC     Issuer = 14 //大和
-	Issuer_Issuer_ML     Issuer = 15 //美林
-	Issuer_Issuer_NM     Issuer = 16 //野村
-	Issuer_Issuer_RB     Issuer = 17 //荷合
-	Issuer_Issuer_RS     Issuer = 18 //苏皇
-	Issuer_Issuer_BC     Issuer = 19 //巴克莱
-	Issuer_Issuer_HT     Issuer = 20 //海通
-	Issuer_Issuer_VT     Issuer = 21 //瑞通
-	Issuer_Issuer_KC     Issuer = 22 //比联
-	Issuer_Issuer_MS     Issuer = 23 //摩利
-	Issuer_Issuer_GJ     Issuer = 24 //国君
-	Issuer_Issuer_XZ     Issuer = 25 //星展
-	Issuer_Issuer_HU     Issuer = 26 //华泰
-	Issuer_Issuer_KS     Issuer = 27 //韩投
-	Issuer_Issuer_CI     Issuer = 28 //信证
+	Issuer_Issuer_Unknown Issuer = 0  //未知
+	Issuer_Issuer_SG      Issuer = 1  //法兴
+	Issuer_Issuer_BP      Issuer = 2  //法巴
+	Issuer_Issuer_CS      Issuer = 3  //瑞信
+	Issuer_Issuer_CT      Issuer = 4  //花旗
+	Issuer_Issuer_EA      Issuer = 5  //东亚
+	Issuer_Issuer_GS      Issuer = 6  //高盛
+	Issuer_Issuer_HS      Issuer = 7  //汇丰
+	Issuer_Issuer_JP      Issuer = 8  //摩通
+	Issuer_Issuer_MB      Issuer = 9  //麦银
+	Issuer_Issuer_SC      Issuer = 10 //渣打
+	Issuer_Issuer_UB      Issuer = 11 //瑞银
+	Issuer_Issuer_BI      Issuer = 12 //中银
+	Issuer_Issuer_DB      Issuer = 13 //德银
+	Issuer_Issuer_DC      Issuer = 14 //大和
+	Issuer_Issuer_ML      Issuer = 15 //美林
+	Issuer_Issuer_NM      Issuer = 16 //野村
+	Issuer_Issuer_RB      Issuer = 17 //荷合
+	Issuer_Issuer_RS      Issuer = 18 //苏皇
+	Issuer_Issuer_BC      Issuer = 19 //巴克莱
+	Issuer_Issuer_HT      Issuer = 20 //海通
+	Issuer_Issuer_VT      Issuer = 21 //瑞通
+	Issuer_Issuer_KC      Issuer = 22 //比联
+	Issuer_Issuer_MS      Issuer = 23 //摩利
+	Issuer_Issuer_GJ      Issuer = 24 //国君
+	Issuer_Issuer_XZ      Issuer = 25 //星展
+	Issuer_Issuer_HU      Issuer = 26 //华泰
+	Issuer_Issuer_KS      Issuer = 27 //韩投
+	Issuer_Issuer_CI      Issuer = 28 //信证
 )
 
 // Enum value maps for Issuer.
 var (
 	Issuer_name = map[int32]string{
-		0:  "Issuer_Unknow",
+		0:  "Issuer_Unknown",
 		1:  "Issuer_SG",
 		2:  "Issuer_BP",
 		3:  "Issuer_CS",
@@ -1917,35 +1917,35 @@ var (
 		28: "Issuer_CI",
 	}
 	Issuer_value = map[string]int32{
-		"Issuer_Unknow": 0,
-		"Issuer_SG":     1,
-		"Issuer_BP":     2,
-		"Issuer_CS":     3,
-		"Issuer_CT":     4,
-		"Issuer_EA":     5,
-		"Issuer_GS":     6,
-		"Issuer_HS":     7,
-		"Issuer_JP":     8,
-		"Issuer_MB":     9,
-		"Issuer_SC":     10,
-		"Issuer_UB":     11,
-		"Issuer_BI":     12,
-		"Issuer_DB":     13,
-		"Issuer_DC":     14,
-		"Issuer_ML":     15,
-		"Issuer_NM":     16,
-		"Issuer_RB":     17,
-		"Issuer_RS":     18,
-		"Issuer_BC":     19,
-		"Issuer_HT":     20,
-		"Issuer_VT":     21,
-		"Issuer_KC":     22,
-		"Issuer_MS":     23,
-		"Issuer_GJ":     24,
-		"Issuer_XZ":     25,
-		"Issuer_HU":     26,
-		"Issuer_KS":     27,
-		"Issuer_CI":     28,
+		"Issuer_Unknown": 0,
+		"Issuer_SG":      1,
+		"Issuer_BP":      2,
+		"Issuer_CS":      3,
+		"Issuer_CT":      4,
+		"Issuer_EA":      5,
+		"Issuer_GS":      6,
+		"Issuer_HS":      7,
+		"Issuer_JP":      8,
+		"Issuer_MB":      9,
+		"Issuer_SC":      10,
+		"Issuer_UB":      11,
+		"Issuer_BI":      12,
+		"Issuer_DB":      13,
+		"Issuer_DC":      14,
+		"Issuer_ML":      15,
+		"Issuer_NM":      16,
+		"Issuer_RB":      17,
+		"Issuer_RS":      18,
+		"Issuer_BC":      19,
+		"Issuer_HT":      20,
+		"Issuer_VT":      21,
+		"Issuer_KC":      22,
+		"Issuer_MS":      23,
+		"Issuer_GJ":      24,
+		"Issuer_XZ":      25,
+		"Issuer_HU":      26,
+		"Issuer_KS":      27,
+		"Issuer_CI":      28,
 	}
 )
 
@@ -1990,7 +1990,7 @@ func (Issuer) EnumDescriptor() ([]byte, []int) {
 type IpoPeriod int32
 
 const (
-	IpoPeriod_IpoPeriod_Unknow    IpoPeriod = 0 //未知
+	IpoPeriod_IpoPeriod_Unknown   IpoPeriod = 0 //未知
 	IpoPeriod_IpoPeriod_Today     IpoPeriod = 1 //今日上市
 	IpoPeriod_IpoPeriod_Tomorrow  IpoPeriod = 2 //明日上市
 	IpoPeriod_IpoPeriod_Nextweek  IpoPeriod = 3 //未来一周上市
@@ -2001,7 +2001,7 @@ const (
 // Enum value maps for IpoPeriod.
 var (
 	IpoPeriod_name = map[int32]string{
-		0: "IpoPeriod_Unknow",
+		0: "IpoPeriod_Unknown",
 		1: "IpoPeriod_Today",
 		2: "IpoPeriod_Tomorrow",
 		3: "IpoPeriod_Nextweek",
@@ -2009,7 +2009,7 @@ var (
 		5: "IpoPeriod_Lastmonth",
 	}
 	IpoPeriod_value = map[string]int32{
-		"IpoPeriod_Unknow":    0,
+		"IpoPeriod_Unknown":   0,
 		"IpoPeriod_Today":     1,
 		"IpoPeriod_Tomorrow":  2,
 		"IpoPeriod_Nextweek":  3,
@@ -2059,7 +2059,7 @@ func (IpoPeriod) EnumDescriptor() ([]byte, []int) {
 type PriceType int32
 
 const (
-	PriceType_PriceType_Unknow  PriceType = 0
+	PriceType_PriceType_Unknown PriceType = 0
 	PriceType_PriceType_Outside PriceType = 1 //价外，界内证表示界外
 	PriceType_PriceType_WithIn  PriceType = 2 //价内，界内证表示界内
 )
@@ -2067,12 +2067,12 @@ const (
 // Enum value maps for PriceType.
 var (
 	PriceType_name = map[int32]string{
-		0: "PriceType_Unknow",
+		0: "PriceType_Unknown",
 		1: "PriceType_Outside",
 		2: "PriceType_WithIn",
 	}
 	PriceType_value = map[string]int32{
-		"PriceType_Unknow":  0,
+		"PriceType_Unknown": 0,
 		"PriceType_Outside": 1,
 		"PriceType_WithIn":  2,
 	}
@@ -2119,7 +2119,7 @@ func (PriceType) EnumDescriptor() ([]byte, []int) {
 type WarrantStatus int32
 
 const (
-	WarrantStatus_WarrantStatus_Unknow         WarrantStatus = 0 //未知
+	WarrantStatus_WarrantStatus_Unknown        WarrantStatus = 0 //未知
 	WarrantStatus_WarrantStatus_Normal         WarrantStatus = 1 //正常状态
 	WarrantStatus_WarrantStatus_Suspend        WarrantStatus = 2 //停牌
 	WarrantStatus_WarrantStatus_StopTrade      WarrantStatus = 3 //终止交易
@@ -2129,14 +2129,14 @@ const (
 // Enum value maps for WarrantStatus.
 var (
 	WarrantStatus_name = map[int32]string{
-		0: "WarrantStatus_Unknow",
+		0: "WarrantStatus_Unknown",
 		1: "WarrantStatus_Normal",
 		2: "WarrantStatus_Suspend",
 		3: "WarrantStatus_StopTrade",
 		4: "WarrantStatus_PendingListing",
 	}
 	WarrantStatus_value = map[string]int32{
-		"WarrantStatus_Unknow":         0,
+		"WarrantStatus_Unknown":        0,
 		"WarrantStatus_Normal":         1,
 		"WarrantStatus_Suspend":        2,
 		"WarrantStatus_StopTrade":      3,
@@ -2262,18 +2262,18 @@ func (CompanyAct) EnumDescriptor() ([]byte, []int) {
 type QotRight int32
 
 const (
-	QotRight_QotRight_Unknow QotRight = 0 //未知
-	QotRight_QotRight_Bmp    QotRight = 1 //Bmp，无法订阅
-	QotRight_QotRight_Level1 QotRight = 2 //Level1
-	QotRight_QotRight_Level2 QotRight = 3 //Level2
-	QotRight_QotRight_SF     QotRight = 4 //SF高级行情
-	QotRight_QotRight_No     QotRight = 5 //无权限
+	QotRight_QotRight_Unknown QotRight = 0 //未知
+	QotRight_QotRight_Bmp     QotRight = 1 //Bmp，无法订阅
+	QotRight_QotRight_Level1  QotRight = 2 //Level1
+	QotRight_QotRight_Level2  QotRight = 3 //Level2
+	QotRight_QotRight_SF      QotRight = 4 //SF高级行情
+	QotRight_QotRight_No      QotRight = 5 //无权限
 )
 
 // Enum value maps for QotRight.
 var (
 	QotRight_name = map[int32]string{
-		0: "QotRight_Unknow",
+		0: "QotRight_Unknown",
 		1: "QotRight_Bmp",
 		2: "QotRight_Level1",
 		3: "QotRight_Level2",
@@ -2281,12 +2281,12 @@ var (
 		5: "QotRight_No",
 	}
 	QotRight_value = map[string]int32{
-		"QotRight_Unknow": 0,
-		"QotRight_Bmp":    1,
-		"QotRight_Level1": 2,
-		"QotRight_Level2": 3,
-		"QotRight_SF":     4,
-		"QotRight_No":     5,
+		"QotRight_Unknown": 0,
+		"QotRight_Bmp":     1,
+		"QotRight_Level1":  2,
+		"QotRight_Level2":  3,
+		"QotRight_SF":      4,
+		"QotRight_No":      5,
 	}
 )
 
@@ -2493,7 +2493,7 @@ func (PriceReminderFreq) EnumDescriptor() ([]byte, []int) {
 type PriceReminderMarketStatus int32
 
 const (
-	PriceReminderMarketStatus_PriceReminderMarketStatus_Unknow      PriceReminderMarketStatus = 0
+	PriceReminderMarketStatus_PriceReminderMarketStatus_Unknown     PriceReminderMarketStatus = 0
 	PriceReminderMarketStatus_PriceReminderMarketStatus_Open        PriceReminderMarketStatus = 1 // 盘中
 	PriceReminderMarketStatus_PriceReminderMarketStatus_USPre       PriceReminderMarketStatus = 2 // 美股盘前
 	PriceReminderMarketStatus_PriceReminderMarketStatus_USAfter     PriceReminderMarketStatus = 3 // 美股盘后
@@ -2503,14 +2503,14 @@ const (
 // Enum value maps for PriceReminderMarketStatus.
 var (
 	PriceReminderMarketStatus_name = map[int32]string{
-		0: "PriceReminderMarketStatus_Unknow",
+		0: "PriceReminderMarketStatus_Unknown",
 		1: "PriceReminderMarketStatus_Open",
 		2: "PriceReminderMarketStatus_USPre",
 		3: "PriceReminderMarketStatus_USAfter",
 		4: "PriceReminderMarketStatus_USOverNight",
 	}
 	PriceReminderMarketStatus_value = map[string]int32{
-		"PriceReminderMarketStatus_Unknow":      0,
+		"PriceReminderMarketStatus_Unknown":     0,
 		"PriceReminderMarketStatus_Open":        1,
 		"PriceReminderMarketStatus_USPre":       2,
 		"PriceReminderMarketStatus_USAfter":     3,
@@ -2559,7 +2559,7 @@ func (PriceReminderMarketStatus) EnumDescriptor() ([]byte, []int) {
 type AssetClass int32
 
 const (
-	AssetClass_AssetClass_Unknow         AssetClass = 0 //未知
+	AssetClass_AssetClass_Unknown        AssetClass = 0 //未知
 	AssetClass_AssetClass_Stock          AssetClass = 1 //股票
 	AssetClass_AssetClass_Bond           AssetClass = 2 //债券
 	AssetClass_AssetClass_Commodity      AssetClass = 3 //商品
@@ -2571,7 +2571,7 @@ const (
 // Enum value maps for AssetClass.
 var (
 	AssetClass_name = map[int32]string{
-		0: "AssetClass_Unknow",
+		0: "AssetClass_Unknown",
 		1: "AssetClass_Stock",
 		2: "AssetClass_Bond",
 		3: "AssetClass_Commodity",
@@ -2580,7 +2580,7 @@ var (
 		6: "AssetClass_Swap",
 	}
 	AssetClass_value = map[string]int32{
-		"AssetClass_Unknow":         0,
+		"AssetClass_Unknown":        0,
 		"AssetClass_Stock":          1,
 		"AssetClass_Bond":           2,
 		"AssetClass_Commodity":      3,
@@ -3622,7 +3622,7 @@ type BasicQot struct {
 	Turnover        *float64               `protobuf:"fixed64,12,req,name=turnover" json:"turnover,omitempty"`                             //成交额
 	TurnoverRate    *float64               `protobuf:"fixed64,13,req,name=turnoverRate" json:"turnoverRate,omitempty"`                     //换手率（该字段为百分比字段，默认不展示%，如20实际对应20%）
 	Amplitude       *float64               `protobuf:"fixed64,14,req,name=amplitude" json:"amplitude,omitempty"`                           //振幅（该字段为百分比字段，默认不展示%，如20实际对应20%）
-	DarkStatus      *int32                 `protobuf:"varint,15,opt,name=darkStatus" json:"darkStatus,omitempty"`                          //DarkStatus, 暗盘交易状态
+	DarkStatus      *DarkStatus            `protobuf:"varint,15,opt,name=darkStatus,enum=futupb.DarkStatus" json:"darkStatus,omitempty"`   //DarkStatus, 暗盘交易状态
 	OptionExData    *OptionBasicQotExData  `protobuf:"bytes,16,opt,name=optionExData" json:"optionExData,omitempty"`                       //期权特有字段
 	ListTimestamp   *float64               `protobuf:"fixed64,17,opt,name=listTimestamp" json:"listTimestamp,omitempty"`                   //上市日期时间戳
 	UpdateTimestamp *float64               `protobuf:"fixed64,18,opt,name=updateTimestamp" json:"updateTimestamp,omitempty"`               //最新价的更新时间戳，对其他字段不适用
@@ -3771,11 +3771,11 @@ func (x *BasicQot) GetAmplitude() float64 {
 	return 0
 }
 
-func (x *BasicQot) GetDarkStatus() int32 {
+func (x *BasicQot) GetDarkStatus() DarkStatus {
 	if x != nil && x.DarkStatus != nil {
 		return *x.DarkStatus
 	}
-	return 0
+	return DarkStatus_DarkStatus_None
 }
 
 func (x *BasicQot) GetOptionExData() *OptionBasicQotExData {
@@ -4552,7 +4552,7 @@ func (x *Ticker) GetPushDataType() PushDataType {
 	if x != nil && x.PushDataType != nil {
 		return *x.PushDataType
 	}
-	return PushDataType_PushDataType_Unknow
+	return PushDataType_PushDataType_Unknown
 }
 
 func (x *Ticker) GetTimestamp() float64 {
@@ -5233,7 +5233,7 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x15WarrantBasicQotExData\x12\x14\n" +
 	"\x05delta\x18\x01 \x01(\x01R\x05delta\x12,\n" +
 	"\x11impliedVolatility\x18\x02 \x01(\x01R\x11impliedVolatility\x12\x18\n" +
-	"\apremium\x18\x03 \x02(\x01R\apremium\"\xff\a\n" +
+	"\apremium\x18\x03 \x02(\x01R\apremium\"\x93\b\n" +
 	"\bBasicQot\x12,\n" +
 	"\bsecurity\x18\x01 \x02(\v2\x10.futupb.SecurityR\bsecurity\x12\x12\n" +
 	"\x04name\x18\x18 \x01(\tR\x04name\x12 \n" +
@@ -5252,9 +5252,9 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x06volume\x18\v \x02(\x03R\x06volume\x12\x1a\n" +
 	"\bturnover\x18\f \x02(\x01R\bturnover\x12\"\n" +
 	"\fturnoverRate\x18\r \x02(\x01R\fturnoverRate\x12\x1c\n" +
-	"\tamplitude\x18\x0e \x02(\x01R\tamplitude\x12\x1e\n" +
+	"\tamplitude\x18\x0e \x02(\x01R\tamplitude\x122\n" +
 	"\n" +
-	"darkStatus\x18\x0f \x01(\x05R\n" +
+	"darkStatus\x18\x0f \x01(\x0e2\x12.futupb.DarkStatusR\n" +
 	"darkStatus\x12@\n" +
 	"\foptionExData\x18\x10 \x01(\v2\x1c.futupb.OptionBasicQotExDataR\foptionExData\x12$\n" +
 	"\rlistTimestamp\x18\x11 \x01(\x01R\rlistTimestamp\x12(\n" +
@@ -5625,20 +5625,20 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"(SecurityStatus_RecoverableCircuitBreaker\x10\x12\x12.\n" +
 	"*SecurityStatus_UnRecoverableCircuitBreaker\x10\x13\x12#\n" +
 	"\x1fSecurityStatus_AfterCombination\x10\x14\x12\"\n" +
-	"\x1eSecurityStatus_AfterTransation\x10\x15*\x81\x01\n" +
-	"\x0eHolderCategory\x12\x19\n" +
-	"\x15HolderCategory_Unknow\x10\x00\x12\x19\n" +
+	"\x1eSecurityStatus_AfterTransation\x10\x15*\x82\x01\n" +
+	"\x0eHolderCategory\x12\x1a\n" +
+	"\x16HolderCategory_Unknown\x10\x00\x12\x19\n" +
 	"\x15HolderCategory_Agency\x10\x01\x12\x17\n" +
 	"\x13HolderCategory_Fund\x10\x02\x12 \n" +
-	"\x1cHolderCategory_SeniorManager\x10\x03*v\n" +
-	"\fPushDataType\x12\x17\n" +
-	"\x13PushDataType_Unknow\x10\x00\x12\x19\n" +
+	"\x1cHolderCategory_SeniorManager\x10\x03*w\n" +
+	"\fPushDataType\x12\x18\n" +
+	"\x14PushDataType_Unknown\x10\x00\x12\x19\n" +
 	"\x15PushDataType_Realtime\x10\x01\x12\x1a\n" +
 	"\x16PushDataType_ByDisConn\x10\x02\x12\x16\n" +
-	"\x12PushDataType_Cache\x10\x03*\xd3\n" +
+	"\x12PushDataType_Cache\x10\x03*\xd4\n" +
 	"\n" +
-	"\tSortField\x12\x14\n" +
-	"\x10SortField_Unknow\x10\x00\x12\x12\n" +
+	"\tSortField\x12\x15\n" +
+	"\x11SortField_Unknown\x10\x00\x12\x12\n" +
 	"\x0eSortField_Code\x10\x01\x12\x16\n" +
 	"\x12SortField_CurPrice\x10\x02\x12\x1c\n" +
 	"\x18SortField_PriceChangeVal\x10\x03\x12\x18\n" +
@@ -5689,9 +5689,9 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x17SortField_AfterTurnover\x10,\x12\x1d\n" +
 	"\x19SortField_LastSettlePrice\x100\x12\x16\n" +
 	"\x12SortField_Position\x101\x12\x1c\n" +
-	"\x18SortField_PositionChange\x102*\xbf\x03\n" +
-	"\x06Issuer\x12\x11\n" +
-	"\rIssuer_Unknow\x10\x00\x12\r\n" +
+	"\x18SortField_PositionChange\x102*\xc0\x03\n" +
+	"\x06Issuer\x12\x12\n" +
+	"\x0eIssuer_Unknown\x10\x00\x12\r\n" +
 	"\tIssuer_SG\x10\x01\x12\r\n" +
 	"\tIssuer_BP\x10\x02\x12\r\n" +
 	"\tIssuer_CS\x10\x03\x12\r\n" +
@@ -5720,20 +5720,20 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\tIssuer_XZ\x10\x19\x12\r\n" +
 	"\tIssuer_HU\x10\x1a\x12\r\n" +
 	"\tIssuer_KS\x10\x1b\x12\r\n" +
-	"\tIssuer_CI\x10\x1c*\x97\x01\n" +
-	"\tIpoPeriod\x12\x14\n" +
-	"\x10IpoPeriod_Unknow\x10\x00\x12\x13\n" +
+	"\tIssuer_CI\x10\x1c*\x98\x01\n" +
+	"\tIpoPeriod\x12\x15\n" +
+	"\x11IpoPeriod_Unknown\x10\x00\x12\x13\n" +
 	"\x0fIpoPeriod_Today\x10\x01\x12\x16\n" +
 	"\x12IpoPeriod_Tomorrow\x10\x02\x12\x16\n" +
 	"\x12IpoPeriod_Nextweek\x10\x03\x12\x16\n" +
 	"\x12IpoPeriod_Lastweek\x10\x04\x12\x17\n" +
-	"\x13IpoPeriod_Lastmonth\x10\x05*N\n" +
-	"\tPriceType\x12\x14\n" +
-	"\x10PriceType_Unknow\x10\x00\x12\x15\n" +
+	"\x13IpoPeriod_Lastmonth\x10\x05*O\n" +
+	"\tPriceType\x12\x15\n" +
+	"\x11PriceType_Unknown\x10\x00\x12\x15\n" +
 	"\x11PriceType_Outside\x10\x01\x12\x14\n" +
-	"\x10PriceType_WithIn\x10\x02*\x9d\x01\n" +
-	"\rWarrantStatus\x12\x18\n" +
-	"\x14WarrantStatus_Unknow\x10\x00\x12\x18\n" +
+	"\x10PriceType_WithIn\x10\x02*\x9e\x01\n" +
+	"\rWarrantStatus\x12\x19\n" +
+	"\x15WarrantStatus_Unknown\x10\x00\x12\x18\n" +
 	"\x14WarrantStatus_Normal\x10\x01\x12\x19\n" +
 	"\x15WarrantStatus_Suspend\x10\x02\x12\x1b\n" +
 	"\x17WarrantStatus_StopTrade\x10\x03\x12 \n" +
@@ -5748,9 +5748,9 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x10CompanyAct_Allot\x10\x10\x12\x12\n" +
 	"\x0eCompanyAct_Add\x10 \x12\x17\n" +
 	"\x13CompanyAct_Dividend\x10@\x12\x1a\n" +
-	"\x15CompanyAct_SPDividend\x10\x80\x01*}\n" +
-	"\bQotRight\x12\x13\n" +
-	"\x0fQotRight_Unknow\x10\x00\x12\x10\n" +
+	"\x15CompanyAct_SPDividend\x10\x80\x01*~\n" +
+	"\bQotRight\x12\x14\n" +
+	"\x10QotRight_Unknown\x10\x00\x12\x10\n" +
 	"\fQotRight_Bmp\x10\x01\x12\x13\n" +
 	"\x0fQotRight_Level1\x10\x02\x12\x13\n" +
 	"\x0fQotRight_Level2\x10\x03\x12\x0f\n" +
@@ -5778,16 +5778,16 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x19PriceReminderFreq_Unknown\x10\x00\x12\x1c\n" +
 	"\x18PriceReminderFreq_Always\x10\x01\x12\x1e\n" +
 	"\x1aPriceReminderFreq_OnceADay\x10\x02\x12\x1e\n" +
-	"\x1aPriceReminderFreq_OnlyOnce\x10\x03*\xdc\x01\n" +
-	"\x19PriceReminderMarketStatus\x12$\n" +
-	" PriceReminderMarketStatus_Unknow\x10\x00\x12\"\n" +
+	"\x1aPriceReminderFreq_OnlyOnce\x10\x03*\xdd\x01\n" +
+	"\x19PriceReminderMarketStatus\x12%\n" +
+	"!PriceReminderMarketStatus_Unknown\x10\x00\x12\"\n" +
 	"\x1ePriceReminderMarketStatus_Open\x10\x01\x12#\n" +
 	"\x1fPriceReminderMarketStatus_USPre\x10\x02\x12%\n" +
 	"!PriceReminderMarketStatus_USAfter\x10\x03\x12)\n" +
-	"%PriceReminderMarketStatus_USOverNight\x10\x04*\xb3\x01\n" +
+	"%PriceReminderMarketStatus_USOverNight\x10\x04*\xb4\x01\n" +
 	"\n" +
-	"AssetClass\x12\x15\n" +
-	"\x11AssetClass_Unknow\x10\x00\x12\x14\n" +
+	"AssetClass\x12\x16\n" +
+	"\x12AssetClass_Unknown\x10\x00\x12\x14\n" +
 	"\x10AssetClass_Stock\x10\x01\x12\x13\n" +
 	"\x0fAssetClass_Bond\x10\x02\x12\x18\n" +
 	"\x14AssetClass_Commodity\x10\x03\x12\x1d\n" +
@@ -5922,42 +5922,43 @@ var file_Qot_Common_proto_depIdxs = []int32{
 	6,  // 1: futupb.OptionBasicQotExData.optionAreaType:type_name -> futupb.OptionAreaType
 	5,  // 2: futupb.OptionBasicQotExData.indexOptionType:type_name -> futupb.IndexOptionType
 	36, // 3: futupb.BasicQot.security:type_name -> futupb.Security
-	38, // 4: futupb.BasicQot.optionExData:type_name -> futupb.OptionBasicQotExData
-	39, // 5: futupb.BasicQot.preMarket:type_name -> futupb.PreAfterMarketData
-	39, // 6: futupb.BasicQot.afterMarket:type_name -> futupb.PreAfterMarketData
-	17, // 7: futupb.BasicQot.secStatus:type_name -> futupb.SecurityStatus
-	40, // 8: futupb.BasicQot.futureExData:type_name -> futupb.FutureBasicQotExData
-	41, // 9: futupb.BasicQot.warrantExData:type_name -> futupb.WarrantBasicQotExData
-	39, // 10: futupb.BasicQot.overnight:type_name -> futupb.PreAfterMarketData
-	36, // 11: futupb.SecurityStaticBasic.security:type_name -> futupb.Security
-	1,  // 12: futupb.SecurityStaticBasic.secType:type_name -> futupb.SecurityType
-	34, // 13: futupb.SecurityStaticBasic.exchType:type_name -> futupb.ExchType
-	3,  // 14: futupb.WarrantStaticExData.type:type_name -> futupb.WarrantType
-	36, // 15: futupb.WarrantStaticExData.owner:type_name -> futupb.Security
-	4,  // 16: futupb.OptionStaticExData.type:type_name -> futupb.OptionType
-	36, // 17: futupb.OptionStaticExData.owner:type_name -> futupb.Security
-	5,  // 18: futupb.OptionStaticExData.indexOptionType:type_name -> futupb.IndexOptionType
-	31, // 19: futupb.OptionStaticExData.expirationCycle:type_name -> futupb.ExpirationCycle
-	32, // 20: futupb.OptionStaticExData.optionStandardType:type_name -> futupb.OptionStandardType
-	33, // 21: futupb.OptionStaticExData.optionSettlementMode:type_name -> futupb.OptionSettlementMode
-	44, // 22: futupb.SecurityStaticInfo.basic:type_name -> futupb.SecurityStaticBasic
-	45, // 23: futupb.SecurityStaticInfo.warrantExData:type_name -> futupb.WarrantStaticExData
-	46, // 24: futupb.SecurityStaticInfo.optionExData:type_name -> futupb.OptionStaticExData
-	47, // 25: futupb.SecurityStaticInfo.futureExData:type_name -> futupb.FutureStaticExData
-	14, // 26: futupb.Ticker.dir:type_name -> futupb.TickerDirection
-	15, // 27: futupb.Ticker.type:type_name -> futupb.TickerType
-	19, // 28: futupb.Ticker.pushDataType:type_name -> futupb.PushDataType
-	51, // 29: futupb.OrderBook.detailList:type_name -> futupb.OrderBookDetail
-	13, // 30: futupb.SubInfo.subType:type_name -> futupb.SubType
-	36, // 31: futupb.SubInfo.securityList:type_name -> futupb.Security
-	54, // 32: futupb.ConnSubInfo.subInfoList:type_name -> futupb.SubInfo
-	36, // 33: futupb.PlateInfo.plate:type_name -> futupb.Security
-	2,  // 34: futupb.PlateInfo.plateType:type_name -> futupb.PlateSetType
-	35, // [35:35] is the sub-list for method output_type
-	35, // [35:35] is the sub-list for method input_type
-	35, // [35:35] is the sub-list for extension type_name
-	35, // [35:35] is the sub-list for extension extendee
-	0,  // [0:35] is the sub-list for field type_name
+	16, // 4: futupb.BasicQot.darkStatus:type_name -> futupb.DarkStatus
+	38, // 5: futupb.BasicQot.optionExData:type_name -> futupb.OptionBasicQotExData
+	39, // 6: futupb.BasicQot.preMarket:type_name -> futupb.PreAfterMarketData
+	39, // 7: futupb.BasicQot.afterMarket:type_name -> futupb.PreAfterMarketData
+	17, // 8: futupb.BasicQot.secStatus:type_name -> futupb.SecurityStatus
+	40, // 9: futupb.BasicQot.futureExData:type_name -> futupb.FutureBasicQotExData
+	41, // 10: futupb.BasicQot.warrantExData:type_name -> futupb.WarrantBasicQotExData
+	39, // 11: futupb.BasicQot.overnight:type_name -> futupb.PreAfterMarketData
+	36, // 12: futupb.SecurityStaticBasic.security:type_name -> futupb.Security
+	1,  // 13: futupb.SecurityStaticBasic.secType:type_name -> futupb.SecurityType
+	34, // 14: futupb.SecurityStaticBasic.exchType:type_name -> futupb.ExchType
+	3,  // 15: futupb.WarrantStaticExData.type:type_name -> futupb.WarrantType
+	36, // 16: futupb.WarrantStaticExData.owner:type_name -> futupb.Security
+	4,  // 17: futupb.OptionStaticExData.type:type_name -> futupb.OptionType
+	36, // 18: futupb.OptionStaticExData.owner:type_name -> futupb.Security
+	5,  // 19: futupb.OptionStaticExData.indexOptionType:type_name -> futupb.IndexOptionType
+	31, // 20: futupb.OptionStaticExData.expirationCycle:type_name -> futupb.ExpirationCycle
+	32, // 21: futupb.OptionStaticExData.optionStandardType:type_name -> futupb.OptionStandardType
+	33, // 22: futupb.OptionStaticExData.optionSettlementMode:type_name -> futupb.OptionSettlementMode
+	44, // 23: futupb.SecurityStaticInfo.basic:type_name -> futupb.SecurityStaticBasic
+	45, // 24: futupb.SecurityStaticInfo.warrantExData:type_name -> futupb.WarrantStaticExData
+	46, // 25: futupb.SecurityStaticInfo.optionExData:type_name -> futupb.OptionStaticExData
+	47, // 26: futupb.SecurityStaticInfo.futureExData:type_name -> futupb.FutureStaticExData
+	14, // 27: futupb.Ticker.dir:type_name -> futupb.TickerDirection
+	15, // 28: futupb.Ticker.type:type_name -> futupb.TickerType
+	19, // 29: futupb.Ticker.pushDataType:type_name -> futupb.PushDataType
+	51, // 30: futupb.OrderBook.detailList:type_name -> futupb.OrderBookDetail
+	13, // 31: futupb.SubInfo.subType:type_name -> futupb.SubType
+	36, // 32: futupb.SubInfo.securityList:type_name -> futupb.Security
+	54, // 33: futupb.ConnSubInfo.subInfoList:type_name -> futupb.SubInfo
+	36, // 34: futupb.PlateInfo.plate:type_name -> futupb.Security
+	2,  // 35: futupb.PlateInfo.plateType:type_name -> futupb.PlateSetType
+	36, // [36:36] is the sub-list for method output_type
+	36, // [36:36] is the sub-list for method input_type
+	36, // [36:36] is the sub-list for extension type_name
+	36, // [36:36] is the sub-list for extension extendee
+	0,  // [0:36] is the sub-list for field type_name
 }
 
 func init() { file_Qot_Common_proto_init() }

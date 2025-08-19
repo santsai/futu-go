@@ -457,7 +457,7 @@ func (x *WarrantSnapshotExData) GetInLinePriceStatus() PriceType {
 	if x != nil && x.InLinePriceStatus != nil {
 		return *x.InLinePriceStatus
 	}
-	return PriceType_PriceType_Unknow
+	return PriceType_PriceType_Unknown
 }
 
 func (x *WarrantSnapshotExData) GetIssuerCode() string {
@@ -969,7 +969,7 @@ func (x *TrustSnapshotExData) GetAssetClass() AssetClass {
 	if x != nil && x.AssetClass != nil {
 		return *x.AssetClass
 	}
-	return AssetClass_AssetClass_Unknow
+	return AssetClass_AssetClass_Unknown
 }
 
 // 基本快照数据

@@ -67,13 +67,13 @@ func (x *GetGlobalStateRequest) GetUserID() uint64 {
 
 type GetGlobalStateResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	MarketHK       *int32                 `protobuf:"varint,1,req,name=marketHK" json:"marketHK,omitempty"`                                         //Qot_Common.QotMarketState,港股主板市场状态
-	MarketUS       *int32                 `protobuf:"varint,2,req,name=marketUS" json:"marketUS,omitempty"`                                         //Qot_Common.QotMarketState,美股Nasdaq市场状态
-	MarketSH       *int32                 `protobuf:"varint,3,req,name=marketSH" json:"marketSH,omitempty"`                                         //Qot_Common.QotMarketState,沪市状态
-	MarketSZ       *int32                 `protobuf:"varint,4,req,name=marketSZ" json:"marketSZ,omitempty"`                                         //Qot_Common.QotMarketState,深市状态
-	MarketHKFuture *int32                 `protobuf:"varint,5,req,name=marketHKFuture" json:"marketHKFuture,omitempty"`                             //Qot_Common.QotMarketState,港股期货市场状态
-	MarketUSFuture *int32                 `protobuf:"varint,15,opt,name=marketUSFuture" json:"marketUSFuture,omitempty"`                            //Qot_Common.QotMarketState,美国期货市场状态
-	MarketSGFuture *int32                 `protobuf:"varint,17,opt,name=marketSGFuture" json:"marketSGFuture,omitempty"`                            //Qot_Common.QotMarketState,新加坡期货市场状态
+	MarketHK       *QotMarketState        `protobuf:"varint,1,req,name=marketHK,enum=futupb.QotMarketState" json:"marketHK,omitempty"`              //Qot_Common.QotMarketState,港股主板市场状态
+	MarketUS       *QotMarketState        `protobuf:"varint,2,req,name=marketUS,enum=futupb.QotMarketState" json:"marketUS,omitempty"`              //Qot_Common.QotMarketState,美股Nasdaq市场状态
+	MarketSH       *QotMarketState        `protobuf:"varint,3,req,name=marketSH,enum=futupb.QotMarketState" json:"marketSH,omitempty"`              //Qot_Common.QotMarketState,沪市状态
+	MarketSZ       *QotMarketState        `protobuf:"varint,4,req,name=marketSZ,enum=futupb.QotMarketState" json:"marketSZ,omitempty"`              //Qot_Common.QotMarketState,深市状态
+	MarketHKFuture *QotMarketState        `protobuf:"varint,5,req,name=marketHKFuture,enum=futupb.QotMarketState" json:"marketHKFuture,omitempty"`  //Qot_Common.QotMarketState,港股期货市场状态
+	MarketUSFuture *QotMarketState        `protobuf:"varint,15,opt,name=marketUSFuture,enum=futupb.QotMarketState" json:"marketUSFuture,omitempty"` //Qot_Common.QotMarketState,美国期货市场状态
+	MarketSGFuture *QotMarketState        `protobuf:"varint,17,opt,name=marketSGFuture,enum=futupb.QotMarketState" json:"marketSGFuture,omitempty"` //Qot_Common.QotMarketState,新加坡期货市场状态
 	MarketJPFuture *QotMarketState        `protobuf:"varint,18,opt,name=marketJPFuture,enum=futupb.QotMarketState" json:"marketJPFuture,omitempty"` //Qot_Common.QotMarketState,日本期货市场状态
 	QotLogined     *bool                  `protobuf:"varint,6,req,name=qotLogined" json:"qotLogined,omitempty"`                                     //是否登陆行情服务器
 	TrdLogined     *bool                  `protobuf:"varint,7,req,name=trdLogined" json:"trdLogined,omitempty"`                                     //是否登陆交易服务器
@@ -119,53 +119,53 @@ func (*GetGlobalStateResponse) Descriptor() ([]byte, []int) {
 	return file_GetGlobalState_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetGlobalStateResponse) GetMarketHK() int32 {
+func (x *GetGlobalStateResponse) GetMarketHK() QotMarketState {
 	if x != nil && x.MarketHK != nil {
 		return *x.MarketHK
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
-func (x *GetGlobalStateResponse) GetMarketUS() int32 {
+func (x *GetGlobalStateResponse) GetMarketUS() QotMarketState {
 	if x != nil && x.MarketUS != nil {
 		return *x.MarketUS
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
-func (x *GetGlobalStateResponse) GetMarketSH() int32 {
+func (x *GetGlobalStateResponse) GetMarketSH() QotMarketState {
 	if x != nil && x.MarketSH != nil {
 		return *x.MarketSH
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
-func (x *GetGlobalStateResponse) GetMarketSZ() int32 {
+func (x *GetGlobalStateResponse) GetMarketSZ() QotMarketState {
 	if x != nil && x.MarketSZ != nil {
 		return *x.MarketSZ
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
-func (x *GetGlobalStateResponse) GetMarketHKFuture() int32 {
+func (x *GetGlobalStateResponse) GetMarketHKFuture() QotMarketState {
 	if x != nil && x.MarketHKFuture != nil {
 		return *x.MarketHKFuture
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
-func (x *GetGlobalStateResponse) GetMarketUSFuture() int32 {
+func (x *GetGlobalStateResponse) GetMarketUSFuture() QotMarketState {
 	if x != nil && x.MarketUSFuture != nil {
 		return *x.MarketUSFuture
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
-func (x *GetGlobalStateResponse) GetMarketSGFuture() int32 {
+func (x *GetGlobalStateResponse) GetMarketSGFuture() QotMarketState {
 	if x != nil && x.MarketSGFuture != nil {
 		return *x.MarketSGFuture
 	}
-	return 0
+	return QotMarketState_QotMarketState_None
 }
 
 func (x *GetGlobalStateResponse) GetMarketJPFuture() QotMarketState {
@@ -368,15 +368,15 @@ const file_GetGlobalState_proto_rawDesc = "" +
 	"\n" +
 	"\x14GetGlobalState.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Qot_Common.proto\"/\n" +
 	"\x15GetGlobalStateRequest\x12\x16\n" +
-	"\x06userID\x18\x01 \x02(\x04R\x06userID\"\x93\x05\n" +
-	"\x16GetGlobalStateResponse\x12\x1a\n" +
-	"\bmarketHK\x18\x01 \x02(\x05R\bmarketHK\x12\x1a\n" +
-	"\bmarketUS\x18\x02 \x02(\x05R\bmarketUS\x12\x1a\n" +
-	"\bmarketSH\x18\x03 \x02(\x05R\bmarketSH\x12\x1a\n" +
-	"\bmarketSZ\x18\x04 \x02(\x05R\bmarketSZ\x12&\n" +
-	"\x0emarketHKFuture\x18\x05 \x02(\x05R\x0emarketHKFuture\x12&\n" +
-	"\x0emarketUSFuture\x18\x0f \x01(\x05R\x0emarketUSFuture\x12&\n" +
-	"\x0emarketSGFuture\x18\x11 \x01(\x05R\x0emarketSGFuture\x12>\n" +
+	"\x06userID\x18\x01 \x02(\x04R\x06userID\"\xbb\x06\n" +
+	"\x16GetGlobalStateResponse\x122\n" +
+	"\bmarketHK\x18\x01 \x02(\x0e2\x16.futupb.QotMarketStateR\bmarketHK\x122\n" +
+	"\bmarketUS\x18\x02 \x02(\x0e2\x16.futupb.QotMarketStateR\bmarketUS\x122\n" +
+	"\bmarketSH\x18\x03 \x02(\x0e2\x16.futupb.QotMarketStateR\bmarketSH\x122\n" +
+	"\bmarketSZ\x18\x04 \x02(\x0e2\x16.futupb.QotMarketStateR\bmarketSZ\x12>\n" +
+	"\x0emarketHKFuture\x18\x05 \x02(\x0e2\x16.futupb.QotMarketStateR\x0emarketHKFuture\x12>\n" +
+	"\x0emarketUSFuture\x18\x0f \x01(\x0e2\x16.futupb.QotMarketStateR\x0emarketUSFuture\x12>\n" +
+	"\x0emarketSGFuture\x18\x11 \x01(\x0e2\x16.futupb.QotMarketStateR\x0emarketSGFuture\x12>\n" +
 	"\x0emarketJPFuture\x18\x12 \x01(\x0e2\x16.futupb.QotMarketStateR\x0emarketJPFuture\x12\x1e\n" +
 	"\n" +
 	"qotLogined\x18\x06 \x02(\bR\n" +
@@ -425,16 +425,23 @@ var file_GetGlobalState_proto_goTypes = []any{
 	(RetType)(0),                            // 6: futupb.RetType
 }
 var file_GetGlobalState_proto_depIdxs = []int32{
-	4, // 0: futupb.GetGlobalStateResponse.marketJPFuture:type_name -> futupb.QotMarketState
-	5, // 1: futupb.GetGlobalStateResponse.programStatus:type_name -> futupb.ProgramStatus
-	0, // 2: futupb.GetGlobalStateRequest_Internal.payload:type_name -> futupb.GetGlobalStateRequest
-	6, // 3: futupb.GetGlobalStateResponse_Internal.retType:type_name -> futupb.RetType
-	1, // 4: futupb.GetGlobalStateResponse_Internal.payload:type_name -> futupb.GetGlobalStateResponse
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4,  // 0: futupb.GetGlobalStateResponse.marketHK:type_name -> futupb.QotMarketState
+	4,  // 1: futupb.GetGlobalStateResponse.marketUS:type_name -> futupb.QotMarketState
+	4,  // 2: futupb.GetGlobalStateResponse.marketSH:type_name -> futupb.QotMarketState
+	4,  // 3: futupb.GetGlobalStateResponse.marketSZ:type_name -> futupb.QotMarketState
+	4,  // 4: futupb.GetGlobalStateResponse.marketHKFuture:type_name -> futupb.QotMarketState
+	4,  // 5: futupb.GetGlobalStateResponse.marketUSFuture:type_name -> futupb.QotMarketState
+	4,  // 6: futupb.GetGlobalStateResponse.marketSGFuture:type_name -> futupb.QotMarketState
+	4,  // 7: futupb.GetGlobalStateResponse.marketJPFuture:type_name -> futupb.QotMarketState
+	5,  // 8: futupb.GetGlobalStateResponse.programStatus:type_name -> futupb.ProgramStatus
+	0,  // 9: futupb.GetGlobalStateRequest_Internal.payload:type_name -> futupb.GetGlobalStateRequest
+	6,  // 10: futupb.GetGlobalStateResponse_Internal.retType:type_name -> futupb.RetType
+	1,  // 11: futupb.GetGlobalStateResponse_Internal.payload:type_name -> futupb.GetGlobalStateResponse
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_GetGlobalState_proto_init() }

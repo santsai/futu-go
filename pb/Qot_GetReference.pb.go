@@ -24,7 +24,7 @@ const (
 type ReferenceType int32
 
 const (
-	ReferenceType_ReferenceType_Unknow  ReferenceType = 0
+	ReferenceType_ReferenceType_Unknown ReferenceType = 0
 	ReferenceType_ReferenceType_Warrant ReferenceType = 1 //正股相关的窝轮
 	ReferenceType_ReferenceType_Future  ReferenceType = 2 //期货主连的相关合约
 )
@@ -32,12 +32,12 @@ const (
 // Enum value maps for ReferenceType.
 var (
 	ReferenceType_name = map[int32]string{
-		0: "ReferenceType_Unknow",
+		0: "ReferenceType_Unknown",
 		1: "ReferenceType_Warrant",
 		2: "ReferenceType_Future",
 	}
 	ReferenceType_value = map[string]int32{
-		"ReferenceType_Unknow":  0,
+		"ReferenceType_Unknown": 0,
 		"ReferenceType_Warrant": 1,
 		"ReferenceType_Future":  2,
 	}
@@ -129,7 +129,7 @@ func (x *QotGetReferenceRequest) GetReferenceType() ReferenceType {
 	if x != nil && x.ReferenceType != nil {
 		return *x.ReferenceType
 	}
-	return ReferenceType_ReferenceType_Unknow
+	return ReferenceType_ReferenceType_Unknown
 }
 
 type QotGetReferenceResponse struct {
@@ -309,9 +309,9 @@ const file_Qot_GetReference_proto_rawDesc = "" +
 	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x129\n" +
-	"\apayload\x18\x04 \x01(\v2\x1f.futupb.QotGetReferenceResponseR\apayload*^\n" +
-	"\rReferenceType\x12\x18\n" +
-	"\x14ReferenceType_Unknow\x10\x00\x12\x19\n" +
+	"\apayload\x18\x04 \x01(\v2\x1f.futupb.QotGetReferenceResponseR\apayload*_\n" +
+	"\rReferenceType\x12\x19\n" +
+	"\x15ReferenceType_Unknown\x10\x00\x12\x19\n" +
 	"\x15ReferenceType_Warrant\x10\x01\x12\x18\n" +
 	"\x14ReferenceType_Future\x10\x02B4\n" +
 	"\x13com.futu.openapi.pbZ\x1dgithub.com/santsai/futu-go/pb"

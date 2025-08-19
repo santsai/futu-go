@@ -8,7 +8,7 @@ import "Qot_Common.proto";
 
 enum ReferenceType
 {
-	ReferenceType_Unknow = 0;
+	ReferenceType_Unknown = 0;
 	ReferenceType_Warrant = 1; //正股相关的窝轮
 	ReferenceType_Future = 2; //期货主连的相关合约
 }

@@ -32,14 +32,14 @@ genpb:
 
 #
 # awk:
-# 1. replace white space & trailing \r
+# 1. replace leading space & trailing space & \r
 # 2. double quote string
 # 3. print in awk format for easy adding
 #
 gen_possible_enums:
 	grep -h ' int32' proto/original/*proto | \
 		awk '{ \
-			gsub(/^[[:space:]]+|\r$$/, ""); \
+			gsub(/^[[:space:]]+|[[:space:]\r]+$$/, ""); \
 			gsub(/"/, "\\\"", $$0); \
 			print "enum_replaces[\"" $$0 "\"] = \"\"" \
 		}' | \

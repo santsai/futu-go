@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/reflect/protoreflect"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -186,6 +187,108 @@ func generateResponseAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) er
 	return nil
 }
 
+func collect_msgs(msg *protogen.Message, msgs map[string]*protogen.Message) {
+	for _, f := range msg.Fields {
+		if f.Desc.Kind() == protoreflect.MessageKind {
+			collect_msgs(f.Message, msgs)
+		}
+	}
+
+	goname := string(msg.GoIdent.GoName)
+	msgs[goname] = msg
+}
+
+func generateRequestBuilderForMessage(g *protogen.GeneratedFile, msg *protogen.Message) {
+
+	fields := map[string]*protogen.Field{}
+	keys := []string{}
+	for _, f := range msg.Fields {
+		keys = append(keys, f.GoName)
+		fields[f.GoName] = f
+	}
+	sort.Strings(keys)
+
+	msgName := string(msg.GoIdent.GoName)
+	for _, fName := range keys {
+		f := fields[fName]
+
+		fKind := f.Desc.Kind()
+		fIsList := f.Desc.IsList()
+
+		fTypeName := f.Desc.Kind().String()
+		switch fKind {
+		case protoreflect.MessageKind:
+			fTypeName = "*" + f.Message.GoIdent.GoName
+		case protoreflect.EnumKind:
+			fTypeName = f.Enum.GoIdent.GoName
+		case protoreflect.FloatKind:
+			fTypeName = "float32"
+		case protoreflect.DoubleKind:
+			fTypeName = "float64"
+		case protoreflect.BytesKind:
+			fTypeName = "[]byte"
+		}
+
+		if fIsList {
+			fTypeName = "..." + fTypeName
+		}
+
+		// strip Trd, Qot
+		funcName := fName
+		if len(funcName) > 3 {
+			switch funcName[:3] {
+			case "Trd", "Qot":
+				funcName = funcName[3:]
+			}
+		}
+
+		// body
+		funcBody := ""
+		switch {
+		case fIsList:
+			fallthrough
+		case fKind == protoreflect.MessageKind:
+			fallthrough
+		case fKind == protoreflect.BytesKind:
+			funcBody = fmt.Sprintf(`s.%s = o`, fName)
+
+		case fKind == protoreflect.EnumKind:
+			funcBody = fmt.Sprintf(`s.%s = o.Enum()`, fName)
+		default:
+			funcBody = fmt.Sprintf(`s.%s = &o`, fName)
+		}
+
+		g.P(fmt.Sprintf(`
+			func (s *%s) With%s(o %s) *%s {
+				%s
+				return s
+			}`, msgName, funcName, fTypeName, msgName, funcBody))
+	}
+}
+
+func generateRequestBuilder(plugin *protogen.Plugin, msgs []*protogen.Message) error {
+
+	g := newGeneratedFile(plugin, "adapt_req_builder.go")
+
+	all_msgs := map[string]*protogen.Message{}
+	for _, msg := range msgs {
+		collect_msgs(msg, all_msgs)
+	}
+
+	msg_keys := []string{}
+	for k, _ := range all_msgs {
+		msg_keys = append(msg_keys, k)
+	}
+	sort.Strings(msg_keys)
+
+	for _, k := range msg_keys {
+		g.P(`// `, k)
+		msg := all_msgs[k]
+		generateRequestBuilderForMessage(g, msg)
+	}
+	return nil
+}
+
 func main() {
 
 	var flags flag.FlagSet
@@ -221,6 +324,7 @@ func main() {
 		generateProtoIdAdapt(plugin)
 		generateRequestAdapt(plugin, reqs)
 		generateResponseAdapt(plugin, resps)
+		generateRequestBuilder(plugin, reqs)
 
 		return nil
 	})

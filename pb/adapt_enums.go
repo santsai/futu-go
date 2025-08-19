@@ -12,7 +12,7 @@ const (
 	AccumulateField_TurnoverRate AccumulateField = AccumulateField_AccumulateField_TurnoverRate
 
 	// Enum: AssetClass
-	AssetClass_Unknow         AssetClass = AssetClass_AssetClass_Unknow
+	AssetClass_Unknown        AssetClass = AssetClass_AssetClass_Unknown
 	AssetClass_Stock          AssetClass = AssetClass_AssetClass_Stock
 	AssetClass_Bond           AssetClass = AssetClass_AssetClass_Bond
 	AssetClass_Commodity      AssetClass = AssetClass_AssetClass_Commodity
@@ -242,7 +242,7 @@ const (
 	GtwEventType_EnableDeviceLock    GtwEventType = GtwEventType_GtwEventType_EnableDeviceLock
 
 	// Enum: HolderCategory
-	HolderCategory_Unknow        HolderCategory = HolderCategory_HolderCategory_Unknow
+	HolderCategory_Unknown       HolderCategory = HolderCategory_HolderCategory_Unknown
 	HolderCategory_Agency        HolderCategory = HolderCategory_HolderCategory_Agency
 	HolderCategory_Fund          HolderCategory = HolderCategory_HolderCategory_Fund
 	HolderCategory_SeniorManager HolderCategory = HolderCategory_HolderCategory_SeniorManager
@@ -253,7 +253,7 @@ const (
 	IndexOptionType_Small   IndexOptionType = IndexOptionType_IndexOptionType_Small
 
 	// Enum: IpoPeriod
-	IpoPeriod_Unknow    IpoPeriod = IpoPeriod_IpoPeriod_Unknow
+	IpoPeriod_Unknown   IpoPeriod = IpoPeriod_IpoPeriod_Unknown
 	IpoPeriod_Today     IpoPeriod = IpoPeriod_IpoPeriod_Today
 	IpoPeriod_Tomorrow  IpoPeriod = IpoPeriod_IpoPeriod_Tomorrow
 	IpoPeriod_Nextweek  IpoPeriod = IpoPeriod_IpoPeriod_Nextweek
@@ -261,35 +261,35 @@ const (
 	IpoPeriod_Lastmonth IpoPeriod = IpoPeriod_IpoPeriod_Lastmonth
 
 	// Enum: Issuer
-	Issuer_Unknow Issuer = Issuer_Issuer_Unknow
-	Issuer_SG     Issuer = Issuer_Issuer_SG
-	Issuer_BP     Issuer = Issuer_Issuer_BP
-	Issuer_CS     Issuer = Issuer_Issuer_CS
-	Issuer_CT     Issuer = Issuer_Issuer_CT
-	Issuer_EA     Issuer = Issuer_Issuer_EA
-	Issuer_GS     Issuer = Issuer_Issuer_GS
-	Issuer_HS     Issuer = Issuer_Issuer_HS
-	Issuer_JP     Issuer = Issuer_Issuer_JP
-	Issuer_MB     Issuer = Issuer_Issuer_MB
-	Issuer_SC     Issuer = Issuer_Issuer_SC
-	Issuer_UB     Issuer = Issuer_Issuer_UB
-	Issuer_BI     Issuer = Issuer_Issuer_BI
-	Issuer_DB     Issuer = Issuer_Issuer_DB
-	Issuer_DC     Issuer = Issuer_Issuer_DC
-	Issuer_ML     Issuer = Issuer_Issuer_ML
-	Issuer_NM     Issuer = Issuer_Issuer_NM
-	Issuer_RB     Issuer = Issuer_Issuer_RB
-	Issuer_RS     Issuer = Issuer_Issuer_RS
-	Issuer_BC     Issuer = Issuer_Issuer_BC
-	Issuer_HT     Issuer = Issuer_Issuer_HT
-	Issuer_VT     Issuer = Issuer_Issuer_VT
-	Issuer_KC     Issuer = Issuer_Issuer_KC
-	Issuer_MS     Issuer = Issuer_Issuer_MS
-	Issuer_GJ     Issuer = Issuer_Issuer_GJ
-	Issuer_XZ     Issuer = Issuer_Issuer_XZ
-	Issuer_HU     Issuer = Issuer_Issuer_HU
-	Issuer_KS     Issuer = Issuer_Issuer_KS
-	Issuer_CI     Issuer = Issuer_Issuer_CI
+	Issuer_Unknown Issuer = Issuer_Issuer_Unknown
+	Issuer_SG      Issuer = Issuer_Issuer_SG
+	Issuer_BP      Issuer = Issuer_Issuer_BP
+	Issuer_CS      Issuer = Issuer_Issuer_CS
+	Issuer_CT      Issuer = Issuer_Issuer_CT
+	Issuer_EA      Issuer = Issuer_Issuer_EA
+	Issuer_GS      Issuer = Issuer_Issuer_GS
+	Issuer_HS      Issuer = Issuer_Issuer_HS
+	Issuer_JP      Issuer = Issuer_Issuer_JP
+	Issuer_MB      Issuer = Issuer_Issuer_MB
+	Issuer_SC      Issuer = Issuer_Issuer_SC
+	Issuer_UB      Issuer = Issuer_Issuer_UB
+	Issuer_BI      Issuer = Issuer_Issuer_BI
+	Issuer_DB      Issuer = Issuer_Issuer_DB
+	Issuer_DC      Issuer = Issuer_Issuer_DC
+	Issuer_ML      Issuer = Issuer_Issuer_ML
+	Issuer_NM      Issuer = Issuer_Issuer_NM
+	Issuer_RB      Issuer = Issuer_Issuer_RB
+	Issuer_RS      Issuer = Issuer_Issuer_RS
+	Issuer_BC      Issuer = Issuer_Issuer_BC
+	Issuer_HT      Issuer = Issuer_Issuer_HT
+	Issuer_VT      Issuer = Issuer_Issuer_VT
+	Issuer_KC      Issuer = Issuer_Issuer_KC
+	Issuer_MS      Issuer = Issuer_Issuer_MS
+	Issuer_GJ      Issuer = Issuer_Issuer_GJ
+	Issuer_XZ      Issuer = Issuer_Issuer_XZ
+	Issuer_HU      Issuer = Issuer_Issuer_HU
+	Issuer_KS      Issuer = Issuer_Issuer_KS
+	Issuer_CI      Issuer = Issuer_Issuer_CI
 
 	// Enum: KLFields
 	KLFields_None         KLFields = KLFields_KLFields_None
@@ -354,7 +354,7 @@ const (
 	OptionAreaType_Bermuda  OptionAreaType = OptionAreaType_OptionAreaType_Bermuda
 
 	// Enum: OptionCondType
-	OptionCondType_Unknow  OptionCondType = OptionCondType_OptionCondType_Unknow
+	OptionCondType_Unknown OptionCondType = OptionCondType_OptionCondType_Unknown
 	OptionCondType_WithIn  OptionCondType = OptionCondType_OptionCondType_WithIn
 	OptionCondType_Outside OptionCondType = OptionCondType_OptionCondType_Outside
 
@@ -472,7 +472,7 @@ const (
 	PriceReminderFreq_OnlyOnce PriceReminderFreq = PriceReminderFreq_PriceReminderFreq_OnlyOnce
 
 	// Enum: PriceReminderMarketStatus
-	PriceReminderMarketStatus_Unknow      PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_Unknow
+	PriceReminderMarketStatus_Unknown     PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_Unknown
 	PriceReminderMarketStatus_Open        PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_Open
 	PriceReminderMarketStatus_USPre       PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_USPre
 	PriceReminderMarketStatus_USAfter     PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_USAfter
@@ -497,7 +497,7 @@ const (
 	PriceReminderType_3MinChangeRateDown PriceReminderType = PriceReminderType_PriceReminderType_3MinChangeRateDown
 
 	// Enum: PriceType
-	PriceType_Unknow  PriceType = PriceType_PriceType_Unknow
+	PriceType_Unknown PriceType = PriceType_PriceType_Unknown
 	PriceType_Outside PriceType = PriceType_PriceType_Outside
 	PriceType_WithIn  PriceType = PriceType_PriceType_WithIn
 
@@ -521,7 +521,7 @@ const (
 	ProtoFmt_Json     ProtoFmt = ProtoFmt_ProtoFmt_Json
 
 	// Enum: PushDataType
-	PushDataType_Unknow    PushDataType = PushDataType_PushDataType_Unknow
+	PushDataType_Unknown   PushDataType = PushDataType_PushDataType_Unknown
 	PushDataType_Realtime  PushDataType = PushDataType_PushDataType_Realtime
 	PushDataType_ByDisConn PushDataType = PushDataType_PushDataType_ByDisConn
 	PushDataType_Cache     PushDataType = PushDataType_PushDataType_Cache
@@ -595,15 +595,15 @@ const (
 	QotPushType_Broker    QotPushType = QotPushType_QotPushType_Broker
 
 	// Enum: QotRight
-	QotRight_Unknow QotRight = QotRight_QotRight_Unknow
-	QotRight_Bmp    QotRight = QotRight_QotRight_Bmp
-	QotRight_Level1 QotRight = QotRight_QotRight_Level1
-	QotRight_Level2 QotRight = QotRight_QotRight_Level2
-	QotRight_SF     QotRight = QotRight_QotRight_SF
-	QotRight_No     QotRight = QotRight_QotRight_No
+	QotRight_Unknown QotRight = QotRight_QotRight_Unknown
+	QotRight_Bmp     QotRight = QotRight_QotRight_Bmp
+	QotRight_Level1  QotRight = QotRight_QotRight_Level1
+	QotRight_Level2  QotRight = QotRight_QotRight_Level2
+	QotRight_SF      QotRight = QotRight_QotRight_SF
+	QotRight_No      QotRight = QotRight_QotRight_No
 
 	// Enum: ReferenceType
-	ReferenceType_Unknow  ReferenceType = ReferenceType_ReferenceType_Unknow
+	ReferenceType_Unknown ReferenceType = ReferenceType_ReferenceType_Unknown
 	ReferenceType_Warrant ReferenceType = ReferenceType_ReferenceType_Warrant
 	ReferenceType_Future  ReferenceType = ReferenceType_ReferenceType_Future
 
@@ -699,7 +699,7 @@ const (
 	SortDir_Descend SortDir = SortDir_SortDir_Descend
 
 	// Enum: SortField
-	SortField_Unknow              SortField = SortField_SortField_Unknow
+	SortField_Unknown             SortField = SortField_SortField_Unknown
 	SortField_Code                SortField = SortField_SortField_Code
 	SortField_CurPrice            SortField = SortField_SortField_CurPrice
 	SortField_PriceChangeVal      SortField = SortField_SortField_PriceChangeVal
@@ -835,7 +835,7 @@ const (
 	TickerType_Overseas                TickerType = TickerType_TickerType_Overseas
 
 	// Enum: TimeFilterType
-	TimeFilterType_Unknow    TimeFilterType = TimeFilterType_TimeFilterType_Unknow
+	TimeFilterType_Unknown   TimeFilterType = TimeFilterType_TimeFilterType_Unknown
 	TimeFilterType_Public    TimeFilterType = TimeFilterType_TimeFilterType_Public
 	TimeFilterType_Effective TimeFilterType = TimeFilterType_TimeFilterType_Effective
 	TimeFilterType_End       TimeFilterType = TimeFilterType_TimeFilterType_End
@@ -949,17 +949,17 @@ const (
 	UserInfoField_WebKey     UserInfoField = UserInfoField_UserInfoField_WebKey
 
 	// Enum: VerificationOp
-	VerificationOp_Unknow        VerificationOp = VerificationOp_VerificationOp_Unknow
+	VerificationOp_Unknown       VerificationOp = VerificationOp_VerificationOp_Unknown
 	VerificationOp_Request       VerificationOp = VerificationOp_VerificationOp_Request
 	VerificationOp_InputAndLogin VerificationOp = VerificationOp_VerificationOp_InputAndLogin
 
 	// Enum: VerificationType
-	VerificationType_Unknow  VerificationType = VerificationType_VerificationType_Unknow
+	VerificationType_Unknown VerificationType = VerificationType_VerificationType_Unknown
 	VerificationType_Picture VerificationType = VerificationType_VerificationType_Picture
 	VerificationType_Phone   VerificationType = VerificationType_VerificationType_Phone
 
 	// Enum: WarrantStatus
-	WarrantStatus_Unknow         WarrantStatus = WarrantStatus_WarrantStatus_Unknow
+	WarrantStatus_Unknown        WarrantStatus = WarrantStatus_WarrantStatus_Unknown
 	WarrantStatus_Normal         WarrantStatus = WarrantStatus_WarrantStatus_Normal
 	WarrantStatus_Suspend        WarrantStatus = WarrantStatus_WarrantStatus_Suspend
 	WarrantStatus_StopTrade      WarrantStatus = WarrantStatus_WarrantStatus_StopTrade

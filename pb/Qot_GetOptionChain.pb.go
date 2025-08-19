@@ -24,7 +24,7 @@ const (
 type OptionCondType int32
 
 const (
-	OptionCondType_OptionCondType_Unknow  OptionCondType = 0
+	OptionCondType_OptionCondType_Unknown OptionCondType = 0
 	OptionCondType_OptionCondType_WithIn  OptionCondType = 1 //价内
 	OptionCondType_OptionCondType_Outside OptionCondType = 2 //价外
 )
@@ -32,12 +32,12 @@ const (
 // Enum value maps for OptionCondType.
 var (
 	OptionCondType_name = map[int32]string{
-		0: "OptionCondType_Unknow",
+		0: "OptionCondType_Unknown",
 		1: "OptionCondType_WithIn",
 		2: "OptionCondType_Outside",
 	}
 	OptionCondType_value = map[string]int32{
-		"OptionCondType_Unknow":  0,
+		"OptionCondType_Unknown": 0,
 		"OptionCondType_WithIn":  1,
 		"OptionCondType_Outside": 2,
 	}
@@ -329,7 +329,7 @@ func (x *QotGetOptionChainRequest) GetCondition() OptionCondType {
 	if x != nil && x.Condition != nil {
 		return *x.Condition
 	}
-	return OptionCondType_OptionCondType_Unknow
+	return OptionCondType_OptionCondType_Unknown
 }
 
 func (x *QotGetOptionChainRequest) GetBeginTime() string {
@@ -680,9 +680,9 @@ const file_Qot_GetOptionChain_proto_rawDesc = "" +
 	"\aretType\x18\x01 \x02(\x0e2\x0f.futupb.RetType:\x0fRetType_UnknownR\aretType\x12\x16\n" +
 	"\x06retMsg\x18\x02 \x01(\tR\x06retMsg\x12\x18\n" +
 	"\aerrCode\x18\x03 \x01(\x05R\aerrCode\x12;\n" +
-	"\apayload\x18\x04 \x01(\v2!.futupb.QotGetOptionChainResponseR\apayload*b\n" +
-	"\x0eOptionCondType\x12\x19\n" +
-	"\x15OptionCondType_Unknow\x10\x00\x12\x19\n" +
+	"\apayload\x18\x04 \x01(\v2!.futupb.QotGetOptionChainResponseR\apayload*c\n" +
+	"\x0eOptionCondType\x12\x1a\n" +
+	"\x16OptionCondType_Unknown\x10\x00\x12\x19\n" +
 	"\x15OptionCondType_WithIn\x10\x01\x12\x1a\n" +
 	"\x16OptionCondType_Outside\x10\x02B4\n" +
 	"\x13com.futu.openapi.pbZ\x1dgithub.com/santsai/futu-go/pb"

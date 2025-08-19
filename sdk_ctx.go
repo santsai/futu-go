@@ -10,9 +10,8 @@ import (
 
 // GetGlobalStateWithContext 1002 - gets the global state with context.
 func (sdk *SDK) GetGlobalStateWithContext(ctx context.Context) (*pb.GetGlobalStateResponse, error) {
-	req := &pb.GetGlobalStateRequest{
-		UserID: proto.Uint64(sdk.cli.GetUserID()),
-	}
+	req := new(pb.GetGlobalStateRequest).
+		WithUserID(sdk.cli.GetUserID())
 
 	return req.MakeRequest(ctx, sdk.cli)
 }
@@ -41,11 +40,11 @@ func (sdk *SDK) GetAccListWithContext(ctx context.Context, opts ...adapt.Option)
 // pwdMD5: MD5 of the password
 //
 // securityFirm: security firm
-func (sdk *SDK) UnlockTradeWithContext(ctx context.Context, unlock bool, pwdMD5 string, securityFirm int32) error {
+func (sdk *SDK) UnlockTradeWithContext(ctx context.Context, unlock bool, pwdMD5 string, securityFirm pb.SecurityFirm) error {
 	req := &pb.TrdUnlockTradeRequest{
 		Unlock:       proto.Bool(unlock),
 		PwdMD5:       proto.String(pwdMD5),
-		SecurityFirm: proto.Int32(securityFirm),
+		SecurityFirm: securityFirm.Enum(),
 	}
 
 	_, err := req.MakeRequest(ctx, sdk.cli)
@@ -344,7 +343,7 @@ func (sdk *SDK) GetKLWithContext(ctx context.Context, code string, klType int32,
 	o["klType"] = klType
 
 	if _, ok := o["rehabType"]; !ok {
-		o["rehabType"] = adapt.RehabType_None
+		o["rehabType"] = pb.RehabType_None
 	}
 
 	if _, ok := o["reqNum"]; !ok {
@@ -428,7 +427,7 @@ func (sdk *SDK) GetBrokerWithContext(ctx context.Context, code string) (*pb.QotG
 // beginTime: begin time, format: "yyyy-MM-dd"
 //
 // endTime: end time, format: "yyyy-MM-dd"
-func (sdk *SDK) RequestHistoryKLWithContext(ctx context.Context, code string, klType int32, beginTime string, endTime string, opts ...adapt.Option) (*pb.QotRequestHistoryKLResponse, error) {
+func (sdk *SDK) RequestHistoryKLWithContext(ctx context.Context, code string, klType pb.KLType, beginTime string, endTime string, opts ...adapt.Option) (*pb.QotRequestHistoryKLResponse, error) {
 	o := adapt.NewOptions(opts...)
 	o["security"] = adapt.NewSecurity(code)
 	o["klType"] = klType
@@ -436,7 +435,7 @@ func (sdk *SDK) RequestHistoryKLWithContext(ctx context.Context, code string, kl
 	o["endTime"] = endTime
 
 	if _, ok := o["rehabType"]; !ok {
-		o["rehabType"] = adapt.RehabType_None
+		o["rehabType"] = pb.RehabType_None
 	}
 
 	var req pb.QotRequestHistoryKLRequest
@@ -507,10 +506,10 @@ func (sdk *SDK) GetSecuritySnapshotWithContext(ctx context.Context, codes []stri
 // market: market
 //
 // plateSetType: plate set type
-func (sdk *SDK) GetPlateSetWithContext(ctx context.Context, market int32, plateSetType int32) ([]*pb.PlateInfo, error) {
+func (sdk *SDK) GetPlateSetWithContext(ctx context.Context, market pb.QotMarket, plateSetType pb.PlateSetType) ([]*pb.PlateInfo, error) {
 	req := &pb.QotGetPlateSetRequest{
-		Market:       proto.Int32(market),
-		PlateSetType: proto.Int32(plateSetType),
+		Market:       market.Enum(),
+		PlateSetType: plateSetType.Enum(),
 	}
 
 	if resp, err := req.MakeRequest(ctx, sdk.cli); err != nil {
@@ -545,10 +544,10 @@ func (sdk *SDK) GetPlateSecurityWithContext(ctx context.Context, plateCode strin
 // code: security code
 //
 // refType: reference type
-func (sdk *SDK) GetReferenceWithContext(ctx context.Context, code string, refType int32) ([]*pb.SecurityStaticInfo, error) {
+func (sdk *SDK) GetReferenceWithContext(ctx context.Context, code string, refType pb.ReferenceType) ([]*pb.SecurityStaticInfo, error) {
 	req := &pb.QotGetReferenceRequest{
 		Security:      adapt.NewSecurity(code),
-		ReferenceType: proto.Int32(refType),
+		ReferenceType: refType.Enum(),
 	}
 
 	resp, err := req.MakeRequest(ctx, sdk.cli)
@@ -613,7 +612,7 @@ func (sdk *SDK) GetWarrantWithContext(ctx context.Context, begin int32, num int3
 	o["num"] = num
 
 	if _, ok := o["sortField"]; !ok {
-		o["sortField"] = adapt.SortField_Score
+		o["sortField"] = pb.SortField_Score
 	}
 
 	if _, ok := o["ascend"]; !ok {
@@ -636,7 +635,7 @@ func (sdk *SDK) GetCapitalFlowWithContext(ctx context.Context, code string, opts
 	o["security"] = adapt.NewSecurity(code)
 
 	if _, ok := o["periodType"]; !ok {
-		o["periodType"] = adapt.PeriodType_INTRADAY
+		o["periodType"] = pb.PeriodType_INTRADAY
 	}
 
 	var req pb.QotGetCapitalFlowRequest
@@ -681,11 +680,11 @@ func (sdk *SDK) GetUserSecurityWithContext(ctx context.Context, groupName string
 // codes: security codes
 //
 // op: operation
-func (sdk *SDK) ModifyUserSecurityWithContext(ctx context.Context, groupName string, codes []string, op int32) error {
+func (sdk *SDK) ModifyUserSecurityWithContext(ctx context.Context, groupName string, codes []string, op pb.ModifyUserSecurityOp) error {
 	req := &pb.QotModifyUserSecurityRequest{
 		GroupName:    proto.String(groupName),
 		SecurityList: adapt.NewSecurities(codes),
-		Op:           proto.Int32(op),
+		Op:           op.Enum(),
 	}
 
 	_, err := req.MakeRequest(ctx, sdk.cli)
@@ -718,9 +717,9 @@ func (sdk *SDK) StockFilterWithContext(ctx context.Context, market int32, opts .
 // GetIpoListWithContext 3217 - gets the IPO list with context.
 //
 // market: market
-func (sdk *SDK) GetIpoListWithContext(ctx context.Context, market int32) ([]*pb.IpoData, error) {
+func (sdk *SDK) GetIpoListWithContext(ctx context.Context, market pb.QotMarket) ([]*pb.IpoData, error) {
 	req := &pb.QotGetIpoListRequest{
-		Market: proto.Int32(market),
+		Market: market.Enum(),
 	}
 
 	resp, err := req.MakeRequest(ctx, sdk.cli)
@@ -756,9 +755,9 @@ func (sdk *SDK) GetFutureInfoWithContext(ctx context.Context, codes []string) ([
 // beginTime: begin time, format: "yyyy-MM-dd"
 //
 // endTime: end time, format: "yyyy-MM-dd"
-func (sdk *SDK) RequestTradeDateWithContext(ctx context.Context, market int32, code string, beginTime string, endTime string) ([]*pb.TradeDate, error) {
+func (sdk *SDK) RequestTradeDateWithContext(ctx context.Context, market pb.TradeDateMarket, code string, beginTime, endTime string) ([]*pb.TradeDate, error) {
 	req := &pb.QotRequestTradeDateRequest{
-		Market:    proto.Int32(market),
+		Market:    market.Enum(),
 		BeginTime: proto.String(beginTime),
 		EndTime:   proto.String(endTime),
 	}
@@ -779,7 +778,7 @@ func (sdk *SDK) RequestTradeDateWithContext(ctx context.Context, market int32, c
 // code: security code
 //
 // op: operation
-func (sdk *SDK) SetPriceReminderWithContext(ctx context.Context, code string, op int32, opts ...adapt.Option) (int64, error) {
+func (sdk *SDK) SetPriceReminderWithContext(ctx context.Context, code string, op pb.SetPriceReminderOp, opts ...adapt.Option) (int64, error) {
 	o := adapt.NewOptions(opts...)
 	o["security"] = adapt.NewSecurity(code)
 	o["op"] = op
@@ -802,10 +801,10 @@ func (sdk *SDK) SetPriceReminderWithContext(ctx context.Context, code string, op
 // code: security code
 //
 // market: market, if security is set, this param is ignored
-func (sdk *SDK) GetPriceReminderWithContext(ctx context.Context, code string, market int32) ([]*pb.PriceReminder, error) {
+func (sdk *SDK) GetPriceReminderWithContext(ctx context.Context, code string, market pb.QotMarket) ([]*pb.PriceReminder, error) {
 	req := &pb.QotGetPriceReminderRequest{
 		Security: adapt.NewSecurity(code),
-		Market:   proto.Int32(market),
+		Market:   market.Enum(),
 	}
 
 	resp, err := req.MakeRequest(ctx, sdk.cli)
@@ -819,9 +818,9 @@ func (sdk *SDK) GetPriceReminderWithContext(ctx context.Context, code string, ma
 // GetUserSecurityGroupWithContext 3222 - gets the user security group with context.
 //
 // groupType: group type
-func (sdk *SDK) GetUserSecurityGroupWithContext(ctx context.Context, groupType int32) ([]*pb.GroupData, error) {
+func (sdk *SDK) GetUserSecurityGroupWithContext(ctx context.Context, groupType pb.GroupType) ([]*pb.GroupData, error) {
 	req := &pb.QotGetUserSecurityGroupRequest{
-		GroupType: proto.Int32(groupType),
+		GroupType: groupType.Enum(),
 	}
 
 	if resp, err := req.MakeRequest(ctx, sdk.cli); err != nil {

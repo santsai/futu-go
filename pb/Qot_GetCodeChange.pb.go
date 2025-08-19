@@ -101,7 +101,7 @@ func (CodeChangeType) EnumDescriptor() ([]byte, []int) {
 type TimeFilterType int32
 
 const (
-	TimeFilterType_TimeFilterType_Unknow    TimeFilterType = 0
+	TimeFilterType_TimeFilterType_Unknown   TimeFilterType = 0
 	TimeFilterType_TimeFilterType_Public    TimeFilterType = 1 //根据公布时间过滤
 	TimeFilterType_TimeFilterType_Effective TimeFilterType = 2 //根据生效时间过滤
 	TimeFilterType_TimeFilterType_End       TimeFilterType = 3 //根据结束时间过滤
@@ -110,13 +110,13 @@ const (
 // Enum value maps for TimeFilterType.
 var (
 	TimeFilterType_name = map[int32]string{
-		0: "TimeFilterType_Unknow",
+		0: "TimeFilterType_Unknown",
 		1: "TimeFilterType_Public",
 		2: "TimeFilterType_Effective",
 		3: "TimeFilterType_End",
 	}
 	TimeFilterType_value = map[string]int32{
-		"TimeFilterType_Unknow":    0,
+		"TimeFilterType_Unknown":   0,
 		"TimeFilterType_Public":    1,
 		"TimeFilterType_Effective": 2,
 		"TimeFilterType_End":       3,
@@ -311,7 +311,7 @@ func (x *TimeFilter) GetType() TimeFilterType {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return TimeFilterType_TimeFilterType_Unknow
+	return TimeFilterType_TimeFilterType_Unknown
 }
 
 func (x *TimeFilter) GetBeginTime() string {
@@ -602,9 +602,9 @@ const file_Qot_GetCodeChange_proto_rawDesc = "" +
 	"\x14CodeChangeType_Joint\x10\x05\x12\x1d\n" +
 	"\x19CodeChangeType_JointSplit\x10\x06\x12\x1d\n" +
 	"\x19CodeChangeType_SplitJoint\x10\a\x12\x18\n" +
-	"\x14CodeChangeType_Other\x10\b*|\n" +
-	"\x0eTimeFilterType\x12\x19\n" +
-	"\x15TimeFilterType_Unknow\x10\x00\x12\x19\n" +
+	"\x14CodeChangeType_Other\x10\b*}\n" +
+	"\x0eTimeFilterType\x12\x1a\n" +
+	"\x16TimeFilterType_Unknown\x10\x00\x12\x19\n" +
 	"\x15TimeFilterType_Public\x10\x01\x12\x1c\n" +
 	"\x18TimeFilterType_Effective\x10\x02\x12\x16\n" +
 	"\x12TimeFilterType_End\x10\x03B4\n" +

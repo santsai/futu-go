@@ -400,14 +400,14 @@ func (x *QotRightNotice) GetHkQotRight() QotRight {
 	if x != nil && x.HkQotRight != nil {
 		return *x.HkQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetUsQotRight() QotRight {
 	if x != nil && x.UsQotRight != nil {
 		return *x.UsQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetCnQotRight() int32 {
@@ -421,7 +421,7 @@ func (x *QotRightNotice) GetHkOptionQotRight() QotRight {
 	if x != nil && x.HkOptionQotRight != nil {
 		return *x.HkOptionQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetHasUSOptionQotRight() bool {
@@ -435,7 +435,7 @@ func (x *QotRightNotice) GetHkFutureQotRight() QotRight {
 	if x != nil && x.HkFutureQotRight != nil {
 		return *x.HkFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetUsFutureQotRight() int32 {
@@ -449,42 +449,42 @@ func (x *QotRightNotice) GetUsOptionQotRight() QotRight {
 	if x != nil && x.UsOptionQotRight != nil {
 		return *x.UsOptionQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetUsIndexQotRight() QotRight {
 	if x != nil && x.UsIndexQotRight != nil {
 		return *x.UsIndexQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetUsOtcQotRight() QotRight {
 	if x != nil && x.UsOtcQotRight != nil {
 		return *x.UsOtcQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetSgFutureQotRight() QotRight {
 	if x != nil && x.SgFutureQotRight != nil {
 		return *x.SgFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetJpFutureQotRight() QotRight {
 	if x != nil && x.JpFutureQotRight != nil {
 		return *x.JpFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetUsCMEFutureQotRight() QotRight {
 	if x != nil && x.UsCMEFutureQotRight != nil {
 		return *x.UsCMEFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetUsCBOTFutureQotRight() int32 {
@@ -498,35 +498,35 @@ func (x *QotRightNotice) GetUsNYMEXFutureQotRight() QotRight {
 	if x != nil && x.UsNYMEXFutureQotRight != nil {
 		return *x.UsNYMEXFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetUsCOMEXFutureQotRight() QotRight {
 	if x != nil && x.UsCOMEXFutureQotRight != nil {
 		return *x.UsCOMEXFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetUsCBOEFutureQotRight() QotRight {
 	if x != nil && x.UsCBOEFutureQotRight != nil {
 		return *x.UsCBOEFutureQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetShQotRight() QotRight {
 	if x != nil && x.ShQotRight != nil {
 		return *x.ShQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 func (x *QotRightNotice) GetSzQotRight() QotRight {
 	if x != nil && x.SzQotRight != nil {
 		return *x.SzQotRight
 	}
-	return QotRight_QotRight_Unknow
+	return QotRight_QotRight_Unknown
 }
 
 type APILevelNotice struct {

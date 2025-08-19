@@ -7,6 +7,7 @@
 
 	# Spelling error
 	sub(/_Unkonw /, "_Unknown ")
+	sub(/_Unknow /, "_Unknown ")
 
     # Replace package line & capture pkg_name
     if ($0 ~ /^package .*;$/) {
