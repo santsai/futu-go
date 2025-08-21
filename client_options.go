@@ -16,7 +16,6 @@ type ClientOptions struct {
 	openDAddr    string
 	clientId     string
 	privateKey   []byte
-	publicKey    []byte
 	recvNotify   bool
 	respChanSize int
 	timeout      time.Duration
@@ -48,12 +47,6 @@ func (o *ClientOptions) WithOpenDAddr(addr string) *ClientOptions {
 // WithPrivateKey sets private key.
 func (o *ClientOptions) WithPrivateKey(privateKey []byte) *ClientOptions {
 	o.privateKey = privateKey
-	return o
-}
-
-// WithPublicKey sets public key.
-func (o *ClientOptions) WithPublicKey(publicKey []byte) *ClientOptions {
-	o.publicKey = publicKey
 	return o
 }
 

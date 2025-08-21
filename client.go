@@ -13,7 +13,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/hyperjiang/rsa"
 	"github.com/rs/zerolog/log"
 	"github.com/santsai/futu-go/pb"
 	"google.golang.org/protobuf/proto"
@@ -32,7 +31,8 @@ type Client struct {
 	closed   chan struct{}    // indicate the client is closed
 	connID   uint64
 	userID   uint64
-	crypto   *CryptoAES
+	aes      *AES
+	rsa      *RSA
 	handlers sync.Map // push notification handlers
 
 	bodyChanMap   map[uint64]bodyChanType
@@ -50,6 +50,15 @@ func NewClient(opts *ClientOptions) (*Client, error) {
 
 	client.respChan = make(chan rawResponse, client.respChanSize)
 	client.pushChan = make(chan rawResponse, client.respChanSize)
+
+	// setup rsa
+	if client.privateKey != nil {
+		rsa, err := NewRSA(client.privateKey)
+		if err != nil {
+			return nil, err
+		}
+		client.rsa = rsa
+	}
 
 	if err := client.dial(); err != nil {
 		return nil, err
@@ -77,8 +86,8 @@ func NewClient(opts *ClientOptions) (*Client, error) {
 	client.connID = s2c.GetConnID()
 	client.userID = s2c.GetLoginUserID()
 
-	if client.privateKey != nil || client.publicKey != nil {
-		client.crypto, err = NewCryptoAES([]byte(s2c.GetConnAESKey()), []byte(s2c.GetAesCBCiv()))
+	if client.privateKey != nil {
+		client.aes, err = NewAES([]byte(s2c.GetConnAESKey()), []byte(s2c.GetAesCBCiv()))
 		if err != nil {
 			client.Close()
 			return nil, err
@@ -125,15 +134,15 @@ func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch cha
 	}
 	sha1Value := sha1.Sum(b)
 
-	if client.publicKey != nil {
+	if client.privateKey != nil {
 		if protoID == pb.ProtoId_InitConnect {
-			b, err = rsa.EncryptByPublicKey(b, client.publicKey)
+			b, err = client.rsa.Encrypt(b)
 			if err != nil {
 				close(bch)
 				return err
 			}
 		} else {
-			b = client.crypto.Encrypt(b)
+			b = client.aes.Encrypt(b)
 		}
 	}
 
@@ -340,12 +349,12 @@ func (client *Client) read() error {
 	if client.privateKey != nil {
 		if pb.ProtoId(h.ProtoID) == pb.ProtoId_InitConnect {
 			var err error
-			b, err = rsa.DecryptByPrivateKey(b, client.privateKey)
+			b, err = client.rsa.Decrypt(b)
 			if err != nil {
 				return err
 			}
 		} else {
-			b = client.crypto.Decrypt(b)
+			b = client.aes.Decrypt(b)
 		}
 	}
 
