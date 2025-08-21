@@ -1,4 +1,4 @@
-package infra_test
+package futu_test
 
 import (
 	"testing"

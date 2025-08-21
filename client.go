@@ -15,7 +15,6 @@ import (
 
 	"github.com/hyperjiang/rsa"
 	"github.com/rs/zerolog/log"
-	"github.com/santsai/futu-go/infra"
 	"github.com/santsai/futu-go/pb"
 	"google.golang.org/protobuf/proto"
 )
@@ -33,7 +32,7 @@ type Client struct {
 	closed   chan struct{}    // indicate the client is closed
 	connID   uint64
 	userID   uint64
-	crypto   *infra.Crypto
+	crypto   *CryptoAES
 	handlers sync.Map // push notification handlers
 
 	bodyChanMap   map[uint64]bodyChanType
@@ -79,7 +78,7 @@ func NewClient(opts *ClientOptions) (*Client, error) {
 	client.userID = s2c.GetLoginUserID()
 
 	if client.privateKey != nil || client.publicKey != nil {
-		client.crypto, err = infra.NewCrypto([]byte(s2c.GetConnAESKey()), []byte(s2c.GetAesCBCiv()))
+		client.crypto, err = NewCryptoAES([]byte(s2c.GetConnAESKey()), []byte(s2c.GetAesCBCiv()))
 		if err != nil {
 			client.Close()
 			return nil, err

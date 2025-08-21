@@ -1,4 +1,4 @@
-package infra
+package futu
 
 import (
 	"bytes"
@@ -6,14 +6,14 @@ import (
 	"crypto/cipher"
 )
 
-// Crypto is a struct for encrypting and decrypting data using AES CBC mode.
-type Crypto struct {
+// CryptoAES is a struct for encrypting and decrypting data using AES CBC mode.
+type CryptoAES struct {
 	block cipher.Block
 	iv    []byte
 }
 
-// NewCrypto creates a new Crypto instance.
-func NewCrypto(key, iv []byte) (*Crypto, error) {
+// NewCryptoAES creates a new CryptoAES instance.
+func NewCryptoAES(key, iv []byte) (*CryptoAES, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -22,11 +22,11 @@ func NewCrypto(key, iv []byte) (*Crypto, error) {
 		iv = make([]byte, aes.BlockSize)
 	}
 
-	return &Crypto{block: block, iv: iv}, nil
+	return &CryptoAES{block: block, iv: iv}, nil
 }
 
 // Encrypt encrypts the data.
-func (c *Crypto) Encrypt(data []byte) []byte {
+func (c *CryptoAES) Encrypt(data []byte) []byte {
 	data = addPKCS7Padding(data)
 	ciphertext := make([]byte, len(data))
 	cipher.NewCBCEncrypter(c.block, c.iv).CryptBlocks(ciphertext, data)
@@ -35,7 +35,7 @@ func (c *Crypto) Encrypt(data []byte) []byte {
 }
 
 // Decrypt decrypts the data.
-func (c *Crypto) Decrypt(data []byte) []byte {
+func (c *CryptoAES) Decrypt(data []byte) []byte {
 	plaintext := make([]byte, len(data))
 	cipher.NewCBCDecrypter(c.block, c.iv).CryptBlocks(plaintext, data)
 
