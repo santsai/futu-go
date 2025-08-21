@@ -40,10 +40,11 @@ func SecurityToCode(s *pb.Security) string {
 
 // NewTradeHeader creates a new TrdHeader for a real trade account.
 func NewTradeHeader(id uint64, market pb.TrdMarket) *pb.TrdHeader {
-	return new(pb.TrdHeader).
-		WithEnv(pb.TrdEnv_Real).
-		WithAccID(id).
-		WithMarket(market)
+	return &pb.TrdHeader{
+		TrdEnv:    pb.TrdEnv_Real.Enum(),
+		AccID:     proto.Uint64(id),
+		TrdMarket: market.Enum(),
+	}
 }
 
 // NewSimulationTradeHeader creates a new TrdHeader for a simulation trade account.
@@ -98,24 +99,4 @@ func NewPatternFilter(fieldName pb.PatternField, klType pb.KLType, consecutivePe
 		IsNoFilter:        proto.Bool(false),
 		ConsecutivePeriod: proto.Int32(consecutivePeriod),
 	}
-}
-
-// NewCustomIndicatorFilter creates a new CustomIndicatorFilter for StockFilter method.
-func NewCustomIndicatorFilter(opts ...Option) *pb.CustomIndicatorFilter {
-	o := NewOptions(opts...)
-	o["isNoFilter"] = false
-
-	var f pb.CustomIndicatorFilter
-	_ = o.ToProto(&f)
-
-	return &f
-}
-
-// NewFilterConditions creates a new TrdFilterConditions.
-func NewFilterConditions(opts ...Option) *pb.TrdFilterConditions {
-	o := NewOptions(opts...)
-	var f pb.TrdFilterConditions
-	_ = o.ToProto(&f)
-
-	return &f
 }

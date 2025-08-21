@@ -1,4 +1,4 @@
-package client
+package futu
 
 import (
 	"bytes"
@@ -24,33 +24,33 @@ type bodyChanType chan<- []byte
 
 // Client is the client to connect to Futu OpenD.
 type Client struct {
-	Options
+	ClientOptions
 
 	conn     net.Conn
-	sn       atomic.Uint32 // serial number
-	resChan  chan response // response channel
-	pushChan chan response // push update channel
-	closed   chan struct{} // indicate the client is closed
+	sn       atomic.Uint32    // serial number
+	respChan chan rawResponse // response channel
+	pushChan chan rawResponse // push update channel
+	closed   chan struct{}    // indicate the client is closed
 	connID   uint64
 	userID   uint64
 	crypto   *infra.Crypto
 	handlers sync.Map // push notification handlers
 
-	bodyChan      map[uint64]bodyChanType
+	bodyChanMap   map[uint64]bodyChanType
 	bodyChanMutex sync.Mutex
 }
 
 // New creates a new client.
-func New(opts ...Option) (*Client, error) {
+func NewClient(opts *ClientOptions) (*Client, error) {
 	client := &Client{
-		Options:  NewOptions(opts...),
-		closed:   make(chan struct{}),
-		bodyChan: map[uint64]bodyChanType{},
-		handlers: sync.Map{},
+		ClientOptions: *opts,
+		closed:        make(chan struct{}),
+		bodyChanMap:   map[uint64]bodyChanType{},
+		handlers:      sync.Map{},
 	}
 
-	client.resChan = make(chan response, client.ResChanSize)
-	client.pushChan = make(chan response, client.ResChanSize)
+	client.respChan = make(chan rawResponse, client.respChanSize)
+	client.pushChan = make(chan rawResponse, client.respChanSize)
 
 	if err := client.dial(); err != nil {
 		return nil, err
@@ -78,7 +78,7 @@ func New(opts ...Option) (*Client, error) {
 	client.connID = s2c.GetConnID()
 	client.userID = s2c.GetLoginUserID()
 
-	if client.PrivateKey != nil || client.PublicKey != nil {
+	if client.privateKey != nil || client.publicKey != nil {
 		client.crypto, err = infra.NewCrypto([]byte(s2c.GetConnAESKey()), []byte(s2c.GetAesCBCiv()))
 		if err != nil {
 			client.Close()
@@ -95,18 +95,7 @@ func New(opts ...Option) (*Client, error) {
 	return client, nil
 }
 
-// GetConnID returns the connection ID.
-func (client *Client) GetConnID() uint64 {
-	return client.connID
-}
-
-// GetUserID returns the user ID.
-func (client *Client) GetUserID() uint64 {
-	return client.userID
-}
-
-// XXX this is temp
-func (client *Client) GetTradePacketId() *pb.PacketID {
+func (client *Client) nextTradePacketId() *pb.PacketID {
 	return &pb.PacketID{
 		ConnID:   proto.Uint64(client.connID),
 		SerialNo: proto.Uint32(client.nextSN()),
@@ -132,14 +121,16 @@ func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch cha
 
 	b, err := proto.Marshal(req)
 	if err != nil {
+		close(bch)
 		return err
 	}
 	sha1Value := sha1.Sum(b)
 
-	if client.PublicKey != nil {
+	if client.publicKey != nil {
 		if protoID == pb.ProtoId_InitConnect {
-			b, err = rsa.EncryptByPublicKey(b, client.PublicKey)
+			b, err = rsa.EncryptByPublicKey(b, client.publicKey)
 			if err != nil {
+				close(bch)
 				return err
 			}
 		} else {
@@ -177,7 +168,6 @@ func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch cha
 func (client *Client) Request(ctx context.Context, id pb.ProtoId, req proto.Message, resp pb.Response) (proto.Message, error) {
 
 	ch := make(chan []byte, 1)
-	defer close(ch)
 
 	if err := client.makeRequest(id, req, ch); err != nil {
 		return nil, err
@@ -240,39 +230,38 @@ func (client *Client) watchNotification() {
 }
 
 func (client *Client) dispatcherRegister(protoId pb.ProtoId, sn uint32, ch bodyChanType) {
-	// XXX
-	var id uint64 = uint64(protoId)<<32 | uint64(sn)
+	id := makeRespId(protoId, sn)
 
 	client.bodyChanMutex.Lock()
-	client.bodyChan[id] = ch
+	client.bodyChanMap[id] = ch
 	client.bodyChanMutex.Unlock()
 }
 
-func (client *Client) dispatcherCall(res response) error {
-	// XXX
-	var respId = res.respId()
+func (client *Client) dispatcherCall(resp rawResponse) error {
+	respId := makeRespId(resp.ProtoID, resp.SerialNo)
 
 	client.bodyChanMutex.Lock()
-	ch, ok := client.bodyChan[respId]
+	ch, ok := client.bodyChanMap[respId]
 	if ok {
-		delete(client.bodyChan, respId)
+		delete(client.bodyChanMap, respId)
 	}
 	client.bodyChanMutex.Unlock()
 
 	if ok {
-		ch <- res.Body
+		ch <- resp.Body
+		close(ch)
 		return nil
 	}
 
-	if res.SerialNo == 0 {
-		client.pushChan <- res
+	if resp.SerialNo == 0 {
+		client.pushChan <- resp
 		return nil
 	}
 
 	return fmt.Errorf("unexpected dispatch error")
 }
 
-func (client *Client) dispatcherPushCall(resp response) error {
+func (client *Client) dispatcherPushCall(resp rawResponse) error {
 
 	pbResp := pb.GetPushResponseStruct(resp.ProtoID)
 	if pbResp == nil {
@@ -290,9 +279,9 @@ func (client *Client) dispatcherPushCall(resp response) error {
 
 func (client *Client) dispatcherClose() {
 	client.bodyChanMutex.Lock()
-	for mid, ch := range client.bodyChan {
+	for id, ch := range client.bodyChanMap {
 		close(ch)
-		delete(client.bodyChan, mid)
+		delete(client.bodyChanMap, id)
 	}
 	client.bodyChanMutex.Unlock()
 }
@@ -303,7 +292,7 @@ func (client *Client) nextSN() uint32 {
 }
 
 func (client *Client) dial() error {
-	conn, err := net.Dial("tcp", client.Addr)
+	conn, err := net.Dial("tcp", client.openDAddr)
 	if err != nil {
 		log.Error().Err(err).Msg("dial failed")
 		return err
@@ -319,7 +308,7 @@ func (client *Client) listen() {
 		select {
 		case <-client.closed:
 			return
-		case res := <-client.resChan:
+		case res := <-client.respChan:
 			log.Info().Uint32("proto_id", uint32(res.ProtoID)).Uint32("sn", res.SerialNo).Msg("listen")
 			if err := client.dispatcherCall(res); err != nil {
 				log.Error().Err(err).Msg("dispatch error")
@@ -349,10 +338,10 @@ func (client *Client) read() error {
 		return err
 	}
 
-	if client.PrivateKey != nil {
+	if client.privateKey != nil {
 		if pb.ProtoId(h.ProtoID) == pb.ProtoId_InitConnect {
 			var err error
-			b, err = rsa.DecryptByPrivateKey(b, client.PrivateKey)
+			b, err = rsa.DecryptByPrivateKey(b, client.privateKey)
 			if err != nil {
 				return err
 			}
@@ -366,13 +355,13 @@ func (client *Client) read() error {
 		return errors.New("sha1 sum error")
 	}
 
-	res := response{
+	resp := rawResponse{
 		ProtoID:  pb.ProtoId(h.ProtoID),
 		SerialNo: h.SerialNo,
 		Body:     b,
 	}
 
-	client.resChan <- res
+	client.respChan <- resp
 
 	return nil
 }
@@ -396,20 +385,20 @@ func (client *Client) infiniteRead() {
 
 func (client *Client) initConnect() (*pb.InitConnectResponse, error) {
 	req := &pb.InitConnectRequest{
-		ClientVer:           proto.Int32(ClientVersion),
-		ClientID:            proto.String(client.ID),
-		RecvNotify:          proto.Bool(client.RecvNotify),
+		ClientVer:           ProtoPtr(kClientVersion),
+		ClientID:            ProtoPtr(client.clientId),
+		RecvNotify:          ProtoPtr(client.recvNotify),
 		PacketEncAlgo:       pb.PacketEncAlgo_AES_CBC.Enum(),
-		ProgrammingLanguage: proto.String("Go"),
+		ProgrammingLanguage: ProtoPtr("Go"),
 	}
 
-	ctx, cancel := context.WithTimeout(context.TODO(), client.Timeout)
+	ctx, cancel := context.WithTimeout(context.TODO(), client.timeout)
 	defer cancel()
 
 	return req.MakeRequest(ctx, client)
 }
 
-// XXX disconnect handling
+// XXX disconnect handling?
 func (client *Client) heartbeat(d time.Duration) {
 	ticker := time.NewTicker(d)
 	defer ticker.Stop()

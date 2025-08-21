@@ -324,7 +324,7 @@ func main() {
 		generateProtoIdAdapt(plugin)
 		generateRequestAdapt(plugin, reqs)
 		generateResponseAdapt(plugin, resps)
-		generateRequestBuilder(plugin, reqs)
+		//generateRequestBuilder(plugin, reqs)
 
 		return nil
 	})

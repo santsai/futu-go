@@ -1,4 +1,4 @@
-package client_test
+package futu_test
 
 import (
 	"testing"
