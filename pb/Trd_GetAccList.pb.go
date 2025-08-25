@@ -25,7 +25,7 @@ type TrdGetAccListRequest struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	UserID                *uint64                `protobuf:"varint,1,req,name=userID" json:"userID,omitempty"`                                   //历史原因，目前已废弃，填0即可
 	TrdCategory           *TrdCategory           `protobuf:"varint,2,opt,name=trdCategory,enum=futupb.TrdCategory" json:"trdCategory,omitempty"` //交易品类，参考 TrdCategory
-	NeedGeneralSecAccount *bool                  `protobuf:"varint,3,opt,name=needGeneralSecAccount" json:"needGeneralSecAccount,omitempty"`     //是否返回全能账户，仅SG用户需要
+	NeedGeneralSecAccount *bool                  `protobuf:"varint,3,opt,name=needGeneralSecAccount" json:"needGeneralSecAccount,omitempty"`     //是否返回综合账户 （适用于 HK/US/SG/AU 综合账户体系）
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }

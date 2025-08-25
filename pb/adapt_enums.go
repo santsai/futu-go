@@ -61,6 +61,7 @@ const (
 	CompanyAct_Add        CompanyAct = CompanyAct_CompanyAct_Add
 	CompanyAct_Dividend   CompanyAct = CompanyAct_CompanyAct_Dividend
 	CompanyAct_SPDividend CompanyAct = CompanyAct_CompanyAct_SPDividend
+	CompanyAct_SpinOff    CompanyAct = CompanyAct_CompanyAct_SpinOff
 
 	// Enum: Currency
 	Currency_Unknown Currency = Currency_Currency_Unknown

@@ -33,6 +33,7 @@ type TrdGetMaxTrdQtysRequest struct {
 	AdjustSideAndLimit *float64      `protobuf:"fixed64,7,opt,name=adjustSideAndLimit" json:"adjustSideAndLimit,omitempty"`       //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
 	SecMarket          *TrdSecMarket `protobuf:"varint,8,opt,name=secMarket,enum=futupb.TrdSecMarket" json:"secMarket,omitempty"` //证券所属市场，参见TrdSecMarket的枚举定义
 	OrderIDEx          *string       `protobuf:"bytes,9,opt,name=orderIDEx" json:"orderIDEx,omitempty"`                           //表示服务器订单id，可以用来代替orderID，和orderID二选一
+	Session            *Session      `protobuf:"varint,10,opt,name=session,enum=futupb.Session" json:"session,omitempty"`         //美股订单时段, 参见Common.Session的枚举定义
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -128,6 +129,13 @@ func (x *TrdGetMaxTrdQtysRequest) GetOrderIDEx() string {
 		return *x.OrderIDEx
 	}
 	return ""
+}
+
+func (x *TrdGetMaxTrdQtysRequest) GetSession() Session {
+	if x != nil && x.Session != nil {
+		return *x.Session
+	}
+	return Session_Session_NONE
 }
 
 type TrdGetMaxTrdQtysResponse struct {
@@ -304,7 +312,7 @@ var File_Trd_GetMaxTrdQtys_proto protoreflect.FileDescriptor
 
 const file_Trd_GetMaxTrdQtys_proto_rawDesc = "" +
 	"\n" +
-	"\x17Trd_GetMaxTrdQtys.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\xdd\x02\n" +
+	"\x17Trd_GetMaxTrdQtys.proto\x12\x06futupb\x1a\fCommon.proto\x1a\x10Trd_Common.proto\"\x88\x03\n" +
 	"\x17TrdGetMaxTrdQtysRequest\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x12/\n" +
 	"\torderType\x18\x02 \x02(\x0e2\x11.futupb.OrderTypeR\torderType\x12\x12\n" +
@@ -314,7 +322,9 @@ const file_Trd_GetMaxTrdQtys_proto_rawDesc = "" +
 	"\vadjustPrice\x18\x06 \x01(\bR\vadjustPrice\x12.\n" +
 	"\x12adjustSideAndLimit\x18\a \x01(\x01R\x12adjustSideAndLimit\x122\n" +
 	"\tsecMarket\x18\b \x01(\x0e2\x14.futupb.TrdSecMarketR\tsecMarket\x12\x1c\n" +
-	"\torderIDEx\x18\t \x01(\tR\torderIDEx\"y\n" +
+	"\torderIDEx\x18\t \x01(\tR\torderIDEx\x12)\n" +
+	"\asession\x18\n" +
+	" \x01(\x0e2\x0f.futupb.SessionR\asession\"y\n" +
 	"\x18TrdGetMaxTrdQtysResponse\x12)\n" +
 	"\x06header\x18\x01 \x02(\v2\x11.futupb.TrdHeaderR\x06header\x122\n" +
 	"\n" +
@@ -350,23 +360,25 @@ var file_Trd_GetMaxTrdQtys_proto_goTypes = []any{
 	(*TrdHeader)(nil),                         // 4: futupb.TrdHeader
 	(OrderType)(0),                            // 5: futupb.OrderType
 	(TrdSecMarket)(0),                         // 6: futupb.TrdSecMarket
-	(*MaxTrdQtys)(nil),                        // 7: futupb.MaxTrdQtys
-	(RetType)(0),                              // 8: futupb.RetType
+	(Session)(0),                              // 7: futupb.Session
+	(*MaxTrdQtys)(nil),                        // 8: futupb.MaxTrdQtys
+	(RetType)(0),                              // 9: futupb.RetType
 }
 var file_Trd_GetMaxTrdQtys_proto_depIdxs = []int32{
 	4, // 0: futupb.TrdGetMaxTrdQtysRequest.header:type_name -> futupb.TrdHeader
 	5, // 1: futupb.TrdGetMaxTrdQtysRequest.orderType:type_name -> futupb.OrderType
 	6, // 2: futupb.TrdGetMaxTrdQtysRequest.secMarket:type_name -> futupb.TrdSecMarket
-	4, // 3: futupb.TrdGetMaxTrdQtysResponse.header:type_name -> futupb.TrdHeader
-	7, // 4: futupb.TrdGetMaxTrdQtysResponse.maxTrdQtys:type_name -> futupb.MaxTrdQtys
-	0, // 5: futupb.TrdGetMaxTrdQtysRequest_Internal.payload:type_name -> futupb.TrdGetMaxTrdQtysRequest
-	8, // 6: futupb.TrdGetMaxTrdQtysResponse_Internal.retType:type_name -> futupb.RetType
-	1, // 7: futupb.TrdGetMaxTrdQtysResponse_Internal.payload:type_name -> futupb.TrdGetMaxTrdQtysResponse
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	7, // 3: futupb.TrdGetMaxTrdQtysRequest.session:type_name -> futupb.Session
+	4, // 4: futupb.TrdGetMaxTrdQtysResponse.header:type_name -> futupb.TrdHeader
+	8, // 5: futupb.TrdGetMaxTrdQtysResponse.maxTrdQtys:type_name -> futupb.MaxTrdQtys
+	0, // 6: futupb.TrdGetMaxTrdQtysRequest_Internal.payload:type_name -> futupb.TrdGetMaxTrdQtysRequest
+	9, // 7: futupb.TrdGetMaxTrdQtysResponse_Internal.retType:type_name -> futupb.RetType
+	1, // 8: futupb.TrdGetMaxTrdQtysResponse_Internal.payload:type_name -> futupb.TrdGetMaxTrdQtysResponse
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_Trd_GetMaxTrdQtys_proto_init() }

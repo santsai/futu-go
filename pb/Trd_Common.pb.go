@@ -2822,6 +2822,7 @@ type MaxTrdQtys struct {
 	MaxBuyBack          *float64 `protobuf:"fixed64,5,opt,name=maxBuyBack" json:"maxBuyBack,omitempty"`                   //卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。期货不适用
 	LongRequiredIM      *float64 `protobuf:"fixed64,6,opt,name=longRequiredIM" json:"longRequiredIM,omitempty"`           //开多仓每张合约初始保证金。当前仅期货和期权适用（最低 FutuOpenD 版本要求：5.0.1310）
 	ShortRequiredIM     *float64 `protobuf:"fixed64,7,opt,name=shortRequiredIM" json:"shortRequiredIM,omitempty"`         //开空仓每张合约初始保证金。当前仅期货和期权适用（最低 FutuOpenD 版本要求：5.0.1310）
+	Session             *Session `protobuf:"varint,8,opt,name=session,enum=futupb.Session" json:"session,omitempty"`      //美股订单时段, 参见Common.Session的枚举定义（最低 FutuOpenD 版本要求：9.4.5408）
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -2903,6 +2904,13 @@ func (x *MaxTrdQtys) GetShortRequiredIM() float64 {
 		return *x.ShortRequiredIM
 	}
 	return 0
+}
+
+func (x *MaxTrdQtys) GetSession() Session {
+	if x != nil && x.Session != nil {
+		return *x.Session
+	}
+	return Session_Session_NONE
 }
 
 // 过滤条件，条件组合是"与"不是"或"，用于获取订单、成交、持仓等时二次过滤
@@ -3165,7 +3173,7 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"\x0fcreateTimestamp\x18\x0e \x01(\x01R\x0fcreateTimestamp\x12(\n" +
 	"\x0fupdateTimestamp\x18\x0f \x01(\x01R\x0fupdateTimestamp\x12/\n" +
 	"\x06status\x18\x10 \x01(\x0e2\x17.futupb.OrderFillStatusR\x06status\x12/\n" +
-	"\ttrdMarket\x18\x11 \x01(\x0e2\x11.futupb.TrdMarketR\ttrdMarket\"\x9e\x02\n" +
+	"\ttrdMarket\x18\x11 \x01(\x0e2\x11.futupb.TrdMarketR\ttrdMarket\"\xc9\x02\n" +
 	"\n" +
 	"MaxTrdQtys\x12\x1e\n" +
 	"\n" +
@@ -3178,7 +3186,8 @@ const file_Trd_Common_proto_rawDesc = "" +
 	"maxBuyBack\x18\x05 \x01(\x01R\n" +
 	"maxBuyBack\x12&\n" +
 	"\x0elongRequiredIM\x18\x06 \x01(\x01R\x0elongRequiredIM\x12(\n" +
-	"\x0fshortRequiredIM\x18\a \x01(\x01R\x0fshortRequiredIM\"\xde\x01\n" +
+	"\x0fshortRequiredIM\x18\a \x01(\x01R\x0fshortRequiredIM\x12)\n" +
+	"\asession\x18\b \x01(\x0e2\x0f.futupb.SessionR\asession\"\xde\x01\n" +
 	"\x13TrdFilterConditions\x12\x1a\n" +
 	"\bcodeList\x18\x01 \x03(\tR\bcodeList\x12\x16\n" +
 	"\x06idList\x18\x02 \x03(\x04R\x06idList\x12\x1c\n" +
@@ -3430,12 +3439,13 @@ var file_Trd_Common_proto_depIdxs = []int32{
 	3,  // 31: futupb.OrderFill.secMarket:type_name -> futupb.TrdSecMarket
 	8,  // 32: futupb.OrderFill.status:type_name -> futupb.OrderFillStatus
 	2,  // 33: futupb.OrderFill.trdMarket:type_name -> futupb.TrdMarket
-	2,  // 34: futupb.TrdFilterConditions.filterMarket:type_name -> futupb.TrdMarket
-	35, // [35:35] is the sub-list for method output_type
-	35, // [35:35] is the sub-list for method input_type
-	35, // [35:35] is the sub-list for extension type_name
-	35, // [35:35] is the sub-list for extension extendee
-	0,  // [0:35] is the sub-list for field type_name
+	32, // 34: futupb.MaxTrdQtys.session:type_name -> futupb.Session
+	2,  // 35: futupb.TrdFilterConditions.filterMarket:type_name -> futupb.TrdMarket
+	36, // [36:36] is the sub-list for method output_type
+	36, // [36:36] is the sub-list for method input_type
+	36, // [36:36] is the sub-list for extension type_name
+	36, // [36:36] is the sub-list for extension extendee
+	0,  // [0:36] is the sub-list for field type_name
 }
 
 func init() { file_Trd_Common_proto_init() }

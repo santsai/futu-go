@@ -544,7 +544,7 @@ const (
 	QotMarketState_QotMarketState_OVERNIGHT_END       QotMarketState = 34 // 夜盘结束
 	QotMarketState_QotMarketState_TRADE_AT_LAST       QotMarketState = 35 // 收盘前成交（在交易时间表内）
 	QotMarketState_QotMarketState_TRADE_AUCTION       QotMarketState = 36 // 收盘前的竞价 （在交易时间表内）
-	QotMarketState_QotMarketState_OVERNIGHT           QotMarketState = 37 // 美股夜盘交易
+	QotMarketState_QotMarketState_OVERNIGHT           QotMarketState = 37 // 美股夜盘交易时段
 )
 
 // Enum value maps for QotMarketState.
@@ -2193,6 +2193,7 @@ const (
 	CompanyAct_CompanyAct_Add        CompanyAct = 32  //增发股
 	CompanyAct_CompanyAct_Dividend   CompanyAct = 64  //现金分红
 	CompanyAct_CompanyAct_SPDividend CompanyAct = 128 //特别股息
+	CompanyAct_CompanyAct_SpinOff    CompanyAct = 256 //分立
 )
 
 // Enum value maps for CompanyAct.
@@ -2207,6 +2208,7 @@ var (
 		32:  "CompanyAct_Add",
 		64:  "CompanyAct_Dividend",
 		128: "CompanyAct_SPDividend",
+		256: "CompanyAct_SpinOff",
 	}
 	CompanyAct_value = map[string]int32{
 		"CompanyAct_None":       0,
@@ -2218,6 +2220,7 @@ var (
 		"CompanyAct_Add":        32,
 		"CompanyAct_Dividend":   64,
 		"CompanyAct_SPDividend": 128,
+		"CompanyAct_SpinOff":    256,
 	}
 )
 
@@ -2489,72 +2492,6 @@ func (PriceReminderFreq) EnumDescriptor() ([]byte, []int) {
 	return file_Qot_Common_proto_rawDescGZIP(), []int{28}
 }
 
-// 提醒市场状态
-type PriceReminderMarketStatus int32
-
-const (
-	PriceReminderMarketStatus_PriceReminderMarketStatus_Unknown     PriceReminderMarketStatus = 0
-	PriceReminderMarketStatus_PriceReminderMarketStatus_Open        PriceReminderMarketStatus = 1 // 盘中
-	PriceReminderMarketStatus_PriceReminderMarketStatus_USPre       PriceReminderMarketStatus = 2 // 美股盘前
-	PriceReminderMarketStatus_PriceReminderMarketStatus_USAfter     PriceReminderMarketStatus = 3 // 美股盘后
-	PriceReminderMarketStatus_PriceReminderMarketStatus_USOverNight PriceReminderMarketStatus = 4 // 美股夜盘
-)
-
-// Enum value maps for PriceReminderMarketStatus.
-var (
-	PriceReminderMarketStatus_name = map[int32]string{
-		0: "PriceReminderMarketStatus_Unknown",
-		1: "PriceReminderMarketStatus_Open",
-		2: "PriceReminderMarketStatus_USPre",
-		3: "PriceReminderMarketStatus_USAfter",
-		4: "PriceReminderMarketStatus_USOverNight",
-	}
-	PriceReminderMarketStatus_value = map[string]int32{
-		"PriceReminderMarketStatus_Unknown":     0,
-		"PriceReminderMarketStatus_Open":        1,
-		"PriceReminderMarketStatus_USPre":       2,
-		"PriceReminderMarketStatus_USAfter":     3,
-		"PriceReminderMarketStatus_USOverNight": 4,
-	}
-)
-
-func (x PriceReminderMarketStatus) Enum() *PriceReminderMarketStatus {
-	p := new(PriceReminderMarketStatus)
-	*p = x
-	return p
-}
-
-func (x PriceReminderMarketStatus) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (PriceReminderMarketStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_Qot_Common_proto_enumTypes[29].Descriptor()
-}
-
-func (PriceReminderMarketStatus) Type() protoreflect.EnumType {
-	return &file_Qot_Common_proto_enumTypes[29]
-}
-
-func (x PriceReminderMarketStatus) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Do not use.
-func (x *PriceReminderMarketStatus) UnmarshalJSON(b []byte) error {
-	num, err := protoimpl.X.UnmarshalJSONEnum(x.Descriptor(), b)
-	if err != nil {
-		return err
-	}
-	*x = PriceReminderMarketStatus(num)
-	return nil
-}
-
-// Deprecated: Use PriceReminderMarketStatus.Descriptor instead.
-func (PriceReminderMarketStatus) EnumDescriptor() ([]byte, []int) {
-	return file_Qot_Common_proto_rawDescGZIP(), []int{29}
-}
-
 // 资产类别
 type AssetClass int32
 
@@ -2601,11 +2538,11 @@ func (x AssetClass) String() string {
 }
 
 func (AssetClass) Descriptor() protoreflect.EnumDescriptor {
-	return file_Qot_Common_proto_enumTypes[30].Descriptor()
+	return file_Qot_Common_proto_enumTypes[29].Descriptor()
 }
 
 func (AssetClass) Type() protoreflect.EnumType {
-	return &file_Qot_Common_proto_enumTypes[30]
+	return &file_Qot_Common_proto_enumTypes[29]
 }
 
 func (x AssetClass) Number() protoreflect.EnumNumber {
@@ -2624,7 +2561,7 @@ func (x *AssetClass) UnmarshalJSON(b []byte) error {
 
 // Deprecated: Use AssetClass.Descriptor instead.
 func (AssetClass) EnumDescriptor() ([]byte, []int) {
-	return file_Qot_Common_proto_rawDescGZIP(), []int{30}
+	return file_Qot_Common_proto_rawDescGZIP(), []int{29}
 }
 
 // 交割周期
@@ -2682,11 +2619,11 @@ func (x ExpirationCycle) String() string {
 }
 
 func (ExpirationCycle) Descriptor() protoreflect.EnumDescriptor {
-	return file_Qot_Common_proto_enumTypes[31].Descriptor()
+	return file_Qot_Common_proto_enumTypes[30].Descriptor()
 }
 
 func (ExpirationCycle) Type() protoreflect.EnumType {
-	return &file_Qot_Common_proto_enumTypes[31]
+	return &file_Qot_Common_proto_enumTypes[30]
 }
 
 func (x ExpirationCycle) Number() protoreflect.EnumNumber {
@@ -2705,7 +2642,7 @@ func (x *ExpirationCycle) UnmarshalJSON(b []byte) error {
 
 // Deprecated: Use ExpirationCycle.Descriptor instead.
 func (ExpirationCycle) EnumDescriptor() ([]byte, []int) {
-	return file_Qot_Common_proto_rawDescGZIP(), []int{31}
+	return file_Qot_Common_proto_rawDescGZIP(), []int{30}
 }
 
 // 标准期权链类型
@@ -2742,11 +2679,11 @@ func (x OptionStandardType) String() string {
 }
 
 func (OptionStandardType) Descriptor() protoreflect.EnumDescriptor {
-	return file_Qot_Common_proto_enumTypes[32].Descriptor()
+	return file_Qot_Common_proto_enumTypes[31].Descriptor()
 }
 
 func (OptionStandardType) Type() protoreflect.EnumType {
-	return &file_Qot_Common_proto_enumTypes[32]
+	return &file_Qot_Common_proto_enumTypes[31]
 }
 
 func (x OptionStandardType) Number() protoreflect.EnumNumber {
@@ -2765,7 +2702,7 @@ func (x *OptionStandardType) UnmarshalJSON(b []byte) error {
 
 // Deprecated: Use OptionStandardType.Descriptor instead.
 func (OptionStandardType) EnumDescriptor() ([]byte, []int) {
-	return file_Qot_Common_proto_rawDescGZIP(), []int{32}
+	return file_Qot_Common_proto_rawDescGZIP(), []int{31}
 }
 
 // 期权结算方式
@@ -2802,11 +2739,11 @@ func (x OptionSettlementMode) String() string {
 }
 
 func (OptionSettlementMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_Qot_Common_proto_enumTypes[33].Descriptor()
+	return file_Qot_Common_proto_enumTypes[32].Descriptor()
 }
 
 func (OptionSettlementMode) Type() protoreflect.EnumType {
-	return &file_Qot_Common_proto_enumTypes[33]
+	return &file_Qot_Common_proto_enumTypes[32]
 }
 
 func (x OptionSettlementMode) Number() protoreflect.EnumNumber {
@@ -2825,7 +2762,7 @@ func (x *OptionSettlementMode) UnmarshalJSON(b []byte) error {
 
 // Deprecated: Use OptionSettlementMode.Descriptor instead.
 func (OptionSettlementMode) EnumDescriptor() ([]byte, []int) {
-	return file_Qot_Common_proto_rawDescGZIP(), []int{33}
+	return file_Qot_Common_proto_rawDescGZIP(), []int{32}
 }
 
 // 所属交易所
@@ -2910,11 +2847,11 @@ func (x ExchType) String() string {
 }
 
 func (ExchType) Descriptor() protoreflect.EnumDescriptor {
-	return file_Qot_Common_proto_enumTypes[34].Descriptor()
+	return file_Qot_Common_proto_enumTypes[33].Descriptor()
 }
 
 func (ExchType) Type() protoreflect.EnumType {
-	return &file_Qot_Common_proto_enumTypes[34]
+	return &file_Qot_Common_proto_enumTypes[33]
 }
 
 func (x ExchType) Number() protoreflect.EnumNumber {
@@ -2933,7 +2870,7 @@ func (x *ExchType) UnmarshalJSON(b []byte) error {
 
 // Deprecated: Use ExchType.Descriptor instead.
 func (ExchType) EnumDescriptor() ([]byte, []int) {
-	return file_Qot_Common_proto_rawDescGZIP(), []int{34}
+	return file_Qot_Common_proto_rawDescGZIP(), []int{33}
 }
 
 // 周期类型
@@ -2976,11 +2913,11 @@ func (x PeriodType) String() string {
 }
 
 func (PeriodType) Descriptor() protoreflect.EnumDescriptor {
-	return file_Qot_Common_proto_enumTypes[35].Descriptor()
+	return file_Qot_Common_proto_enumTypes[34].Descriptor()
 }
 
 func (PeriodType) Type() protoreflect.EnumType {
-	return &file_Qot_Common_proto_enumTypes[35]
+	return &file_Qot_Common_proto_enumTypes[34]
 }
 
 func (x PeriodType) Number() protoreflect.EnumNumber {
@@ -2999,6 +2936,71 @@ func (x *PeriodType) UnmarshalJSON(b []byte) error {
 
 // Deprecated: Use PeriodType.Descriptor instead.
 func (PeriodType) EnumDescriptor() ([]byte, []int) {
+	return file_Qot_Common_proto_rawDescGZIP(), []int{34}
+}
+
+type PriceReminderMarketStatus int32
+
+const (
+	PriceReminderMarketStatus_PriceReminderMarketStatus_Unknown     PriceReminderMarketStatus = 0
+	PriceReminderMarketStatus_PriceReminderMarketStatus_Open        PriceReminderMarketStatus = 1 // 盘中
+	PriceReminderMarketStatus_PriceReminderMarketStatus_USPre       PriceReminderMarketStatus = 2 // 美股盘前
+	PriceReminderMarketStatus_PriceReminderMarketStatus_USAfter     PriceReminderMarketStatus = 3 // 美股盘后
+	PriceReminderMarketStatus_PriceReminderMarketStatus_USOverNight PriceReminderMarketStatus = 4 // 美股夜盘
+)
+
+// Enum value maps for PriceReminderMarketStatus.
+var (
+	PriceReminderMarketStatus_name = map[int32]string{
+		0: "PriceReminderMarketStatus_Unknown",
+		1: "PriceReminderMarketStatus_Open",
+		2: "PriceReminderMarketStatus_USPre",
+		3: "PriceReminderMarketStatus_USAfter",
+		4: "PriceReminderMarketStatus_USOverNight",
+	}
+	PriceReminderMarketStatus_value = map[string]int32{
+		"PriceReminderMarketStatus_Unknown":     0,
+		"PriceReminderMarketStatus_Open":        1,
+		"PriceReminderMarketStatus_USPre":       2,
+		"PriceReminderMarketStatus_USAfter":     3,
+		"PriceReminderMarketStatus_USOverNight": 4,
+	}
+)
+
+func (x PriceReminderMarketStatus) Enum() *PriceReminderMarketStatus {
+	p := new(PriceReminderMarketStatus)
+	*p = x
+	return p
+}
+
+func (x PriceReminderMarketStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PriceReminderMarketStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_Qot_Common_proto_enumTypes[35].Descriptor()
+}
+
+func (PriceReminderMarketStatus) Type() protoreflect.EnumType {
+	return &file_Qot_Common_proto_enumTypes[35]
+}
+
+func (x PriceReminderMarketStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Do not use.
+func (x *PriceReminderMarketStatus) UnmarshalJSON(b []byte) error {
+	num, err := protoimpl.X.UnmarshalJSONEnum(x.Descriptor(), b)
+	if err != nil {
+		return err
+	}
+	*x = PriceReminderMarketStatus(num)
+	return nil
+}
+
+// Deprecated: Use PriceReminderMarketStatus.Descriptor instead.
+func (PriceReminderMarketStatus) EnumDescriptor() ([]byte, []int) {
 	return file_Qot_Common_proto_rawDescGZIP(), []int{35}
 }
 
@@ -4969,9 +4971,11 @@ type Rehab struct {
 	AddBase        *int32                 `protobuf:"varint,18,opt,name=addBase" json:"addBase,omitempty"` //增发股(例如，10送2, 增发股价为6.3元, Base为10, Ert为2, Price为6.3)
 	AddErt         *int32                 `protobuf:"varint,19,opt,name=addErt" json:"addErt,omitempty"`
 	AddPrice       *float64               `protobuf:"fixed64,20,opt,name=addPrice" json:"addPrice,omitempty"`
-	Dividend       *float64               `protobuf:"fixed64,21,opt,name=dividend" json:"dividend,omitempty"`     //现金分红(例如，每10股派现0.5元,则该字段值为0.05)
-	SpDividend     *float64               `protobuf:"fixed64,22,opt,name=spDividend" json:"spDividend,omitempty"` //特别股息(例如，每10股派特别股息0.5元,则该字段值为0.05)
-	Timestamp      *float64               `protobuf:"fixed64,23,opt,name=timestamp" json:"timestamp,omitempty"`   //时间戳
+	Dividend       *float64               `protobuf:"fixed64,21,opt,name=dividend" json:"dividend,omitempty"`       //现金分红(例如，每10股派现0.5元,则该字段值为0.05)
+	SpDividend     *float64               `protobuf:"fixed64,22,opt,name=spDividend" json:"spDividend,omitempty"`   //特别股息(例如，每10股派特别股息0.5元,则该字段值为0.05)
+	SpinOffBase    *float64               `protobuf:"fixed64,24,opt,name=spinOffBase" json:"spinOffBase,omitempty"` // 分立
+	SpinOffErt     *float64               `protobuf:"fixed64,25,opt,name=spinOffErt" json:"spinOffErt,omitempty"`   //
+	Timestamp      *float64               `protobuf:"fixed64,23,opt,name=timestamp" json:"timestamp,omitempty"`     //时间戳
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -5156,6 +5160,20 @@ func (x *Rehab) GetDividend() float64 {
 func (x *Rehab) GetSpDividend() float64 {
 	if x != nil && x.SpDividend != nil {
 		return *x.SpDividend
+	}
+	return 0
+}
+
+func (x *Rehab) GetSpinOffBase() float64 {
+	if x != nil && x.SpinOffBase != nil {
+		return *x.SpinOffBase
+	}
+	return 0
+}
+
+func (x *Rehab) GetSpinOffErt() float64 {
+	if x != nil && x.SpinOffErt != nil {
+		return *x.SpinOffErt
 	}
 	return 0
 }
@@ -5363,7 +5381,7 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\tPlateInfo\x12&\n" +
 	"\x05plate\x18\x01 \x02(\v2\x10.futupb.SecurityR\x05plate\x12\x12\n" +
 	"\x04name\x18\x02 \x02(\tR\x04name\x122\n" +
-	"\tplateType\x18\x03 \x01(\x0e2\x14.futupb.PlateSetTypeR\tplateType\"\xb5\x05\n" +
+	"\tplateType\x18\x03 \x01(\x0e2\x14.futupb.PlateSetTypeR\tplateType\"\xf7\x05\n" +
 	"\x05Rehab\x12\x12\n" +
 	"\x04time\x18\x01 \x02(\tR\x04time\x12&\n" +
 	"\x0ecompanyActFlag\x18\x02 \x02(\x03R\x0ecompanyActFlag\x12\x1e\n" +
@@ -5399,7 +5417,11 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\bdividend\x18\x15 \x01(\x01R\bdividend\x12\x1e\n" +
 	"\n" +
 	"spDividend\x18\x16 \x01(\x01R\n" +
-	"spDividend\x12\x1c\n" +
+	"spDividend\x12 \n" +
+	"\vspinOffBase\x18\x18 \x01(\x01R\vspinOffBase\x12\x1e\n" +
+	"\n" +
+	"spinOffErt\x18\x19 \x01(\x01R\n" +
+	"spinOffErt\x12\x1c\n" +
 	"\ttimestamp\x18\x17 \x01(\x01R\ttimestamp*\xcd\x02\n" +
 	"\tQotMarket\x12\x15\n" +
 	"\x11QotMarket_Unknown\x10\x00\x12\x19\n" +
@@ -5737,7 +5759,7 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x14WarrantStatus_Normal\x10\x01\x12\x19\n" +
 	"\x15WarrantStatus_Suspend\x10\x02\x12\x1b\n" +
 	"\x17WarrantStatus_StopTrade\x10\x03\x12 \n" +
-	"\x1cWarrantStatus_PendingListing\x10\x04*\xda\x01\n" +
+	"\x1cWarrantStatus_PendingListing\x10\x04*\xf3\x01\n" +
 	"\n" +
 	"CompanyAct\x12\x13\n" +
 	"\x0fCompanyAct_None\x10\x00\x12\x14\n" +
@@ -5748,7 +5770,8 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x10CompanyAct_Allot\x10\x10\x12\x12\n" +
 	"\x0eCompanyAct_Add\x10 \x12\x17\n" +
 	"\x13CompanyAct_Dividend\x10@\x12\x1a\n" +
-	"\x15CompanyAct_SPDividend\x10\x80\x01*~\n" +
+	"\x15CompanyAct_SPDividend\x10\x80\x01\x12\x17\n" +
+	"\x12CompanyAct_SpinOff\x10\x80\x02*~\n" +
 	"\bQotRight\x12\x14\n" +
 	"\x10QotRight_Unknown\x10\x00\x12\x10\n" +
 	"\fQotRight_Bmp\x10\x01\x12\x13\n" +
@@ -5778,13 +5801,7 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x19PriceReminderFreq_Unknown\x10\x00\x12\x1c\n" +
 	"\x18PriceReminderFreq_Always\x10\x01\x12\x1e\n" +
 	"\x1aPriceReminderFreq_OnceADay\x10\x02\x12\x1e\n" +
-	"\x1aPriceReminderFreq_OnlyOnce\x10\x03*\xdd\x01\n" +
-	"\x19PriceReminderMarketStatus\x12%\n" +
-	"!PriceReminderMarketStatus_Unknown\x10\x00\x12\"\n" +
-	"\x1ePriceReminderMarketStatus_Open\x10\x01\x12#\n" +
-	"\x1fPriceReminderMarketStatus_USPre\x10\x02\x12%\n" +
-	"!PriceReminderMarketStatus_USAfter\x10\x03\x12)\n" +
-	"%PriceReminderMarketStatus_USOverNight\x10\x04*\xb4\x01\n" +
+	"\x1aPriceReminderFreq_OnlyOnce\x10\x03*\xb4\x01\n" +
 	"\n" +
 	"AssetClass\x12\x16\n" +
 	"\x12AssetClass_Unknown\x10\x00\x12\x14\n" +
@@ -5840,7 +5857,13 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x13PeriodType_INTRADAY\x10\x01\x12\x12\n" +
 	"\x0ePeriodType_DAY\x10\x02\x12\x13\n" +
 	"\x0fPeriodType_WEEK\x10\x03\x12\x14\n" +
-	"\x10PeriodType_MONTH\x10\x04B4\n" +
+	"\x10PeriodType_MONTH\x10\x04*\xdd\x01\n" +
+	"\x19PriceReminderMarketStatus\x12%\n" +
+	"!PriceReminderMarketStatus_Unknown\x10\x00\x12\"\n" +
+	"\x1ePriceReminderMarketStatus_Open\x10\x01\x12#\n" +
+	"\x1fPriceReminderMarketStatus_USPre\x10\x02\x12%\n" +
+	"!PriceReminderMarketStatus_USAfter\x10\x03\x12)\n" +
+	"%PriceReminderMarketStatus_USOverNight\x10\x04B4\n" +
 	"\x13com.futu.openapi.pbZ\x1dgithub.com/santsai/futu-go/pb"
 
 var (
@@ -5887,13 +5910,13 @@ var file_Qot_Common_proto_goTypes = []any{
 	(QotRight)(0),                  // 26: futupb.QotRight
 	(PriceReminderType)(0),         // 27: futupb.PriceReminderType
 	(PriceReminderFreq)(0),         // 28: futupb.PriceReminderFreq
-	(PriceReminderMarketStatus)(0), // 29: futupb.PriceReminderMarketStatus
-	(AssetClass)(0),                // 30: futupb.AssetClass
-	(ExpirationCycle)(0),           // 31: futupb.ExpirationCycle
-	(OptionStandardType)(0),        // 32: futupb.OptionStandardType
-	(OptionSettlementMode)(0),      // 33: futupb.OptionSettlementMode
-	(ExchType)(0),                  // 34: futupb.ExchType
-	(PeriodType)(0),                // 35: futupb.PeriodType
+	(AssetClass)(0),                // 29: futupb.AssetClass
+	(ExpirationCycle)(0),           // 30: futupb.ExpirationCycle
+	(OptionStandardType)(0),        // 31: futupb.OptionStandardType
+	(OptionSettlementMode)(0),      // 32: futupb.OptionSettlementMode
+	(ExchType)(0),                  // 33: futupb.ExchType
+	(PeriodType)(0),                // 34: futupb.PeriodType
+	(PriceReminderMarketStatus)(0), // 35: futupb.PriceReminderMarketStatus
 	(*Security)(nil),               // 36: futupb.Security
 	(*KLine)(nil),                  // 37: futupb.KLine
 	(*OptionBasicQotExData)(nil),   // 38: futupb.OptionBasicQotExData
@@ -5932,15 +5955,15 @@ var file_Qot_Common_proto_depIdxs = []int32{
 	39, // 11: futupb.BasicQot.overnight:type_name -> futupb.PreAfterMarketData
 	36, // 12: futupb.SecurityStaticBasic.security:type_name -> futupb.Security
 	1,  // 13: futupb.SecurityStaticBasic.secType:type_name -> futupb.SecurityType
-	34, // 14: futupb.SecurityStaticBasic.exchType:type_name -> futupb.ExchType
+	33, // 14: futupb.SecurityStaticBasic.exchType:type_name -> futupb.ExchType
 	3,  // 15: futupb.WarrantStaticExData.type:type_name -> futupb.WarrantType
 	36, // 16: futupb.WarrantStaticExData.owner:type_name -> futupb.Security
 	4,  // 17: futupb.OptionStaticExData.type:type_name -> futupb.OptionType
 	36, // 18: futupb.OptionStaticExData.owner:type_name -> futupb.Security
 	5,  // 19: futupb.OptionStaticExData.indexOptionType:type_name -> futupb.IndexOptionType
-	31, // 20: futupb.OptionStaticExData.expirationCycle:type_name -> futupb.ExpirationCycle
-	32, // 21: futupb.OptionStaticExData.optionStandardType:type_name -> futupb.OptionStandardType
-	33, // 22: futupb.OptionStaticExData.optionSettlementMode:type_name -> futupb.OptionSettlementMode
+	30, // 20: futupb.OptionStaticExData.expirationCycle:type_name -> futupb.ExpirationCycle
+	31, // 21: futupb.OptionStaticExData.optionStandardType:type_name -> futupb.OptionStandardType
+	32, // 22: futupb.OptionStaticExData.optionSettlementMode:type_name -> futupb.OptionSettlementMode
 	44, // 23: futupb.SecurityStaticInfo.basic:type_name -> futupb.SecurityStaticBasic
 	45, // 24: futupb.SecurityStaticInfo.warrantExData:type_name -> futupb.WarrantStaticExData
 	46, // 25: futupb.SecurityStaticInfo.optionExData:type_name -> futupb.OptionStaticExData
