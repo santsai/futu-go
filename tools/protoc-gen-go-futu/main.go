@@ -61,6 +61,12 @@ func generateProtoIdAdapt(plugin *protogen.Plugin) error {
 	return nil
 }
 
+func commentStr(c protogen.Comments) string {
+	s := c.String()
+	s = strings.TrimRight(s, " \r\n")
+	return s
+}
+
 func generateEnumAdapt(plugin *protogen.Plugin, enums []*protogen.Enum) error {
 	//
 	sort.Slice(enums, func(i, j int) bool {
@@ -72,9 +78,19 @@ func generateEnumAdapt(plugin *protogen.Plugin, enums []*protogen.Enum) error {
 	// generate enums
 	g.P(`const (`)
 	for _, enum := range enums {
-		g.P(`// Enum: `, enum.Desc.Name())
+
+		// comments for enum
+		if s := commentStr(enum.Comments.Leading); s != "" {
+			g.P(s)
+		}
+
+		g.P(`// enum: `, enum.Desc.Name())
+
 		name := enum.GoIdent.GoName
 		for _, v := range enum.Values {
+		if s := commentStr(v.Comments.Trailing); s != "" {
+			g.P(s)
+		}
 			g.P(v.Desc.Name(), " ", name, "=", v.GoIdent.GoName)
 		}
 		g.P()
@@ -99,11 +115,12 @@ func generateRequestAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) err
 
 	`)
 
+	used_ids := map[int]bool{}
 	for _, msg := range msgs {
 		reqName := string(msg.Desc.Name())
 		idName := strings.TrimSuffix(reqName, "Request")
 
-		_, idExist := protoid_name2id[idName]
+		id, idExist := protoid_name2id[idName]
 
 		if !idExist {
 			g.P(`/* ProtoId Not Exist: `, idName)
@@ -124,8 +141,23 @@ func generateRequestAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) err
 
 		if !idExist {
 			g.P(`*/`)
+		} else {
+			used_ids[id] = true
 		}
 	}
+
+	// print a list of unused protoid, in case something is missed.
+	for _, id := range protoid_push {
+		used_ids[id] = true
+	}
+	g.P(`/* `, fmt.Sprintf("protoid: used/total (%d/%d)", len(used_ids), len(protoid_name2id)))
+	g.P(`unused:`)
+	for name,id := range protoid_name2id {
+		if _, ok := used_ids[id]; !ok {
+			g.P(name)
+		}
+	}
+	g.P(`*/`)
 
 	return nil
 }

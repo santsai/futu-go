@@ -657,3 +657,8 @@ func (m *VerificationRequest) MakeRequest(ctx context.Context, rh RequestHandler
 		return resp.(*VerificationResponse), nil
 	}
 }
+
+/* protoid: used/total (68/69)
+unused:
+InitQuantMode
+*/

@@ -3,900 +3,1671 @@
 package pb
 
 const (
-	// Enum: AccumulateField
-	AccumulateField_Unknown      AccumulateField = AccumulateField_AccumulateField_Unknown
-	AccumulateField_ChangeRate   AccumulateField = AccumulateField_AccumulateField_ChangeRate
-	AccumulateField_Amplitude    AccumulateField = AccumulateField_AccumulateField_Amplitude
-	AccumulateField_Volume       AccumulateField = AccumulateField_AccumulateField_Volume
-	AccumulateField_Turnover     AccumulateField = AccumulateField_AccumulateField_Turnover
+	// 累积属性
+	// enum: AccumulateField
+	// 未知
+	AccumulateField_Unknown AccumulateField = AccumulateField_AccumulateField_Unknown
+	// 涨跌幅（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-10.2,20.4]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	AccumulateField_ChangeRate AccumulateField = AccumulateField_AccumulateField_ChangeRate
+	// 振幅（精确到小数点后 3 位，超出部分会被舍弃）例如填写[0.5,20.6]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	AccumulateField_Amplitude AccumulateField = AccumulateField_AccumulateField_Amplitude
+	// 日均成交量（精确到小数点后 0 位，超出部分会被舍弃）例如填写[2000,70000]值区间（精确到小数点后 0 位，超出部分会被舍弃）
+	AccumulateField_Volume AccumulateField = AccumulateField_AccumulateField_Volume
+	// 日均成交额（精确到小数点后 3 位，超出部分会被舍弃）例如填写[1400,890000]值区间
+	AccumulateField_Turnover AccumulateField = AccumulateField_AccumulateField_Turnover
+	// 换手率（精确到小数点后 3 位，超出部分会被舍弃）例如填写[2,30]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
 	AccumulateField_TurnoverRate AccumulateField = AccumulateField_AccumulateField_TurnoverRate
 
-	// Enum: AssetClass
-	AssetClass_Unknown        AssetClass = AssetClass_AssetClass_Unknown
-	AssetClass_Stock          AssetClass = AssetClass_AssetClass_Stock
-	AssetClass_Bond           AssetClass = AssetClass_AssetClass_Bond
-	AssetClass_Commodity      AssetClass = AssetClass_AssetClass_Commodity
+	// 资产类别
+	// enum: AssetClass
+	// 未知
+	AssetClass_Unknown AssetClass = AssetClass_AssetClass_Unknown
+	// 股票
+	AssetClass_Stock AssetClass = AssetClass_AssetClass_Stock
+	// 债券
+	AssetClass_Bond AssetClass = AssetClass_AssetClass_Bond
+	// 商品
+	AssetClass_Commodity AssetClass = AssetClass_AssetClass_Commodity
+	// 货币市场
 	AssetClass_CurrencyMarket AssetClass = AssetClass_AssetClass_CurrencyMarket
-	AssetClass_Future         AssetClass = AssetClass_AssetClass_Future
-	AssetClass_Swap           AssetClass = AssetClass_AssetClass_Swap
+	// 期货
+	AssetClass_Future AssetClass = AssetClass_AssetClass_Future
+	// 掉期
+	AssetClass_Swap AssetClass = AssetClass_AssetClass_Swap
 
-	// Enum: CltRiskLevel
-	CltRiskLevel_Unknown      CltRiskLevel = CltRiskLevel_CltRiskLevel_Unknown
-	CltRiskLevel_Safe         CltRiskLevel = CltRiskLevel_CltRiskLevel_Safe
-	CltRiskLevel_Warning      CltRiskLevel = CltRiskLevel_CltRiskLevel_Warning
-	CltRiskLevel_Danger       CltRiskLevel = CltRiskLevel_CltRiskLevel_Danger
+	// 账户风险控制等级
+	// enum: CltRiskLevel
+	// 未知
+	CltRiskLevel_Unknown CltRiskLevel = CltRiskLevel_CltRiskLevel_Unknown
+	// 安全
+	CltRiskLevel_Safe CltRiskLevel = CltRiskLevel_CltRiskLevel_Safe
+	// 预警
+	CltRiskLevel_Warning CltRiskLevel = CltRiskLevel_CltRiskLevel_Warning
+	// 危险
+	CltRiskLevel_Danger CltRiskLevel = CltRiskLevel_CltRiskLevel_Danger
+	// 绝对安全
 	CltRiskLevel_AbsoluteSafe CltRiskLevel = CltRiskLevel_CltRiskLevel_AbsoluteSafe
-	CltRiskLevel_OptDanger    CltRiskLevel = CltRiskLevel_CltRiskLevel_OptDanger
+	// 危险, 期权相关
+	CltRiskLevel_OptDanger CltRiskLevel = CltRiskLevel_CltRiskLevel_OptDanger
 
-	// Enum: CltRiskStatus
+	// 风险状态，共分 9 个等级，LEVEL1是最安全，LEVEL9是最危险
+	// enum: CltRiskStatus
+	// 未知
 	CltRiskStatus_Unknown CltRiskStatus = CltRiskStatus_CltRiskStatus_Unknown
-	CltRiskStatus_Level1  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level1
-	CltRiskStatus_Level2  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level2
-	CltRiskStatus_Level3  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level3
-	CltRiskStatus_Level4  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level4
-	CltRiskStatus_Level5  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level5
-	CltRiskStatus_Level6  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level6
-	CltRiskStatus_Level7  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level7
-	CltRiskStatus_Level8  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level8
-	CltRiskStatus_Level9  CltRiskStatus = CltRiskStatus_CltRiskStatus_Level9
+	// 非常安全
+	CltRiskStatus_Level1 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level1
+	// 安全
+	CltRiskStatus_Level2 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level2
+	// 较安全
+	CltRiskStatus_Level3 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level3
+	// 较低风险
+	CltRiskStatus_Level4 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level4
+	// 中等风险
+	CltRiskStatus_Level5 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level5
+	// 较高风险
+	CltRiskStatus_Level6 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level6
+	// 预警
+	CltRiskStatus_Level7 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level7
+	// 预警
+	CltRiskStatus_Level8 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level8
+	// 预警
+	CltRiskStatus_Level9 CltRiskStatus = CltRiskStatus_CltRiskStatus_Level9
 
-	// Enum: CodeChangeType
-	CodeChangeType_Unkown     CodeChangeType = CodeChangeType_CodeChangeType_Unkown
-	CodeChangeType_GemToMain  CodeChangeType = CodeChangeType_CodeChangeType_GemToMain
-	CodeChangeType_Unpaid     CodeChangeType = CodeChangeType_CodeChangeType_Unpaid
-	CodeChangeType_ChangeLot  CodeChangeType = CodeChangeType_CodeChangeType_ChangeLot
-	CodeChangeType_Split      CodeChangeType = CodeChangeType_CodeChangeType_Split
-	CodeChangeType_Joint      CodeChangeType = CodeChangeType_CodeChangeType_Joint
+	// enum: CodeChangeType
+	// 未知
+	CodeChangeType_Unkown CodeChangeType = CodeChangeType_CodeChangeType_Unkown
+	// 创业板转主板
+	CodeChangeType_GemToMain CodeChangeType = CodeChangeType_CodeChangeType_GemToMain
+	// 买卖未缴款供股权
+	CodeChangeType_Unpaid CodeChangeType = CodeChangeType_CodeChangeType_Unpaid
+	// 更改买卖单位
+	CodeChangeType_ChangeLot CodeChangeType = CodeChangeType_CodeChangeType_ChangeLot
+	// 拆股
+	CodeChangeType_Split CodeChangeType = CodeChangeType_CodeChangeType_Split
+	// 合股
+	CodeChangeType_Joint CodeChangeType = CodeChangeType_CodeChangeType_Joint
+	// 股份先并后拆
 	CodeChangeType_JointSplit CodeChangeType = CodeChangeType_CodeChangeType_JointSplit
+	// 股份先拆后并
 	CodeChangeType_SplitJoint CodeChangeType = CodeChangeType_CodeChangeType_SplitJoint
-	CodeChangeType_Other      CodeChangeType = CodeChangeType_CodeChangeType_Other
+	// 其他
+	CodeChangeType_Other CodeChangeType = CodeChangeType_CodeChangeType_Other
 
-	// Enum: CompanyAct
-	CompanyAct_None       CompanyAct = CompanyAct_CompanyAct_None
-	CompanyAct_Split      CompanyAct = CompanyAct_CompanyAct_Split
-	CompanyAct_Join       CompanyAct = CompanyAct_CompanyAct_Join
-	CompanyAct_Bonus      CompanyAct = CompanyAct_CompanyAct_Bonus
-	CompanyAct_Transfer   CompanyAct = CompanyAct_CompanyAct_Transfer
-	CompanyAct_Allot      CompanyAct = CompanyAct_CompanyAct_Allot
-	CompanyAct_Add        CompanyAct = CompanyAct_CompanyAct_Add
-	CompanyAct_Dividend   CompanyAct = CompanyAct_CompanyAct_Dividend
+	// enum: CompanyAct
+	// 无
+	CompanyAct_None CompanyAct = CompanyAct_CompanyAct_None
+	// 拆股
+	CompanyAct_Split CompanyAct = CompanyAct_CompanyAct_Split
+	// 合股
+	CompanyAct_Join CompanyAct = CompanyAct_CompanyAct_Join
+	// 送股
+	CompanyAct_Bonus CompanyAct = CompanyAct_CompanyAct_Bonus
+	// 转赠股
+	CompanyAct_Transfer CompanyAct = CompanyAct_CompanyAct_Transfer
+	// 配股
+	CompanyAct_Allot CompanyAct = CompanyAct_CompanyAct_Allot
+	// 增发股
+	CompanyAct_Add CompanyAct = CompanyAct_CompanyAct_Add
+	// 现金分红
+	CompanyAct_Dividend CompanyAct = CompanyAct_CompanyAct_Dividend
+	// 特别股息
 	CompanyAct_SPDividend CompanyAct = CompanyAct_CompanyAct_SPDividend
-	CompanyAct_SpinOff    CompanyAct = CompanyAct_CompanyAct_SpinOff
+	// 分立
+	CompanyAct_SpinOff CompanyAct = CompanyAct_CompanyAct_SpinOff
 
-	// Enum: Currency
+	// 货币种类
+	// enum: Currency
+	// 未知货币
 	Currency_Unknown Currency = Currency_Currency_Unknown
-	Currency_HKD     Currency = Currency_Currency_HKD
-	Currency_USD     Currency = Currency_Currency_USD
-	Currency_CNH     Currency = Currency_Currency_CNH
-	Currency_JPY     Currency = Currency_Currency_JPY
-	Currency_SGD     Currency = Currency_Currency_SGD
-	Currency_AUD     Currency = Currency_Currency_AUD
-	Currency_CAD     Currency = Currency_Currency_CAD
-	Currency_MYR     Currency = Currency_Currency_MYR
+	// 港币
+	Currency_HKD Currency = Currency_Currency_HKD
+	// 美元
+	Currency_USD Currency = Currency_Currency_USD
+	// 离岸人民币
+	Currency_CNH Currency = Currency_Currency_CNH
+	// 日元
+	Currency_JPY Currency = Currency_Currency_JPY
+	// 新币
+	Currency_SGD Currency = Currency_Currency_SGD
+	// 澳元
+	Currency_AUD Currency = Currency_Currency_AUD
+	// 加拿大元
+	Currency_CAD Currency = Currency_Currency_CAD
+	// 马来西亚林吉特
+	Currency_MYR Currency = Currency_Currency_MYR
 
-	// Enum: CustomIndicatorField
-	CustomIndicatorField_Unknown      CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_Unknown
-	CustomIndicatorField_Price        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_Price
-	CustomIndicatorField_MA5          CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA5
-	CustomIndicatorField_MA10         CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA10
-	CustomIndicatorField_MA20         CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA20
-	CustomIndicatorField_MA30         CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA30
-	CustomIndicatorField_MA60         CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA60
-	CustomIndicatorField_MA120        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA120
-	CustomIndicatorField_MA250        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA250
-	CustomIndicatorField_RSI          CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_RSI
-	CustomIndicatorField_EMA5         CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA5
-	CustomIndicatorField_EMA10        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA10
-	CustomIndicatorField_EMA20        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA20
-	CustomIndicatorField_EMA30        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA30
-	CustomIndicatorField_EMA60        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA60
-	CustomIndicatorField_EMA120       CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA120
-	CustomIndicatorField_EMA250       CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA250
-	CustomIndicatorField_Value        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_Value
-	CustomIndicatorField_MA           CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA
-	CustomIndicatorField_EMA          CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA
-	CustomIndicatorField_KDJ_K        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_KDJ_K
-	CustomIndicatorField_KDJ_D        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_KDJ_D
-	CustomIndicatorField_KDJ_J        CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_KDJ_J
-	CustomIndicatorField_MACD_DIFF    CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MACD_DIFF
-	CustomIndicatorField_MACD_DEA     CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MACD_DEA
-	CustomIndicatorField_MACD         CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MACD
-	CustomIndicatorField_BOLL_UPPER   CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_BOLL_UPPER
+	// 自定义技术指标属性
+	// enum: CustomIndicatorField
+	// 未知
+	CustomIndicatorField_Unknown CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_Unknown
+	// 最新价格
+	CustomIndicatorField_Price CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_Price
+	// 5日简单均线（不建议使用）
+	CustomIndicatorField_MA5 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA5
+	// 10日简单均线 （不建议使用）
+	CustomIndicatorField_MA10 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA10
+	// 20日简单均线 （不建议使用）
+	CustomIndicatorField_MA20 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA20
+	// 30日简单均线 （不建议使用）
+	CustomIndicatorField_MA30 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA30
+	// 60日简单均线 （不建议使用）
+	CustomIndicatorField_MA60 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA60
+	// 120日简单均线（不建议使用）
+	CustomIndicatorField_MA120 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA120
+	// 250日简单均线（不建议使用）
+	CustomIndicatorField_MA250 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA250
+	// RSI 指标参数的默认值为12
+	CustomIndicatorField_RSI CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_RSI
+	// 5日指数移动均线 （不建议使用）
+	CustomIndicatorField_EMA5 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA5
+	// 10日指数移动均线 （不建议使用）
+	CustomIndicatorField_EMA10 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA10
+	// 20日指数移动均线 （不建议使用）
+	CustomIndicatorField_EMA20 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA20
+	// 30日指数移动均线 （不建议使用）
+	CustomIndicatorField_EMA30 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA30
+	// 60日指数移动均线 （不建议使用）
+	CustomIndicatorField_EMA60 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA60
+	// 120日指数移动均线（不建议使用）
+	CustomIndicatorField_EMA120 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA120
+	// 250日指数移动均线（不建议使用）
+	CustomIndicatorField_EMA250 CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA250
+	// 自定义数值（stock_field1 不支持此字段）
+	CustomIndicatorField_Value CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_Value
+	// 简单均线
+	CustomIndicatorField_MA CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MA
+	// 指数移动均线
+	CustomIndicatorField_EMA CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_EMA
+	// KDJ 指标的 K 值。指标参数需要根据 KDJ 进行传参。不传则默认为 [9,3,3]
+	CustomIndicatorField_KDJ_K CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_KDJ_K
+	// KDJ 指标的 D 值。指标参数需要根据 KDJ 进行传参。不传则默认为 [9,3,3]
+	CustomIndicatorField_KDJ_D CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_KDJ_D
+	// KDJ 指标的 J 值。指标参数需要根据 KDJ 进行传参。不传则默认为 [9,3,3]
+	CustomIndicatorField_KDJ_J CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_KDJ_J
+	// MACD 指标的 DIFF 值。指标参数需要根据 MACD 进行传参。不传则默认为 [12,26,9]
+	CustomIndicatorField_MACD_DIFF CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MACD_DIFF
+	// MACD 指标的 DEA 值。指标参数需要根据 MACD 进行传参。不传则默认为 [12,26,9]
+	CustomIndicatorField_MACD_DEA CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MACD_DEA
+	// MACD 指标的 MACD 值。指标参数需要根据 MACD 进行传参。不传则默认为 [12,26,9]
+	CustomIndicatorField_MACD CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_MACD
+	// BOLL 指标的 UPPER 值。指标参数需要根据 BOLL 进行传参。不传则默认为 [20,2]
+	CustomIndicatorField_BOLL_UPPER CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_BOLL_UPPER
+	// BOLL 指标的 MIDDLER 值。指标参数需要根据 BOLL 进行传参。不传则默认为 [20,2]
 	CustomIndicatorField_BOLL_MIDDLER CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_BOLL_MIDDLER
-	CustomIndicatorField_BOLL_LOWER   CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_BOLL_LOWER
+	// BOLL 指标的 LOWER 值。指标参数需要根据 BOLL 进行传参。不传则默认为 [20,2]
+	CustomIndicatorField_BOLL_LOWER CustomIndicatorField = CustomIndicatorField_CustomIndicatorField_BOLL_LOWER
 
-	// Enum: DTStatus
-	DTStatus_Unknown   DTStatus = DTStatus_DTStatus_Unknown
+	// 日内交易限制情况
+	// enum: DTStatus
+	// 未知
+	DTStatus_Unknown DTStatus = DTStatus_DTStatus_Unknown
+	// 无限次(当前可以无限次日内交易，注意留意剩余日内交易购买力)
 	DTStatus_Unlimited DTStatus = DTStatus_DTStatus_Unlimited
-	DTStatus_EMCall    DTStatus = DTStatus_DTStatus_EMCall
-	DTStatus_DTCall    DTStatus = DTStatus_DTStatus_DTCall
+	// EM Call(当前状态不能新建仓位，需要补充资产净值至$25000以上，否则会被禁止新建仓位90天)
+	DTStatus_EMCall DTStatus = DTStatus_DTStatus_EMCall
+	// DT Call(当前状态有未补平的日内交易追缴金额（DTCall），需要在5个交易日内足额入金来补平 DTCall，否则会被禁止新建仓位，直到足额存入资金才会解禁)
+	DTStatus_DTCall DTStatus = DTStatus_DTStatus_DTCall
 
-	// Enum: DarkStatus
-	DarkStatus_None    DarkStatus = DarkStatus_DarkStatus_None
+	// enum: DarkStatus
+	// 无暗盘交易
+	DarkStatus_None DarkStatus = DarkStatus_DarkStatus_None
+	// 暗盘交易中
 	DarkStatus_Trading DarkStatus = DarkStatus_DarkStatus_Trading
-	DarkStatus_End     DarkStatus = DarkStatus_DarkStatus_End
+	// 暗盘交易结束
+	DarkStatus_End DarkStatus = DarkStatus_DarkStatus_End
 
-	// Enum: DataStatus
-	DataStatus_Null     DataStatus = DataStatus_DataStatus_Null
-	DataStatus_Current  DataStatus = DataStatus_DataStatus_Current
+	// 这个时间点返回数据的状态以及来源
+	// enum: DataStatus
+	// 空数据
+	DataStatus_Null DataStatus = DataStatus_DataStatus_Null
+	// 当前时间点数据
+	DataStatus_Current DataStatus = DataStatus_DataStatus_Current
+	// 前一个时间点数据
 	DataStatus_Previous DataStatus = DataStatus_DataStatus_Previous
-	DataStatus_Back     DataStatus = DataStatus_DataStatus_Back
+	// 后一个时间点数据
+	DataStatus_Back DataStatus = DataStatus_DataStatus_Back
 
-	// Enum: DelayStatisticsType
-	DelayStatisticsType_Unknown    DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_Unknown
-	DelayStatisticsType_QotPush    DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_QotPush
-	DelayStatisticsType_ReqReply   DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_ReqReply
+	// enum: DelayStatisticsType
+	// 未知类型
+	DelayStatisticsType_Unknown DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_Unknown
+	// 行情推送统计
+	DelayStatisticsType_QotPush DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_QotPush
+	// 请求回应统计
+	DelayStatisticsType_ReqReply DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_ReqReply
+	// 下单统计
 	DelayStatisticsType_PlaceOrder DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_PlaceOrder
 
-	// Enum: ExchType
-	ExchType_Unknown      ExchType = ExchType_ExchType_Unknown
+	// 所属交易所
+	// enum: ExchType
+	// 未知
+	ExchType_Unknown ExchType = ExchType_ExchType_Unknown
+	// 港交所·主板
 	ExchType_HK_MainBoard ExchType = ExchType_ExchType_HK_MainBoard
-	ExchType_HK_GEMBoard  ExchType = ExchType_ExchType_HK_GEMBoard
-	ExchType_HK_HKEX      ExchType = ExchType_ExchType_HK_HKEX
-	ExchType_US_NYSE      ExchType = ExchType_ExchType_US_NYSE
-	ExchType_US_Nasdaq    ExchType = ExchType_ExchType_US_Nasdaq
-	ExchType_US_Pink      ExchType = ExchType_ExchType_US_Pink
-	ExchType_US_AMEX      ExchType = ExchType_ExchType_US_AMEX
-	ExchType_US_Option    ExchType = ExchType_ExchType_US_Option
-	ExchType_US_NYMEX     ExchType = ExchType_ExchType_US_NYMEX
-	ExchType_US_COMEX     ExchType = ExchType_ExchType_US_COMEX
-	ExchType_US_CBOT      ExchType = ExchType_ExchType_US_CBOT
-	ExchType_US_CME       ExchType = ExchType_ExchType_US_CME
-	ExchType_US_CBOE      ExchType = ExchType_ExchType_US_CBOE
-	ExchType_CN_SH        ExchType = ExchType_ExchType_CN_SH
-	ExchType_CN_SZ        ExchType = ExchType_ExchType_CN_SZ
-	ExchType_CN_STIB      ExchType = ExchType_ExchType_CN_STIB
-	ExchType_SG_SGX       ExchType = ExchType_ExchType_SG_SGX
-	ExchType_JP_OSE       ExchType = ExchType_ExchType_JP_OSE
+	// 港交所·创业板
+	ExchType_HK_GEMBoard ExchType = ExchType_ExchType_HK_GEMBoard
+	// 港交所
+	ExchType_HK_HKEX ExchType = ExchType_ExchType_HK_HKEX
+	// 纽交所
+	ExchType_US_NYSE ExchType = ExchType_ExchType_US_NYSE
+	// 纳斯达克
+	ExchType_US_Nasdaq ExchType = ExchType_ExchType_US_Nasdaq
+	// OTC 市场
+	ExchType_US_Pink ExchType = ExchType_ExchType_US_Pink
+	// 美交所
+	ExchType_US_AMEX ExchType = ExchType_ExchType_US_AMEX
+	// 美国（仅美股期权适用）
+	ExchType_US_Option ExchType = ExchType_ExchType_US_Option
+	// NYMEX
+	ExchType_US_NYMEX ExchType = ExchType_ExchType_US_NYMEX
+	// COMEX
+	ExchType_US_COMEX ExchType = ExchType_ExchType_US_COMEX
+	// CBOT
+	ExchType_US_CBOT ExchType = ExchType_ExchType_US_CBOT
+	// CME
+	ExchType_US_CME ExchType = ExchType_ExchType_US_CME
+	// CBOE
+	ExchType_US_CBOE ExchType = ExchType_ExchType_US_CBOE
+	// 上交所
+	ExchType_CN_SH ExchType = ExchType_ExchType_CN_SH
+	// 深交所
+	ExchType_CN_SZ ExchType = ExchType_ExchType_CN_SZ
+	// 科创板
+	ExchType_CN_STIB ExchType = ExchType_ExchType_CN_STIB
+	// 新交所
+	ExchType_SG_SGX ExchType = ExchType_ExchType_SG_SGX
+	// 大阪交易所
+	ExchType_JP_OSE ExchType = ExchType_ExchType_JP_OSE
 
-	// Enum: ExpirationCycle
-	ExpirationCycle_Unknown  ExpirationCycle = ExpirationCycle_ExpirationCycle_Unknown
-	ExpirationCycle_Week     ExpirationCycle = ExpirationCycle_ExpirationCycle_Week
-	ExpirationCycle_Month    ExpirationCycle = ExpirationCycle_ExpirationCycle_Month
+	// 交割周期
+	// enum: ExpirationCycle
+	// 未知
+	ExpirationCycle_Unknown ExpirationCycle = ExpirationCycle_ExpirationCycle_Unknown
+	// 周期权
+	ExpirationCycle_Week ExpirationCycle = ExpirationCycle_ExpirationCycle_Week
+	// 月期权
+	ExpirationCycle_Month ExpirationCycle = ExpirationCycle_ExpirationCycle_Month
+	// 月末期权
 	ExpirationCycle_MonthEnd ExpirationCycle = ExpirationCycle_ExpirationCycle_MonthEnd
-	ExpirationCycle_Quarter  ExpirationCycle = ExpirationCycle_ExpirationCycle_Quarter
-	ExpirationCycle_WeekMon  ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekMon
-	ExpirationCycle_WeekTue  ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekTue
-	ExpirationCycle_WeekWed  ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekWed
-	ExpirationCycle_WeekThu  ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekThu
-	ExpirationCycle_WeekFri  ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekFri
+	// 季度期权
+	ExpirationCycle_Quarter ExpirationCycle = ExpirationCycle_ExpirationCycle_Quarter
+	// 周一
+	ExpirationCycle_WeekMon ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekMon
+	// 周二
+	ExpirationCycle_WeekTue ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekTue
+	// 周三
+	ExpirationCycle_WeekWed ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekWed
+	// 周四
+	ExpirationCycle_WeekThu ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekThu
+	// 周五
+	ExpirationCycle_WeekFri ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekFri
 
-	// Enum: FinancialField
-	FinancialField_Unknown                        FinancialField = FinancialField_FinancialField_Unknown
-	FinancialField_NetProfit                      FinancialField = FinancialField_FinancialField_NetProfit
-	FinancialField_NetProfitGrowth                FinancialField = FinancialField_FinancialField_NetProfitGrowth
-	FinancialField_SumOfBusiness                  FinancialField = FinancialField_FinancialField_SumOfBusiness
-	FinancialField_SumOfBusinessGrowth            FinancialField = FinancialField_FinancialField_SumOfBusinessGrowth
-	FinancialField_NetProfitRate                  FinancialField = FinancialField_FinancialField_NetProfitRate
-	FinancialField_GrossProfitRate                FinancialField = FinancialField_FinancialField_GrossProfitRate
-	FinancialField_DebtAssetsRate                 FinancialField = FinancialField_FinancialField_DebtAssetsRate
-	FinancialField_ReturnOnEquityRate             FinancialField = FinancialField_FinancialField_ReturnOnEquityRate
-	FinancialField_ROIC                           FinancialField = FinancialField_FinancialField_ROIC
-	FinancialField_ROATTM                         FinancialField = FinancialField_FinancialField_ROATTM
-	FinancialField_EBITTTM                        FinancialField = FinancialField_FinancialField_EBITTTM
-	FinancialField_EBITDA                         FinancialField = FinancialField_FinancialField_EBITDA
-	FinancialField_OperatingMarginTTM             FinancialField = FinancialField_FinancialField_OperatingMarginTTM
-	FinancialField_EBITMargin                     FinancialField = FinancialField_FinancialField_EBITMargin
-	FinancialField_EBITDAMargin                   FinancialField = FinancialField_FinancialField_EBITDAMargin
-	FinancialField_FinancialCostRate              FinancialField = FinancialField_FinancialField_FinancialCostRate
-	FinancialField_OperatingProfitTTM             FinancialField = FinancialField_FinancialField_OperatingProfitTTM
-	FinancialField_ShareholderNetProfitTTM        FinancialField = FinancialField_FinancialField_ShareholderNetProfitTTM
-	FinancialField_NetProfitCashCoverTTM          FinancialField = FinancialField_FinancialField_NetProfitCashCoverTTM
-	FinancialField_CurrentRatio                   FinancialField = FinancialField_FinancialField_CurrentRatio
-	FinancialField_QuickRatio                     FinancialField = FinancialField_FinancialField_QuickRatio
-	FinancialField_CurrentAssetRatio              FinancialField = FinancialField_FinancialField_CurrentAssetRatio
-	FinancialField_CurrentDebtRatio               FinancialField = FinancialField_FinancialField_CurrentDebtRatio
-	FinancialField_EquityMultiplier               FinancialField = FinancialField_FinancialField_EquityMultiplier
-	FinancialField_PropertyRatio                  FinancialField = FinancialField_FinancialField_PropertyRatio
-	FinancialField_CashAndCashEquivalents         FinancialField = FinancialField_FinancialField_CashAndCashEquivalents
-	FinancialField_TotalAssetTurnover             FinancialField = FinancialField_FinancialField_TotalAssetTurnover
-	FinancialField_FixedAssetTurnover             FinancialField = FinancialField_FinancialField_FixedAssetTurnover
-	FinancialField_InventoryTurnover              FinancialField = FinancialField_FinancialField_InventoryTurnover
-	FinancialField_OperatingCashFlowTTM           FinancialField = FinancialField_FinancialField_OperatingCashFlowTTM
-	FinancialField_AccountsReceivable             FinancialField = FinancialField_FinancialField_AccountsReceivable
-	FinancialField_EBITGrowthRate                 FinancialField = FinancialField_FinancialField_EBITGrowthRate
-	FinancialField_OperatingProfitGrowthRate      FinancialField = FinancialField_FinancialField_OperatingProfitGrowthRate
-	FinancialField_TotalAssetsGrowthRate          FinancialField = FinancialField_FinancialField_TotalAssetsGrowthRate
+	// 财务属性
+	// enum: FinancialField
+	// 未知
+	FinancialField_Unknown FinancialField = FinancialField_FinancialField_Unknown
+	// 净利润（精确到小数点后 3 位，超出部分会被舍弃）例如填写[100000000,2500000000]值区间
+	FinancialField_NetProfit FinancialField = FinancialField_FinancialField_NetProfit
+	// 净利润增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-10,300]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_NetProfitGrowth FinancialField = FinancialField_FinancialField_NetProfitGrowth
+	// 营业收入（精确到小数点后 3 位，超出部分会被舍弃）例如填写[100000000,6400000000]值区间
+	FinancialField_SumOfBusiness FinancialField = FinancialField_FinancialField_SumOfBusiness
+	// 营收同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-5,200]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_SumOfBusinessGrowth FinancialField = FinancialField_FinancialField_SumOfBusinessGrowth
+	// 净利率（精确到小数点后 3 位，超出部分会被舍弃）例如填写[10,113]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_NetProfitRate FinancialField = FinancialField_FinancialField_NetProfitRate
+	// 毛利率（精确到小数点后 3 位，超出部分会被舍弃）例如填写[4,65]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_GrossProfitRate FinancialField = FinancialField_FinancialField_GrossProfitRate
+	// 资产负债率（精确到小数点后 3 位，超出部分会被舍弃）例如填写[5,470]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_DebtAssetsRate FinancialField = FinancialField_FinancialField_DebtAssetsRate
+	// 净资产收益率（精确到小数点后 3 位，超出部分会被舍弃）例如填写[20,230]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_ReturnOnEquityRate FinancialField = FinancialField_FinancialField_ReturnOnEquityRate
+	// 投入资本回报率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_ROIC FinancialField = FinancialField_FinancialField_ROIC
+	// 资产回报率 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。仅适用于年报。）
+	FinancialField_ROATTM FinancialField = FinancialField_FinancialField_ROATTM
+	// 息税前利润 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间（单位：元。仅适用于年报。）
+	FinancialField_EBITTTM FinancialField = FinancialField_FinancialField_EBITTTM
+	// 税息折旧及摊销前利润（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间（单位：元）
+	FinancialField_EBITDA FinancialField = FinancialField_FinancialField_EBITDA
+	// 营业利润率 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。仅适用于年报。）
+	FinancialField_OperatingMarginTTM FinancialField = FinancialField_FinancialField_OperatingMarginTTM
+	// EBIT利润率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_EBITMargin FinancialField = FinancialField_FinancialField_EBITMargin
+	// EBITDA利润率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_EBITDAMargin FinancialField = FinancialField_FinancialField_EBITDAMargin
+	// 财务成本率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_FinancialCostRate FinancialField = FinancialField_FinancialField_FinancialCostRate
+	// 营业利润 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间 （单位：元。仅适用于年报。）
+	FinancialField_OperatingProfitTTM FinancialField = FinancialField_FinancialField_OperatingProfitTTM
+	// 归属于母公司的净利润（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间 （单位：元。仅适用于年报。）
+	FinancialField_ShareholderNetProfitTTM FinancialField = FinancialField_FinancialField_ShareholderNetProfitTTM
+	// 盈利中的现金收入比例（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,60.0] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。仅适用于年报。）
+	FinancialField_NetProfitCashCoverTTM FinancialField = FinancialField_FinancialField_NetProfitCashCoverTTM
+	// 流动比率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [100,250] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_CurrentRatio FinancialField = FinancialField_FinancialField_CurrentRatio
+	// 速动比率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [100,250] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_QuickRatio FinancialField = FinancialField_FinancialField_QuickRatio
+	// 流动资产率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [10,100] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_CurrentAssetRatio FinancialField = FinancialField_FinancialField_CurrentAssetRatio
+	// 流动负债率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [10,100] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_CurrentDebtRatio FinancialField = FinancialField_FinancialField_CurrentDebtRatio
+	// 权益乘数（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [100,180] 值区间
+	FinancialField_EquityMultiplier FinancialField = FinancialField_FinancialField_EquityMultiplier
+	// 产权比率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [50,100] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_PropertyRatio FinancialField = FinancialField_FinancialField_PropertyRatio
+	// 现金和现金等价（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间（单位：元）
+	FinancialField_CashAndCashEquivalents FinancialField = FinancialField_FinancialField_CashAndCashEquivalents
+	// 总资产周转率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [50,100] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_TotalAssetTurnover FinancialField = FinancialField_FinancialField_TotalAssetTurnover
+	// 固定资产周转率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [50,100] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_FixedAssetTurnover FinancialField = FinancialField_FinancialField_FixedAssetTurnover
+	// 存货周转率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [50,100] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_InventoryTurnover FinancialField = FinancialField_FinancialField_InventoryTurnover
+	// 经营活动现金流 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间（单位：元。仅适用于年报。）
+	FinancialField_OperatingCashFlowTTM FinancialField = FinancialField_FinancialField_OperatingCashFlowTTM
+	// 应收账款净额（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间 例如填写 [1000000000,1000000000] 值区间 （单位：元）
+	FinancialField_AccountsReceivable FinancialField = FinancialField_FinancialField_AccountsReceivable
+	// EBIT同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_EBITGrowthRate FinancialField = FinancialField_FinancialField_EBITGrowthRate
+	// 营业利润同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_OperatingProfitGrowthRate FinancialField = FinancialField_FinancialField_OperatingProfitGrowthRate
+	// 总资产同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_TotalAssetsGrowthRate FinancialField = FinancialField_FinancialField_TotalAssetsGrowthRate
+	// 归母净利润同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
 	FinancialField_ProfitToShareholdersGrowthRate FinancialField = FinancialField_FinancialField_ProfitToShareholdersGrowthRate
-	FinancialField_ProfitBeforeTaxGrowthRate      FinancialField = FinancialField_FinancialField_ProfitBeforeTaxGrowthRate
-	FinancialField_EPSGrowthRate                  FinancialField = FinancialField_FinancialField_EPSGrowthRate
-	FinancialField_ROEGrowthRate                  FinancialField = FinancialField_FinancialField_ROEGrowthRate
-	FinancialField_ROICGrowthRate                 FinancialField = FinancialField_FinancialField_ROICGrowthRate
-	FinancialField_NOCFGrowthRate                 FinancialField = FinancialField_FinancialField_NOCFGrowthRate
-	FinancialField_NOCFPerShareGrowthRate         FinancialField = FinancialField_FinancialField_NOCFPerShareGrowthRate
-	FinancialField_OperatingRevenueCashCover      FinancialField = FinancialField_FinancialField_OperatingRevenueCashCover
-	FinancialField_OperatingProfitToTotalProfit   FinancialField = FinancialField_FinancialField_OperatingProfitToTotalProfit
-	FinancialField_BasicEPS                       FinancialField = FinancialField_FinancialField_BasicEPS
-	FinancialField_DilutedEPS                     FinancialField = FinancialField_FinancialField_DilutedEPS
-	FinancialField_NOCFPerShare                   FinancialField = FinancialField_FinancialField_NOCFPerShare
+	// 总利润同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_ProfitBeforeTaxGrowthRate FinancialField = FinancialField_FinancialField_ProfitBeforeTaxGrowthRate
+	// EPS同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_EPSGrowthRate FinancialField = FinancialField_FinancialField_EPSGrowthRate
+	// ROE同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_ROEGrowthRate FinancialField = FinancialField_FinancialField_ROEGrowthRate
+	// ROIC同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_ROICGrowthRate FinancialField = FinancialField_FinancialField_ROICGrowthRate
+	// 经营现金流同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_NOCFGrowthRate FinancialField = FinancialField_FinancialField_NOCFGrowthRate
+	// 每股经营现金流同比增长率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1.0,10.0] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_NOCFPerShareGrowthRate FinancialField = FinancialField_FinancialField_NOCFPerShareGrowthRate
+	// 经营现金收入比（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [10,100] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_OperatingRevenueCashCover FinancialField = FinancialField_FinancialField_OperatingRevenueCashCover
+	// 营业利润占比（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [10,100] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	FinancialField_OperatingProfitToTotalProfit FinancialField = FinancialField_FinancialField_OperatingProfitToTotalProfit
+	// 基本每股收益（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [0.1,10] 值区间 (单位：元)
+	FinancialField_BasicEPS FinancialField = FinancialField_FinancialField_BasicEPS
+	// 稀释每股收益（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [0.1,10] 值区间 (单位：元)
+	FinancialField_DilutedEPS FinancialField = FinancialField_FinancialField_DilutedEPS
+	// 每股经营现金净流量（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [0.1,10] 值区间 (单位：元)
+	FinancialField_NOCFPerShare FinancialField = FinancialField_FinancialField_NOCFPerShare
 
-	// Enum: FinancialQuarter
-	FinancialQuarter_Unknown           FinancialQuarter = FinancialQuarter_FinancialQuarter_Unknown
-	FinancialQuarter_Annual            FinancialQuarter = FinancialQuarter_FinancialQuarter_Annual
-	FinancialQuarter_FirstQuarter      FinancialQuarter = FinancialQuarter_FinancialQuarter_FirstQuarter
-	FinancialQuarter_Interim           FinancialQuarter = FinancialQuarter_FinancialQuarter_Interim
-	FinancialQuarter_ThirdQuarter      FinancialQuarter = FinancialQuarter_FinancialQuarter_ThirdQuarter
+	// 财务时间周期
+	// enum: FinancialQuarter
+	// 未知
+	FinancialQuarter_Unknown FinancialQuarter = FinancialQuarter_FinancialQuarter_Unknown
+	// 年报
+	FinancialQuarter_Annual FinancialQuarter = FinancialQuarter_FinancialQuarter_Annual
+	// 一季报
+	FinancialQuarter_FirstQuarter FinancialQuarter = FinancialQuarter_FinancialQuarter_FirstQuarter
+	// 中报
+	FinancialQuarter_Interim FinancialQuarter = FinancialQuarter_FinancialQuarter_Interim
+	// 三季报
+	FinancialQuarter_ThirdQuarter FinancialQuarter = FinancialQuarter_FinancialQuarter_ThirdQuarter
+	// 最近季报
 	FinancialQuarter_MostRecentQuarter FinancialQuarter = FinancialQuarter_FinancialQuarter_MostRecentQuarter
 
-	// Enum: GroupType
+	// 自选股分组类型
+	// enum: GroupType
+	// 未知
 	GroupType_Unknown GroupType = GroupType_GroupType_Unknown
-	GroupType_Custom  GroupType = GroupType_GroupType_Custom
-	GroupType_System  GroupType = GroupType_GroupType_System
-	GroupType_All     GroupType = GroupType_GroupType_All
+	// 自定义分组
+	GroupType_Custom GroupType = GroupType_GroupType_Custom
+	// 系统分组
+	GroupType_System GroupType = GroupType_GroupType_System
+	// 全部分组
+	GroupType_All GroupType = GroupType_GroupType_All
 
-	// Enum: GtwEventType
-	GtwEventType_None                GtwEventType = GtwEventType_GtwEventType_None
-	GtwEventType_LocalCfgLoadFailed  GtwEventType = GtwEventType_GtwEventType_LocalCfgLoadFailed
-	GtwEventType_APISvrRunFailed     GtwEventType = GtwEventType_GtwEventType_APISvrRunFailed
-	GtwEventType_ForceUpdate         GtwEventType = GtwEventType_GtwEventType_ForceUpdate
-	GtwEventType_LoginFailed         GtwEventType = GtwEventType_GtwEventType_LoginFailed
-	GtwEventType_UnAgreeDisclaimer   GtwEventType = GtwEventType_GtwEventType_UnAgreeDisclaimer
-	GtwEventType_NetCfgMissing       GtwEventType = GtwEventType_GtwEventType_NetCfgMissing
-	GtwEventType_KickedOut           GtwEventType = GtwEventType_GtwEventType_KickedOut
-	GtwEventType_LoginPwdChanged     GtwEventType = GtwEventType_GtwEventType_LoginPwdChanged
-	GtwEventType_BanLogin            GtwEventType = GtwEventType_GtwEventType_BanLogin
-	GtwEventType_NeedPicVerifyCode   GtwEventType = GtwEventType_GtwEventType_NeedPicVerifyCode
+	// enum: GtwEventType
+	// 正常无错
+	GtwEventType_None GtwEventType = GtwEventType_GtwEventType_None
+	// 加载本地配置失败
+	GtwEventType_LocalCfgLoadFailed GtwEventType = GtwEventType_GtwEventType_LocalCfgLoadFailed
+	// 服务器启动失败
+	GtwEventType_APISvrRunFailed GtwEventType = GtwEventType_GtwEventType_APISvrRunFailed
+	// 客户端版本过低
+	GtwEventType_ForceUpdate GtwEventType = GtwEventType_GtwEventType_ForceUpdate
+	// 登录失败
+	GtwEventType_LoginFailed GtwEventType = GtwEventType_GtwEventType_LoginFailed
+	// 未同意免责声明
+	GtwEventType_UnAgreeDisclaimer GtwEventType = GtwEventType_GtwEventType_UnAgreeDisclaimer
+	// 缺少必要网络配置信息;例如控制订阅额度 //已优化，不会再出现该情况
+	GtwEventType_NetCfgMissing GtwEventType = GtwEventType_GtwEventType_NetCfgMissing
+	// 牛牛帐号在别处登录
+	GtwEventType_KickedOut GtwEventType = GtwEventType_GtwEventType_KickedOut
+	// 登录密码被修改
+	GtwEventType_LoginPwdChanged GtwEventType = GtwEventType_GtwEventType_LoginPwdChanged
+	// 用户被禁止登录
+	GtwEventType_BanLogin GtwEventType = GtwEventType_GtwEventType_BanLogin
+	// 需要图形验证码
+	GtwEventType_NeedPicVerifyCode GtwEventType = GtwEventType_GtwEventType_NeedPicVerifyCode
+	// 需要手机验证码
 	GtwEventType_NeedPhoneVerifyCode GtwEventType = GtwEventType_GtwEventType_NeedPhoneVerifyCode
-	GtwEventType_AppDataNotExist     GtwEventType = GtwEventType_GtwEventType_AppDataNotExist
-	GtwEventType_NessaryDataMissing  GtwEventType = GtwEventType_GtwEventType_NessaryDataMissing
-	GtwEventType_TradePwdChanged     GtwEventType = GtwEventType_GtwEventType_TradePwdChanged
-	GtwEventType_EnableDeviceLock    GtwEventType = GtwEventType_GtwEventType_EnableDeviceLock
+	// 程序自带数据不存在
+	GtwEventType_AppDataNotExist GtwEventType = GtwEventType_GtwEventType_AppDataNotExist
+	// 缺少必要数据
+	GtwEventType_NessaryDataMissing GtwEventType = GtwEventType_GtwEventType_NessaryDataMissing
+	// 交易密码被修改
+	GtwEventType_TradePwdChanged GtwEventType = GtwEventType_GtwEventType_TradePwdChanged
+	// 启用设备锁
+	GtwEventType_EnableDeviceLock GtwEventType = GtwEventType_GtwEventType_EnableDeviceLock
 
-	// Enum: HolderCategory
-	HolderCategory_Unknown       HolderCategory = HolderCategory_HolderCategory_Unknown
-	HolderCategory_Agency        HolderCategory = HolderCategory_HolderCategory_Agency
-	HolderCategory_Fund          HolderCategory = HolderCategory_HolderCategory_Fund
+	// enum: HolderCategory
+	// 未知
+	HolderCategory_Unknown HolderCategory = HolderCategory_HolderCategory_Unknown
+	// 机构
+	HolderCategory_Agency HolderCategory = HolderCategory_HolderCategory_Agency
+	// 基金
+	HolderCategory_Fund HolderCategory = HolderCategory_HolderCategory_Fund
+	// 高管
 	HolderCategory_SeniorManager HolderCategory = HolderCategory_HolderCategory_SeniorManager
 
-	// Enum: IndexOptionType
+	// enum: IndexOptionType
+	// 未知
 	IndexOptionType_Unknown IndexOptionType = IndexOptionType_IndexOptionType_Unknown
-	IndexOptionType_Normal  IndexOptionType = IndexOptionType_IndexOptionType_Normal
-	IndexOptionType_Small   IndexOptionType = IndexOptionType_IndexOptionType_Small
+	// 正常普通的指数期权
+	IndexOptionType_Normal IndexOptionType = IndexOptionType_IndexOptionType_Normal
+	// 小型指数期权
+	IndexOptionType_Small IndexOptionType = IndexOptionType_IndexOptionType_Small
 
-	// Enum: IpoPeriod
-	IpoPeriod_Unknown   IpoPeriod = IpoPeriod_IpoPeriod_Unknown
-	IpoPeriod_Today     IpoPeriod = IpoPeriod_IpoPeriod_Today
-	IpoPeriod_Tomorrow  IpoPeriod = IpoPeriod_IpoPeriod_Tomorrow
-	IpoPeriod_Nextweek  IpoPeriod = IpoPeriod_IpoPeriod_Nextweek
-	IpoPeriod_Lastweek  IpoPeriod = IpoPeriod_IpoPeriod_Lastweek
+	// 窝轮上市日
+	// enum: IpoPeriod
+	// 未知
+	IpoPeriod_Unknown IpoPeriod = IpoPeriod_IpoPeriod_Unknown
+	// 今日上市
+	IpoPeriod_Today IpoPeriod = IpoPeriod_IpoPeriod_Today
+	// 明日上市
+	IpoPeriod_Tomorrow IpoPeriod = IpoPeriod_IpoPeriod_Tomorrow
+	// 未来一周上市
+	IpoPeriod_Nextweek IpoPeriod = IpoPeriod_IpoPeriod_Nextweek
+	// 过去一周上市
+	IpoPeriod_Lastweek IpoPeriod = IpoPeriod_IpoPeriod_Lastweek
+	// 过去一月上市
 	IpoPeriod_Lastmonth IpoPeriod = IpoPeriod_IpoPeriod_Lastmonth
 
-	// Enum: Issuer
+	// 窝轮发行人
+	// enum: Issuer
+	// 未知
 	Issuer_Unknown Issuer = Issuer_Issuer_Unknown
-	Issuer_SG      Issuer = Issuer_Issuer_SG
-	Issuer_BP      Issuer = Issuer_Issuer_BP
-	Issuer_CS      Issuer = Issuer_Issuer_CS
-	Issuer_CT      Issuer = Issuer_Issuer_CT
-	Issuer_EA      Issuer = Issuer_Issuer_EA
-	Issuer_GS      Issuer = Issuer_Issuer_GS
-	Issuer_HS      Issuer = Issuer_Issuer_HS
-	Issuer_JP      Issuer = Issuer_Issuer_JP
-	Issuer_MB      Issuer = Issuer_Issuer_MB
-	Issuer_SC      Issuer = Issuer_Issuer_SC
-	Issuer_UB      Issuer = Issuer_Issuer_UB
-	Issuer_BI      Issuer = Issuer_Issuer_BI
-	Issuer_DB      Issuer = Issuer_Issuer_DB
-	Issuer_DC      Issuer = Issuer_Issuer_DC
-	Issuer_ML      Issuer = Issuer_Issuer_ML
-	Issuer_NM      Issuer = Issuer_Issuer_NM
-	Issuer_RB      Issuer = Issuer_Issuer_RB
-	Issuer_RS      Issuer = Issuer_Issuer_RS
-	Issuer_BC      Issuer = Issuer_Issuer_BC
-	Issuer_HT      Issuer = Issuer_Issuer_HT
-	Issuer_VT      Issuer = Issuer_Issuer_VT
-	Issuer_KC      Issuer = Issuer_Issuer_KC
-	Issuer_MS      Issuer = Issuer_Issuer_MS
-	Issuer_GJ      Issuer = Issuer_Issuer_GJ
-	Issuer_XZ      Issuer = Issuer_Issuer_XZ
-	Issuer_HU      Issuer = Issuer_Issuer_HU
-	Issuer_KS      Issuer = Issuer_Issuer_KS
-	Issuer_CI      Issuer = Issuer_Issuer_CI
+	// 法兴
+	Issuer_SG Issuer = Issuer_Issuer_SG
+	// 法巴
+	Issuer_BP Issuer = Issuer_Issuer_BP
+	// 瑞信
+	Issuer_CS Issuer = Issuer_Issuer_CS
+	// 花旗
+	Issuer_CT Issuer = Issuer_Issuer_CT
+	// 东亚
+	Issuer_EA Issuer = Issuer_Issuer_EA
+	// 高盛
+	Issuer_GS Issuer = Issuer_Issuer_GS
+	// 汇丰
+	Issuer_HS Issuer = Issuer_Issuer_HS
+	// 摩通
+	Issuer_JP Issuer = Issuer_Issuer_JP
+	// 麦银
+	Issuer_MB Issuer = Issuer_Issuer_MB
+	// 渣打
+	Issuer_SC Issuer = Issuer_Issuer_SC
+	// 瑞银
+	Issuer_UB Issuer = Issuer_Issuer_UB
+	// 中银
+	Issuer_BI Issuer = Issuer_Issuer_BI
+	// 德银
+	Issuer_DB Issuer = Issuer_Issuer_DB
+	// 大和
+	Issuer_DC Issuer = Issuer_Issuer_DC
+	// 美林
+	Issuer_ML Issuer = Issuer_Issuer_ML
+	// 野村
+	Issuer_NM Issuer = Issuer_Issuer_NM
+	// 荷合
+	Issuer_RB Issuer = Issuer_Issuer_RB
+	// 苏皇
+	Issuer_RS Issuer = Issuer_Issuer_RS
+	// 巴克莱
+	Issuer_BC Issuer = Issuer_Issuer_BC
+	// 海通
+	Issuer_HT Issuer = Issuer_Issuer_HT
+	// 瑞通
+	Issuer_VT Issuer = Issuer_Issuer_VT
+	// 比联
+	Issuer_KC Issuer = Issuer_Issuer_KC
+	// 摩利
+	Issuer_MS Issuer = Issuer_Issuer_MS
+	// 国君
+	Issuer_GJ Issuer = Issuer_Issuer_GJ
+	// 星展
+	Issuer_XZ Issuer = Issuer_Issuer_XZ
+	// 华泰
+	Issuer_HU Issuer = Issuer_Issuer_HU
+	// 韩投
+	Issuer_KS Issuer = Issuer_Issuer_KS
+	// 信证
+	Issuer_CI Issuer = Issuer_Issuer_CI
 
-	// Enum: KLFields
-	KLFields_None         KLFields = KLFields_KLFields_None
-	KLFields_High         KLFields = KLFields_KLFields_High
-	KLFields_Open         KLFields = KLFields_KLFields_Open
-	KLFields_Low          KLFields = KLFields_KLFields_Low
-	KLFields_Close        KLFields = KLFields_KLFields_Close
-	KLFields_LastClose    KLFields = KLFields_KLFields_LastClose
-	KLFields_Volume       KLFields = KLFields_KLFields_Volume
-	KLFields_Turnover     KLFields = KLFields_KLFields_Turnover
+	// enum: KLFields
+	KLFields_None KLFields = KLFields_KLFields_None
+	// 最高价
+	KLFields_High KLFields = KLFields_KLFields_High
+	// 开盘价
+	KLFields_Open KLFields = KLFields_KLFields_Open
+	// 最低价
+	KLFields_Low KLFields = KLFields_KLFields_Low
+	// 收盘价
+	KLFields_Close KLFields = KLFields_KLFields_Close
+	// 昨收价
+	KLFields_LastClose KLFields = KLFields_KLFields_LastClose
+	// 成交量
+	KLFields_Volume KLFields = KLFields_KLFields_Volume
+	// 成交额
+	KLFields_Turnover KLFields = KLFields_KLFields_Turnover
+	// 换手率
 	KLFields_TurnoverRate KLFields = KLFields_KLFields_TurnoverRate
-	KLFields_PE           KLFields = KLFields_KLFields_PE
-	KLFields_ChangeRate   KLFields = KLFields_KLFields_ChangeRate
+	// 市盈率
+	KLFields_PE KLFields = KLFields_KLFields_PE
+	// 涨跌幅
+	KLFields_ChangeRate KLFields = KLFields_KLFields_ChangeRate
 
-	// Enum: KLType
+	// 枚举值兼容旧协议定义
+	// enum: KLType
+	// 未知
 	KLType_Unknown KLType = KLType_KLType_Unknown
-	KLType_1Min    KLType = KLType_KLType_1Min
-	KLType_Day     KLType = KLType_KLType_Day
-	KLType_Week    KLType = KLType_KLType_Week
-	KLType_Month   KLType = KLType_KLType_Month
-	KLType_Year    KLType = KLType_KLType_Year
-	KLType_5Min    KLType = KLType_KLType_5Min
-	KLType_15Min   KLType = KLType_KLType_15Min
-	KLType_30Min   KLType = KLType_KLType_30Min
-	KLType_60Min   KLType = KLType_KLType_60Min
-	KLType_3Min    KLType = KLType_KLType_3Min
+	// 1分K
+	KLType_1Min KLType = KLType_KLType_1Min
+	// 日K
+	KLType_Day KLType = KLType_KLType_Day
+	// 周K
+	KLType_Week KLType = KLType_KLType_Week
+	// 月K
+	KLType_Month KLType = KLType_KLType_Month
+	// 年K
+	KLType_Year KLType = KLType_KLType_Year
+	// 5分K
+	KLType_5Min KLType = KLType_KLType_5Min
+	// 15分K
+	KLType_15Min KLType = KLType_KLType_15Min
+	// 30分K
+	KLType_30Min KLType = KLType_KLType_30Min
+	// 60分K
+	KLType_60Min KLType = KLType_KLType_60Min
+	// 3分K
+	KLType_3Min KLType = KLType_KLType_3Min
+	// 季K
 	KLType_Quarter KLType = KLType_KLType_Quarter
 
-	// Enum: ModifyOrderOp
+	// 修改订单的操作类型
+	// enum: ModifyOrderOp
+	// 未知操作
 	ModifyOrderOp_Unknown ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Unknown
-	ModifyOrderOp_Normal  ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Normal
-	ModifyOrderOp_Cancel  ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Cancel
+	// 修改订单的价格、数量等，即以前的改单
+	ModifyOrderOp_Normal ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Normal
+	// 撤单
+	ModifyOrderOp_Cancel ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Cancel
+	// 失效
 	ModifyOrderOp_Disable ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Disable
-	ModifyOrderOp_Enable  ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Enable
-	ModifyOrderOp_Delete  ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Delete
+	// 生效
+	ModifyOrderOp_Enable ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Enable
+	// 删除
+	ModifyOrderOp_Delete ModifyOrderOp = ModifyOrderOp_ModifyOrderOp_Delete
 
-	// Enum: ModifyUserSecurityOp
+	// enum: ModifyUserSecurityOp
 	ModifyUserSecurityOp_Unknown ModifyUserSecurityOp = ModifyUserSecurityOp_ModifyUserSecurityOp_Unknown
-	ModifyUserSecurityOp_Add     ModifyUserSecurityOp = ModifyUserSecurityOp_ModifyUserSecurityOp_Add
-	ModifyUserSecurityOp_Del     ModifyUserSecurityOp = ModifyUserSecurityOp_ModifyUserSecurityOp_Del
+	// 新增
+	ModifyUserSecurityOp_Add ModifyUserSecurityOp = ModifyUserSecurityOp_ModifyUserSecurityOp_Add
+	// 删除自选
+	ModifyUserSecurityOp_Del ModifyUserSecurityOp = ModifyUserSecurityOp_ModifyUserSecurityOp_Del
+	// 移出分组
 	ModifyUserSecurityOp_MoveOut ModifyUserSecurityOp = ModifyUserSecurityOp_ModifyUserSecurityOp_MoveOut
 
-	// Enum: NoDataMode
-	NoDataMode_Null     NoDataMode = NoDataMode_NoDataMode_Null
-	NoDataMode_Forward  NoDataMode = NoDataMode_NoDataMode_Forward
+	// 当请求时间点数据为空时，如何返回数据
+	// enum: NoDataMode
+	// 直接返回空数据
+	NoDataMode_Null NoDataMode = NoDataMode_NoDataMode_Null
+	// 往前取值，返回前一个时间点数据
+	NoDataMode_Forward NoDataMode = NoDataMode_NoDataMode_Forward
+	// 向后取值，返回后一个时间点数据
 	NoDataMode_Backward NoDataMode = NoDataMode_NoDataMode_Backward
 
-	// Enum: NotifyType
-	NotifyType_None          NotifyType = NotifyType_NotifyType_None
-	NotifyType_GtwEvent      NotifyType = NotifyType_NotifyType_GtwEvent
+	// enum: NotifyType
+	// 无
+	NotifyType_None NotifyType = NotifyType_NotifyType_None
+	// OpenD运行事件通知
+	NotifyType_GtwEvent NotifyType = NotifyType_NotifyType_GtwEvent
+	// 程序状态
 	NotifyType_ProgramStatus NotifyType = NotifyType_NotifyType_ProgramStatus
-	NotifyType_ConnStatus    NotifyType = NotifyType_NotifyType_ConnStatus
-	NotifyType_QotRight      NotifyType = NotifyType_NotifyType_QotRight
-	NotifyType_APILevel      NotifyType = NotifyType_NotifyType_APILevel
-	NotifyType_APIQuota      NotifyType = NotifyType_NotifyType_APIQuota
-	NotifyType_UsedQuota     NotifyType = NotifyType_NotifyType_UsedQuota
+	// 连接状态
+	NotifyType_ConnStatus NotifyType = NotifyType_NotifyType_ConnStatus
+	// 行情权限
+	NotifyType_QotRight NotifyType = NotifyType_NotifyType_QotRight
+	// 用户等级，已在2.10版本之后废弃
+	NotifyType_APILevel NotifyType = NotifyType_NotifyType_APILevel
+	// API额度
+	NotifyType_APIQuota NotifyType = NotifyType_NotifyType_APIQuota
+	// 已使用额度
+	NotifyType_UsedQuota NotifyType = NotifyType_NotifyType_UsedQuota
 
-	// Enum: OptionAreaType
-	OptionAreaType_Unknown  OptionAreaType = OptionAreaType_OptionAreaType_Unknown
+	// enum: OptionAreaType
+	// 未知
+	OptionAreaType_Unknown OptionAreaType = OptionAreaType_OptionAreaType_Unknown
+	// 美式
 	OptionAreaType_American OptionAreaType = OptionAreaType_OptionAreaType_American
+	// 欧式
 	OptionAreaType_European OptionAreaType = OptionAreaType_OptionAreaType_European
-	OptionAreaType_Bermuda  OptionAreaType = OptionAreaType_OptionAreaType_Bermuda
+	// 百慕大
+	OptionAreaType_Bermuda OptionAreaType = OptionAreaType_OptionAreaType_Bermuda
 
-	// Enum: OptionCondType
+	// enum: OptionCondType
 	OptionCondType_Unknown OptionCondType = OptionCondType_OptionCondType_Unknown
-	OptionCondType_WithIn  OptionCondType = OptionCondType_OptionCondType_WithIn
+	// 价内
+	OptionCondType_WithIn OptionCondType = OptionCondType_OptionCondType_WithIn
+	// 价外
 	OptionCondType_Outside OptionCondType = OptionCondType_OptionCondType_Outside
 
-	// Enum: OptionSettlementMode
+	// 期权结算方式
+	// enum: OptionSettlementMode
+	// 未知
 	OptionSettlementMode_Unknown OptionSettlementMode = OptionSettlementMode_OptionSettlementMode_Unknown
-	OptionSettlementMode_AM      OptionSettlementMode = OptionSettlementMode_OptionSettlementMode_AM
-	OptionSettlementMode_PM      OptionSettlementMode = OptionSettlementMode_OptionSettlementMode_PM
+	// AM
+	OptionSettlementMode_AM OptionSettlementMode = OptionSettlementMode_OptionSettlementMode_AM
+	// PM
+	OptionSettlementMode_PM OptionSettlementMode = OptionSettlementMode_OptionSettlementMode_PM
 
-	// Enum: OptionStandardType
-	OptionStandardType_Unknown     OptionStandardType = OptionStandardType_OptionStandardType_Unknown
-	OptionStandardType_Standard    OptionStandardType = OptionStandardType_OptionStandardType_Standard
+	// 标准期权链类型
+	// enum: OptionStandardType
+	// 未知
+	OptionStandardType_Unknown OptionStandardType = OptionStandardType_OptionStandardType_Unknown
+	// 标准
+	OptionStandardType_Standard OptionStandardType = OptionStandardType_OptionStandardType_Standard
+	// 非标准
 	OptionStandardType_NonStandard OptionStandardType = OptionStandardType_OptionStandardType_NonStandard
 
-	// Enum: OptionType
+	// enum: OptionType
+	// 未知
 	OptionType_Unknown OptionType = OptionType_OptionType_Unknown
-	OptionType_Call    OptionType = OptionType_OptionType_Call
-	OptionType_Put     OptionType = OptionType_OptionType_Put
+	// 涨
+	OptionType_Call OptionType = OptionType_OptionType_Call
+	// 跌
+	OptionType_Put OptionType = OptionType_OptionType_Put
 
-	// Enum: OrderFillStatus
-	OrderFillStatus_OK        OrderFillStatus = OrderFillStatus_OrderFillStatus_OK
+	// 一笔成交的状态
+	// enum: OrderFillStatus
+	// 正常
+	OrderFillStatus_OK OrderFillStatus = OrderFillStatus_OrderFillStatus_OK
+	// 成交被取消
 	OrderFillStatus_Cancelled OrderFillStatus = OrderFillStatus_OrderFillStatus_Cancelled
-	OrderFillStatus_Changed   OrderFillStatus = OrderFillStatus_OrderFillStatus_Changed
+	// 成交被更改
+	OrderFillStatus_Changed OrderFillStatus = OrderFillStatus_OrderFillStatus_Changed
 
-	// Enum: OrderStatus
-	OrderStatus_Unsubmitted     OrderStatus = OrderStatus_OrderStatus_Unsubmitted
-	OrderStatus_Unknown         OrderStatus = OrderStatus_OrderStatus_Unknown
-	OrderStatus_WaitingSubmit   OrderStatus = OrderStatus_OrderStatus_WaitingSubmit
-	OrderStatus_Submitting      OrderStatus = OrderStatus_OrderStatus_Submitting
-	OrderStatus_SubmitFailed    OrderStatus = OrderStatus_OrderStatus_SubmitFailed
-	OrderStatus_TimeOut         OrderStatus = OrderStatus_OrderStatus_TimeOut
-	OrderStatus_Submitted       OrderStatus = OrderStatus_OrderStatus_Submitted
-	OrderStatus_Filled_Part     OrderStatus = OrderStatus_OrderStatus_Filled_Part
-	OrderStatus_Filled_All      OrderStatus = OrderStatus_OrderStatus_Filled_All
+	// 订单状态
+	// enum: OrderStatus
+	// 未提交
+	OrderStatus_Unsubmitted OrderStatus = OrderStatus_OrderStatus_Unsubmitted
+	// 未知状态
+	OrderStatus_Unknown OrderStatus = OrderStatus_OrderStatus_Unknown
+	// 等待提交
+	OrderStatus_WaitingSubmit OrderStatus = OrderStatus_OrderStatus_WaitingSubmit
+	// 提交中
+	OrderStatus_Submitting OrderStatus = OrderStatus_OrderStatus_Submitting
+	// 提交失败，下单失败
+	OrderStatus_SubmitFailed OrderStatus = OrderStatus_OrderStatus_SubmitFailed
+	// 处理超时，结果未知
+	OrderStatus_TimeOut OrderStatus = OrderStatus_OrderStatus_TimeOut
+	// 已提交，等待成交
+	OrderStatus_Submitted OrderStatus = OrderStatus_OrderStatus_Submitted
+	// 部分成交
+	OrderStatus_Filled_Part OrderStatus = OrderStatus_OrderStatus_Filled_Part
+	// 全部已成
+	OrderStatus_Filled_All OrderStatus = OrderStatus_OrderStatus_Filled_All
+	// 正在撤单_部分(部分已成交，正在撤销剩余部分)
 	OrderStatus_Cancelling_Part OrderStatus = OrderStatus_OrderStatus_Cancelling_Part
-	OrderStatus_Cancelling_All  OrderStatus = OrderStatus_OrderStatus_Cancelling_All
-	OrderStatus_Cancelled_Part  OrderStatus = OrderStatus_OrderStatus_Cancelled_Part
-	OrderStatus_Cancelled_All   OrderStatus = OrderStatus_OrderStatus_Cancelled_All
-	OrderStatus_Failed          OrderStatus = OrderStatus_OrderStatus_Failed
-	OrderStatus_Disabled        OrderStatus = OrderStatus_OrderStatus_Disabled
-	OrderStatus_Deleted         OrderStatus = OrderStatus_OrderStatus_Deleted
-	OrderStatus_FillCancelled   OrderStatus = OrderStatus_OrderStatus_FillCancelled
+	// 正在撤单_全部
+	OrderStatus_Cancelling_All OrderStatus = OrderStatus_OrderStatus_Cancelling_All
+	// 部分成交，剩余部分已撤单
+	OrderStatus_Cancelled_Part OrderStatus = OrderStatus_OrderStatus_Cancelled_Part
+	// 全部已撤单，无成交
+	OrderStatus_Cancelled_All OrderStatus = OrderStatus_OrderStatus_Cancelled_All
+	// 下单失败，服务拒绝
+	OrderStatus_Failed OrderStatus = OrderStatus_OrderStatus_Failed
+	// 已失效
+	OrderStatus_Disabled OrderStatus = OrderStatus_OrderStatus_Disabled
+	// 已删除，无成交的订单才能删除
+	OrderStatus_Deleted OrderStatus = OrderStatus_OrderStatus_Deleted
+	// 成交被撤销，一般遇不到，意思是已经成交的订单被回滚撤销，成交无效变为废单
+	OrderStatus_FillCancelled OrderStatus = OrderStatus_OrderStatus_FillCancelled
 
-	// Enum: OrderType
-	OrderType_Unknown           OrderType = OrderType_OrderType_Unknown
-	OrderType_Normal            OrderType = OrderType_OrderType_Normal
-	OrderType_Market            OrderType = OrderType_OrderType_Market
-	OrderType_AbsoluteLimit     OrderType = OrderType_OrderType_AbsoluteLimit
-	OrderType_Auction           OrderType = OrderType_OrderType_Auction
-	OrderType_AuctionLimit      OrderType = OrderType_OrderType_AuctionLimit
-	OrderType_SpecialLimit      OrderType = OrderType_OrderType_SpecialLimit
-	OrderType_SpecialLimit_All  OrderType = OrderType_OrderType_SpecialLimit_All
-	OrderType_Stop              OrderType = OrderType_OrderType_Stop
-	OrderType_StopLimit         OrderType = OrderType_OrderType_StopLimit
-	OrderType_MarketifTouched   OrderType = OrderType_OrderType_MarketifTouched
-	OrderType_LimitifTouched    OrderType = OrderType_OrderType_LimitifTouched
-	OrderType_TrailingStop      OrderType = OrderType_OrderType_TrailingStop
+	// 订单类型
+	// enum: OrderType
+	// 未知类型
+	OrderType_Unknown OrderType = OrderType_OrderType_Unknown
+	// 普通订单(港股的增强限价单、港股期权的限价单，A股限价委托、美股的限价单，港股期货的限价单，CME期货的限价单)。目前港股期权只能指定此订单类型。
+	OrderType_Normal OrderType = OrderType_OrderType_Normal
+	// 市价订单(目前支持美股、港股正股、涡轮、牛熊、界内证)
+	OrderType_Market OrderType = OrderType_OrderType_Market
+	// 绝对限价订单(目前仅港股)，只有价格完全匹配才成交，否则下单失败，比如你下价格为5元的买单，卖单价格必须也要是5元才能成交，低于5元也不能成交，下单失败。卖出同理
+	OrderType_AbsoluteLimit OrderType = OrderType_OrderType_AbsoluteLimit
+	// 竞价订单(目前仅港股)，仅港股早盘竞价和收盘竞价有效，A股的早盘竞价订单类型不变还是OrderType_Normal
+	OrderType_Auction OrderType = OrderType_OrderType_Auction
+	// 竞价限价订单(目前仅港股)，仅早盘竞价和收盘竞价有效，参与竞价，且要求满足指定价格才会成交
+	OrderType_AuctionLimit OrderType = OrderType_OrderType_AuctionLimit
+	// 特别限价订单(目前仅港股)，成交规则同增强限价订单，且部分成交后，交易所自动撤销订单
+	OrderType_SpecialLimit OrderType = OrderType_OrderType_SpecialLimit
+	// 特别限价且要求全部成交订单(目前仅港股)，要么全部成交，要么自动撤单
+	OrderType_SpecialLimit_All OrderType = OrderType_OrderType_SpecialLimit_All
+	// 止损市价单
+	OrderType_Stop OrderType = OrderType_OrderType_Stop
+	// 止损限价单
+	OrderType_StopLimit OrderType = OrderType_OrderType_StopLimit
+	// 触及市价单（止盈）
+	OrderType_MarketifTouched OrderType = OrderType_OrderType_MarketifTouched
+	// 触及限价单（止盈）
+	OrderType_LimitifTouched OrderType = OrderType_OrderType_LimitifTouched
+	// 跟踪止损市价单
+	OrderType_TrailingStop OrderType = OrderType_OrderType_TrailingStop
+	// 跟踪止损限价单
 	OrderType_TrailingStopLimit OrderType = OrderType_OrderType_TrailingStopLimit
-	OrderType_TWAP_MARKET       OrderType = OrderType_OrderType_TWAP_MARKET
-	OrderType_TWAP_LIMIT        OrderType = OrderType_OrderType_TWAP_LIMIT
-	OrderType_VWAP_MARKET       OrderType = OrderType_OrderType_VWAP_MARKET
-	OrderType_VWAP_LIMIT        OrderType = OrderType_OrderType_VWAP_LIMIT
+	// TWAP 市价单
+	OrderType_TWAP_MARKET OrderType = OrderType_OrderType_TWAP_MARKET
+	// TWAP 限订单
+	OrderType_TWAP_LIMIT OrderType = OrderType_OrderType_TWAP_LIMIT
+	// VWAP 市价单
+	OrderType_VWAP_MARKET OrderType = OrderType_OrderType_VWAP_MARKET
+	// VWAP 限订单
+	OrderType_VWAP_LIMIT OrderType = OrderType_OrderType_VWAP_LIMIT
 
-	// Enum: PacketEncAlgo
+	// 包加密算法
+	// enum: PacketEncAlgo
+	// 富途修改过的AES的ECB加密模式
 	PacketEncAlgo_FTAES_ECB PacketEncAlgo = PacketEncAlgo_PacketEncAlgo_FTAES_ECB
-	PacketEncAlgo_None      PacketEncAlgo = PacketEncAlgo_PacketEncAlgo_None
-	PacketEncAlgo_AES_ECB   PacketEncAlgo = PacketEncAlgo_PacketEncAlgo_AES_ECB
-	PacketEncAlgo_AES_CBC   PacketEncAlgo = PacketEncAlgo_PacketEncAlgo_AES_CBC
+	// 不加密
+	PacketEncAlgo_None PacketEncAlgo = PacketEncAlgo_PacketEncAlgo_None
+	// 标准的AES的ECB加密模式
+	PacketEncAlgo_AES_ECB PacketEncAlgo = PacketEncAlgo_PacketEncAlgo_AES_ECB
+	// 标准的AES的CBC加密模式
+	PacketEncAlgo_AES_CBC PacketEncAlgo = PacketEncAlgo_PacketEncAlgo_AES_CBC
 
-	// Enum: PatternField
-	PatternField_Unknown              PatternField = PatternField_PatternField_Unknown
-	PatternField_MAAlignmentLong      PatternField = PatternField_PatternField_MAAlignmentLong
-	PatternField_MAAlignmentShort     PatternField = PatternField_PatternField_MAAlignmentShort
-	PatternField_EMAAlignmentLong     PatternField = PatternField_PatternField_EMAAlignmentLong
-	PatternField_EMAAlignmentShort    PatternField = PatternField_PatternField_EMAAlignmentShort
-	PatternField_RSIGoldCrossLow      PatternField = PatternField_PatternField_RSIGoldCrossLow
-	PatternField_RSIDeathCrossHigh    PatternField = PatternField_PatternField_RSIDeathCrossHigh
-	PatternField_RSITopDivergence     PatternField = PatternField_PatternField_RSITopDivergence
-	PatternField_RSIBottomDivergence  PatternField = PatternField_PatternField_RSIBottomDivergence
-	PatternField_KDJGoldCrossLow      PatternField = PatternField_PatternField_KDJGoldCrossLow
-	PatternField_KDJDeathCrossHigh    PatternField = PatternField_PatternField_KDJDeathCrossHigh
-	PatternField_KDJTopDivergence     PatternField = PatternField_PatternField_KDJTopDivergence
-	PatternField_KDJBottomDivergence  PatternField = PatternField_PatternField_KDJBottomDivergence
-	PatternField_MACDGoldCrossLow     PatternField = PatternField_PatternField_MACDGoldCrossLow
-	PatternField_MACDDeathCrossHigh   PatternField = PatternField_PatternField_MACDDeathCrossHigh
-	PatternField_MACDTopDivergence    PatternField = PatternField_PatternField_MACDTopDivergence
+	// 形态技术指标属性
+	// enum: PatternField
+	// 未知
+	PatternField_Unknown PatternField = PatternField_PatternField_Unknown
+	// MA多头排列（连续两天MA5>MA10>MA20>MA30>MA60，且当日收盘价大于前一天收盘价）
+	PatternField_MAAlignmentLong PatternField = PatternField_PatternField_MAAlignmentLong
+	// MA空头排列（连续两天MA5 <MA10 <MA20 <MA30 <MA60，且当日收盘价小于前一天收盘价）
+	PatternField_MAAlignmentShort PatternField = PatternField_PatternField_MAAlignmentShort
+	// EMA多头排列（连续两天EMA5>EMA10>EMA20>EMA30>EMA60，且当日收盘价大于前一天收盘价）
+	PatternField_EMAAlignmentLong PatternField = PatternField_PatternField_EMAAlignmentLong
+	// EMA空头排列（连续两天EMA5 <EMA10 <EMA20 <EMA30 <EMA60，且当日收盘价小于前一天收盘价）
+	PatternField_EMAAlignmentShort PatternField = PatternField_PatternField_EMAAlignmentShort
+	// RSI低位金叉（50以下，短线RSI上穿长线RSI（前一日短线RSI小于长线RSI，当日短线RSI大于长线RSI））
+	PatternField_RSIGoldCrossLow PatternField = PatternField_PatternField_RSIGoldCrossLow
+	// RSI高位死叉（50以上，短线RSI下穿长线RSI（前一日短线RSI大于长线RSI，当日短线RSI小于长线RSI））
+	PatternField_RSIDeathCrossHigh PatternField = PatternField_PatternField_RSIDeathCrossHigh
+	// RSI顶背离（相邻的两个K线波峰，后面的波峰对应的CLOSE>前面的波峰对应的CLOSE，后面波峰的RSI12值 <前面波峰的RSI12值）
+	PatternField_RSITopDivergence PatternField = PatternField_PatternField_RSITopDivergence
+	// RSI底背离（相邻的两个K线波谷，后面的波谷对应的CLOSE <前面的波谷对应的CLOSE，后面波谷的RSI12值>前面波谷的RSI12值）
+	PatternField_RSIBottomDivergence PatternField = PatternField_PatternField_RSIBottomDivergence
+	// KDJ低位金叉（KDJ的值都小于或等于30，且前一日K,J值分别小于D值，当日K,J值分别大于D值）
+	PatternField_KDJGoldCrossLow PatternField = PatternField_PatternField_KDJGoldCrossLow
+	// KDJ高位死叉（KDJ的值都大于或等于70，且前一日K,J值分别大于D值，当日K,J值分别小于D值）
+	PatternField_KDJDeathCrossHigh PatternField = PatternField_PatternField_KDJDeathCrossHigh
+	// KDJ顶背离（相邻的两个K线波峰，后面的波峰对应的CLOSE>前面的波峰对应的CLOSE，后面波峰的J值 <前面波峰的J值）
+	PatternField_KDJTopDivergence PatternField = PatternField_PatternField_KDJTopDivergence
+	// KDJ底背离（相邻的两个K线波谷，后面的波谷对应的CLOSE <前面的波谷对应的CLOSE，后面波谷的J值>前面波谷的J值）
+	PatternField_KDJBottomDivergence PatternField = PatternField_PatternField_KDJBottomDivergence
+	// MACD低位金叉（DIFF上穿DEA（前一日DIFF小于DEA，当日DIFF大于DEA））
+	PatternField_MACDGoldCrossLow PatternField = PatternField_PatternField_MACDGoldCrossLow
+	// MACD高位死叉（DIFF下穿DEA（前一日DIFF大于DEA，当日DIFF小于DEA））
+	PatternField_MACDDeathCrossHigh PatternField = PatternField_PatternField_MACDDeathCrossHigh
+	// MACD顶背离（相邻的两个K线波峰，后面的波峰对应的CLOSE>前面的波峰对应的CLOSE，后面波峰的macd值 <前面波峰的macd值）
+	PatternField_MACDTopDivergence PatternField = PatternField_PatternField_MACDTopDivergence
+	// MACD底背离（相邻的两个K线波谷，后面的波谷对应的CLOSE <前面的波谷对应的CLOSE，后面波谷的macd值>前面波谷的macd值）
 	PatternField_MACDBottomDivergence PatternField = PatternField_PatternField_MACDBottomDivergence
-	PatternField_BOLLBreakUpper       PatternField = PatternField_PatternField_BOLLBreakUpper
-	PatternField_BOLLLower            PatternField = PatternField_PatternField_BOLLLower
-	PatternField_BOLLCrossMiddleUp    PatternField = PatternField_PatternField_BOLLCrossMiddleUp
-	PatternField_BOLLCrossMiddleDown  PatternField = PatternField_PatternField_BOLLCrossMiddleDown
+	// BOLL突破上轨（前一日股价低于上轨值，当日股价大于上轨值）
+	PatternField_BOLLBreakUpper PatternField = PatternField_PatternField_BOLLBreakUpper
+	// BOLL突破下轨（前一日股价高于下轨值，当日股价小于下轨值）
+	PatternField_BOLLLower PatternField = PatternField_PatternField_BOLLLower
+	// BOLL向上破中轨（前一日股价低于中轨值，当日股价大于中轨值）
+	PatternField_BOLLCrossMiddleUp PatternField = PatternField_PatternField_BOLLCrossMiddleUp
+	// BOLL向下破中轨（前一日股价大于中轨值，当日股价小于中轨值）
+	PatternField_BOLLCrossMiddleDown PatternField = PatternField_PatternField_BOLLCrossMiddleDown
 
-	// Enum: PeriodType
-	PeriodType_Unknown  PeriodType = PeriodType_PeriodType_Unknown
+	// 周期类型
+	// enum: PeriodType
+	// 未知
+	PeriodType_Unknown PeriodType = PeriodType_PeriodType_Unknown
+	// 实时
 	PeriodType_INTRADAY PeriodType = PeriodType_PeriodType_INTRADAY
-	PeriodType_DAY      PeriodType = PeriodType_PeriodType_DAY
-	PeriodType_WEEK     PeriodType = PeriodType_PeriodType_WEEK
-	PeriodType_MONTH    PeriodType = PeriodType_PeriodType_MONTH
+	// 日
+	PeriodType_DAY PeriodType = PeriodType_PeriodType_DAY
+	// 周
+	PeriodType_WEEK PeriodType = PeriodType_PeriodType_WEEK
+	// 月
+	PeriodType_MONTH PeriodType = PeriodType_PeriodType_MONTH
 
-	// Enum: PlateSetType
-	PlateSetType_All      PlateSetType = PlateSetType_PlateSetType_All
+	// enum: PlateSetType
+	// 所有板块
+	PlateSetType_All PlateSetType = PlateSetType_PlateSetType_All
+	// 行业板块
 	PlateSetType_Industry PlateSetType = PlateSetType_PlateSetType_Industry
-	PlateSetType_Region   PlateSetType = PlateSetType_PlateSetType_Region
-	PlateSetType_Concept  PlateSetType = PlateSetType_PlateSetType_Concept
-	PlateSetType_Other    PlateSetType = PlateSetType_PlateSetType_Other
+	// 地域板块,港美股市场的地域分类数据暂为空
+	PlateSetType_Region PlateSetType = PlateSetType_PlateSetType_Region
+	// 概念板块
+	PlateSetType_Concept PlateSetType = PlateSetType_PlateSetType_Concept
+	// 其他板块, 仅用于3207（获取股票所属板块）协议返回,不可作为其他协议的请求参数
+	PlateSetType_Other PlateSetType = PlateSetType_PlateSetType_Other
 
-	// Enum: PositionSide
-	PositionSide_Long    PositionSide = PositionSide_PositionSide_Long
+	// 持仓方向类型
+	// enum: PositionSide
+	// 多仓，默认情况是多仓
+	PositionSide_Long PositionSide = PositionSide_PositionSide_Long
+	// 未知方向
 	PositionSide_Unknown PositionSide = PositionSide_PositionSide_Unknown
-	PositionSide_Short   PositionSide = PositionSide_PositionSide_Short
+	// 空仓
+	PositionSide_Short PositionSide = PositionSide_PositionSide_Short
 
-	// Enum: PriceReminderFreq
-	PriceReminderFreq_Unknown  PriceReminderFreq = PriceReminderFreq_PriceReminderFreq_Unknown
-	PriceReminderFreq_Always   PriceReminderFreq = PriceReminderFreq_PriceReminderFreq_Always
+	// 提醒频率
+	// enum: PriceReminderFreq
+	// 未知
+	PriceReminderFreq_Unknown PriceReminderFreq = PriceReminderFreq_PriceReminderFreq_Unknown
+	// 持续提醒
+	PriceReminderFreq_Always PriceReminderFreq = PriceReminderFreq_PriceReminderFreq_Always
+	// 每日一次
 	PriceReminderFreq_OnceADay PriceReminderFreq = PriceReminderFreq_PriceReminderFreq_OnceADay
+	// 仅提醒一次
 	PriceReminderFreq_OnlyOnce PriceReminderFreq = PriceReminderFreq_PriceReminderFreq_OnlyOnce
 
-	// Enum: PriceReminderMarketStatus
-	PriceReminderMarketStatus_Unknown     PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_Unknown
-	PriceReminderMarketStatus_Open        PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_Open
-	PriceReminderMarketStatus_USPre       PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_USPre
-	PriceReminderMarketStatus_USAfter     PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_USAfter
+	// enum: PriceReminderMarketStatus
+	PriceReminderMarketStatus_Unknown PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_Unknown
+	// 盘中
+	PriceReminderMarketStatus_Open PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_Open
+	// 美股盘前
+	PriceReminderMarketStatus_USPre PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_USPre
+	// 美股盘后
+	PriceReminderMarketStatus_USAfter PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_USAfter
+	// 美股夜盘
 	PriceReminderMarketStatus_USOverNight PriceReminderMarketStatus = PriceReminderMarketStatus_PriceReminderMarketStatus_USOverNight
 
-	// Enum: PriceReminderType
-	PriceReminderType_Unknown            PriceReminderType = PriceReminderType_PriceReminderType_Unknown
-	PriceReminderType_PriceUp            PriceReminderType = PriceReminderType_PriceReminderType_PriceUp
-	PriceReminderType_PriceDown          PriceReminderType = PriceReminderType_PriceReminderType_PriceDown
-	PriceReminderType_ChangeRateUp       PriceReminderType = PriceReminderType_PriceReminderType_ChangeRateUp
-	PriceReminderType_ChangeRateDown     PriceReminderType = PriceReminderType_PriceReminderType_ChangeRateDown
-	PriceReminderType_5MinChangeRateUp   PriceReminderType = PriceReminderType_PriceReminderType_5MinChangeRateUp
+	// 提醒类型
+	// enum: PriceReminderType
+	// 未知
+	PriceReminderType_Unknown PriceReminderType = PriceReminderType_PriceReminderType_Unknown
+	// 价格涨到
+	PriceReminderType_PriceUp PriceReminderType = PriceReminderType_PriceReminderType_PriceUp
+	// 价格跌到
+	PriceReminderType_PriceDown PriceReminderType = PriceReminderType_PriceReminderType_PriceDown
+	// 日涨幅超（该字段为百分比字段，设置时填 20 表示 20%）
+	PriceReminderType_ChangeRateUp PriceReminderType = PriceReminderType_PriceReminderType_ChangeRateUp
+	// 日跌幅超（该字段为百分比字段，设置时填 20 表示 20%）
+	PriceReminderType_ChangeRateDown PriceReminderType = PriceReminderType_PriceReminderType_ChangeRateDown
+	// 5 分钟涨幅超（该字段为百分比字段，设置时填 20 表示 20%）
+	PriceReminderType_5MinChangeRateUp PriceReminderType = PriceReminderType_PriceReminderType_5MinChangeRateUp
+	// 5 分钟跌幅超（该字段为百分比字段，设置时填 20 表示 20%）
 	PriceReminderType_5MinChangeRateDown PriceReminderType = PriceReminderType_PriceReminderType_5MinChangeRateDown
-	PriceReminderType_VolumeUp           PriceReminderType = PriceReminderType_PriceReminderType_VolumeUp
-	PriceReminderType_TurnoverUp         PriceReminderType = PriceReminderType_PriceReminderType_TurnoverUp
-	PriceReminderType_TurnoverRateUp     PriceReminderType = PriceReminderType_PriceReminderType_TurnoverRateUp
-	PriceReminderType_BidPriceUp         PriceReminderType = PriceReminderType_PriceReminderType_BidPriceUp
-	PriceReminderType_AskPriceDown       PriceReminderType = PriceReminderType_PriceReminderType_AskPriceDown
-	PriceReminderType_BidVolUp           PriceReminderType = PriceReminderType_PriceReminderType_BidVolUp
-	PriceReminderType_AskVolUp           PriceReminderType = PriceReminderType_PriceReminderType_AskVolUp
-	PriceReminderType_3MinChangeRateUp   PriceReminderType = PriceReminderType_PriceReminderType_3MinChangeRateUp
+	// 成交量超过
+	PriceReminderType_VolumeUp PriceReminderType = PriceReminderType_PriceReminderType_VolumeUp
+	// 成交额超过
+	PriceReminderType_TurnoverUp PriceReminderType = PriceReminderType_PriceReminderType_TurnoverUp
+	// 换手率超过（该字段为百分比字段，设置时填 20 表示 20%）
+	PriceReminderType_TurnoverRateUp PriceReminderType = PriceReminderType_PriceReminderType_TurnoverRateUp
+	// 买一价高于
+	PriceReminderType_BidPriceUp PriceReminderType = PriceReminderType_PriceReminderType_BidPriceUp
+	// 卖一价低于
+	PriceReminderType_AskPriceDown PriceReminderType = PriceReminderType_PriceReminderType_AskPriceDown
+	// 买一量高于
+	PriceReminderType_BidVolUp PriceReminderType = PriceReminderType_PriceReminderType_BidVolUp
+	// 卖一量高于
+	PriceReminderType_AskVolUp PriceReminderType = PriceReminderType_PriceReminderType_AskVolUp
+	// 3 分钟涨幅超（该字段为百分比字段，设置时填 20 表示 20%）
+	PriceReminderType_3MinChangeRateUp PriceReminderType = PriceReminderType_PriceReminderType_3MinChangeRateUp
+	// 3 分钟跌幅超（该字段为百分比字段，设置时填 20 表示 20%）
 	PriceReminderType_3MinChangeRateDown PriceReminderType = PriceReminderType_PriceReminderType_3MinChangeRateDown
 
-	// Enum: PriceType
+	// 窝轮价外/内,界内证表示界内界外
+	// enum: PriceType
 	PriceType_Unknown PriceType = PriceType_PriceType_Unknown
+	// 价外，界内证表示界外
 	PriceType_Outside PriceType = PriceType_PriceType_Outside
-	PriceType_WithIn  PriceType = PriceType_PriceType_WithIn
+	// 价内，界内证表示界内
+	PriceType_WithIn PriceType = PriceType_PriceType_WithIn
 
-	// Enum: ProgramStatusType
-	ProgramStatusType_None                 ProgramStatusType = ProgramStatusType_ProgramStatusType_None
-	ProgramStatusType_Loaded               ProgramStatusType = ProgramStatusType_ProgramStatusType_Loaded
-	ProgramStatusType_Loging               ProgramStatusType = ProgramStatusType_ProgramStatusType_Loging
-	ProgramStatusType_NeedPicVerifyCode    ProgramStatusType = ProgramStatusType_ProgramStatusType_NeedPicVerifyCode
-	ProgramStatusType_NeedPhoneVerifyCode  ProgramStatusType = ProgramStatusType_ProgramStatusType_NeedPhoneVerifyCode
-	ProgramStatusType_LoginFailed          ProgramStatusType = ProgramStatusType_ProgramStatusType_LoginFailed
-	ProgramStatusType_ForceUpdate          ProgramStatusType = ProgramStatusType_ProgramStatusType_ForceUpdate
+	// enum: ProgramStatusType
+	ProgramStatusType_None ProgramStatusType = ProgramStatusType_ProgramStatusType_None
+	// 已完成类似加载配置,启动服务器等操作,服务器启动之前的状态无需返回
+	ProgramStatusType_Loaded ProgramStatusType = ProgramStatusType_ProgramStatusType_Loaded
+	// 登录中
+	ProgramStatusType_Loging ProgramStatusType = ProgramStatusType_ProgramStatusType_Loging
+	// 需要图形验证码
+	ProgramStatusType_NeedPicVerifyCode ProgramStatusType = ProgramStatusType_ProgramStatusType_NeedPicVerifyCode
+	// 需要手机验证码
+	ProgramStatusType_NeedPhoneVerifyCode ProgramStatusType = ProgramStatusType_ProgramStatusType_NeedPhoneVerifyCode
+	// 登录失败,详细原因在描述返回
+	ProgramStatusType_LoginFailed ProgramStatusType = ProgramStatusType_ProgramStatusType_LoginFailed
+	// 客户端版本过低
+	ProgramStatusType_ForceUpdate ProgramStatusType = ProgramStatusType_ProgramStatusType_ForceUpdate
+	// 正在拉取类似免责声明等一些必要信息
 	ProgramStatusType_NessaryDataPreparing ProgramStatusType = ProgramStatusType_ProgramStatusType_NessaryDataPreparing
-	ProgramStatusType_NessaryDataMissing   ProgramStatusType = ProgramStatusType_ProgramStatusType_NessaryDataMissing
-	ProgramStatusType_UnAgreeDisclaimer    ProgramStatusType = ProgramStatusType_ProgramStatusType_UnAgreeDisclaimer
-	ProgramStatusType_Ready                ProgramStatusType = ProgramStatusType_ProgramStatusType_Ready
-	ProgramStatusType_ForceLogout          ProgramStatusType = ProgramStatusType_ProgramStatusType_ForceLogout
+	// 缺少必要信息
+	ProgramStatusType_NessaryDataMissing ProgramStatusType = ProgramStatusType_ProgramStatusType_NessaryDataMissing
+	// 未同意免责声明
+	ProgramStatusType_UnAgreeDisclaimer ProgramStatusType = ProgramStatusType_ProgramStatusType_UnAgreeDisclaimer
+	// 可以接收业务协议收发,正常可用状态
+	ProgramStatusType_Ready ProgramStatusType = ProgramStatusType_ProgramStatusType_Ready
+	// 被强制退出登录,例如修改了登录密码,中途打开设备锁等,详细原因在描述返回
+	ProgramStatusType_ForceLogout ProgramStatusType = ProgramStatusType_ProgramStatusType_ForceLogout
+	// 拉取免责声明标志失败
 	ProgramStatusType_DisclaimerPullFailed ProgramStatusType = ProgramStatusType_ProgramStatusType_DisclaimerPullFailed
 
-	// Enum: ProtoFmt
+	// 协议格式，请求协议在请求头中指定，推送协议在Init时指定
+	// enum: ProtoFmt
+	// Google Protobuf格式
 	ProtoFmt_Protobuf ProtoFmt = ProtoFmt_ProtoFmt_Protobuf
-	ProtoFmt_Json     ProtoFmt = ProtoFmt_ProtoFmt_Json
+	// Json格式
+	ProtoFmt_Json ProtoFmt = ProtoFmt_ProtoFmt_Json
 
-	// Enum: PushDataType
-	PushDataType_Unknown   PushDataType = PushDataType_PushDataType_Unknown
-	PushDataType_Realtime  PushDataType = PushDataType_PushDataType_Realtime
+	// 推送数据的分类，目前只有逐笔在使用
+	// enum: PushDataType
+	PushDataType_Unknown PushDataType = PushDataType_PushDataType_Unknown
+	// 实时推送的数据
+	PushDataType_Realtime PushDataType = PushDataType_PushDataType_Realtime
+	// 对后台行情连接断开期间拉取补充的数据 最多50个
 	PushDataType_ByDisConn PushDataType = PushDataType_PushDataType_ByDisConn
-	PushDataType_Cache     PushDataType = PushDataType_PushDataType_Cache
+	// 非实时非连接断开补充数据
+	PushDataType_Cache PushDataType = PushDataType_PushDataType_Cache
 
-	// Enum: QotMarket
-	QotMarket_Unknown       QotMarket = QotMarket_QotMarket_Unknown
-	QotMarket_HK_Security   QotMarket = QotMarket_QotMarket_HK_Security
-	QotMarket_HK_Future     QotMarket = QotMarket_QotMarket_HK_Future
-	QotMarket_US_Security   QotMarket = QotMarket_QotMarket_US_Security
+	// enum: QotMarket
+	// 未知市场
+	QotMarket_Unknown QotMarket = QotMarket_QotMarket_Unknown
+	// 香港市场
+	QotMarket_HK_Security QotMarket = QotMarket_QotMarket_HK_Security
+	// 港期货(已废弃，使用QotMarket_HK_Security即可)
+	QotMarket_HK_Future QotMarket = QotMarket_QotMarket_HK_Future
+	// 美国市场
+	QotMarket_US_Security QotMarket = QotMarket_QotMarket_US_Security
+	// 沪股市场
 	QotMarket_CNSH_Security QotMarket = QotMarket_QotMarket_CNSH_Security
+	// 深股市场
 	QotMarket_CNSZ_Security QotMarket = QotMarket_QotMarket_CNSZ_Security
-	QotMarket_SG_Security   QotMarket = QotMarket_QotMarket_SG_Security
-	QotMarket_JP_Security   QotMarket = QotMarket_QotMarket_JP_Security
-	QotMarket_AU_Security   QotMarket = QotMarket_QotMarket_AU_Security
-	QotMarket_MY_Security   QotMarket = QotMarket_QotMarket_MY_Security
-	QotMarket_CA_Security   QotMarket = QotMarket_QotMarket_CA_Security
-	QotMarket_FX_Security   QotMarket = QotMarket_QotMarket_FX_Security
+	// 新加坡市场
+	QotMarket_SG_Security QotMarket = QotMarket_QotMarket_SG_Security
+	// 日本市场
+	QotMarket_JP_Security QotMarket = QotMarket_QotMarket_JP_Security
+	// 澳大利亚市场
+	QotMarket_AU_Security QotMarket = QotMarket_QotMarket_AU_Security
+	// 马来西亚市场
+	QotMarket_MY_Security QotMarket = QotMarket_QotMarket_MY_Security
+	// 加拿大市场
+	QotMarket_CA_Security QotMarket = QotMarket_QotMarket_CA_Security
+	// 外汇市场
+	QotMarket_FX_Security QotMarket = QotMarket_QotMarket_FX_Security
 
-	// Enum: QotMarketState
-	QotMarketState_None                 QotMarketState = QotMarketState_QotMarketState_None
-	QotMarketState_Auction              QotMarketState = QotMarketState_QotMarketState_Auction
-	QotMarketState_WaitingOpen          QotMarketState = QotMarketState_QotMarketState_WaitingOpen
-	QotMarketState_Morning              QotMarketState = QotMarketState_QotMarketState_Morning
-	QotMarketState_Rest                 QotMarketState = QotMarketState_QotMarketState_Rest
-	QotMarketState_Afternoon            QotMarketState = QotMarketState_QotMarketState_Afternoon
-	QotMarketState_Closed               QotMarketState = QotMarketState_QotMarketState_Closed
-	QotMarketState_PreMarketBegin       QotMarketState = QotMarketState_QotMarketState_PreMarketBegin
-	QotMarketState_PreMarketEnd         QotMarketState = QotMarketState_QotMarketState_PreMarketEnd
-	QotMarketState_AfterHoursBegin      QotMarketState = QotMarketState_QotMarketState_AfterHoursBegin
-	QotMarketState_AfterHoursEnd        QotMarketState = QotMarketState_QotMarketState_AfterHoursEnd
-	QotMarketState_FUTU_SWITCH_DATE     QotMarketState = QotMarketState_QotMarketState_FUTU_SWITCH_DATE
-	QotMarketState_NightOpen            QotMarketState = QotMarketState_QotMarketState_NightOpen
-	QotMarketState_NightEnd             QotMarketState = QotMarketState_QotMarketState_NightEnd
-	QotMarketState_FutureDayOpen        QotMarketState = QotMarketState_QotMarketState_FutureDayOpen
-	QotMarketState_FutureDayBreak       QotMarketState = QotMarketState_QotMarketState_FutureDayBreak
-	QotMarketState_FutureDayClose       QotMarketState = QotMarketState_QotMarketState_FutureDayClose
+	// enum: QotMarketState
+	// 无交易
+	QotMarketState_None QotMarketState = QotMarketState_QotMarketState_None
+	// 竞价
+	QotMarketState_Auction QotMarketState = QotMarketState_QotMarketState_Auction
+	// 早盘前等待开盘
+	QotMarketState_WaitingOpen QotMarketState = QotMarketState_QotMarketState_WaitingOpen
+	// 早盘
+	QotMarketState_Morning QotMarketState = QotMarketState_QotMarketState_Morning
+	// 午间休市
+	QotMarketState_Rest QotMarketState = QotMarketState_QotMarketState_Rest
+	// 午盘
+	QotMarketState_Afternoon QotMarketState = QotMarketState_QotMarketState_Afternoon
+	// 收盘
+	QotMarketState_Closed QotMarketState = QotMarketState_QotMarketState_Closed
+	// 盘前
+	QotMarketState_PreMarketBegin QotMarketState = QotMarketState_QotMarketState_PreMarketBegin
+	// 盘前结束
+	QotMarketState_PreMarketEnd QotMarketState = QotMarketState_QotMarketState_PreMarketEnd
+	// 盘后
+	QotMarketState_AfterHoursBegin QotMarketState = QotMarketState_QotMarketState_AfterHoursBegin
+	// 盘后结束
+	QotMarketState_AfterHoursEnd    QotMarketState = QotMarketState_QotMarketState_AfterHoursEnd
+	QotMarketState_FUTU_SWITCH_DATE QotMarketState = QotMarketState_QotMarketState_FUTU_SWITCH_DATE
+	// 夜市开盘
+	QotMarketState_NightOpen QotMarketState = QotMarketState_QotMarketState_NightOpen
+	// 夜市收盘
+	QotMarketState_NightEnd QotMarketState = QotMarketState_QotMarketState_NightEnd
+	// 期货日市开盘
+	QotMarketState_FutureDayOpen QotMarketState = QotMarketState_QotMarketState_FutureDayOpen
+	// 期货日市休市
+	QotMarketState_FutureDayBreak QotMarketState = QotMarketState_QotMarketState_FutureDayBreak
+	// 期货日市收盘
+	QotMarketState_FutureDayClose QotMarketState = QotMarketState_QotMarketState_FutureDayClose
+	// 期货日市等待开盘
 	QotMarketState_FutureDayWaitForOpen QotMarketState = QotMarketState_QotMarketState_FutureDayWaitForOpen
-	QotMarketState_HkCas                QotMarketState = QotMarketState_QotMarketState_HkCas
-	QotMarketState_FutureNightWait      QotMarketState = QotMarketState_QotMarketState_FutureNightWait
-	QotMarketState_FutureAfternoon      QotMarketState = QotMarketState_QotMarketState_FutureAfternoon
-	QotMarketState_FutureSwitchDate     QotMarketState = QotMarketState_QotMarketState_FutureSwitchDate
-	QotMarketState_FutureOpen           QotMarketState = QotMarketState_QotMarketState_FutureOpen
-	QotMarketState_FutureBreak          QotMarketState = QotMarketState_QotMarketState_FutureBreak
-	QotMarketState_FutureBreakOver      QotMarketState = QotMarketState_QotMarketState_FutureBreakOver
-	QotMarketState_FutureClose          QotMarketState = QotMarketState_QotMarketState_FutureClose
-	QotMarketState_StibAfterHoursWait   QotMarketState = QotMarketState_QotMarketState_StibAfterHoursWait
-	QotMarketState_StibAfterHoursBegin  QotMarketState = QotMarketState_QotMarketState_StibAfterHoursBegin
-	QotMarketState_StibAfterHoursEnd    QotMarketState = QotMarketState_QotMarketState_StibAfterHoursEnd
-	QotMarketState_CLOSE_AUCTION        QotMarketState = QotMarketState_QotMarketState_CLOSE_AUCTION
-	QotMarketState_AFTERNOON_END        QotMarketState = QotMarketState_QotMarketState_AFTERNOON_END
-	QotMarketState_NIGHT                QotMarketState = QotMarketState_QotMarketState_NIGHT
-	QotMarketState_OVERNIGHT_BEGIN      QotMarketState = QotMarketState_QotMarketState_OVERNIGHT_BEGIN
-	QotMarketState_OVERNIGHT_END        QotMarketState = QotMarketState_QotMarketState_OVERNIGHT_END
-	QotMarketState_TRADE_AT_LAST        QotMarketState = QotMarketState_QotMarketState_TRADE_AT_LAST
-	QotMarketState_TRADE_AUCTION        QotMarketState = QotMarketState_QotMarketState_TRADE_AUCTION
-	QotMarketState_OVERNIGHT            QotMarketState = QotMarketState_QotMarketState_OVERNIGHT
+	// 盘后竞价,港股市场增加CAS机制对应的市场状态
+	QotMarketState_HkCas QotMarketState = QotMarketState_QotMarketState_HkCas
+	// 夜市等待开盘（已废弃）
+	QotMarketState_FutureNightWait QotMarketState = QotMarketState_QotMarketState_FutureNightWait
+	// 期货下午开盘（已废弃）
+	QotMarketState_FutureAfternoon QotMarketState = QotMarketState_QotMarketState_FutureAfternoon
+	// 期货切交易日（已废弃）
+	QotMarketState_FutureSwitchDate QotMarketState = QotMarketState_QotMarketState_FutureSwitchDate
+	// 期货开盘
+	QotMarketState_FutureOpen QotMarketState = QotMarketState_QotMarketState_FutureOpen
+	// 期货中盘休息
+	QotMarketState_FutureBreak QotMarketState = QotMarketState_QotMarketState_FutureBreak
+	// 期货休息后开盘
+	QotMarketState_FutureBreakOver QotMarketState = QotMarketState_QotMarketState_FutureBreakOver
+	// 期货收盘
+	QotMarketState_FutureClose QotMarketState = QotMarketState_QotMarketState_FutureClose
+	// 科创板的盘后撮合时段（已废弃）
+	QotMarketState_StibAfterHoursWait QotMarketState = QotMarketState_QotMarketState_StibAfterHoursWait
+	// 科创板的盘后交易开始（已废弃）
+	QotMarketState_StibAfterHoursBegin QotMarketState = QotMarketState_QotMarketState_StibAfterHoursBegin
+	// 科创板的盘后交易结束（已废弃）
+	QotMarketState_StibAfterHoursEnd QotMarketState = QotMarketState_QotMarketState_StibAfterHoursEnd
+	// 收市竞价
+	QotMarketState_CLOSE_AUCTION QotMarketState = QotMarketState_QotMarketState_CLOSE_AUCTION
+	// 已收盘
+	QotMarketState_AFTERNOON_END QotMarketState = QotMarketState_QotMarketState_AFTERNOON_END
+	// 交易中
+	QotMarketState_NIGHT QotMarketState = QotMarketState_QotMarketState_NIGHT
+	// 夜盘开始
+	QotMarketState_OVERNIGHT_BEGIN QotMarketState = QotMarketState_QotMarketState_OVERNIGHT_BEGIN
+	// 夜盘结束
+	QotMarketState_OVERNIGHT_END QotMarketState = QotMarketState_QotMarketState_OVERNIGHT_END
+	// 收盘前成交（在交易时间表内）
+	QotMarketState_TRADE_AT_LAST QotMarketState = QotMarketState_QotMarketState_TRADE_AT_LAST
+	// 收盘前的竞价 （在交易时间表内）
+	QotMarketState_TRADE_AUCTION QotMarketState = QotMarketState_QotMarketState_TRADE_AUCTION
+	// 美股夜盘交易时段
+	QotMarketState_OVERNIGHT QotMarketState = QotMarketState_QotMarketState_OVERNIGHT
 
-	// Enum: QotPushStage
+	// 某段时间的统计数据
+	// SR表示服务器收到数据，目前只有港股支持SR字段，SS表示服务器发出数据
+	// CR表示OpenD收到数据，CS表示OpenD发出数据
+	// enum: QotPushStage
+	// 未知
 	QotPushStage_Unknown QotPushStage = QotPushStage_QotPushStage_Unknown
-	QotPushStage_SR2SS   QotPushStage = QotPushStage_QotPushStage_SR2SS
-	QotPushStage_SS2CR   QotPushStage = QotPushStage_QotPushStage_SS2CR
-	QotPushStage_CR2CS   QotPushStage = QotPushStage_QotPushStage_CR2CS
-	QotPushStage_SS2CS   QotPushStage = QotPushStage_QotPushStage_SS2CS
-	QotPushStage_SR2CS   QotPushStage = QotPushStage_QotPushStage_SR2CS
+	// 统计服务端处理耗时
+	QotPushStage_SR2SS QotPushStage = QotPushStage_QotPushStage_SR2SS
+	// 统计网络耗时
+	QotPushStage_SS2CR QotPushStage = QotPushStage_QotPushStage_SS2CR
+	// 统计OpenD处理耗时
+	QotPushStage_CR2CS QotPushStage = QotPushStage_QotPushStage_CR2CS
+	// 统计服务器发出到OpenD发出的处理耗时
+	QotPushStage_SS2CS QotPushStage = QotPushStage_QotPushStage_SS2CS
+	// 统计服务器收到数据到OpenD发出的处理耗时
+	QotPushStage_SR2CS QotPushStage = QotPushStage_QotPushStage_SR2CS
 
-	// Enum: QotPushType
-	QotPushType_Unknown   QotPushType = QotPushType_QotPushType_Unknown
-	QotPushType_Price     QotPushType = QotPushType_QotPushType_Price
-	QotPushType_Ticker    QotPushType = QotPushType_QotPushType_Ticker
+	// 行情推送类型
+	// enum: QotPushType
+	// 未知
+	QotPushType_Unknown QotPushType = QotPushType_QotPushType_Unknown
+	// 最新价
+	QotPushType_Price QotPushType = QotPushType_QotPushType_Price
+	// 逐笔
+	QotPushType_Ticker QotPushType = QotPushType_QotPushType_Ticker
+	// 摆盘
 	QotPushType_OrderBook QotPushType = QotPushType_QotPushType_OrderBook
-	QotPushType_Broker    QotPushType = QotPushType_QotPushType_Broker
+	// 经纪队列
+	QotPushType_Broker QotPushType = QotPushType_QotPushType_Broker
 
-	// Enum: QotRight
+	// 行情权限
+	// enum: QotRight
+	// 未知
 	QotRight_Unknown QotRight = QotRight_QotRight_Unknown
-	QotRight_Bmp     QotRight = QotRight_QotRight_Bmp
-	QotRight_Level1  QotRight = QotRight_QotRight_Level1
-	QotRight_Level2  QotRight = QotRight_QotRight_Level2
-	QotRight_SF      QotRight = QotRight_QotRight_SF
-	QotRight_No      QotRight = QotRight_QotRight_No
+	// Bmp，无法订阅
+	QotRight_Bmp QotRight = QotRight_QotRight_Bmp
+	// Level1
+	QotRight_Level1 QotRight = QotRight_QotRight_Level1
+	// Level2
+	QotRight_Level2 QotRight = QotRight_QotRight_Level2
+	// SF高级行情
+	QotRight_SF QotRight = QotRight_QotRight_SF
+	// 无权限
+	QotRight_No QotRight = QotRight_QotRight_No
 
-	// Enum: ReferenceType
+	// enum: ReferenceType
 	ReferenceType_Unknown ReferenceType = ReferenceType_ReferenceType_Unknown
+	// 正股相关的窝轮
 	ReferenceType_Warrant ReferenceType = ReferenceType_ReferenceType_Warrant
-	ReferenceType_Future  ReferenceType = ReferenceType_ReferenceType_Future
+	// 期货主连的相关合约
+	ReferenceType_Future ReferenceType = ReferenceType_ReferenceType_Future
 
-	// Enum: RehabType
-	RehabType_None     RehabType = RehabType_RehabType_None
-	RehabType_Forward  RehabType = RehabType_RehabType_Forward
+	// enum: RehabType
+	// 不复权
+	RehabType_None RehabType = RehabType_RehabType_None
+	// 前复权
+	RehabType_Forward RehabType = RehabType_RehabType_Forward
+	// 后复权
 	RehabType_Backward RehabType = RehabType_RehabType_Backward
 
-	// Enum: RelativePosition
-	RelativePosition_Unknown   RelativePosition = RelativePosition_RelativePosition_Unknown
-	RelativePosition_More      RelativePosition = RelativePosition_RelativePosition_More
-	RelativePosition_Less      RelativePosition = RelativePosition_RelativePosition_Less
-	RelativePosition_CrossUp   RelativePosition = RelativePosition_RelativePosition_CrossUp
+	// 相对位置比较
+	// enum: RelativePosition
+	// 未知
+	RelativePosition_Unknown RelativePosition = RelativePosition_RelativePosition_Unknown
+	// 大于，first位于second的上方
+	RelativePosition_More RelativePosition = RelativePosition_RelativePosition_More
+	// 小于，first位于second的下方
+	RelativePosition_Less RelativePosition = RelativePosition_RelativePosition_Less
+	// 升穿，first从下往上穿second
+	RelativePosition_CrossUp RelativePosition = RelativePosition_RelativePosition_CrossUp
+	// 跌穿，first从上往下穿second
 	RelativePosition_CrossDown RelativePosition = RelativePosition_RelativePosition_CrossDown
 
-	// Enum: RetType
-	RetType_Succeed    RetType = RetType_RetType_Succeed
-	RetType_Failed     RetType = RetType_RetType_Failed
-	RetType_TimeOut    RetType = RetType_RetType_TimeOut
+	// 返回结果
+	// enum: RetType
+	// 成功
+	RetType_Succeed RetType = RetType_RetType_Succeed
+	// 失败
+	RetType_Failed RetType = RetType_RetType_Failed
+	// 超时
+	RetType_TimeOut RetType = RetType_RetType_TimeOut
+	// 连接断开
 	RetType_DisConnect RetType = RetType_RetType_DisConnect
-	RetType_Unknown    RetType = RetType_RetType_Unknown
-	RetType_Invalid    RetType = RetType_RetType_Invalid
+	// 未知结果
+	RetType_Unknown RetType = RetType_RetType_Unknown
+	// 包内容非法
+	RetType_Invalid RetType = RetType_RetType_Invalid
 
-	// Enum: SecurityFirm
-	SecurityFirm_Unknown        SecurityFirm = SecurityFirm_SecurityFirm_Unknown
+	// 券商
+	// enum: SecurityFirm
+	// 未知
+	SecurityFirm_Unknown SecurityFirm = SecurityFirm_SecurityFirm_Unknown
+	// 富途证券（香港）
 	SecurityFirm_FutuSecurities SecurityFirm = SecurityFirm_SecurityFirm_FutuSecurities
-	SecurityFirm_FutuInc        SecurityFirm = SecurityFirm_SecurityFirm_FutuInc
-	SecurityFirm_FutuSG         SecurityFirm = SecurityFirm_SecurityFirm_FutuSG
-	SecurityFirm_FutuAU         SecurityFirm = SecurityFirm_SecurityFirm_FutuAU
+	// 富途证券（美国）
+	SecurityFirm_FutuInc SecurityFirm = SecurityFirm_SecurityFirm_FutuInc
+	// 富途证券（新加坡）
+	SecurityFirm_FutuSG SecurityFirm = SecurityFirm_SecurityFirm_FutuSG
+	// 富途证券（澳洲）
+	SecurityFirm_FutuAU SecurityFirm = SecurityFirm_SecurityFirm_FutuAU
 
-	// Enum: SecurityStatus
-	SecurityStatus_Unknown                     SecurityStatus = SecurityStatus_SecurityStatus_Unknown
-	SecurityStatus_Normal                      SecurityStatus = SecurityStatus_SecurityStatus_Normal
-	SecurityStatus_Listing                     SecurityStatus = SecurityStatus_SecurityStatus_Listing
-	SecurityStatus_Purchasing                  SecurityStatus = SecurityStatus_SecurityStatus_Purchasing
-	SecurityStatus_Subscribing                 SecurityStatus = SecurityStatus_SecurityStatus_Subscribing
-	SecurityStatus_BeforeDrakTradeOpening      SecurityStatus = SecurityStatus_SecurityStatus_BeforeDrakTradeOpening
-	SecurityStatus_DrakTrading                 SecurityStatus = SecurityStatus_SecurityStatus_DrakTrading
-	SecurityStatus_DrakTradeEnd                SecurityStatus = SecurityStatus_SecurityStatus_DrakTradeEnd
-	SecurityStatus_ToBeOpen                    SecurityStatus = SecurityStatus_SecurityStatus_ToBeOpen
-	SecurityStatus_Suspended                   SecurityStatus = SecurityStatus_SecurityStatus_Suspended
-	SecurityStatus_Called                      SecurityStatus = SecurityStatus_SecurityStatus_Called
-	SecurityStatus_ExpiredLastTradingDate      SecurityStatus = SecurityStatus_SecurityStatus_ExpiredLastTradingDate
-	SecurityStatus_Expired                     SecurityStatus = SecurityStatus_SecurityStatus_Expired
-	SecurityStatus_Delisted                    SecurityStatus = SecurityStatus_SecurityStatus_Delisted
-	SecurityStatus_ChangeToTemporaryCode       SecurityStatus = SecurityStatus_SecurityStatus_ChangeToTemporaryCode
-	SecurityStatus_TemporaryCodeTradeEnd       SecurityStatus = SecurityStatus_SecurityStatus_TemporaryCodeTradeEnd
-	SecurityStatus_ChangedPlateTradeEnd        SecurityStatus = SecurityStatus_SecurityStatus_ChangedPlateTradeEnd
-	SecurityStatus_ChangedCodeTradeEnd         SecurityStatus = SecurityStatus_SecurityStatus_ChangedCodeTradeEnd
-	SecurityStatus_RecoverableCircuitBreaker   SecurityStatus = SecurityStatus_SecurityStatus_RecoverableCircuitBreaker
+	// enum: SecurityStatus
+	// 未知
+	SecurityStatus_Unknown SecurityStatus = SecurityStatus_SecurityStatus_Unknown
+	// 正常状态
+	SecurityStatus_Normal SecurityStatus = SecurityStatus_SecurityStatus_Normal
+	// 待上市
+	SecurityStatus_Listing SecurityStatus = SecurityStatus_SecurityStatus_Listing
+	// 申购中
+	SecurityStatus_Purchasing SecurityStatus = SecurityStatus_SecurityStatus_Purchasing
+	// 认购中
+	SecurityStatus_Subscribing SecurityStatus = SecurityStatus_SecurityStatus_Subscribing
+	// 暗盘开盘前
+	SecurityStatus_BeforeDrakTradeOpening SecurityStatus = SecurityStatus_SecurityStatus_BeforeDrakTradeOpening
+	// 暗盘交易中
+	SecurityStatus_DrakTrading SecurityStatus = SecurityStatus_SecurityStatus_DrakTrading
+	// 暗盘已收盘
+	SecurityStatus_DrakTradeEnd SecurityStatus = SecurityStatus_SecurityStatus_DrakTradeEnd
+	// 待开盘
+	SecurityStatus_ToBeOpen SecurityStatus = SecurityStatus_SecurityStatus_ToBeOpen
+	// 停牌
+	SecurityStatus_Suspended SecurityStatus = SecurityStatus_SecurityStatus_Suspended
+	// 已收回
+	SecurityStatus_Called SecurityStatus = SecurityStatus_SecurityStatus_Called
+	// 已过最后交易日
+	SecurityStatus_ExpiredLastTradingDate SecurityStatus = SecurityStatus_SecurityStatus_ExpiredLastTradingDate
+	// 已过期
+	SecurityStatus_Expired SecurityStatus = SecurityStatus_SecurityStatus_Expired
+	// 已退市
+	SecurityStatus_Delisted SecurityStatus = SecurityStatus_SecurityStatus_Delisted
+	// 公司行动中，交易关闭，转至临时代码交易
+	SecurityStatus_ChangeToTemporaryCode SecurityStatus = SecurityStatus_SecurityStatus_ChangeToTemporaryCode
+	// 临时买卖结束，交易关闭
+	SecurityStatus_TemporaryCodeTradeEnd SecurityStatus = SecurityStatus_SecurityStatus_TemporaryCodeTradeEnd
+	// 已转板，旧代码交易关闭
+	SecurityStatus_ChangedPlateTradeEnd SecurityStatus = SecurityStatus_SecurityStatus_ChangedPlateTradeEnd
+	// 已换代码，旧代码交易关闭
+	SecurityStatus_ChangedCodeTradeEnd SecurityStatus = SecurityStatus_SecurityStatus_ChangedCodeTradeEnd
+	// 可恢复性熔断
+	SecurityStatus_RecoverableCircuitBreaker SecurityStatus = SecurityStatus_SecurityStatus_RecoverableCircuitBreaker
+	// 不可恢复性熔断
 	SecurityStatus_UnRecoverableCircuitBreaker SecurityStatus = SecurityStatus_SecurityStatus_UnRecoverableCircuitBreaker
-	SecurityStatus_AfterCombination            SecurityStatus = SecurityStatus_SecurityStatus_AfterCombination
-	SecurityStatus_AfterTransation             SecurityStatus = SecurityStatus_SecurityStatus_AfterTransation
+	// 盘后撮合
+	SecurityStatus_AfterCombination SecurityStatus = SecurityStatus_SecurityStatus_AfterCombination
+	// 盘后交易
+	SecurityStatus_AfterTransation SecurityStatus = SecurityStatus_SecurityStatus_AfterTransation
 
-	// Enum: SecurityType
-	SecurityType_Unknown  SecurityType = SecurityType_SecurityType_Unknown
-	SecurityType_Bond     SecurityType = SecurityType_SecurityType_Bond
-	SecurityType_Bwrt     SecurityType = SecurityType_SecurityType_Bwrt
-	SecurityType_Eqty     SecurityType = SecurityType_SecurityType_Eqty
-	SecurityType_Trust    SecurityType = SecurityType_SecurityType_Trust
-	SecurityType_Warrant  SecurityType = SecurityType_SecurityType_Warrant
-	SecurityType_Index    SecurityType = SecurityType_SecurityType_Index
-	SecurityType_Plate    SecurityType = SecurityType_SecurityType_Plate
-	SecurityType_Drvt     SecurityType = SecurityType_SecurityType_Drvt
+	// enum: SecurityType
+	// 未知
+	SecurityType_Unknown SecurityType = SecurityType_SecurityType_Unknown
+	// 债券
+	SecurityType_Bond SecurityType = SecurityType_SecurityType_Bond
+	// 一揽子权证
+	SecurityType_Bwrt SecurityType = SecurityType_SecurityType_Bwrt
+	// 正股
+	SecurityType_Eqty SecurityType = SecurityType_SecurityType_Eqty
+	// 信托,基金
+	SecurityType_Trust SecurityType = SecurityType_SecurityType_Trust
+	// 窝轮
+	SecurityType_Warrant SecurityType = SecurityType_SecurityType_Warrant
+	// 指数
+	SecurityType_Index SecurityType = SecurityType_SecurityType_Index
+	// 板块
+	SecurityType_Plate SecurityType = SecurityType_SecurityType_Plate
+	// 期权
+	SecurityType_Drvt SecurityType = SecurityType_SecurityType_Drvt
+	// 板块集
 	SecurityType_PlateSet SecurityType = SecurityType_SecurityType_PlateSet
-	SecurityType_Future   SecurityType = SecurityType_SecurityType_Future
+	// 期货
+	SecurityType_Future SecurityType = SecurityType_SecurityType_Future
 
-	// Enum: Session
+	// enum: Session
 	Session_NONE      Session = Session_Session_NONE
 	Session_RTH       Session = Session_Session_RTH
 	Session_ETH       Session = Session_Session_ETH
 	Session_ALL       Session = Session_Session_ALL
 	Session_OVERNIGHT Session = Session_Session_OVERNIGHT
 
-	// Enum: SetPriceReminderOp
+	// enum: SetPriceReminderOp
 	SetPriceReminderOp_Unknown SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Unknown
-	SetPriceReminderOp_Add     SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Add
-	SetPriceReminderOp_Del     SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Del
-	SetPriceReminderOp_Enable  SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Enable
+	// 新增
+	SetPriceReminderOp_Add SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Add
+	// 删除
+	SetPriceReminderOp_Del SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Del
+	// 启用
+	SetPriceReminderOp_Enable SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Enable
+	// 禁用
 	SetPriceReminderOp_Disable SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Disable
-	SetPriceReminderOp_Modify  SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Modify
-	SetPriceReminderOp_DelAll  SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_DelAll
+	// 修改
+	SetPriceReminderOp_Modify SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_Modify
+	// 删除该支股票下所有到价提醒
+	SetPriceReminderOp_DelAll SetPriceReminderOp = SetPriceReminderOp_SetPriceReminderOp_DelAll
 
-	// Enum: SimAccType
+	// 模拟交易账户类型
+	// enum: SimAccType
+	// 未知
 	SimAccType_Unknown SimAccType = SimAccType_SimAccType_Unknown
-	SimAccType_Stock   SimAccType = SimAccType_SimAccType_Stock
-	SimAccType_Option  SimAccType = SimAccType_SimAccType_Option
+	// 股票模拟账户（仅用于交易证券类产品，不支持交易期权）
+	SimAccType_Stock SimAccType = SimAccType_SimAccType_Stock
+	// 期权模拟账户（仅用于交易期权，不支持交易股票证券类产品）
+	SimAccType_Option SimAccType = SimAccType_SimAccType_Option
+	// 期货模拟账户
 	SimAccType_Futures SimAccType = SimAccType_SimAccType_Futures
 
-	// Enum: SortDir
-	SortDir_No      SortDir = SortDir_SortDir_No
-	SortDir_Ascend  SortDir = SortDir_SortDir_Ascend
+	// 排序方向
+	// enum: SortDir
+	// 不排序
+	SortDir_No SortDir = SortDir_SortDir_No
+	// 升序
+	SortDir_Ascend SortDir = SortDir_SortDir_Ascend
+	// 降序
 	SortDir_Descend SortDir = SortDir_SortDir_Descend
 
-	// Enum: SortField
-	SortField_Unknown             SortField = SortField_SortField_Unknown
-	SortField_Code                SortField = SortField_SortField_Code
-	SortField_CurPrice            SortField = SortField_SortField_CurPrice
-	SortField_PriceChangeVal      SortField = SortField_SortField_PriceChangeVal
-	SortField_ChangeRate          SortField = SortField_SortField_ChangeRate
-	SortField_Status              SortField = SortField_SortField_Status
-	SortField_BidPrice            SortField = SortField_SortField_BidPrice
-	SortField_AskPrice            SortField = SortField_SortField_AskPrice
-	SortField_BidVol              SortField = SortField_SortField_BidVol
-	SortField_AskVol              SortField = SortField_SortField_AskVol
-	SortField_Volume              SortField = SortField_SortField_Volume
-	SortField_Turnover            SortField = SortField_SortField_Turnover
-	SortField_Amplitude           SortField = SortField_SortField_Amplitude
-	SortField_Score               SortField = SortField_SortField_Score
-	SortField_Premium             SortField = SortField_SortField_Premium
-	SortField_EffectiveLeverage   SortField = SortField_SortField_EffectiveLeverage
-	SortField_Delta               SortField = SortField_SortField_Delta
-	SortField_ImpliedVolatility   SortField = SortField_SortField_ImpliedVolatility
-	SortField_Type                SortField = SortField_SortField_Type
-	SortField_StrikePrice         SortField = SortField_SortField_StrikePrice
-	SortField_BreakEvenPoint      SortField = SortField_SortField_BreakEvenPoint
-	SortField_MaturityTime        SortField = SortField_SortField_MaturityTime
-	SortField_ListTime            SortField = SortField_SortField_ListTime
-	SortField_LastTradeTime       SortField = SortField_SortField_LastTradeTime
-	SortField_Leverage            SortField = SortField_SortField_Leverage
-	SortField_InOutMoney          SortField = SortField_SortField_InOutMoney
-	SortField_RecoveryPrice       SortField = SortField_SortField_RecoveryPrice
-	SortField_ChangePrice         SortField = SortField_SortField_ChangePrice
-	SortField_Change              SortField = SortField_SortField_Change
-	SortField_StreetRate          SortField = SortField_SortField_StreetRate
-	SortField_StreetVol           SortField = SortField_SortField_StreetVol
-	SortField_WarrantName         SortField = SortField_SortField_WarrantName
-	SortField_Issuer              SortField = SortField_SortField_Issuer
-	SortField_LotSize             SortField = SortField_SortField_LotSize
-	SortField_IssueSize           SortField = SortField_SortField_IssueSize
-	SortField_UpperStrikePrice    SortField = SortField_SortField_UpperStrikePrice
-	SortField_LowerStrikePrice    SortField = SortField_SortField_LowerStrikePrice
-	SortField_InLinePriceStatus   SortField = SortField_SortField_InLinePriceStatus
-	SortField_PreCurPrice         SortField = SortField_SortField_PreCurPrice
-	SortField_AfterCurPrice       SortField = SortField_SortField_AfterCurPrice
-	SortField_PrePriceChangeVal   SortField = SortField_SortField_PrePriceChangeVal
+	// 窝轮排序
+	// enum: SortField
+	SortField_Unknown SortField = SortField_SortField_Unknown
+	// 代码
+	SortField_Code SortField = SortField_SortField_Code
+	// 最新价
+	SortField_CurPrice SortField = SortField_SortField_CurPrice
+	// 涨跌额
+	SortField_PriceChangeVal SortField = SortField_SortField_PriceChangeVal
+	// 涨跌幅%
+	SortField_ChangeRate SortField = SortField_SortField_ChangeRate
+	// 状态
+	SortField_Status SortField = SortField_SortField_Status
+	// 买入价
+	SortField_BidPrice SortField = SortField_SortField_BidPrice
+	// 卖出价
+	SortField_AskPrice SortField = SortField_SortField_AskPrice
+	// 买量
+	SortField_BidVol SortField = SortField_SortField_BidVol
+	// 卖量
+	SortField_AskVol SortField = SortField_SortField_AskVol
+	// 成交量
+	SortField_Volume SortField = SortField_SortField_Volume
+	// 成交额
+	SortField_Turnover SortField = SortField_SortField_Turnover
+	// 振幅%
+	SortField_Amplitude SortField = SortField_SortField_Amplitude
+	// 综合评分
+	SortField_Score SortField = SortField_SortField_Score
+	// 溢价%
+	SortField_Premium SortField = SortField_SortField_Premium
+	// 有效杠杆
+	SortField_EffectiveLeverage SortField = SortField_SortField_EffectiveLeverage
+	// 对冲值,仅认购认沽支持该字段
+	SortField_Delta SortField = SortField_SortField_Delta
+	// 引伸波幅,仅认购认沽支持该字段
+	SortField_ImpliedVolatility SortField = SortField_SortField_ImpliedVolatility
+	// 类型
+	SortField_Type SortField = SortField_SortField_Type
+	// 行权价
+	SortField_StrikePrice SortField = SortField_SortField_StrikePrice
+	// 打和点
+	SortField_BreakEvenPoint SortField = SortField_SortField_BreakEvenPoint
+	// 到期日
+	SortField_MaturityTime SortField = SortField_SortField_MaturityTime
+	// 上市日期
+	SortField_ListTime SortField = SortField_SortField_ListTime
+	// 最后交易日
+	SortField_LastTradeTime SortField = SortField_SortField_LastTradeTime
+	// 杠杆比率
+	SortField_Leverage SortField = SortField_SortField_Leverage
+	// 价内/价外%
+	SortField_InOutMoney SortField = SortField_SortField_InOutMoney
+	// 收回价,仅牛熊证支持该字段
+	SortField_RecoveryPrice SortField = SortField_SortField_RecoveryPrice
+	// 换股价
+	SortField_ChangePrice SortField = SortField_SortField_ChangePrice
+	// 换股比率
+	SortField_Change SortField = SortField_SortField_Change
+	// 街货比%
+	SortField_StreetRate SortField = SortField_SortField_StreetRate
+	// 街货量
+	SortField_StreetVol SortField = SortField_SortField_StreetVol
+	// 窝轮名称
+	SortField_WarrantName SortField = SortField_SortField_WarrantName
+	// 发行人
+	SortField_Issuer SortField = SortField_SortField_Issuer
+	// 每手
+	SortField_LotSize SortField = SortField_SortField_LotSize
+	// 发行量
+	SortField_IssueSize SortField = SortField_SortField_IssueSize
+	// 上限价，仅用于界内证
+	SortField_UpperStrikePrice SortField = SortField_SortField_UpperStrikePrice
+	// 下限价，仅用于界内证
+	SortField_LowerStrikePrice SortField = SortField_SortField_LowerStrikePrice
+	// 界内界外，仅用于界内证
+	SortField_InLinePriceStatus SortField = SortField_SortField_InLinePriceStatus
+	// 盘前最新价
+	SortField_PreCurPrice SortField = SortField_SortField_PreCurPrice
+	// 盘后最新价
+	SortField_AfterCurPrice SortField = SortField_SortField_AfterCurPrice
+	// 盘前涨跌额
+	SortField_PrePriceChangeVal SortField = SortField_SortField_PrePriceChangeVal
+	// 盘后涨跌额
 	SortField_AfterPriceChangeVal SortField = SortField_SortField_AfterPriceChangeVal
-	SortField_PreChangeRate       SortField = SortField_SortField_PreChangeRate
-	SortField_AfterChangeRate     SortField = SortField_SortField_AfterChangeRate
-	SortField_PreAmplitude        SortField = SortField_SortField_PreAmplitude
-	SortField_AfterAmplitude      SortField = SortField_SortField_AfterAmplitude
-	SortField_PreTurnover         SortField = SortField_SortField_PreTurnover
-	SortField_AfterTurnover       SortField = SortField_SortField_AfterTurnover
-	SortField_LastSettlePrice     SortField = SortField_SortField_LastSettlePrice
-	SortField_Position            SortField = SortField_SortField_Position
-	SortField_PositionChange      SortField = SortField_SortField_PositionChange
+	// 盘前涨跌幅%
+	SortField_PreChangeRate SortField = SortField_SortField_PreChangeRate
+	// 盘后涨跌幅%
+	SortField_AfterChangeRate SortField = SortField_SortField_AfterChangeRate
+	// 盘前振幅%
+	SortField_PreAmplitude SortField = SortField_SortField_PreAmplitude
+	// 盘后振幅%
+	SortField_AfterAmplitude SortField = SortField_SortField_AfterAmplitude
+	// 盘前成交额
+	SortField_PreTurnover SortField = SortField_SortField_PreTurnover
+	// 盘后成交额
+	SortField_AfterTurnover SortField = SortField_SortField_AfterTurnover
+	// 昨结
+	SortField_LastSettlePrice SortField = SortField_SortField_LastSettlePrice
+	// 持仓量
+	SortField_Position SortField = SortField_SortField_Position
+	// 日增仓
+	SortField_PositionChange SortField = SortField_SortField_PositionChange
 
-	// Enum: StockField
-	StockField_Unknown                        StockField = StockField_StockField_Unknown
-	StockField_StockCode                      StockField = StockField_StockField_StockCode
-	StockField_StockName                      StockField = StockField_StockField_StockName
-	StockField_CurPrice                       StockField = StockField_StockField_CurPrice
-	StockField_CurPriceToHighest52WeeksRatio  StockField = StockField_StockField_CurPriceToHighest52WeeksRatio
-	StockField_CurPriceToLowest52WeeksRatio   StockField = StockField_StockField_CurPriceToLowest52WeeksRatio
+	// 简单属性
+	// enum: StockField
+	// 未知
+	StockField_Unknown StockField = StockField_StockField_Unknown
+	// 股票代码，不能填区间上下限值。
+	StockField_StockCode StockField = StockField_StockField_StockCode
+	// 股票名称，不能填区间上下限值。
+	StockField_StockName StockField = StockField_StockField_StockName
+	// 最新价（精确到小数点后 3 位，超出部分会被舍弃）例如填写[10,20]值区间
+	StockField_CurPrice StockField = StockField_StockField_CurPrice
+	// (现价 - 52周最高)/52周最高，对应PC端离52周高点百分比（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-30,-10]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%，如20实际对应20%）
+	StockField_CurPriceToHighest52WeeksRatio StockField = StockField_StockField_CurPriceToHighest52WeeksRatio
+	// (现价 - 52周最低)/52周最低，对应PC端离52周低点百分比（精确到小数点后 3 位，超出部分会被舍弃）例如填写[20,40]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StockField_CurPriceToLowest52WeeksRatio StockField = StockField_StockField_CurPriceToLowest52WeeksRatio
+	// (今日最高 - 52周最高)/52周最高（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-3,-1]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
 	StockField_HighPriceToHighest52WeeksRatio StockField = StockField_StockField_HighPriceToHighest52WeeksRatio
-	StockField_LowPriceToLowest52WeeksRatio   StockField = StockField_StockField_LowPriceToLowest52WeeksRatio
-	StockField_VolumeRatio                    StockField = StockField_StockField_VolumeRatio
-	StockField_BidAskRatio                    StockField = StockField_StockField_BidAskRatio
-	StockField_LotPrice                       StockField = StockField_StockField_LotPrice
-	StockField_MarketVal                      StockField = StockField_StockField_MarketVal
-	StockField_PeAnnual                       StockField = StockField_StockField_PeAnnual
-	StockField_PeTTM                          StockField = StockField_StockField_PeTTM
-	StockField_PbRate                         StockField = StockField_StockField_PbRate
-	StockField_ChangeRate5min                 StockField = StockField_StockField_ChangeRate5min
-	StockField_ChangeRateBeginYear            StockField = StockField_StockField_ChangeRateBeginYear
-	StockField_PSTTM                          StockField = StockField_StockField_PSTTM
-	StockField_PCFTTM                         StockField = StockField_StockField_PCFTTM
-	StockField_TotalShare                     StockField = StockField_StockField_TotalShare
-	StockField_FloatShare                     StockField = StockField_StockField_FloatShare
-	StockField_FloatMarketVal                 StockField = StockField_StockField_FloatMarketVal
+	// (今日最低 - 52周最低)/52周最低（精确到小数点后 3 位，超出部分会被舍弃）例如填写[10,70]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StockField_LowPriceToLowest52WeeksRatio StockField = StockField_StockField_LowPriceToLowest52WeeksRatio
+	// 量比（精确到小数点后 3 位，超出部分会被舍弃）例如填写[0.5,30]值区间
+	StockField_VolumeRatio StockField = StockField_StockField_VolumeRatio
+	// 委比（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-20,80.5]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StockField_BidAskRatio StockField = StockField_StockField_BidAskRatio
+	// 每手价格（精确到小数点后 3 位，超出部分会被舍弃）例如填写[40,100]值区间
+	StockField_LotPrice StockField = StockField_StockField_LotPrice
+	// 市值（精确到小数点后 3 位，超出部分会被舍弃）例如填写[50000000,3000000000]值区间
+	StockField_MarketVal StockField = StockField_StockField_MarketVal
+	// 市盈率(静态)（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-8,65.3]值区间
+	StockField_PeAnnual StockField = StockField_StockField_PeAnnual
+	// 市盈率 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-10,20.5]值区间
+	StockField_PeTTM StockField = StockField_StockField_PeTTM
+	// 市净率（精确到小数点后 3 位，超出部分会被舍弃）例如填写[0.5,20]值区间
+	StockField_PbRate StockField = StockField_StockField_PbRate
+	// 五分钟价格涨跌幅（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-5,6.3]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StockField_ChangeRate5min StockField = StockField_StockField_ChangeRate5min
+	// 年初至今价格涨跌幅（精确到小数点后 3 位，超出部分会被舍弃）例如填写[-50.1,400.7]值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StockField_ChangeRateBeginYear StockField = StockField_StockField_ChangeRateBeginYear
+	// 市销率 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [100, 500] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StockField_PSTTM StockField = StockField_StockField_PSTTM
+	// 市现率 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [100, 1000] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+	StockField_PCFTTM StockField = StockField_StockField_PCFTTM
+	// 总股数（精确到小数点后 0 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间 (单位：股)（精确到小数点后 0 位，超出部分会被舍弃）
+	StockField_TotalShare StockField = StockField_StockField_TotalShare
+	// 流通股数（精确到小数点后 0 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间 (单位：股)（精确到小数点后 0 位，超出部分会被舍弃）
+	StockField_FloatShare StockField = StockField_StockField_FloatShare
+	// 流通市值（精确到小数点后 3 位，超出部分会被舍弃）例如填写 [1000000000,1000000000] 值区间 (单位：元)
+	StockField_FloatMarketVal StockField = StockField_StockField_FloatMarketVal
 
-	// Enum: SubType
-	SubType_None       SubType = SubType_SubType_None
-	SubType_Basic      SubType = SubType_SubType_Basic
-	SubType_OrderBook  SubType = SubType_SubType_OrderBook
-	SubType_Ticker     SubType = SubType_SubType_Ticker
-	SubType_RT         SubType = SubType_SubType_RT
-	SubType_KL_Day     SubType = SubType_SubType_KL_Day
-	SubType_KL_5Min    SubType = SubType_SubType_KL_5Min
-	SubType_KL_15Min   SubType = SubType_SubType_KL_15Min
-	SubType_KL_30Min   SubType = SubType_SubType_KL_30Min
-	SubType_KL_60Min   SubType = SubType_SubType_KL_60Min
-	SubType_KL_1Min    SubType = SubType_SubType_KL_1Min
-	SubType_KL_Week    SubType = SubType_SubType_KL_Week
-	SubType_KL_Month   SubType = SubType_SubType_KL_Month
-	SubType_Broker     SubType = SubType_SubType_Broker
+	// 订阅类型
+	// 枚举值兼容旧协议定义
+	// enum: SubType
+	SubType_None SubType = SubType_SubType_None
+	// 基础报价
+	SubType_Basic SubType = SubType_SubType_Basic
+	// 摆盘
+	SubType_OrderBook SubType = SubType_SubType_OrderBook
+	// 逐笔
+	SubType_Ticker SubType = SubType_SubType_Ticker
+	// 分时
+	SubType_RT SubType = SubType_SubType_RT
+	// 日K
+	SubType_KL_Day SubType = SubType_SubType_KL_Day
+	// 5分K
+	SubType_KL_5Min SubType = SubType_SubType_KL_5Min
+	// 15分K
+	SubType_KL_15Min SubType = SubType_SubType_KL_15Min
+	// 30分K
+	SubType_KL_30Min SubType = SubType_SubType_KL_30Min
+	// 60分K
+	SubType_KL_60Min SubType = SubType_SubType_KL_60Min
+	// 1分K
+	SubType_KL_1Min SubType = SubType_SubType_KL_1Min
+	// 周K
+	SubType_KL_Week SubType = SubType_SubType_KL_Week
+	// 月K
+	SubType_KL_Month SubType = SubType_SubType_KL_Month
+	// 经纪队列
+	SubType_Broker SubType = SubType_SubType_Broker
+	// 季K
 	SubType_KL_Qurater SubType = SubType_SubType_KL_Qurater
-	SubType_KL_Year    SubType = SubType_SubType_KL_Year
-	SubType_KL_3Min    SubType = SubType_SubType_KL_3Min
+	// 年K
+	SubType_KL_Year SubType = SubType_SubType_KL_Year
+	// 3分K
+	SubType_KL_3Min SubType = SubType_SubType_KL_3Min
 
-	// Enum: TickerDirection
+	// enum: TickerDirection
+	// 未知
 	TickerDirection_Unknown TickerDirection = TickerDirection_TickerDirection_Unknown
-	TickerDirection_Bid     TickerDirection = TickerDirection_TickerDirection_Bid
-	TickerDirection_Ask     TickerDirection = TickerDirection_TickerDirection_Ask
+	// 外盘
+	TickerDirection_Bid TickerDirection = TickerDirection_TickerDirection_Bid
+	// 内盘
+	TickerDirection_Ask TickerDirection = TickerDirection_TickerDirection_Ask
+	// 中性盘
 	TickerDirection_Neutral TickerDirection = TickerDirection_TickerDirection_Neutral
 
-	// Enum: TickerType
-	TickerType_Unknown                 TickerType = TickerType_TickerType_Unknown
-	TickerType_Automatch               TickerType = TickerType_TickerType_Automatch
-	TickerType_Late                    TickerType = TickerType_TickerType_Late
-	TickerType_NoneAutomatch           TickerType = TickerType_TickerType_NoneAutomatch
-	TickerType_InterAutomatch          TickerType = TickerType_TickerType_InterAutomatch
-	TickerType_InterNoneAutomatch      TickerType = TickerType_TickerType_InterNoneAutomatch
-	TickerType_OddLot                  TickerType = TickerType_TickerType_OddLot
-	TickerType_Auction                 TickerType = TickerType_TickerType_Auction
-	TickerType_Bulk                    TickerType = TickerType_TickerType_Bulk
-	TickerType_Crash                   TickerType = TickerType_TickerType_Crash
-	TickerType_CrossMarket             TickerType = TickerType_TickerType_CrossMarket
-	TickerType_BulkSold                TickerType = TickerType_TickerType_BulkSold
-	TickerType_FreeOnBoard             TickerType = TickerType_TickerType_FreeOnBoard
-	TickerType_Rule127Or155            TickerType = TickerType_TickerType_Rule127Or155
-	TickerType_Delay                   TickerType = TickerType_TickerType_Delay
-	TickerType_MarketCenterClosePrice  TickerType = TickerType_TickerType_MarketCenterClosePrice
-	TickerType_NextDay                 TickerType = TickerType_TickerType_NextDay
-	TickerType_MarketCenterOpening     TickerType = TickerType_TickerType_MarketCenterOpening
-	TickerType_PriorReferencePrice     TickerType = TickerType_TickerType_PriorReferencePrice
-	TickerType_MarketCenterOpenPrice   TickerType = TickerType_TickerType_MarketCenterOpenPrice
-	TickerType_Seller                  TickerType = TickerType_TickerType_Seller
-	TickerType_T                       TickerType = TickerType_TickerType_T
-	TickerType_ExtendedTradingHours    TickerType = TickerType_TickerType_ExtendedTradingHours
-	TickerType_Contingent              TickerType = TickerType_TickerType_Contingent
-	TickerType_AvgPrice                TickerType = TickerType_TickerType_AvgPrice
-	TickerType_OTCSold                 TickerType = TickerType_TickerType_OTCSold
-	TickerType_OddLotCrossMarket       TickerType = TickerType_TickerType_OddLotCrossMarket
-	TickerType_DerivativelyPriced      TickerType = TickerType_TickerType_DerivativelyPriced
-	TickerType_ReOpeningPriced         TickerType = TickerType_TickerType_ReOpeningPriced
-	TickerType_ClosingPriced           TickerType = TickerType_TickerType_ClosingPriced
+	// enum: TickerType
+	// 未知
+	TickerType_Unknown TickerType = TickerType_TickerType_Unknown
+	// 自动对盘
+	TickerType_Automatch TickerType = TickerType_TickerType_Automatch
+	// 开市前成交盘
+	TickerType_Late TickerType = TickerType_TickerType_Late
+	// 非自动对盘
+	TickerType_NoneAutomatch TickerType = TickerType_TickerType_NoneAutomatch
+	// 同一证券商自动对盘
+	TickerType_InterAutomatch TickerType = TickerType_TickerType_InterAutomatch
+	// 同一证券商非自动对盘
+	TickerType_InterNoneAutomatch TickerType = TickerType_TickerType_InterNoneAutomatch
+	// 碎股交易
+	TickerType_OddLot TickerType = TickerType_TickerType_OddLot
+	// 竞价交易
+	TickerType_Auction TickerType = TickerType_TickerType_Auction
+	// 批量交易
+	TickerType_Bulk TickerType = TickerType_TickerType_Bulk
+	// 现金交易
+	TickerType_Crash TickerType = TickerType_TickerType_Crash
+	// 跨市场交易
+	TickerType_CrossMarket TickerType = TickerType_TickerType_CrossMarket
+	// 批量卖出
+	TickerType_BulkSold TickerType = TickerType_TickerType_BulkSold
+	// 离价交易
+	TickerType_FreeOnBoard TickerType = TickerType_TickerType_FreeOnBoard
+	// 第127条交易（纽交所规则）或第155条交易
+	TickerType_Rule127Or155 TickerType = TickerType_TickerType_Rule127Or155
+	// 延迟交易
+	TickerType_Delay TickerType = TickerType_TickerType_Delay
+	// 中央收市价
+	TickerType_MarketCenterClosePrice TickerType = TickerType_TickerType_MarketCenterClosePrice
+	// 隔日交易
+	TickerType_NextDay TickerType = TickerType_TickerType_NextDay
+	// 中央开盘价交易
+	TickerType_MarketCenterOpening TickerType = TickerType_TickerType_MarketCenterOpening
+	// 前参考价
+	TickerType_PriorReferencePrice TickerType = TickerType_TickerType_PriorReferencePrice
+	// 中央开盘价
+	TickerType_MarketCenterOpenPrice TickerType = TickerType_TickerType_MarketCenterOpenPrice
+	// 卖方
+	TickerType_Seller TickerType = TickerType_TickerType_Seller
+	// T类交易(盘前和盘后交易)
+	TickerType_T TickerType = TickerType_TickerType_T
+	// 延长交易时段
+	TickerType_ExtendedTradingHours TickerType = TickerType_TickerType_ExtendedTradingHours
+	// 合单交易
+	TickerType_Contingent TickerType = TickerType_TickerType_Contingent
+	// 平均价成交
+	TickerType_AvgPrice TickerType = TickerType_TickerType_AvgPrice
+	// 场外售出
+	TickerType_OTCSold TickerType = TickerType_TickerType_OTCSold
+	// 碎股跨市场交易
+	TickerType_OddLotCrossMarket TickerType = TickerType_TickerType_OddLotCrossMarket
+	// 衍生工具定价
+	TickerType_DerivativelyPriced TickerType = TickerType_TickerType_DerivativelyPriced
+	// 再开盘定价
+	TickerType_ReOpeningPriced TickerType = TickerType_TickerType_ReOpeningPriced
+	// 收盘定价
+	TickerType_ClosingPriced TickerType = TickerType_TickerType_ClosingPriced
+	// 综合延迟价格
 	TickerType_ComprehensiveDelayPrice TickerType = TickerType_TickerType_ComprehensiveDelayPrice
-	TickerType_Overseas                TickerType = TickerType_TickerType_Overseas
+	// 交易的一方不是香港交易所的成员，属于场外交易
+	TickerType_Overseas TickerType = TickerType_TickerType_Overseas
 
-	// Enum: TimeFilterType
-	TimeFilterType_Unknown   TimeFilterType = TimeFilterType_TimeFilterType_Unknown
-	TimeFilterType_Public    TimeFilterType = TimeFilterType_TimeFilterType_Public
+	// enum: TimeFilterType
+	TimeFilterType_Unknown TimeFilterType = TimeFilterType_TimeFilterType_Unknown
+	// 根据公布时间过滤
+	TimeFilterType_Public TimeFilterType = TimeFilterType_TimeFilterType_Public
+	// 根据生效时间过滤
 	TimeFilterType_Effective TimeFilterType = TimeFilterType_TimeFilterType_Effective
-	TimeFilterType_End       TimeFilterType = TimeFilterType_TimeFilterType_End
+	// 根据结束时间过滤
+	TimeFilterType_End TimeFilterType = TimeFilterType_TimeFilterType_End
 
-	// Enum: TimeInForce
+	// 订单有效期
+	// enum: TimeInForce
+	// 当日有效
 	TimeInForce_DAY TimeInForce = TimeInForce_TimeInForce_DAY
+	// 撤单前有效，最多持续90自然日。
 	TimeInForce_GTC TimeInForce = TimeInForce_TimeInForce_GTC
 
-	// Enum: TradeDateMarket
-	TradeDateMarket_Unknown   TradeDateMarket = TradeDateMarket_TradeDateMarket_Unknown
-	TradeDateMarket_HK        TradeDateMarket = TradeDateMarket_TradeDateMarket_HK
-	TradeDateMarket_US        TradeDateMarket = TradeDateMarket_TradeDateMarket_US
-	TradeDateMarket_CN        TradeDateMarket = TradeDateMarket_TradeDateMarket_CN
-	TradeDateMarket_NT        TradeDateMarket = TradeDateMarket_TradeDateMarket_NT
-	TradeDateMarket_ST        TradeDateMarket = TradeDateMarket_TradeDateMarket_ST
+	// 交易日查询市场
+	// enum: TradeDateMarket
+	// 未知
+	TradeDateMarket_Unknown TradeDateMarket = TradeDateMarket_TradeDateMarket_Unknown
+	// 港股市场
+	TradeDateMarket_HK TradeDateMarket = TradeDateMarket_TradeDateMarket_HK
+	// 美股市场
+	TradeDateMarket_US TradeDateMarket = TradeDateMarket_TradeDateMarket_US
+	// A股市场
+	TradeDateMarket_CN TradeDateMarket = TradeDateMarket_TradeDateMarket_CN
+	// 深（沪）股通
+	TradeDateMarket_NT TradeDateMarket = TradeDateMarket_TradeDateMarket_NT
+	// 港股通（深、沪）
+	TradeDateMarket_ST TradeDateMarket = TradeDateMarket_TradeDateMarket_ST
+	// 日本期货
 	TradeDateMarket_JP_Future TradeDateMarket = TradeDateMarket_TradeDateMarket_JP_Future
+	// 新加坡期货
 	TradeDateMarket_SG_Future TradeDateMarket = TradeDateMarket_TradeDateMarket_SG_Future
 
-	// Enum: TradeDateType
-	TradeDateType_Whole     TradeDateType = TradeDateType_TradeDateType_Whole
-	TradeDateType_Morning   TradeDateType = TradeDateType_TradeDateType_Morning
+	// 交易日类型
+	// enum: TradeDateType
+	// 全天交易
+	TradeDateType_Whole TradeDateType = TradeDateType_TradeDateType_Whole
+	// 上午交易，下午休市
+	TradeDateType_Morning TradeDateType = TradeDateType_TradeDateType_Morning
+	// 下午交易，上午休市
 	TradeDateType_Afternoon TradeDateType = TradeDateType_TradeDateType_Afternoon
 
-	// Enum: TrailType
+	// 跟踪类型
+	// enum: TrailType
+	// 未知类型
 	TrailType_Unknown TrailType = TrailType_TrailType_Unknown
-	TrailType_Ratio   TrailType = TrailType_TrailType_Ratio
-	TrailType_Amount  TrailType = TrailType_TrailType_Amount
+	// 比例
+	TrailType_Ratio TrailType = TrailType_TrailType_Ratio
+	// 金额
+	TrailType_Amount TrailType = TrailType_TrailType_Amount
 
-	// Enum: TrdAccStatus
+	// 交易账户状态
+	// enum: TrdAccStatus
 	TrdAccStatus_Active   TrdAccStatus = TrdAccStatus_TrdAccStatus_Active
 	TrdAccStatus_Disabled TrdAccStatus = TrdAccStatus_TrdAccStatus_Disabled
 
-	// Enum: TrdAccType
+	// 交易账户类型
+	// enum: TrdAccType
+	// 未知类型
 	TrdAccType_Unknown TrdAccType = TrdAccType_TrdAccType_Unknown
-	TrdAccType_Cash    TrdAccType = TrdAccType_TrdAccType_Cash
-	TrdAccType_Margin  TrdAccType = TrdAccType_TrdAccType_Margin
+	// 现金账户
+	TrdAccType_Cash TrdAccType = TrdAccType_TrdAccType_Cash
+	// 保证金账户
+	TrdAccType_Margin TrdAccType = TrdAccType_TrdAccType_Margin
 
-	// Enum: TrdCashFlowDirection
+	// enum: TrdCashFlowDirection
+	// 未知
 	TrdCashFlowDirection_Unknown TrdCashFlowDirection = TrdCashFlowDirection_TrdCashFlowDirection_Unknown
-	TrdCashFlowDirection_In      TrdCashFlowDirection = TrdCashFlowDirection_TrdCashFlowDirection_In
-	TrdCashFlowDirection_Out     TrdCashFlowDirection = TrdCashFlowDirection_TrdCashFlowDirection_Out
+	// 现金流入
+	TrdCashFlowDirection_In TrdCashFlowDirection = TrdCashFlowDirection_TrdCashFlowDirection_In
+	// 现金流出
+	TrdCashFlowDirection_Out TrdCashFlowDirection = TrdCashFlowDirection_TrdCashFlowDirection_Out
 
-	// Enum: TrdCategory
-	TrdCategory_Unknown  TrdCategory = TrdCategory_TrdCategory_Unknown
+	// 交易品类
+	// enum: TrdCategory
+	// 未知品类
+	TrdCategory_Unknown TrdCategory = TrdCategory_TrdCategory_Unknown
+	// 证券
 	TrdCategory_Security TrdCategory = TrdCategory_TrdCategory_Security
-	TrdCategory_Future   TrdCategory = TrdCategory_TrdCategory_Future
+	// 期货
+	TrdCategory_Future TrdCategory = TrdCategory_TrdCategory_Future
 
-	// Enum: TrdEnv
+	// 交易环境
+	// enum: TrdEnv
+	// 仿真环境(模拟环境)
 	TrdEnv_Simulate TrdEnv = TrdEnv_TrdEnv_Simulate
-	TrdEnv_Real     TrdEnv = TrdEnv_TrdEnv_Real
+	// 真实环境
+	TrdEnv_Real TrdEnv = TrdEnv_TrdEnv_Real
 
-	// Enum: TrdMarket
-	TrdMarket_Unknown             TrdMarket = TrdMarket_TrdMarket_Unknown
-	TrdMarket_HK                  TrdMarket = TrdMarket_TrdMarket_HK
-	TrdMarket_US                  TrdMarket = TrdMarket_TrdMarket_US
-	TrdMarket_CN                  TrdMarket = TrdMarket_TrdMarket_CN
-	TrdMarket_HKCC                TrdMarket = TrdMarket_TrdMarket_HKCC
-	TrdMarket_Futures             TrdMarket = TrdMarket_TrdMarket_Futures
-	TrdMarket_SG                  TrdMarket = TrdMarket_TrdMarket_SG
-	TrdMarket_AU                  TrdMarket = TrdMarket_TrdMarket_AU
+	// 交易市场，是大的市场，不是具体品种
+	// enum: TrdMarket
+	// 未知市场
+	TrdMarket_Unknown TrdMarket = TrdMarket_TrdMarket_Unknown
+	// 香港市场
+	TrdMarket_HK TrdMarket = TrdMarket_TrdMarket_HK
+	// 美国市场
+	TrdMarket_US TrdMarket = TrdMarket_TrdMarket_US
+	// 大陆市场
+	TrdMarket_CN TrdMarket = TrdMarket_TrdMarket_CN
+	// 香港A股通市场
+	TrdMarket_HKCC TrdMarket = TrdMarket_TrdMarket_HKCC
+	// 期货市场
+	TrdMarket_Futures TrdMarket = TrdMarket_TrdMarket_Futures
+	// 期货市场
+	TrdMarket_SG TrdMarket = TrdMarket_TrdMarket_SG
+	// 澳洲市场
+	TrdMarket_AU TrdMarket = TrdMarket_TrdMarket_AU
+	// 模拟交易期货市场
 	TrdMarket_Futures_Simulate_HK TrdMarket = TrdMarket_TrdMarket_Futures_Simulate_HK
 	TrdMarket_Futures_Simulate_US TrdMarket = TrdMarket_TrdMarket_Futures_Simulate_US
 	TrdMarket_Futures_Simulate_SG TrdMarket = TrdMarket_TrdMarket_Futures_Simulate_SG
@@ -904,73 +1675,126 @@ const (
 	TrdMarket_JP                  TrdMarket = TrdMarket_TrdMarket_JP
 	TrdMarket_MY                  TrdMarket = TrdMarket_TrdMarket_MY
 	TrdMarket_CA                  TrdMarket = TrdMarket_TrdMarket_CA
-	TrdMarket_HK_Fund             TrdMarket = TrdMarket_TrdMarket_HK_Fund
-	TrdMarket_US_Fund             TrdMarket = TrdMarket_TrdMarket_US_Fund
+	// 香港基金市场
+	TrdMarket_HK_Fund TrdMarket = TrdMarket_TrdMarket_HK_Fund
+	// 美国基金市场
+	TrdMarket_US_Fund TrdMarket = TrdMarket_TrdMarket_US_Fund
 
-	// Enum: TrdSecMarket
+	// 可交易证券所属市场，目前主要是区分A股的沪市和深市，香港和美国暂不需要细分
+	// enum: TrdSecMarket
+	// 未知市场
 	TrdSecMarket_Unknown TrdSecMarket = TrdSecMarket_TrdSecMarket_Unknown
-	TrdSecMarket_HK      TrdSecMarket = TrdSecMarket_TrdSecMarket_HK
-	TrdSecMarket_US      TrdSecMarket = TrdSecMarket_TrdSecMarket_US
-	TrdSecMarket_CN_SH   TrdSecMarket = TrdSecMarket_TrdSecMarket_CN_SH
-	TrdSecMarket_CN_SZ   TrdSecMarket = TrdSecMarket_TrdSecMarket_CN_SZ
-	TrdSecMarket_SG      TrdSecMarket = TrdSecMarket_TrdSecMarket_SG
-	TrdSecMarket_JP      TrdSecMarket = TrdSecMarket_TrdSecMarket_JP
-	TrdSecMarket_AU      TrdSecMarket = TrdSecMarket_TrdSecMarket_AU
-	TrdSecMarket_MY      TrdSecMarket = TrdSecMarket_TrdSecMarket_MY
-	TrdSecMarket_CA      TrdSecMarket = TrdSecMarket_TrdSecMarket_CA
-	TrdSecMarket_FX      TrdSecMarket = TrdSecMarket_TrdSecMarket_FX
+	// 香港市场(股票、窝轮、牛熊、期权、期货等)
+	TrdSecMarket_HK TrdSecMarket = TrdSecMarket_TrdSecMarket_HK
+	// 美国市场(股票、期权、期货等)
+	TrdSecMarket_US TrdSecMarket = TrdSecMarket_TrdSecMarket_US
+	// 沪股市场(股票)
+	TrdSecMarket_CN_SH TrdSecMarket = TrdSecMarket_TrdSecMarket_CN_SH
+	// 深股市场(股票)
+	TrdSecMarket_CN_SZ TrdSecMarket = TrdSecMarket_TrdSecMarket_CN_SZ
+	// 新加坡市场(期货)
+	TrdSecMarket_SG TrdSecMarket = TrdSecMarket_TrdSecMarket_SG
+	// 日本市场(期货)
+	TrdSecMarket_JP TrdSecMarket = TrdSecMarket_TrdSecMarket_JP
+	// 澳大利亚
+	TrdSecMarket_AU TrdSecMarket = TrdSecMarket_TrdSecMarket_AU
+	// 马来西亚
+	TrdSecMarket_MY TrdSecMarket = TrdSecMarket_TrdSecMarket_MY
+	// 加拿大
+	TrdSecMarket_CA TrdSecMarket = TrdSecMarket_TrdSecMarket_CA
+	// 外汇
+	TrdSecMarket_FX TrdSecMarket = TrdSecMarket_TrdSecMarket_FX
 
-	// Enum: TrdSide
-	TrdSide_Unknown   TrdSide = TrdSide_TrdSide_Unknown
-	TrdSide_Buy       TrdSide = TrdSide_TrdSide_Buy
-	TrdSide_Sell      TrdSide = TrdSide_TrdSide_Sell
+	// 交易方向
+	// enum: TrdSide
+	// 未知方向
+	TrdSide_Unknown TrdSide = TrdSide_TrdSide_Unknown
+	// 买入
+	TrdSide_Buy TrdSide = TrdSide_TrdSide_Buy
+	// 卖出
+	TrdSide_Sell TrdSide = TrdSide_TrdSide_Sell
+	// 卖空
 	TrdSide_SellShort TrdSide = TrdSide_TrdSide_SellShort
-	TrdSide_BuyBack   TrdSide = TrdSide_TrdSide_BuyBack
+	// 买回
+	TrdSide_BuyBack TrdSide = TrdSide_TrdSide_BuyBack
 
-	// Enum: UpdateType
-	UpdateType_None   UpdateType = UpdateType_UpdateType_None
+	// enum: UpdateType
+	// 无需升级
+	UpdateType_None UpdateType = UpdateType_UpdateType_None
+	// 建议升级
 	UpdateType_Advice UpdateType = UpdateType_UpdateType_Advice
-	UpdateType_Force  UpdateType = UpdateType_UpdateType_Force
+	// 强制升级
+	UpdateType_Force UpdateType = UpdateType_UpdateType_Force
 
-	// Enum: UserAttribution
+	// 用户注册归属地
+	// enum: UserAttribution
 	UserAttribution_Unknown UserAttribution = UserAttribution_UserAttribution_Unknown
-	UserAttribution_NN      UserAttribution = UserAttribution_UserAttribution_NN
-	UserAttribution_MM      UserAttribution = UserAttribution_UserAttribution_MM
-	UserAttribution_SG      UserAttribution = UserAttribution_UserAttribution_SG
-	UserAttribution_AU      UserAttribution = UserAttribution_UserAttribution_AU
-	UserAttribution_JP      UserAttribution = UserAttribution_UserAttribution_JP
-	UserAttribution_HK      UserAttribution = UserAttribution_UserAttribution_HK
+	// 大陆
+	UserAttribution_NN UserAttribution = UserAttribution_UserAttribution_NN
+	// 美国
+	UserAttribution_MM UserAttribution = UserAttribution_UserAttribution_MM
+	// 新加坡
+	UserAttribution_SG UserAttribution = UserAttribution_UserAttribution_SG
+	// 澳洲
+	UserAttribution_AU UserAttribution = UserAttribution_UserAttribution_AU
+	// 日本
+	UserAttribution_JP UserAttribution = UserAttribution_UserAttribution_JP
+	// 香港
+	UserAttribution_HK UserAttribution = UserAttribution_UserAttribution_HK
 
-	// Enum: UserInfoField
-	UserInfoField_Basic      UserInfoField = UserInfoField_UserInfoField_Basic
-	UserInfoField_API        UserInfoField = UserInfoField_UserInfoField_API
-	UserInfoField_QotRight   UserInfoField = UserInfoField_UserInfoField_QotRight
+	// enum: UserInfoField
+	// 昵称，用户头像，牛牛号
+	UserInfoField_Basic UserInfoField = UserInfoField_UserInfoField_Basic
+	// API权限信息
+	UserInfoField_API UserInfoField = UserInfoField_UserInfoField_API
+	// 市场的行情权限
+	UserInfoField_QotRight UserInfoField = UserInfoField_UserInfoField_QotRight
+	// 免责
 	UserInfoField_Disclaimer UserInfoField = UserInfoField_UserInfoField_Disclaimer
-	UserInfoField_Update     UserInfoField = UserInfoField_UserInfoField_Update
-	UserInfoField_WebKey     UserInfoField = UserInfoField_UserInfoField_WebKey
+	// 升级类型
+	UserInfoField_Update UserInfoField = UserInfoField_UserInfoField_Update
+	UserInfoField_WebKey UserInfoField = UserInfoField_UserInfoField_WebKey
 
-	// Enum: VerificationOp
-	VerificationOp_Unknown       VerificationOp = VerificationOp_VerificationOp_Unknown
-	VerificationOp_Request       VerificationOp = VerificationOp_VerificationOp_Request
+	// enum: VerificationOp
+	// 未知操作
+	VerificationOp_Unknown VerificationOp = VerificationOp_VerificationOp_Unknown
+	// 请求验证码
+	VerificationOp_Request VerificationOp = VerificationOp_VerificationOp_Request
+	// 输入验证码并继续登录操作
 	VerificationOp_InputAndLogin VerificationOp = VerificationOp_VerificationOp_InputAndLogin
 
-	// Enum: VerificationType
+	// enum: VerificationType
+	// 未知操作
 	VerificationType_Unknown VerificationType = VerificationType_VerificationType_Unknown
+	// 图形验证码
 	VerificationType_Picture VerificationType = VerificationType_VerificationType_Picture
-	VerificationType_Phone   VerificationType = VerificationType_VerificationType_Phone
+	// 手机验证码
+	VerificationType_Phone VerificationType = VerificationType_VerificationType_Phone
 
-	// Enum: WarrantStatus
-	WarrantStatus_Unknown        WarrantStatus = WarrantStatus_WarrantStatus_Unknown
-	WarrantStatus_Normal         WarrantStatus = WarrantStatus_WarrantStatus_Normal
-	WarrantStatus_Suspend        WarrantStatus = WarrantStatus_WarrantStatus_Suspend
-	WarrantStatus_StopTrade      WarrantStatus = WarrantStatus_WarrantStatus_StopTrade
+	// 窝轮状态
+	// enum: WarrantStatus
+	// 未知
+	WarrantStatus_Unknown WarrantStatus = WarrantStatus_WarrantStatus_Unknown
+	// 正常状态
+	WarrantStatus_Normal WarrantStatus = WarrantStatus_WarrantStatus_Normal
+	// 停牌
+	WarrantStatus_Suspend WarrantStatus = WarrantStatus_WarrantStatus_Suspend
+	// 终止交易
+	WarrantStatus_StopTrade WarrantStatus = WarrantStatus_WarrantStatus_StopTrade
+	// 等待上市
 	WarrantStatus_PendingListing WarrantStatus = WarrantStatus_WarrantStatus_PendingListing
 
-	// Enum: WarrantType
+	// enum: WarrantType
+	// 未知
 	WarrantType_Unknown WarrantType = WarrantType_WarrantType_Unknown
-	WarrantType_Buy     WarrantType = WarrantType_WarrantType_Buy
-	WarrantType_Sell    WarrantType = WarrantType_WarrantType_Sell
-	WarrantType_Bull    WarrantType = WarrantType_WarrantType_Bull
-	WarrantType_Bear    WarrantType = WarrantType_WarrantType_Bear
-	WarrantType_InLine  WarrantType = WarrantType_WarrantType_InLine
+	// 认购
+	WarrantType_Buy WarrantType = WarrantType_WarrantType_Buy
+	// 认沽
+	WarrantType_Sell WarrantType = WarrantType_WarrantType_Sell
+	// 牛
+	WarrantType_Bull WarrantType = WarrantType_WarrantType_Bull
+	// 熊
+	WarrantType_Bear WarrantType = WarrantType_WarrantType_Bear
+	// 界内证
+	WarrantType_InLine WarrantType = WarrantType_WarrantType_InLine
 )
