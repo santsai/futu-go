@@ -5,11 +5,16 @@ package pb
 import "context"
 import "google.golang.org/protobuf/proto"
 
-type RequestHandler interface {
-	Request(context.Context, ProtoId, proto.Message, Response) (proto.Message, error)
+type Request interface {
+	proto.Message
+	GetRequestPayload() proto.Message
 }
 
-func (m *GetDelayStatisticsRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*GetDelayStatisticsResponse, error) {
+type RequestHandler interface {
+	Request(context.Context, ProtoId, Request, Response) (proto.Message, error)
+}
+
+func (m *GetDelayStatisticsRequest) Dispatch(ctx context.Context, rh RequestHandler) (*GetDelayStatisticsResponse, error) {
 	req := &GetDelayStatisticsRequest_Internal{Payload: m}
 	resp_internal := &GetDelayStatisticsResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_GetDelayStatistics, req, resp_internal); err != nil {
@@ -19,7 +24,11 @@ func (m *GetDelayStatisticsRequest) MakeRequest(ctx context.Context, rh RequestH
 	}
 }
 
-func (m *GetGlobalStateRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*GetGlobalStateResponse, error) {
+func (m *GetDelayStatisticsRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *GetGlobalStateRequest) Dispatch(ctx context.Context, rh RequestHandler) (*GetGlobalStateResponse, error) {
 	req := &GetGlobalStateRequest_Internal{Payload: m}
 	resp_internal := &GetGlobalStateResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_GetGlobalState, req, resp_internal); err != nil {
@@ -29,7 +38,11 @@ func (m *GetGlobalStateRequest) MakeRequest(ctx context.Context, rh RequestHandl
 	}
 }
 
-func (m *GetUserInfoRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*GetUserInfoResponse, error) {
+func (m *GetGlobalStateRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *GetUserInfoRequest) Dispatch(ctx context.Context, rh RequestHandler) (*GetUserInfoResponse, error) {
 	req := &GetUserInfoRequest_Internal{Payload: m}
 	resp_internal := &GetUserInfoResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_GetUserInfo, req, resp_internal); err != nil {
@@ -39,7 +52,11 @@ func (m *GetUserInfoRequest) MakeRequest(ctx context.Context, rh RequestHandler)
 	}
 }
 
-func (m *InitConnectRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*InitConnectResponse, error) {
+func (m *GetUserInfoRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *InitConnectRequest) Dispatch(ctx context.Context, rh RequestHandler) (*InitConnectResponse, error) {
 	req := &InitConnectRequest_Internal{Payload: m}
 	resp_internal := &InitConnectResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_InitConnect, req, resp_internal); err != nil {
@@ -49,7 +66,11 @@ func (m *InitConnectRequest) MakeRequest(ctx context.Context, rh RequestHandler)
 	}
 }
 
-func (m *KeepAliveRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*KeepAliveResponse, error) {
+func (m *InitConnectRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *KeepAliveRequest) Dispatch(ctx context.Context, rh RequestHandler) (*KeepAliveResponse, error) {
 	req := &KeepAliveRequest_Internal{Payload: m}
 	resp_internal := &KeepAliveResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_KeepAlive, req, resp_internal); err != nil {
@@ -59,7 +80,11 @@ func (m *KeepAliveRequest) MakeRequest(ctx context.Context, rh RequestHandler) (
 	}
 }
 
-func (m *QotGetBasicQotRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetBasicQotResponse, error) {
+func (m *KeepAliveRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetBasicQotRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetBasicQotResponse, error) {
 	req := &QotGetBasicQotRequest_Internal{Payload: m}
 	resp_internal := &QotGetBasicQotResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetBasicQot, req, resp_internal); err != nil {
@@ -69,7 +94,11 @@ func (m *QotGetBasicQotRequest) MakeRequest(ctx context.Context, rh RequestHandl
 	}
 }
 
-func (m *QotGetBrokerRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetBrokerResponse, error) {
+func (m *QotGetBasicQotRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetBrokerRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetBrokerResponse, error) {
 	req := &QotGetBrokerRequest_Internal{Payload: m}
 	resp_internal := &QotGetBrokerResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetBroker, req, resp_internal); err != nil {
@@ -79,7 +108,11 @@ func (m *QotGetBrokerRequest) MakeRequest(ctx context.Context, rh RequestHandler
 	}
 }
 
-func (m *QotGetCapitalDistributionRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetCapitalDistributionResponse, error) {
+func (m *QotGetBrokerRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCapitalDistributionRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCapitalDistributionResponse, error) {
 	req := &QotGetCapitalDistributionRequest_Internal{Payload: m}
 	resp_internal := &QotGetCapitalDistributionResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetCapitalDistribution, req, resp_internal); err != nil {
@@ -89,7 +122,11 @@ func (m *QotGetCapitalDistributionRequest) MakeRequest(ctx context.Context, rh R
 	}
 }
 
-func (m *QotGetCapitalFlowRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetCapitalFlowResponse, error) {
+func (m *QotGetCapitalDistributionRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCapitalFlowRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCapitalFlowResponse, error) {
 	req := &QotGetCapitalFlowRequest_Internal{Payload: m}
 	resp_internal := &QotGetCapitalFlowResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetCapitalFlow, req, resp_internal); err != nil {
@@ -99,7 +136,11 @@ func (m *QotGetCapitalFlowRequest) MakeRequest(ctx context.Context, rh RequestHa
 	}
 }
 
-func (m *QotGetCodeChangeRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetCodeChangeResponse, error) {
+func (m *QotGetCapitalFlowRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCodeChangeRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCodeChangeResponse, error) {
 	req := &QotGetCodeChangeRequest_Internal{Payload: m}
 	resp_internal := &QotGetCodeChangeResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetCodeChange, req, resp_internal); err != nil {
@@ -109,7 +150,11 @@ func (m *QotGetCodeChangeRequest) MakeRequest(ctx context.Context, rh RequestHan
 	}
 }
 
-func (m *QotGetFutureInfoRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetFutureInfoResponse, error) {
+func (m *QotGetCodeChangeRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFutureInfoRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetFutureInfoResponse, error) {
 	req := &QotGetFutureInfoRequest_Internal{Payload: m}
 	resp_internal := &QotGetFutureInfoResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetFutureInfo, req, resp_internal); err != nil {
@@ -119,9 +164,13 @@ func (m *QotGetFutureInfoRequest) MakeRequest(ctx context.Context, rh RequestHan
 	}
 }
 
+func (m *QotGetFutureInfoRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 /* ProtoId Not Exist: QotGetHistoryKL
 
-func (m *QotGetHistoryKLRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetHistoryKLResponse, error) {
+func (m *QotGetHistoryKLRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetHistoryKLResponse, error) {
 	req := &QotGetHistoryKLRequest_Internal{ Payload: m }
 	resp_internal := &QotGetHistoryKLResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetHistoryKL, req, resp_internal); err != nil {
@@ -131,10 +180,15 @@ func (m *QotGetHistoryKLRequest) MakeRequest(ctx context.Context, rh RequestHand
 	}
 }
 
+
+func (m *QotGetHistoryKLRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 */
 /* ProtoId Not Exist: QotGetHistoryKLPoints
 
-func (m *QotGetHistoryKLPointsRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetHistoryKLPointsResponse, error) {
+func (m *QotGetHistoryKLPointsRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetHistoryKLPointsResponse, error) {
 	req := &QotGetHistoryKLPointsRequest_Internal{ Payload: m }
 	resp_internal := &QotGetHistoryKLPointsResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetHistoryKLPoints, req, resp_internal); err != nil {
@@ -144,9 +198,14 @@ func (m *QotGetHistoryKLPointsRequest) MakeRequest(ctx context.Context, rh Reque
 	}
 }
 
+
+func (m *QotGetHistoryKLPointsRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 */
 
-func (m *QotGetHoldingChangeListRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetHoldingChangeListResponse, error) {
+func (m *QotGetHoldingChangeListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetHoldingChangeListResponse, error) {
 	req := &QotGetHoldingChangeListRequest_Internal{Payload: m}
 	resp_internal := &QotGetHoldingChangeListResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetHoldingChangeList, req, resp_internal); err != nil {
@@ -156,7 +215,11 @@ func (m *QotGetHoldingChangeListRequest) MakeRequest(ctx context.Context, rh Req
 	}
 }
 
-func (m *QotGetIpoListRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetIpoListResponse, error) {
+func (m *QotGetHoldingChangeListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetIpoListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetIpoListResponse, error) {
 	req := &QotGetIpoListRequest_Internal{Payload: m}
 	resp_internal := &QotGetIpoListResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetIpoList, req, resp_internal); err != nil {
@@ -166,7 +229,11 @@ func (m *QotGetIpoListRequest) MakeRequest(ctx context.Context, rh RequestHandle
 	}
 }
 
-func (m *QotGetKLRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetKLResponse, error) {
+func (m *QotGetIpoListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetKLRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetKLResponse, error) {
 	req := &QotGetKLRequest_Internal{Payload: m}
 	resp_internal := &QotGetKLResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetKL, req, resp_internal); err != nil {
@@ -176,7 +243,11 @@ func (m *QotGetKLRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*
 	}
 }
 
-func (m *QotGetMarketStateRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetMarketStateResponse, error) {
+func (m *QotGetKLRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetMarketStateRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetMarketStateResponse, error) {
 	req := &QotGetMarketStateRequest_Internal{Payload: m}
 	resp_internal := &QotGetMarketStateResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetMarketState, req, resp_internal); err != nil {
@@ -186,7 +257,11 @@ func (m *QotGetMarketStateRequest) MakeRequest(ctx context.Context, rh RequestHa
 	}
 }
 
-func (m *QotGetOptionChainRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetOptionChainResponse, error) {
+func (m *QotGetMarketStateRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionChainRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionChainResponse, error) {
 	req := &QotGetOptionChainRequest_Internal{Payload: m}
 	resp_internal := &QotGetOptionChainResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetOptionChain, req, resp_internal); err != nil {
@@ -196,7 +271,11 @@ func (m *QotGetOptionChainRequest) MakeRequest(ctx context.Context, rh RequestHa
 	}
 }
 
-func (m *QotGetOptionExpirationDateRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetOptionExpirationDateResponse, error) {
+func (m *QotGetOptionChainRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionExpirationDateRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionExpirationDateResponse, error) {
 	req := &QotGetOptionExpirationDateRequest_Internal{Payload: m}
 	resp_internal := &QotGetOptionExpirationDateResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetOptionExpirationDate, req, resp_internal); err != nil {
@@ -206,7 +285,11 @@ func (m *QotGetOptionExpirationDateRequest) MakeRequest(ctx context.Context, rh 
 	}
 }
 
-func (m *QotGetOrderBookRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetOrderBookResponse, error) {
+func (m *QotGetOptionExpirationDateRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOrderBookRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOrderBookResponse, error) {
 	req := &QotGetOrderBookRequest_Internal{Payload: m}
 	resp_internal := &QotGetOrderBookResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetOrderBook, req, resp_internal); err != nil {
@@ -216,7 +299,11 @@ func (m *QotGetOrderBookRequest) MakeRequest(ctx context.Context, rh RequestHand
 	}
 }
 
-func (m *QotGetOwnerPlateRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetOwnerPlateResponse, error) {
+func (m *QotGetOrderBookRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOwnerPlateRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOwnerPlateResponse, error) {
 	req := &QotGetOwnerPlateRequest_Internal{Payload: m}
 	resp_internal := &QotGetOwnerPlateResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetOwnerPlate, req, resp_internal); err != nil {
@@ -226,7 +313,11 @@ func (m *QotGetOwnerPlateRequest) MakeRequest(ctx context.Context, rh RequestHan
 	}
 }
 
-func (m *QotGetPlateSecurityRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetPlateSecurityResponse, error) {
+func (m *QotGetOwnerPlateRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetPlateSecurityRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetPlateSecurityResponse, error) {
 	req := &QotGetPlateSecurityRequest_Internal{Payload: m}
 	resp_internal := &QotGetPlateSecurityResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetPlateSecurity, req, resp_internal); err != nil {
@@ -236,7 +327,11 @@ func (m *QotGetPlateSecurityRequest) MakeRequest(ctx context.Context, rh Request
 	}
 }
 
-func (m *QotGetPlateSetRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetPlateSetResponse, error) {
+func (m *QotGetPlateSecurityRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetPlateSetRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetPlateSetResponse, error) {
 	req := &QotGetPlateSetRequest_Internal{Payload: m}
 	resp_internal := &QotGetPlateSetResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetPlateSet, req, resp_internal); err != nil {
@@ -246,7 +341,11 @@ func (m *QotGetPlateSetRequest) MakeRequest(ctx context.Context, rh RequestHandl
 	}
 }
 
-func (m *QotGetPriceReminderRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetPriceReminderResponse, error) {
+func (m *QotGetPlateSetRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetPriceReminderRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetPriceReminderResponse, error) {
 	req := &QotGetPriceReminderRequest_Internal{Payload: m}
 	resp_internal := &QotGetPriceReminderResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetPriceReminder, req, resp_internal); err != nil {
@@ -256,7 +355,11 @@ func (m *QotGetPriceReminderRequest) MakeRequest(ctx context.Context, rh Request
 	}
 }
 
-func (m *QotGetReferenceRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetReferenceResponse, error) {
+func (m *QotGetPriceReminderRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetReferenceRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetReferenceResponse, error) {
 	req := &QotGetReferenceRequest_Internal{Payload: m}
 	resp_internal := &QotGetReferenceResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetReference, req, resp_internal); err != nil {
@@ -266,9 +369,13 @@ func (m *QotGetReferenceRequest) MakeRequest(ctx context.Context, rh RequestHand
 	}
 }
 
+func (m *QotGetReferenceRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 /* ProtoId Not Exist: QotGetRehab
 
-func (m *QotGetRehabRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetRehabResponse, error) {
+func (m *QotGetRehabRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetRehabResponse, error) {
 	req := &QotGetRehabRequest_Internal{ Payload: m }
 	resp_internal := &QotGetRehabResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetRehab, req, resp_internal); err != nil {
@@ -278,9 +385,14 @@ func (m *QotGetRehabRequest) MakeRequest(ctx context.Context, rh RequestHandler)
 	}
 }
 
+
+func (m *QotGetRehabRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 */
 
-func (m *QotGetRTRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetRTResponse, error) {
+func (m *QotGetRTRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetRTResponse, error) {
 	req := &QotGetRTRequest_Internal{Payload: m}
 	resp_internal := &QotGetRTResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetRT, req, resp_internal); err != nil {
@@ -290,7 +402,11 @@ func (m *QotGetRTRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*
 	}
 }
 
-func (m *QotGetSecuritySnapshotRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetSecuritySnapshotResponse, error) {
+func (m *QotGetRTRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetSecuritySnapshotRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetSecuritySnapshotResponse, error) {
 	req := &QotGetSecuritySnapshotRequest_Internal{Payload: m}
 	resp_internal := &QotGetSecuritySnapshotResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetSecuritySnapshot, req, resp_internal); err != nil {
@@ -300,7 +416,11 @@ func (m *QotGetSecuritySnapshotRequest) MakeRequest(ctx context.Context, rh Requ
 	}
 }
 
-func (m *QotGetStaticInfoRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetStaticInfoResponse, error) {
+func (m *QotGetSecuritySnapshotRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetStaticInfoRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetStaticInfoResponse, error) {
 	req := &QotGetStaticInfoRequest_Internal{Payload: m}
 	resp_internal := &QotGetStaticInfoResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetStaticInfo, req, resp_internal); err != nil {
@@ -310,7 +430,11 @@ func (m *QotGetStaticInfoRequest) MakeRequest(ctx context.Context, rh RequestHan
 	}
 }
 
-func (m *QotGetSubInfoRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetSubInfoResponse, error) {
+func (m *QotGetStaticInfoRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetSubInfoRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetSubInfoResponse, error) {
 	req := &QotGetSubInfoRequest_Internal{Payload: m}
 	resp_internal := &QotGetSubInfoResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetSubInfo, req, resp_internal); err != nil {
@@ -320,7 +444,11 @@ func (m *QotGetSubInfoRequest) MakeRequest(ctx context.Context, rh RequestHandle
 	}
 }
 
-func (m *QotGetSuspendRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetSuspendResponse, error) {
+func (m *QotGetSubInfoRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetSuspendRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetSuspendResponse, error) {
 	req := &QotGetSuspendRequest_Internal{Payload: m}
 	resp_internal := &QotGetSuspendResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetSuspend, req, resp_internal); err != nil {
@@ -330,7 +458,11 @@ func (m *QotGetSuspendRequest) MakeRequest(ctx context.Context, rh RequestHandle
 	}
 }
 
-func (m *QotGetTickerRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetTickerResponse, error) {
+func (m *QotGetSuspendRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetTickerRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetTickerResponse, error) {
 	req := &QotGetTickerRequest_Internal{Payload: m}
 	resp_internal := &QotGetTickerResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetTicker, req, resp_internal); err != nil {
@@ -340,7 +472,11 @@ func (m *QotGetTickerRequest) MakeRequest(ctx context.Context, rh RequestHandler
 	}
 }
 
-func (m *QotGetUserSecurityRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetUserSecurityResponse, error) {
+func (m *QotGetTickerRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetUserSecurityRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetUserSecurityResponse, error) {
 	req := &QotGetUserSecurityRequest_Internal{Payload: m}
 	resp_internal := &QotGetUserSecurityResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetUserSecurity, req, resp_internal); err != nil {
@@ -350,7 +486,11 @@ func (m *QotGetUserSecurityRequest) MakeRequest(ctx context.Context, rh RequestH
 	}
 }
 
-func (m *QotGetUserSecurityGroupRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetUserSecurityGroupResponse, error) {
+func (m *QotGetUserSecurityRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetUserSecurityGroupRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetUserSecurityGroupResponse, error) {
 	req := &QotGetUserSecurityGroupRequest_Internal{Payload: m}
 	resp_internal := &QotGetUserSecurityGroupResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetUserSecurityGroup, req, resp_internal); err != nil {
@@ -360,7 +500,11 @@ func (m *QotGetUserSecurityGroupRequest) MakeRequest(ctx context.Context, rh Req
 	}
 }
 
-func (m *QotGetWarrantRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotGetWarrantResponse, error) {
+func (m *QotGetUserSecurityGroupRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetWarrantRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetWarrantResponse, error) {
 	req := &QotGetWarrantRequest_Internal{Payload: m}
 	resp_internal := &QotGetWarrantResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotGetWarrant, req, resp_internal); err != nil {
@@ -370,7 +514,11 @@ func (m *QotGetWarrantRequest) MakeRequest(ctx context.Context, rh RequestHandle
 	}
 }
 
-func (m *QotModifyUserSecurityRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotModifyUserSecurityResponse, error) {
+func (m *QotGetWarrantRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotModifyUserSecurityRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotModifyUserSecurityResponse, error) {
 	req := &QotModifyUserSecurityRequest_Internal{Payload: m}
 	resp_internal := &QotModifyUserSecurityResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotModifyUserSecurity, req, resp_internal); err != nil {
@@ -380,7 +528,11 @@ func (m *QotModifyUserSecurityRequest) MakeRequest(ctx context.Context, rh Reque
 	}
 }
 
-func (m *QotRegQotPushRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotRegQotPushResponse, error) {
+func (m *QotModifyUserSecurityRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotRegQotPushRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotRegQotPushResponse, error) {
 	req := &QotRegQotPushRequest_Internal{Payload: m}
 	resp_internal := &QotRegQotPushResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotRegQotPush, req, resp_internal); err != nil {
@@ -390,7 +542,11 @@ func (m *QotRegQotPushRequest) MakeRequest(ctx context.Context, rh RequestHandle
 	}
 }
 
-func (m *QotRequestHistoryKLRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotRequestHistoryKLResponse, error) {
+func (m *QotRegQotPushRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotRequestHistoryKLRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotRequestHistoryKLResponse, error) {
 	req := &QotRequestHistoryKLRequest_Internal{Payload: m}
 	resp_internal := &QotRequestHistoryKLResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotRequestHistoryKL, req, resp_internal); err != nil {
@@ -400,7 +556,11 @@ func (m *QotRequestHistoryKLRequest) MakeRequest(ctx context.Context, rh Request
 	}
 }
 
-func (m *QotRequestHistoryKLQuotaRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotRequestHistoryKLQuotaResponse, error) {
+func (m *QotRequestHistoryKLRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotRequestHistoryKLQuotaRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotRequestHistoryKLQuotaResponse, error) {
 	req := &QotRequestHistoryKLQuotaRequest_Internal{Payload: m}
 	resp_internal := &QotRequestHistoryKLQuotaResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotRequestHistoryKLQuota, req, resp_internal); err != nil {
@@ -410,7 +570,11 @@ func (m *QotRequestHistoryKLQuotaRequest) MakeRequest(ctx context.Context, rh Re
 	}
 }
 
-func (m *QotRequestRehabRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotRequestRehabResponse, error) {
+func (m *QotRequestHistoryKLQuotaRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotRequestRehabRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotRequestRehabResponse, error) {
 	req := &QotRequestRehabRequest_Internal{Payload: m}
 	resp_internal := &QotRequestRehabResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotRequestRehab, req, resp_internal); err != nil {
@@ -420,7 +584,11 @@ func (m *QotRequestRehabRequest) MakeRequest(ctx context.Context, rh RequestHand
 	}
 }
 
-func (m *QotRequestTradeDateRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotRequestTradeDateResponse, error) {
+func (m *QotRequestRehabRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotRequestTradeDateRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotRequestTradeDateResponse, error) {
 	req := &QotRequestTradeDateRequest_Internal{Payload: m}
 	resp_internal := &QotRequestTradeDateResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotRequestTradeDate, req, resp_internal); err != nil {
@@ -430,7 +598,11 @@ func (m *QotRequestTradeDateRequest) MakeRequest(ctx context.Context, rh Request
 	}
 }
 
-func (m *QotSetPriceReminderRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotSetPriceReminderResponse, error) {
+func (m *QotRequestTradeDateRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotSetPriceReminderRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotSetPriceReminderResponse, error) {
 	req := &QotSetPriceReminderRequest_Internal{Payload: m}
 	resp_internal := &QotSetPriceReminderResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotSetPriceReminder, req, resp_internal); err != nil {
@@ -440,7 +612,11 @@ func (m *QotSetPriceReminderRequest) MakeRequest(ctx context.Context, rh Request
 	}
 }
 
-func (m *QotStockFilterRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotStockFilterResponse, error) {
+func (m *QotSetPriceReminderRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotStockFilterRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotStockFilterResponse, error) {
 	req := &QotStockFilterRequest_Internal{Payload: m}
 	resp_internal := &QotStockFilterResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotStockFilter, req, resp_internal); err != nil {
@@ -450,7 +626,11 @@ func (m *QotStockFilterRequest) MakeRequest(ctx context.Context, rh RequestHandl
 	}
 }
 
-func (m *QotSubRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*QotSubResponse, error) {
+func (m *QotStockFilterRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotSubRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotSubResponse, error) {
 	req := &QotSubRequest_Internal{Payload: m}
 	resp_internal := &QotSubResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_QotSub, req, resp_internal); err != nil {
@@ -460,7 +640,11 @@ func (m *QotSubRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*Qo
 	}
 }
 
-func (m *TestCmdRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TestCmdResponse, error) {
+func (m *QotSubRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TestCmdRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TestCmdResponse, error) {
 	req := &TestCmdRequest_Internal{Payload: m}
 	resp_internal := &TestCmdResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TestCmd, req, resp_internal); err != nil {
@@ -470,7 +654,11 @@ func (m *TestCmdRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*T
 	}
 }
 
-func (m *TrdFlowSummaryRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdFlowSummaryResponse, error) {
+func (m *TestCmdRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdFlowSummaryRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdFlowSummaryResponse, error) {
 	req := &TrdFlowSummaryRequest_Internal{Payload: m}
 	resp_internal := &TrdFlowSummaryResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdFlowSummary, req, resp_internal); err != nil {
@@ -480,7 +668,11 @@ func (m *TrdFlowSummaryRequest) MakeRequest(ctx context.Context, rh RequestHandl
 	}
 }
 
-func (m *TrdGetAccListRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetAccListResponse, error) {
+func (m *TrdFlowSummaryRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetAccListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetAccListResponse, error) {
 	req := &TrdGetAccListRequest_Internal{Payload: m}
 	resp_internal := &TrdGetAccListResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetAccList, req, resp_internal); err != nil {
@@ -490,7 +682,11 @@ func (m *TrdGetAccListRequest) MakeRequest(ctx context.Context, rh RequestHandle
 	}
 }
 
-func (m *TrdGetFundsRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetFundsResponse, error) {
+func (m *TrdGetAccListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetFundsRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetFundsResponse, error) {
 	req := &TrdGetFundsRequest_Internal{Payload: m}
 	resp_internal := &TrdGetFundsResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetFunds, req, resp_internal); err != nil {
@@ -500,7 +696,11 @@ func (m *TrdGetFundsRequest) MakeRequest(ctx context.Context, rh RequestHandler)
 	}
 }
 
-func (m *TrdGetHistoryOrderFillListRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetHistoryOrderFillListResponse, error) {
+func (m *TrdGetFundsRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetHistoryOrderFillListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetHistoryOrderFillListResponse, error) {
 	req := &TrdGetHistoryOrderFillListRequest_Internal{Payload: m}
 	resp_internal := &TrdGetHistoryOrderFillListResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetHistoryOrderFillList, req, resp_internal); err != nil {
@@ -510,7 +710,11 @@ func (m *TrdGetHistoryOrderFillListRequest) MakeRequest(ctx context.Context, rh 
 	}
 }
 
-func (m *TrdGetHistoryOrderListRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetHistoryOrderListResponse, error) {
+func (m *TrdGetHistoryOrderFillListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetHistoryOrderListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetHistoryOrderListResponse, error) {
 	req := &TrdGetHistoryOrderListRequest_Internal{Payload: m}
 	resp_internal := &TrdGetHistoryOrderListResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetHistoryOrderList, req, resp_internal); err != nil {
@@ -520,7 +724,11 @@ func (m *TrdGetHistoryOrderListRequest) MakeRequest(ctx context.Context, rh Requ
 	}
 }
 
-func (m *TrdGetMarginRatioRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetMarginRatioResponse, error) {
+func (m *TrdGetHistoryOrderListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetMarginRatioRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetMarginRatioResponse, error) {
 	req := &TrdGetMarginRatioRequest_Internal{Payload: m}
 	resp_internal := &TrdGetMarginRatioResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetMarginRatio, req, resp_internal); err != nil {
@@ -530,7 +738,11 @@ func (m *TrdGetMarginRatioRequest) MakeRequest(ctx context.Context, rh RequestHa
 	}
 }
 
-func (m *TrdGetMaxTrdQtysRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetMaxTrdQtysResponse, error) {
+func (m *TrdGetMarginRatioRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetMaxTrdQtysRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetMaxTrdQtysResponse, error) {
 	req := &TrdGetMaxTrdQtysRequest_Internal{Payload: m}
 	resp_internal := &TrdGetMaxTrdQtysResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetMaxTrdQtys, req, resp_internal); err != nil {
@@ -540,7 +752,11 @@ func (m *TrdGetMaxTrdQtysRequest) MakeRequest(ctx context.Context, rh RequestHan
 	}
 }
 
-func (m *TrdGetOrderFeeRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetOrderFeeResponse, error) {
+func (m *TrdGetMaxTrdQtysRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetOrderFeeRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetOrderFeeResponse, error) {
 	req := &TrdGetOrderFeeRequest_Internal{Payload: m}
 	resp_internal := &TrdGetOrderFeeResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetOrderFee, req, resp_internal); err != nil {
@@ -550,7 +766,11 @@ func (m *TrdGetOrderFeeRequest) MakeRequest(ctx context.Context, rh RequestHandl
 	}
 }
 
-func (m *TrdGetOrderFillListRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetOrderFillListResponse, error) {
+func (m *TrdGetOrderFeeRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetOrderFillListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetOrderFillListResponse, error) {
 	req := &TrdGetOrderFillListRequest_Internal{Payload: m}
 	resp_internal := &TrdGetOrderFillListResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetOrderFillList, req, resp_internal); err != nil {
@@ -560,7 +780,11 @@ func (m *TrdGetOrderFillListRequest) MakeRequest(ctx context.Context, rh Request
 	}
 }
 
-func (m *TrdGetOrderListRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetOrderListResponse, error) {
+func (m *TrdGetOrderFillListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetOrderListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetOrderListResponse, error) {
 	req := &TrdGetOrderListRequest_Internal{Payload: m}
 	resp_internal := &TrdGetOrderListResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetOrderList, req, resp_internal); err != nil {
@@ -570,7 +794,11 @@ func (m *TrdGetOrderListRequest) MakeRequest(ctx context.Context, rh RequestHand
 	}
 }
 
-func (m *TrdGetPositionListRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdGetPositionListResponse, error) {
+func (m *TrdGetOrderListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetPositionListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetPositionListResponse, error) {
 	req := &TrdGetPositionListRequest_Internal{Payload: m}
 	resp_internal := &TrdGetPositionListResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdGetPositionList, req, resp_internal); err != nil {
@@ -580,7 +808,11 @@ func (m *TrdGetPositionListRequest) MakeRequest(ctx context.Context, rh RequestH
 	}
 }
 
-func (m *TrdModifyOrderRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdModifyOrderResponse, error) {
+func (m *TrdGetPositionListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdModifyOrderRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdModifyOrderResponse, error) {
 	req := &TrdModifyOrderRequest_Internal{Payload: m}
 	resp_internal := &TrdModifyOrderResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdModifyOrder, req, resp_internal); err != nil {
@@ -590,7 +822,11 @@ func (m *TrdModifyOrderRequest) MakeRequest(ctx context.Context, rh RequestHandl
 	}
 }
 
-func (m *TrdPlaceOrderRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdPlaceOrderResponse, error) {
+func (m *TrdModifyOrderRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdPlaceOrderRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdPlaceOrderResponse, error) {
 	req := &TrdPlaceOrderRequest_Internal{Payload: m}
 	resp_internal := &TrdPlaceOrderResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdPlaceOrder, req, resp_internal); err != nil {
@@ -600,9 +836,13 @@ func (m *TrdPlaceOrderRequest) MakeRequest(ctx context.Context, rh RequestHandle
 	}
 }
 
+func (m *TrdPlaceOrderRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 /* ProtoId Not Exist: TrdReconfirmOrder
 
-func (m *TrdReconfirmOrderRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdReconfirmOrderResponse, error) {
+func (m *TrdReconfirmOrderRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdReconfirmOrderResponse, error) {
 	req := &TrdReconfirmOrderRequest_Internal{ Payload: m }
 	resp_internal := &TrdReconfirmOrderResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdReconfirmOrder, req, resp_internal); err != nil {
@@ -612,9 +852,14 @@ func (m *TrdReconfirmOrderRequest) MakeRequest(ctx context.Context, rh RequestHa
 	}
 }
 
+
+func (m *TrdReconfirmOrderRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 */
 
-func (m *TrdSubAccPushRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdSubAccPushResponse, error) {
+func (m *TrdSubAccPushRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdSubAccPushResponse, error) {
 	req := &TrdSubAccPushRequest_Internal{Payload: m}
 	resp_internal := &TrdSubAccPushResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdSubAccPush, req, resp_internal); err != nil {
@@ -624,7 +869,11 @@ func (m *TrdSubAccPushRequest) MakeRequest(ctx context.Context, rh RequestHandle
 	}
 }
 
-func (m *TrdUnlockTradeRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*TrdUnlockTradeResponse, error) {
+func (m *TrdSubAccPushRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdUnlockTradeRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdUnlockTradeResponse, error) {
 	req := &TrdUnlockTradeRequest_Internal{Payload: m}
 	resp_internal := &TrdUnlockTradeResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_TrdUnlockTrade, req, resp_internal); err != nil {
@@ -634,9 +883,13 @@ func (m *TrdUnlockTradeRequest) MakeRequest(ctx context.Context, rh RequestHandl
 	}
 }
 
+func (m *TrdUnlockTradeRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 /* ProtoId Not Exist: UsedQuota
 
-func (m *UsedQuotaRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*UsedQuotaResponse, error) {
+func (m *UsedQuotaRequest) Dispatch(ctx context.Context, rh RequestHandler) (*UsedQuotaResponse, error) {
 	req := &UsedQuotaRequest_Internal{ Payload: m }
 	resp_internal := &UsedQuotaResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_UsedQuota, req, resp_internal); err != nil {
@@ -646,9 +899,14 @@ func (m *UsedQuotaRequest) MakeRequest(ctx context.Context, rh RequestHandler) (
 	}
 }
 
+
+func (m *UsedQuotaRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 */
 
-func (m *VerificationRequest) MakeRequest(ctx context.Context, rh RequestHandler) (*VerificationResponse, error) {
+func (m *VerificationRequest) Dispatch(ctx context.Context, rh RequestHandler) (*VerificationResponse, error) {
 	req := &VerificationRequest_Internal{Payload: m}
 	resp_internal := &VerificationResponse_Internal{}
 	if resp, err := rh.Request(ctx, ProtoId_Verification, req, resp_internal); err != nil {
@@ -656,6 +914,10 @@ func (m *VerificationRequest) MakeRequest(ctx context.Context, rh RequestHandler
 	} else {
 		return resp.(*VerificationResponse), nil
 	}
+}
+
+func (m *VerificationRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
 }
 
 /* protoid: used/total (68/69)

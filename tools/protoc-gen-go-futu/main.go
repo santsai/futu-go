@@ -88,9 +88,9 @@ func generateEnumAdapt(plugin *protogen.Plugin, enums []*protogen.Enum) error {
 
 		name := enum.GoIdent.GoName
 		for _, v := range enum.Values {
-		if s := commentStr(v.Comments.Trailing); s != "" {
-			g.P(s)
-		}
+			if s := commentStr(v.Comments.Trailing); s != "" {
+				g.P(s)
+			}
 			g.P(v.Desc.Name(), " ", name, "=", v.GoIdent.GoName)
 		}
 		g.P()
@@ -109,8 +109,13 @@ func generateRequestAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) err
 		import "context"
 		import "google.golang.org/protobuf/proto"
 
+		type Request interface {
+			proto.Message
+			GetRequestPayload() proto.Message
+		}
+
 		type RequestHandler interface {
-			Request(context.Context, ProtoId, proto.Message, Response) (proto.Message, error)
+			Request(context.Context, ProtoId, Request, Response) (proto.Message, error)
 		}
 
 	`)
@@ -127,7 +132,7 @@ func generateRequestAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) err
 		}
 
 		g.P(fmt.Sprintf(`
-			func (m *%s) MakeRequest(ctx context.Context, rh RequestHandler) (*%sResponse, error) {
+			func (m *%s) Dispatch(ctx context.Context, rh RequestHandler) (*%sResponse, error) {
 				req := &%s_Internal{ Payload: m }
 				resp_internal := &%sResponse_Internal{}
 				if resp, err := rh.Request(ctx, ProtoId_%s, req, resp_internal); err != nil {
@@ -137,6 +142,13 @@ func generateRequestAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) err
 				}
 			}
 		`, reqName, idName, reqName, idName, idName, idName),
+		)
+
+		g.P(fmt.Sprintf(`
+			func (m *%s_Internal) GetRequestPayload() proto.Message {
+				return m.GetPayload()
+			}
+		`, reqName),
 		)
 
 		if !idExist {
@@ -152,7 +164,7 @@ func generateRequestAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) err
 	}
 	g.P(`/* `, fmt.Sprintf("protoid: used/total (%d/%d)", len(used_ids), len(protoid_name2id)))
 	g.P(`unused:`)
-	for name,id := range protoid_name2id {
+	for name, id := range protoid_name2id {
 		if _, ok := used_ids[id]; !ok {
 			g.P(name)
 		}
