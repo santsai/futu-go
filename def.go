@@ -46,13 +46,3 @@ func defaultHandler(s2c proto.Message) error {
 	log.Info().Interface("s2c", s2c).Msg("notification")
 	return nil
 }
-
-type ProtoPtrType interface {
-	bool | uint64 | int32 | float32 | float64 | string
-}
-
-func ProtoPtr[T ProtoPtrType](v T) *T {
-	pv := new(T)
-	*pv = v
-	return pv
-}

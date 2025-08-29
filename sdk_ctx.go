@@ -11,44 +11,47 @@ import (
 // GetGlobalStateWithContext 1002 - gets the global state with context.
 func (client *Client) GetGlobalStateWithContext(ctx context.Context) (*pb.GetGlobalStateResponse, error) {
 	req := &pb.GetGlobalStateRequest{
-		UserID: ProtoPtr(client.userID),
+		//		UserID: proto.Uint64(0),
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetAccListWithContext 2001 - gets the account list with context.
-func (client *Client) GetAccListWithContext(ctx context.Context, opts ...adapt.Option) ([]*pb.TrdAcc, error) {
-	o := adapt.NewOptions(opts...)
+func (client *Client) GetAccListWithContext(ctx context.Context, req *pb.TrdGetAccListRequest) ([]*pb.TrdAcc, error) {
 
-	var req pb.TrdGetAccListRequest
-	if err := o.ToProto(&req); err != nil {
+	//	req.UserID = proto.Uint64(0)
+	resp, err := req.Dispatch(ctx, client)
+	if err != nil {
 		return nil, err
 	}
 
-	req.UserID = proto.Uint64(client.userID)
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
-		return nil, err
-	} else {
-		return resp.GetAccList(), nil
-	}
+	return resp.GetAccList(), nil
 }
 
 // UnlockTrade 2005 - unlocks or locks the trade.
 //
-// unlock: true for unlock, false for lock
-//
 // pwdMD5: MD5 of the password
 //
 // securityFirm: security firm
-func (client *Client) UnlockTradeWithContext(ctx context.Context, unlock bool, pwdMD5 string, securityFirm pb.SecurityFirm) error {
+func (client *Client) UnlockTradeWithContext(ctx context.Context, pwdMD5 string, secFirm pb.SecurityFirm) error {
 	req := &pb.TrdUnlockTradeRequest{
-		Unlock:       proto.Bool(unlock),
+		Unlock:       proto.Bool(true),
 		PwdMD5:       proto.String(pwdMD5),
-		SecurityFirm: securityFirm.Enum(),
+		SecurityFirm: secFirm.Enum(),
 	}
 
-	_, err := req.MakeRequest(ctx, client)
+	_, err := req.Dispatch(ctx, client)
+	return err
+}
+
+func (c *Client) LockTradeWithContext(ctx context.Context, secFirm pb.SecurityFirm) error {
+	req := &pb.TrdUnlockTradeRequest{
+		Unlock:       proto.Bool(false),
+		SecurityFirm: secFirm.Enum(),
+	}
+
+	_, err := req.Dispatch(ctx, c)
 	return err
 }
 
@@ -60,42 +63,30 @@ func (client *Client) SubscribeAccPushWithContext(ctx context.Context, accIDList
 		AccIDList: accIDList,
 	}
 
-	_, err := req.MakeRequest(ctx, client)
+	_, err := req.Dispatch(ctx, client)
 	return err
 }
 
 // GetFundsWithContext 2101 - gets the funds with context.
-func (client *Client) GetFundsWithContext(ctx context.Context, header *pb.TrdHeader, opts ...adapt.Option) (*pb.Funds, error) {
-	o := adapt.NewOptions(opts...)
-	o["header"] = header
+func (client *Client) GetFundsWithContext(ctx context.Context, req *pb.TrdGetFundsRequest) (*pb.Funds, error) {
 
-	var req pb.TrdGetFundsRequest
-	if err := o.ToProto(&req); err != nil {
+	resp, err := req.Dispatch(ctx, client)
+	if err != nil {
 		return nil, err
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
-		return nil, err
-	} else {
-		return resp.GetFunds(), nil
-	}
+	return resp.GetFunds(), nil
 }
 
 // GetPositionListWithContext 2102 - gets the position list with context.
-func (client *Client) GetPositionListWithContext(ctx context.Context, header *pb.TrdHeader, opts ...adapt.Option) ([]*pb.Position, error) {
-	o := adapt.NewOptions(opts...)
-	o["header"] = header
+func (client *Client) GetPositionListWithContext(ctx context.Context, req *pb.TrdGetPositionListRequest) ([]*pb.Position, error) {
 
-	var req pb.TrdGetPositionListRequest
-	if err := o.ToProto(&req); err != nil {
+	resp, err := req.Dispatch(ctx, client)
+	if err != nil {
 		return nil, err
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
-		return nil, err
-	} else {
-		return resp.GetPositionList(), nil
-	}
+	return resp.GetPositionList(), nil
 }
 
 // GetMaxTrdQtysWithContext 2111 - gets the maximum available trading quantities with context.
@@ -107,36 +98,20 @@ func (client *Client) GetPositionListWithContext(ctx context.Context, header *pb
 // code: security code, e.g. AAPL
 //
 // price: price
-func (client *Client) GetMaxTrdQtysWithContext(ctx context.Context, header *pb.TrdHeader, orderType int32, code string, price float64, opts ...adapt.Option) (*pb.MaxTrdQtys, error) {
-	o := adapt.NewOptions(opts...)
-	o["header"] = header
-	o["orderType"] = orderType
-	o["price"] = price
-	o.SetCodeForTrade(code)
+func (client *Client) GetMaxTrdQtysWithContext(ctx context.Context, req *pb.TrdGetMaxTrdQtysRequest) (*pb.MaxTrdQtys, error) {
 
-	var req pb.TrdGetMaxTrdQtysRequest
-	if err := o.ToProto(&req); err != nil {
+	resp, err := req.Dispatch(ctx, client)
+	if err != nil {
 		return nil, err
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
-		return nil, err
-	} else {
-		return resp.GetMaxTrdQtys(), nil
-	}
+	return resp.GetMaxTrdQtys(), nil
 }
 
 // GetOpenOrderListWithContext 2201 - gets the open order list with context.
-func (client *Client) GetOpenOrderListWithContext(ctx context.Context, header *pb.TrdHeader, opts ...adapt.Option) ([]*pb.Order, error) {
-	o := adapt.NewOptions(opts...)
-	o["header"] = header
+func (client *Client) GetOpenOrderListWithContext(ctx context.Context, req *pb.TrdGetOrderListRequest) ([]*pb.Order, error) {
 
-	var req pb.TrdGetOrderListRequest
-	if err := o.ToProto(&req); err != nil {
-		return nil, err
-	}
-
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetOrderList(), nil
@@ -156,22 +131,10 @@ func (client *Client) GetOpenOrderListWithContext(ctx context.Context, header *p
 // qty: quantity
 //
 // price: price
-func (client *Client) PlaceOrderWithContext(ctx context.Context, header *pb.TrdHeader, trdSide int32, orderType int32, code string, qty float64, price float64, opts ...adapt.Option) (*pb.TrdPlaceOrderResponse, error) {
-	o := adapt.NewOptions(opts...)
-	o["header"] = header
-	o["trdSide"] = trdSide
-	o["orderType"] = orderType
-	o["qty"] = qty
-	o["price"] = price
-	o.SetCodeForTrade(code)
+func (client *Client) PlaceOrderWithContext(ctx context.Context, req *pb.TrdPlaceOrderRequest) (*pb.TrdPlaceOrderResponse, error) {
 
-	var req pb.TrdPlaceOrderRequest
-	if err := o.ToProto(&req); err != nil {
-		return nil, err
-	}
-
-	req.PacketID = client.nextTradePacketId()
-	return req.MakeRequest(ctx, client)
+	//	req.PacketID = client.nextTradePacketId()
+	return req.Dispatch(ctx, client)
 }
 
 // ModifyOrderWithContext 2205 - modifies an order with context.
@@ -181,19 +144,10 @@ func (client *Client) PlaceOrderWithContext(ctx context.Context, header *pb.TrdH
 // orderID: order ID, use 0 if forAll=true
 //
 // modifyOrderOp: modify order operation
-func (client *Client) ModifyOrderWithContext(ctx context.Context, header *pb.TrdHeader, orderID uint64, modifyOrderOp int32, opts ...adapt.Option) (*pb.TrdModifyOrderResponse, error) {
-	o := adapt.NewOptions(opts...)
-	o["header"] = header
-	o["orderID"] = orderID
-	o["modifyOrderOp"] = modifyOrderOp
+func (client *Client) ModifyOrderWithContext(ctx context.Context, req *pb.TrdModifyOrderRequest) (*pb.TrdModifyOrderResponse, error) {
 
-	var req pb.TrdModifyOrderRequest
-	if err := o.ToProto(&req); err != nil {
-		return nil, err
-	}
-
-	req.PacketID = client.nextTradePacketId()
-	return req.MakeRequest(ctx, client)
+	//	req.PacketID = client.nextTradePacketId()
+	return req.Dispatch(ctx, client)
 }
 
 // GetOrderFillListWithContext 2211 - gets the filled order list with context.
@@ -206,7 +160,7 @@ func (client *Client) GetOrderFillListWithContext(ctx context.Context, header *p
 		return nil, err
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetOrderFillList(), nil
@@ -224,7 +178,7 @@ func (client *Client) GetHistoryOrderListWithContext(ctx context.Context, header
 		return nil, err
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetOrderList(), nil
@@ -242,7 +196,7 @@ func (client *Client) GetHistoryOrderFillListWithContext(ctx context.Context, he
 		return nil, err
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetOrderFillList(), nil
@@ -256,7 +210,7 @@ func (client *Client) GetMarginRatioWithContext(ctx context.Context, header *pb.
 		SecurityList: adapt.NewSecurities(codes),
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetMarginRatioInfoList(), nil
@@ -270,7 +224,7 @@ func (client *Client) GetOrderFeeWithContext(ctx context.Context, header *pb.Trd
 		OrderIdExList: orderIdExList,
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetOrderFeeList(), nil
@@ -284,7 +238,7 @@ func (client *Client) TrdFlowSummaryWithContext(ctx context.Context, header *pb.
 		ClearingDate: proto.String(clearingDate),
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetFlowSummaryInfoList(), nil
@@ -292,24 +246,9 @@ func (client *Client) TrdFlowSummaryWithContext(ctx context.Context, header *pb.
 }
 
 // SubscribeWithContext 3001 - subscribes or unsubscribes with context.
-//
-// codes: security codes
-//
-// subTypes: subscription types
-//
-// isSub: true for subscribe, false for unsubscribe
-func (client *Client) SubscribeWithContext(ctx context.Context, codes []string, subTypes []int32, isSub bool, opts ...adapt.Option) error {
-	o := adapt.NewOptions(opts...)
-	o["securityList"] = adapt.NewSecurities(codes)
-	o["subTypeList"] = subTypes
-	o["isSubOrUnSub"] = isSub
+func (client *Client) SubscribeWithContext(ctx context.Context, req *pb.QotSubRequest) error {
 
-	var req pb.QotSubRequest
-	if err := o.ToProto(&req); err != nil {
-		return err
-	}
-
-	_, err := req.MakeRequest(ctx, client)
+	_, err := req.Dispatch(ctx, client)
 	return err
 }
 
@@ -321,7 +260,7 @@ func (client *Client) GetSubInfoWithContext(ctx context.Context, opts ...adapt.O
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetBasicQotWithContext 3004 - gets the basic quotes of given securities with context.
@@ -330,7 +269,7 @@ func (client *Client) GetBasicQotWithContext(ctx context.Context, codes []string
 		SecurityList: adapt.NewSecurities(codes),
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetBasicQotList(), nil
@@ -356,7 +295,7 @@ func (client *Client) GetKLWithContext(ctx context.Context, code string, klType 
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetRTWithContext 3008 - gets real-time data with context.
@@ -367,7 +306,7 @@ func (client *Client) GetRTWithContext(ctx context.Context, code string) (*pb.Qo
 		Security: adapt.NewSecurity(code),
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetTickerWithContext 3010 - gets the ticker data with context.
@@ -386,7 +325,7 @@ func (client *Client) GetTickerWithContext(ctx context.Context, code string, opt
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetOrderBookWithContext 3012 - gets the order book with context.
@@ -405,7 +344,7 @@ func (client *Client) GetOrderBookWithContext(ctx context.Context, code string, 
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetBrokerWithContext 3014 - gets the broker with context.
@@ -416,7 +355,7 @@ func (client *Client) GetBrokerWithContext(ctx context.Context, code string) (*p
 		Security: adapt.NewSecurity(code),
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // RequestHistoryKLWithContext 3103 - requests the history K-line data with context.
@@ -444,7 +383,7 @@ func (client *Client) RequestHistoryKLWithContext(ctx context.Context, code stri
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // RequestHistoryKLQuotaWithContext 3104 - requests the history K-line quota with context.
@@ -456,7 +395,7 @@ func (client *Client) RequestHistoryKLQuotaWithContext(ctx context.Context, opts
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // RequestRehabWithContext 3105 - requests the rehab data with context.
@@ -467,7 +406,7 @@ func (client *Client) RequestRehabWithContext(ctx context.Context, code string) 
 		Security: adapt.NewSecurity(code),
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetStaticInfoWithContext 3202 - gets the static information with context.
@@ -479,7 +418,7 @@ func (client *Client) GetStaticInfoWithContext(ctx context.Context, opts ...adap
 		return nil, err
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetStaticInfoList(), nil
@@ -494,7 +433,7 @@ func (client *Client) GetSecuritySnapshotWithContext(ctx context.Context, codes 
 		SecurityList: adapt.NewSecurities(codes),
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -513,7 +452,7 @@ func (client *Client) GetPlateSetWithContext(ctx context.Context, market pb.QotM
 		PlateSetType: plateSetType.Enum(),
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetPlateInfoList(), nil
@@ -532,7 +471,7 @@ func (client *Client) GetPlateSecurityWithContext(ctx context.Context, plateCode
 		return nil, err
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -551,7 +490,7 @@ func (client *Client) GetReferenceWithContext(ctx context.Context, code string, 
 		ReferenceType: refType.Enum(),
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -567,7 +506,7 @@ func (client *Client) GetOwnerPlateWithContext(ctx context.Context, codes []stri
 		SecurityList: adapt.NewSecurities(codes),
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -593,7 +532,7 @@ func (client *Client) GetOptionChainWithContext(ctx context.Context, code string
 		return nil, err
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -625,7 +564,7 @@ func (client *Client) GetWarrantWithContext(ctx context.Context, begin int32, nu
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetCapitalFlowWithContext 3211 - gets the capital flow with context.
@@ -644,7 +583,7 @@ func (client *Client) GetCapitalFlowWithContext(ctx context.Context, code string
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetCapitalDistributionWithContext 3212 - gets the capital distribution with context.
@@ -655,7 +594,7 @@ func (client *Client) GetCapitalDistributionWithContext(ctx context.Context, cod
 		Security: adapt.NewSecurity(code),
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetUserSecurityWithContext 3213 - gets the user security with context.
@@ -666,7 +605,7 @@ func (client *Client) GetUserSecurityWithContext(ctx context.Context, groupName 
 		GroupName: proto.String(groupName),
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -688,7 +627,7 @@ func (client *Client) ModifyUserSecurityWithContext(ctx context.Context, groupNa
 		Op:           op.Enum(),
 	}
 
-	_, err := req.MakeRequest(ctx, client)
+	_, err := req.Dispatch(ctx, client)
 	return err
 }
 
@@ -712,7 +651,7 @@ func (client *Client) StockFilterWithContext(ctx context.Context, market int32, 
 		return nil, err
 	}
 
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(ctx, client)
 }
 
 // GetIpoListWithContext 3217 - gets the IPO list with context.
@@ -723,7 +662,7 @@ func (client *Client) GetIpoListWithContext(ctx context.Context, market pb.QotMa
 		Market: market.Enum(),
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -739,7 +678,7 @@ func (client *Client) GetFutureInfoWithContext(ctx context.Context, codes []stri
 		SecurityList: adapt.NewSecurities(codes),
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -766,7 +705,7 @@ func (client *Client) RequestTradeDateWithContext(ctx context.Context, market pb
 		req.Security = adapt.NewSecurity(code)
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -789,7 +728,7 @@ func (client *Client) SetPriceReminderWithContext(ctx context.Context, code stri
 		return 0, err
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return 0, err
 	}
@@ -808,7 +747,7 @@ func (client *Client) GetPriceReminderWithContext(ctx context.Context, code stri
 		Market:   market.Enum(),
 	}
 
-	resp, err := req.MakeRequest(ctx, client)
+	resp, err := req.Dispatch(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -824,7 +763,7 @@ func (client *Client) GetUserSecurityGroupWithContext(ctx context.Context, group
 		GroupType: groupType.Enum(),
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetGroupList(), nil
@@ -839,7 +778,7 @@ func (client *Client) GetMarketStateWithContext(ctx context.Context, codes []str
 		SecurityList: adapt.NewSecurities(codes),
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetMarketInfoList(), nil
@@ -858,7 +797,7 @@ func (client *Client) GetOptionExpirationDateWithContext(ctx context.Context, co
 		return nil, err
 	}
 
-	if resp, err := req.MakeRequest(ctx, client); err != nil {
+	if resp, err := req.Dispatch(ctx, client); err != nil {
 		return nil, err
 	} else {
 		return resp.GetDateList(), nil

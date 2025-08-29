@@ -123,7 +123,7 @@ func (client *Client) Close() error {
 	return client.conn.Close()
 }
 
-// Request sends a request to the server.
+// makeRequest sends a request to the server.
 func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch chan<- []byte) error {
 	var buf bytes.Buffer
 
@@ -173,10 +173,41 @@ func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch cha
 	return err
 }
 
-func (client *Client) Request(ctx context.Context, id pb.ProtoId, req proto.Message, resp pb.Response) (proto.Message, error) {
+func (client *Client) patchRequest(id pb.ProtoId, req pb.Request) {
+
+	switch id {
+	// UserID is no longer needed. but is required in proto.
+	case pb.ProtoId_GetGlobalState:
+		payload := req.GetRequestPayload().(*pb.GetGlobalStateRequest)
+		payload.UserID = proto.Uint64(client.userID)
+
+	case pb.ProtoId_TrdGetAccList:
+		payload := req.GetRequestPayload().(*pb.TrdGetAccListRequest)
+		payload.UserID = proto.Uint64(client.userID)
+
+	// set PacketID
+	case pb.ProtoId_TrdPlaceOrder:
+		payload := req.GetRequestPayload().(*pb.TrdPlaceOrderRequest)
+		payload.PacketID = client.nextTradePacketId()
+
+	case pb.ProtoId_TrdModifyOrder:
+		payload := req.GetRequestPayload().(*pb.TrdModifyOrderRequest)
+		payload.PacketID = client.nextTradePacketId()
+	}
+}
+
+func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request, resp pb.Response) (proto.Message, error) {
+
+	client.patchRequest(id, req)
+
+	// add timeout to context if not exist.
+	if _, ok := ctx.Deadline(); !ok {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, client.timeout)
+		defer cancel()
+	}
 
 	ch := make(chan []byte, 1)
-
 	if err := client.makeRequest(id, req, ch); err != nil {
 		return nil, err
 	}
@@ -258,15 +289,11 @@ func (client *Client) dispatcherCall(resp rawResponse) error {
 	if ok {
 		ch <- resp.Body
 		close(ch)
-		return nil
-	}
-
-	if resp.SerialNo == 0 {
+	} else {
 		client.pushChan <- resp
-		return nil
 	}
 
-	return fmt.Errorf("unexpected dispatch error")
+	return nil
 }
 
 func (client *Client) dispatcherPushCall(resp rawResponse) error {
@@ -400,10 +427,7 @@ func (client *Client) initConnect() (*pb.InitConnectResponse, error) {
 		ProgrammingLanguage: ProtoPtr("Go"),
 	}
 
-	ctx, cancel := context.WithTimeout(context.TODO(), client.timeout)
-	defer cancel()
-
-	return req.MakeRequest(ctx, client)
+	return req.Dispatch(context.TODO(), client)
 }
 
 // XXX disconnect handling?
@@ -411,18 +435,24 @@ func (client *Client) heartbeat(d time.Duration) {
 	ticker := time.NewTicker(d)
 	defer ticker.Stop()
 
+	// take the smaller timeout
+	timeout := d
+	if timeout > client.timeout {
+		timeout = client.timeout
+	}
+
 	for {
 		select {
 		case <-client.closed:
 			log.Info().Msg("heartbeat stopped")
 			return
 		case <-ticker.C:
-			ctx, cancel := context.WithTimeout(context.TODO(), d)
+			ctx, cancel := context.WithTimeout(context.TODO(), timeout)
 			req := &pb.KeepAliveRequest{
 				Time: proto.Int64(time.Now().Unix()),
 			}
 
-			_, err := req.MakeRequest(ctx, client)
+			_, err := req.Dispatch(ctx, client)
 			cancel()
 			if err != nil {
 				return

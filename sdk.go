@@ -7,11 +7,6 @@ import (
 	"github.com/santsai/futu-go/pb"
 )
 
-const (
-	DateFormat = "2006-01-02"
-	TimeFormat = "2006-01-02 15:04:05"
-)
-
 // GetGlobalState 1002 - gets the global state.
 func (client *Client) GetGlobalState() (*pb.GetGlobalStateResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
@@ -21,25 +16,30 @@ func (client *Client) GetGlobalState() (*pb.GetGlobalStateResponse, error) {
 }
 
 // GetAccList 2001 - gets the trading account list.
-func (client *Client) GetAccList(opts ...adapt.Option) ([]*pb.TrdAcc, error) {
+func (client *Client) GetAccList(req *pb.TrdGetAccListRequest) ([]*pb.TrdAcc, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.GetAccListWithContext(ctx, opts...)
+	return client.GetAccListWithContext(ctx, req)
 }
 
 // UnlockTrade 2005 - unlocks or locks the trade.
 //
-// unlock: true for unlock, false for lock
-//
 // pwdMD5: MD5 of the password
 //
 // securityFirm: security firm
-func (client *Client) UnlockTrade(unlock bool, pwdMD5 string, securityFirm pb.SecurityFirm) error {
+func (client *Client) UnlockTrade(pwdMD5 string, secFirm pb.SecurityFirm) error {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.UnlockTradeWithContext(ctx, unlock, pwdMD5, securityFirm)
+	return client.UnlockTradeWithContext(ctx, pwdMD5, secFirm)
+}
+
+func (c *Client) LockTrade(secFirm pb.SecurityFirm) error {
+	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
+	defer cancel()
+
+	return c.LockTradeWithContext(ctx, secFirm)
 }
 
 // SubscribeAccPush 2008 - subscribes the trading account push data.
@@ -53,19 +53,19 @@ func (client *Client) SubscribeAccPush(accIDList []uint64) error {
 }
 
 // GetFunds 2101 - gets the funds.
-func (client *Client) GetFunds(header *pb.TrdHeader, opts ...adapt.Option) (*pb.Funds, error) {
+func (client *Client) GetFunds(req *pb.TrdGetFundsRequest) (*pb.Funds, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.GetFundsWithContext(ctx, header, opts...)
+	return client.GetFundsWithContext(ctx, req)
 }
 
 // GetPositionList 2102 - gets the position list.
-func (client *Client) GetPositionList(header *pb.TrdHeader, opts ...adapt.Option) ([]*pb.Position, error) {
+func (client *Client) GetPositionList(req *pb.TrdGetPositionListRequest) ([]*pb.Position, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.GetPositionListWithContext(ctx, header, opts...)
+	return client.GetPositionListWithContext(ctx, req)
 }
 
 // GetOrderList 2111 - gets the maximum available trading quantities.
@@ -77,19 +77,19 @@ func (client *Client) GetPositionList(header *pb.TrdHeader, opts ...adapt.Option
 // code: security code, e.g. US.AAPL
 //
 // price: price
-func (client *Client) GetMaxTrdQtys(header *pb.TrdHeader, orderType int32, code string, price float64, opts ...adapt.Option) (*pb.MaxTrdQtys, error) {
+func (client *Client) GetMaxTrdQtys(req *pb.TrdGetMaxTrdQtysRequest) (*pb.MaxTrdQtys, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.GetMaxTrdQtysWithContext(ctx, header, orderType, code, price, opts...)
+	return client.GetMaxTrdQtysWithContext(ctx, req)
 }
 
 // GetOpenOrderList 2201 - gets the open order list.
-func (client *Client) GetOpenOrderList(header *pb.TrdHeader, opts ...adapt.Option) ([]*pb.Order, error) {
+func (client *Client) GetOpenOrderList(req *pb.TrdGetOrderListRequest) ([]*pb.Order, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.GetOpenOrderListWithContext(ctx, header, opts...)
+	return client.GetOpenOrderListWithContext(ctx, req)
 }
 
 // PlaceOrder 2202 - places an order.
@@ -105,11 +105,11 @@ func (client *Client) GetOpenOrderList(header *pb.TrdHeader, opts ...adapt.Optio
 // qty: quantity
 //
 // price: price
-func (client *Client) PlaceOrder(header *pb.TrdHeader, trdSide int32, orderType int32, code string, qty float64, price float64, opts ...adapt.Option) (*pb.TrdPlaceOrderResponse, error) {
+func (client *Client) PlaceOrder(req *pb.TrdPlaceOrderRequest) (*pb.TrdPlaceOrderResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.PlaceOrderWithContext(ctx, header, trdSide, orderType, code, qty, price, opts...)
+	return client.PlaceOrderWithContext(ctx, req)
 }
 
 // ModifyOrder 2205 - modifies an order with context.
@@ -119,11 +119,11 @@ func (client *Client) PlaceOrder(header *pb.TrdHeader, trdSide int32, orderType 
 // orderID: order ID, use 0 if forAll=true
 //
 // modifyOrderOp: modify order operation
-func (client *Client) ModifyOrder(header *pb.TrdHeader, orderID uint64, modifyOrderOp int32, opts ...adapt.Option) (*pb.TrdModifyOrderResponse, error) {
+func (client *Client) ModifyOrder(req *pb.TrdModifyOrderRequest) (*pb.TrdModifyOrderResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.ModifyOrderWithContext(ctx, header, orderID, modifyOrderOp, opts...)
+	return client.ModifyOrderWithContext(ctx, req)
 }
 
 // GetHistoryOrderList 2211 - gets the filled order list.
@@ -181,11 +181,11 @@ func (client *Client) TrdFlowSummary(header *pb.TrdHeader, clearingDate string) 
 // subTypes: subscription types
 //
 // isSub: true for subscribe, false for unsubscribe
-func (client *Client) Subscribe(codes []string, subTypes []int32, isSub bool, opts ...adapt.Option) error {
+func (client *Client) Subscribe(req *pb.QotSubRequest) error {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	return client.SubscribeWithContext(ctx, codes, subTypes, isSub, opts...)
+	return client.SubscribeWithContext(ctx, req)
 }
 
 // GetSubInfo 3003 - gets the subscription information.

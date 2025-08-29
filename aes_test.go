@@ -3,7 +3,7 @@ package futu_test
 import (
 	"testing"
 
-	"github.com/hyperjiang/futu/infra"
+	"github.com/santsai/futu-go"
 	"github.com/stretchr/testify/require"
 )
 
@@ -11,7 +11,7 @@ func TestCrypto(t *testing.T) {
 	should := require.New(t)
 
 	key := []byte("3FA037BF519D18D5")
-	c, err := infra.NewCrypto(key, nil)
+	c, err := futu.NewAES(key, nil)
 	should.NoError(err)
 
 	data := []byte("hello, world")
@@ -19,7 +19,7 @@ func TestCrypto(t *testing.T) {
 	plaintext := c.Decrypt(ciphertext)
 	should.Equal(data, plaintext)
 
-	_, err = infra.NewCrypto(nil, nil)
+	_, err = futu.NewAES(nil, nil)
 	should.Error(err)
 
 	should.Nil(c.Decrypt(nil))
