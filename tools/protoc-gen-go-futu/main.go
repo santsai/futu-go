@@ -302,17 +302,41 @@ func generateRequestBuilderForMessage(g *protogen.GeneratedFile, msg *protogen.M
 			funcBody = fmt.Sprintf(`s.%s = &o`, fName)
 		}
 
-		g.P(fmt.Sprintf(`
-			func (s *%s) With%s(o %s) *%s {
+		g.P()
+		if c := commentStr(f.Comments.Trailing); c != "" {
+			g.P(c)
+		}
+
+		g.P(fmt.Sprintf(
+			`func (s *%s) With%s(o %s) *%s {
 				%s
 				return s
 			}`, msgName, funcName, fTypeName, msgName, funcBody))
+
+		g.P(fmt.Sprintf(`
+			func (s *%s) Set%s(o %s) {
+				%s
+			}`, msgName, funcName, fTypeName, funcBody))
 	}
 }
 
 func generateRequestBuilder(plugin *protogen.Plugin, msgs []*protogen.Message) error {
 
 	g := newGeneratedFile(plugin, "adapt_req_builder.go")
+
+	g.P(`
+		type UserIDSetter interface {
+			SetUserID(uint64)
+		}
+
+		type PacketIDSetter interface {
+			SetPacketID(*PacketID)
+		}
+
+		type HeaderSetter interface {
+			SetHeader(*TrdHeader)
+		}
+	`)
 
 	all_msgs := map[string]*protogen.Message{}
 	for _, msg := range msgs {
@@ -326,8 +350,11 @@ func generateRequestBuilder(plugin *protogen.Plugin, msgs []*protogen.Message) e
 	sort.Strings(msg_keys)
 
 	for _, k := range msg_keys {
-		g.P(`// `, k)
 		msg := all_msgs[k]
+		g.P(`// `, k)
+		if c := commentStr(msg.Comments.Leading); c != "" {
+			g.P(c)
+		}
 		generateRequestBuilderForMessage(g, msg)
 	}
 	return nil
@@ -368,7 +395,7 @@ func main() {
 		generateProtoIdAdapt(plugin)
 		generateRequestAdapt(plugin, reqs)
 		generateResponseAdapt(plugin, resps)
-		//generateRequestBuilder(plugin, reqs)
+		generateRequestBuilder(plugin, reqs)
 
 		return nil
 	})

@@ -173,32 +173,25 @@ func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch cha
 	return err
 }
 
-func (client *Client) patchRequest(id pb.ProtoId, req pb.Request) {
+func (client *Client) patchRequest(req pb.Request) {
 
-	switch id {
+	payload := req.GetRequestPayload()
+
 	// UserID is no longer needed. but is required in proto.
-	case pb.ProtoId_GetGlobalState:
-		payload := req.GetRequestPayload().(*pb.GetGlobalStateRequest)
-		payload.UserID = proto.Uint64(client.userID)
-
-	case pb.ProtoId_TrdGetAccList:
-		payload := req.GetRequestPayload().(*pb.TrdGetAccListRequest)
-		payload.UserID = proto.Uint64(client.userID)
-
-	// set PacketID
-	case pb.ProtoId_TrdPlaceOrder:
-		payload := req.GetRequestPayload().(*pb.TrdPlaceOrderRequest)
-		payload.PacketID = client.nextTradePacketId()
-
-	case pb.ProtoId_TrdModifyOrder:
-		payload := req.GetRequestPayload().(*pb.TrdModifyOrderRequest)
-		payload.PacketID = client.nextTradePacketId()
+	if setter, ok := payload.(pb.UserIDSetter); ok {
+		setter.SetUserID(client.userID)
 	}
+
+	// avoid replay attacks
+	if setter, ok := payload.(pb.PacketIDSetter); ok {
+		setter.SetPacketID(client.nextTradePacketId())
+	}
+
 }
 
 func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request, resp pb.Response) (proto.Message, error) {
 
-	client.patchRequest(id, req)
+	client.patchRequest(req)
 
 	// add timeout to context if not exist.
 	if _, ok := ctx.Deadline(); !ok {
