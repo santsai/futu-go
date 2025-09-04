@@ -4,65 +4,80 @@ import (
 	"time"
 )
 
-const (
-	defaultOpenDAddr    = ":11111"
-	defaultID           = "futu-go"
-	defaultRespChanSize = 100
-	defaultTimeout      = 5 * time.Second
-)
-
 // Options are futu client options.
-type ClientOptions struct {
-	openDAddr    string
-	clientId     string
-	privateKey   []byte
-	recvNotify   bool
-	respChanSize int
-	timeout      time.Duration
+type clientOptions struct {
+	openDAddr  string
+	clientId   string
+	privateKey []byte
+	recvNotify bool
+	numWorkers int
+	numBuffers int
+	timeout    time.Duration
 }
 
+type ClientOption func(o *clientOptions)
+
 // NewOptions creates options with defaults.
-func NewClientOptions() *ClientOptions {
-	return &ClientOptions{
-		openDAddr:    defaultOpenDAddr,
-		clientId:     defaultID,
-		recvNotify:   true,
-		respChanSize: defaultRespChanSize,
-		timeout:      defaultTimeout,
+func newClientOptions(opts []ClientOption) clientOptions {
+	opt := &clientOptions{
+		openDAddr:  ":11111",
+		clientId:   "futu-go",
+		recvNotify: true,
+		numBuffers: 100,
+		numWorkers: 2,
+		timeout:    5 * time.Second,
 	}
+
+	for _, o := range opts {
+		o(opt)
+	}
+
+	return *opt
 }
 
 // WithID sets client id.
-func (o *ClientOptions) WithClientID(id string) *ClientOptions {
-	o.clientId = id
-	return o
+func WithClientID(id string) ClientOption {
+	return func(o *clientOptions) {
+		o.clientId = id
+	}
 }
 
 // WithAddr sets futu OpenD address.
-func (o *ClientOptions) WithOpenDAddr(addr string) *ClientOptions {
-	o.openDAddr = addr
-	return o
+func WithOpenDAddr(addr string) ClientOption {
+	return func(o *clientOptions) {
+		o.openDAddr = addr
+	}
 }
 
 // WithPrivateKey sets private key.
-func (o *ClientOptions) WithPrivateKey(privateKey []byte) *ClientOptions {
-	o.privateKey = privateKey
-	return o
+func WithPrivateKey(privateKey []byte) ClientOption {
+	return func(o *clientOptions) {
+		o.privateKey = privateKey
+	}
 }
 
 // WithRecvNotify sets whether to receive notifications.
-func (o *ClientOptions) WithRecvNotify(recvNotify bool) *ClientOptions {
-	o.recvNotify = recvNotify
-	return o
+func WithRecvNotify(recvNotify bool) ClientOption {
+	return func(o *clientOptions) {
+		o.recvNotify = recvNotify
+	}
 }
 
-// WithRespChanSize sets response channel size.
-func (o *ClientOptions) WithRespChanSize(size int) *ClientOptions {
-	o.respChanSize = size
-	return o
+// WithNumBuffer sets response channel size.
+func WithNumBuffers(size int) ClientOption {
+	return func(o *clientOptions) {
+		o.numBuffers = size
+	}
 }
 
-func (o *ClientOptions) WithTimeout(d time.Duration) *ClientOptions {
-	o.timeout = d
-	return o
+func WithTimeout(d time.Duration) ClientOption {
+	return func(o *clientOptions) {
+		o.timeout = d
+	}
+}
+
+func WithNumWorkers(n int) ClientOption {
+	return func(o *clientOptions) {
+		o.numWorkers = n
+	}
 }

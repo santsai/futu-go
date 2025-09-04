@@ -39,7 +39,7 @@ func generateProtoIdAdapt(plugin *protogen.Plugin) error {
 	sort.Ints(ids)
 
 	// gen type
-	g.P(`type ProtoId int`)
+	g.P(`type ProtoId uint32`)
 
 	// gen protoId const
 	g.P(`const (`)

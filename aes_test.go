@@ -15,8 +15,8 @@ func TestCrypto(t *testing.T) {
 	should.NoError(err)
 
 	data := []byte("hello, world")
-	ciphertext := c.Encrypt(data)
-	plaintext := c.Decrypt(ciphertext)
+	ciphertext, _ := c.Encrypt(data)
+	plaintext, _ := c.Decrypt(ciphertext)
 	should.Equal(data, plaintext)
 
 	_, err = futu.NewAES(nil, nil)

@@ -2,9 +2,14 @@ package futu
 
 import (
 	"context"
+	"time"
 
 	"github.com/santsai/futu-go/adapt"
 	"github.com/santsai/futu-go/pb"
+)
+
+const (
+	defaultTimeout = 5 * time.Second
 )
 
 // GetGlobalState 1002 - gets the global state.

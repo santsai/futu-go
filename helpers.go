@@ -34,8 +34,7 @@ func FindAccount(accList []*pb.TrdAcc, mkt pb.TrdMarket, accType pb.TrdAccType, 
 
 	for _, acc := range accList {
 
-		if simAccType != pb.SimAccType_Unknown &&
-			acc.GetSimAccType() != simAccType {
+		if acc.GetSimAccType() != simAccType {
 			continue
 		}
 

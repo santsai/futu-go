@@ -49,11 +49,10 @@ func TestClientTestSuite(t *testing.T) {
 func (ts *ClientTestSuite) SetupSuite() {
 	var err error
 
-	client_opts := futu.NewClientOptions()
-	client_opts.WithPrivateKey(privateKey)
-	client_opts.WithTimeout(15 * time.Second)
-
-	ts.sdk, err = futu.NewClient(client_opts)
+	ts.sdk, err = futu.NewClient(
+		futu.WithPrivateKey(privateKey),
+		futu.WithTimeout(15*time.Second),
+	)
 	if err != nil {
 		log.Error().Err(err).Msg("new client error")
 		ts.T().SkipNow()
@@ -111,7 +110,7 @@ func (ts *ClientTestSuite) SetupSuite() {
 	}
 
 	if _, err := subReq.Dispatch(context.TODO(), ts.sdk); err != nil {
-		fmt.Println(err)
+		log.Error().Err(err).Msg("QotSubRequest")
 	}
 }
 

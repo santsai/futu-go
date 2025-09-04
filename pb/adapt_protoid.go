@@ -2,7 +2,7 @@
 
 package pb
 
-type ProtoId int
+type ProtoId uint32
 
 const (
 	ProtoId_InitConnect                ProtoId = 1001

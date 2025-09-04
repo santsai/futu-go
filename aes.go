@@ -26,20 +26,20 @@ func NewAES(key, iv []byte) (*AES, error) {
 }
 
 // Encrypt encrypts the data.
-func (c *AES) Encrypt(data []byte) []byte {
+func (c *AES) Encrypt(data []byte) ([]byte, error) {
 	data = addPKCS7Padding(data)
 	ciphertext := make([]byte, len(data))
 	cipher.NewCBCEncrypter(c.block, c.iv).CryptBlocks(ciphertext, data)
 
-	return ciphertext
+	return ciphertext, nil
 }
 
 // Decrypt decrypts the data.
-func (c *AES) Decrypt(data []byte) []byte {
+func (c *AES) Decrypt(data []byte) ([]byte, error) {
 	plaintext := make([]byte, len(data))
 	cipher.NewCBCDecrypter(c.block, c.iv).CryptBlocks(plaintext, data)
 
-	return removePKCS7Padding(plaintext)
+	return removePKCS7Padding(plaintext), nil
 }
 
 func addPKCS7Padding(data []byte) []byte {

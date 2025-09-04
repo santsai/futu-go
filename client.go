@@ -6,7 +6,6 @@ import (
 	"crypto/sha1"
 	"encoding/binary"
 	"errors"
-	"fmt"
 	"io"
 	"net"
 	"sync"
@@ -18,38 +17,38 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-type bodyChanType chan<- []byte
-
 // Client is the client to connect to Futu OpenD.
 type Client struct {
-	ClientOptions
+	clientOptions
 
 	conn     net.Conn
-	sn       atomic.Uint32    // serial number
-	respChan chan rawResponse // response channel
-	pushChan chan rawResponse // push update channel
-	closed   chan struct{}    // indicate the client is closed
+	sn       atomic.Uint32  // serial number
+	respChan chan *response // response channel
+	closed   chan struct{}  // indicate the client is closed
 	connID   uint64
 	userID   uint64
 	aes      *AES
 	rsa      *RSA
 	handlers sync.Map // push notification handlers
 
-	bodyChanMap   map[uint64]bodyChanType
-	bodyChanMutex sync.Mutex
+	readerWG sync.WaitGroup
+	goroWG   sync.WaitGroup
+
+	dispatchMap   map[uint64]*dispatchData
+	dispatchMutex sync.Mutex
 }
 
 // New creates a new client.
-func NewClient(opts *ClientOptions) (*Client, error) {
+func NewClient(opts ...ClientOption) (*Client, error) {
+
 	client := &Client{
-		ClientOptions: *opts,
+		clientOptions: newClientOptions(opts),
 		closed:        make(chan struct{}),
-		bodyChanMap:   map[uint64]bodyChanType{},
+		dispatchMap:   map[uint64]*dispatchData{},
 		handlers:      sync.Map{},
 	}
 
-	client.respChan = make(chan rawResponse, client.respChanSize)
-	client.pushChan = make(chan rawResponse, client.respChanSize)
+	client.respChan = make(chan *response, client.numBuffers)
 
 	// setup rsa
 	if client.privateKey != nil {
@@ -60,12 +59,19 @@ func NewClient(opts *ClientOptions) (*Client, error) {
 		client.rsa = rsa
 	}
 
+	// connect
 	if err := client.dial(); err != nil {
 		return nil, err
 	}
 
-	go client.listen()
-	go client.infiniteRead()
+	// spawn workers
+	for i := 0; i < client.numWorkers; i++ {
+		client.goroWG.Add(1)
+		go client.respWorker()
+	}
+
+	client.readerWG.Add(1)
+	go client.respReadLoop()
 
 	s2c, err := client.initConnect()
 	if err != nil {
@@ -95,10 +101,9 @@ func NewClient(opts *ClientOptions) (*Client, error) {
 	}
 
 	if interval := s2c.GetKeepAliveInterval(); interval > 0 {
+		client.goroWG.Add(1)
 		go client.heartbeat(time.Second * time.Duration(interval))
 	}
-
-	go client.watchNotification()
 
 	return client, nil
 }
@@ -110,39 +115,55 @@ func (client *Client) nextTradePacketId() *pb.PacketID {
 	}
 }
 
-// Close closes the client.
-func (client *Client) Close() error {
-	close(client.closed)
-
-	client.dispatcherClose()
-
-	if client.conn == nil {
+func (client *Client) getCryptoService(id pb.ProtoId) cryptoService {
+	if client.privateKey == nil {
 		return nil
 	}
 
-	return client.conn.Close()
+	if id == pb.ProtoId_InitConnect {
+		return client.rsa
+	}
+
+	return client.aes
 }
 
-// makeRequest sends a request to the server.
-func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch chan<- []byte) error {
+// Close closes the client.
+func (client *Client) Close() error {
+
+	var err error = nil
+
+	if client.conn == nil {
+		err = client.conn.Close()
+		client.readerWG.Wait()
+	}
+
+	log.Info().Msg("read loop exited")
+
+	close(client.closed)
+	client.goroWG.Wait()
+	log.Info().Msg("worker & heartbeat exited")
+
+	client.dispatchClose()
+
+	return err
+}
+
+// sendRequest sends a request to the server.
+func (client *Client) sendRequest(protoID pb.ProtoId, req proto.Message, dida *dispatchData) error {
 	var buf bytes.Buffer
 
-	b, err := proto.Marshal(req)
+	body, err := proto.Marshal(req)
 	if err != nil {
-		close(bch)
+		close(dida.c)
 		return err
 	}
-	sha1Value := sha1.Sum(b)
+	sha1Value := sha1.Sum(body)
 
-	if client.privateKey != nil {
-		if protoID == pb.ProtoId_InitConnect {
-			b, err = client.rsa.Encrypt(b)
-			if err != nil {
-				close(bch)
-				return err
-			}
-		} else {
-			b = client.aes.Encrypt(b)
+	if cs := client.getCryptoService(protoID); cs != nil {
+		body, err = cs.Encrypt(body)
+		if err != nil {
+			close(dida.c)
+			return err
 		}
 	}
 
@@ -150,21 +171,23 @@ func (client *Client) makeRequest(protoID pb.ProtoId, req proto.Message, bch cha
 
 	h := futuHeader{
 		HeaderFlag:   [2]byte{'F', 'T'},
-		ProtoID:      uint32(protoID),
+		ProtoID:      protoID,
 		ProtoFmtType: 0,
 		ProtoVer:     0,
 		SerialNo:     sn,
-		BodyLen:      uint32(len(b)),
+		BodyLen:      uint32(len(body)),
 		BodySHA1:     sha1Value,
 	}
 
-	client.dispatcherRegister(protoID, sn, bch)
+	client.dispatchPut(protoID, sn, dida)
+
+	// XXX how to handle stored dida on err?
 
 	if err := binary.Write(&buf, binary.LittleEndian, &h); err != nil {
 		return err
 	}
 
-	if _, err := buf.Write(b); err != nil {
+	if _, err := buf.Write(body); err != nil {
 		return err
 	}
 
@@ -191,6 +214,7 @@ func (client *Client) patchRequest(req pb.Request) {
 
 func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request, resp pb.Response) (proto.Message, error) {
 
+	// fill in some infomation
 	client.patchRequest(req)
 
 	// add timeout to context if not exist.
@@ -200,8 +224,11 @@ func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request
 		defer cancel()
 	}
 
-	ch := make(chan []byte, 1)
-	if err := client.makeRequest(id, req, ch); err != nil {
+	dida := &dispatchData{
+		c:    make(chan *response, 1),
+		resp: resp,
+	}
+	if err := client.sendRequest(id, req, dida); err != nil {
 		return nil, err
 	}
 
@@ -210,16 +237,16 @@ func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request
 		return nil, ctx.Err()
 	case <-client.closed:
 		return nil, ErrInterrupted
-	case bs, ok := <-ch:
+	case rr, ok := <-dida.c:
 		if !ok {
 			return nil, ErrChannelClosed
 		}
 
-		if err := proto.Unmarshal(bs, resp); err != nil {
-			return nil, err
+		if rr.Err != nil {
+			return nil, rr.Err
 		}
 
-		return resp.GetResponsePayload(), pb.ResponseError(resp)
+		return rr.Resp.GetResponsePayload(), pb.ResponseError(rr.Resp)
 	}
 }
 
@@ -237,81 +264,41 @@ func (client *Client) getHandler(protoID pb.ProtoId) Handler {
 	return defaultHandler
 }
 
-// watchNotification watches the push notification.
-// no need to close the channels in this function,
-// because they will be closed by the dispatcher hub when the client is closed.
-func (client *Client) watchNotification() {
-
-	for {
-		select {
-		case <-client.closed:
-			log.Info().Msg("stop watching notification")
-			return
-
-		case resp, ok := <-client.pushChan:
-			if !ok {
-				log.Info().Msg("notification channel closed")
-				break
-			}
-
-			if err := client.dispatcherPushCall(resp); err != nil {
-				log.Error().Err(err).Msg("notification handle error")
-			}
-		}
-	}
-}
-
-func (client *Client) dispatcherRegister(protoId pb.ProtoId, sn uint32, ch bodyChanType) {
+func (client *Client) dispatchPut(protoId pb.ProtoId, sn uint32, dida *dispatchData) {
 	id := makeRespId(protoId, sn)
 
-	client.bodyChanMutex.Lock()
-	client.bodyChanMap[id] = ch
-	client.bodyChanMutex.Unlock()
+	client.dispatchMutex.Lock()
+	client.dispatchMap[id] = dida
+	client.dispatchMutex.Unlock()
 }
 
-func (client *Client) dispatcherCall(resp rawResponse) error {
-	respId := makeRespId(resp.ProtoID, resp.SerialNo)
+func (client *Client) dispatchPop(protoId pb.ProtoId, sn uint32) *dispatchData {
+	id := makeRespId(protoId, sn)
 
-	client.bodyChanMutex.Lock()
-	ch, ok := client.bodyChanMap[respId]
+	client.dispatchMutex.Lock()
+	dida, ok := client.dispatchMap[id]
 	if ok {
-		delete(client.bodyChanMap, respId)
+		delete(client.dispatchMap, id)
 	}
-	client.bodyChanMutex.Unlock()
+	client.dispatchMutex.Unlock()
 
-	if ok {
-		ch <- resp.Body
-		close(ch)
-	} else {
-		client.pushChan <- resp
+	// handle push data.
+	if dida == nil {
+		if resp := pb.GetPushResponseStruct(protoId); resp != nil {
+			dida = &dispatchData{resp: resp}
+		}
 	}
 
-	return nil
+	return dida
 }
 
-func (client *Client) dispatcherPushCall(resp rawResponse) error {
-
-	pbResp := pb.GetPushResponseStruct(resp.ProtoID)
-	if pbResp == nil {
-		return fmt.Errorf("cannot find a response struct for id: %d", resp.ProtoID)
+func (client *Client) dispatchClose() {
+	client.dispatchMutex.Lock()
+	for id, dida := range client.dispatchMap {
+		close(dida.c)
+		delete(client.dispatchMap, id)
 	}
-
-	if err := proto.Unmarshal(resp.Body, pbResp); err != nil {
-		return err
-	}
-
-	h := client.getHandler(resp.ProtoID)
-	h(pbResp.GetResponsePayload())
-	return nil
-}
-
-func (client *Client) dispatcherClose() {
-	client.bodyChanMutex.Lock()
-	for id, ch := range client.bodyChanMap {
-		close(ch)
-		delete(client.bodyChanMap, id)
-	}
-	client.bodyChanMutex.Unlock()
+	client.dispatchMutex.Unlock()
 }
 
 // nextSN returns the next serial number.
@@ -331,21 +318,78 @@ func (client *Client) dial() error {
 	return nil
 }
 
-func (client *Client) listen() {
+func (client *Client) respWorker() {
+
+	defer func() {
+		client.goroWG.Done()
+		log.Info().Msg("worker exit")
+	}()
+
 	for {
 		select {
 		case <-client.closed:
 			return
-		case res := <-client.respChan:
-			log.Info().Uint32("proto_id", uint32(res.ProtoID)).Uint32("sn", res.SerialNo).Msg("listen")
-			if err := client.dispatcherCall(res); err != nil {
-				log.Error().Err(err).Msg("dispatch error")
+
+		case rr := <-client.respChan:
+
+			log.Info().Uint32("proto_id", uint32(rr.ProtoID)).Uint32("sn", rr.SerialNo).Msg("listen")
+
+			// decrypt body
+			if cs := client.getCryptoService(rr.ProtoID); cs != nil {
+				if body, err := cs.Decrypt(rr.Body); err != nil {
+					rr.Err = err
+				} else {
+					rr.Body = body
+					rr.Encrypted = false
+				}
+			}
+
+			// verify body
+			if rr.Err == nil {
+				ssum := sha1.Sum(rr.Body)
+				if !bytes.Equal(rr.BodySHA1, ssum[:]) {
+					rr.Err = errSHA1Mismatch
+				}
+			}
+
+			// get dispatchData
+			dida := client.dispatchPop(rr.ProtoID, rr.SerialNo)
+			if dida == nil {
+				// no dispatchData registered
+				// dont know how to unmarshal. break.
+				log.Error().Uint32("protoId", uint32(rr.ProtoID)).
+					Uint32("serialNo", rr.SerialNo).
+					Msg("no unmarshal target")
+				break
+			}
+
+			// proto decode
+			if rr.Err == nil {
+				if err := proto.Unmarshal(rr.Body, dida.resp); err != nil {
+					rr.Err = err
+				} else {
+					rr.Resp = dida.resp
+				}
+			}
+
+			// dispatch
+			if dida.c != nil {
+				dida.c <- rr
+				close(dida.c)
+
+			} else {
+				if rr.Err == nil {
+					h := client.getHandler(rr.ProtoID)
+					h(rr.Resp.GetResponsePayload())
+				} else {
+					log.Error().Err(rr.Err).Msg("push decrypt/decode error ignored")
+				}
 			}
 		}
 	}
 }
 
-func (client *Client) read() error {
+func (client *Client) respRead() error {
 	defer func() {
 		if r := recover(); r != nil {
 			log.Error().Interface("recover", r).Msg("")
@@ -360,33 +404,19 @@ func (client *Client) read() error {
 	if h.HeaderFlag != [2]byte{'F', 'T'} {
 		return errors.New("header flag error")
 	}
+
 	// read body, it will block until the body is read
 	b := make([]byte, h.BodyLen)
 	if _, err := io.ReadFull(client.conn, b); err != nil {
 		return err
 	}
 
-	if client.privateKey != nil {
-		if pb.ProtoId(h.ProtoID) == pb.ProtoId_InitConnect {
-			var err error
-			b, err = client.rsa.Decrypt(b)
-			if err != nil {
-				return err
-			}
-		} else {
-			b = client.aes.Decrypt(b)
-		}
-	}
-
-	// verify body
-	if h.BodySHA1 != sha1.Sum(b) {
-		return errors.New("sha1 sum error")
-	}
-
-	resp := rawResponse{
-		ProtoID:  pb.ProtoId(h.ProtoID),
-		SerialNo: h.SerialNo,
-		Body:     b,
+	resp := &response{
+		ProtoID:   h.ProtoID,
+		SerialNo:  h.SerialNo,
+		BodySHA1:  h.BodySHA1[:],
+		Body:      b,
+		Encrypted: client.privateKey != nil,
 	}
 
 	client.respChan <- resp
@@ -394,9 +424,12 @@ func (client *Client) read() error {
 	return nil
 }
 
-func (client *Client) infiniteRead() {
+func (client *Client) respReadLoop() {
+
+	defer client.readerWG.Done()
+
 	for {
-		if err := client.read(); err != nil {
+		if err := client.respRead(); err != nil {
 			if errors.Is(err, io.EOF) || errors.Is(err, net.ErrClosed) {
 				// If the connection is closed, stop receiving data.
 				// io.EOF: The connection is closed by the remote end.
@@ -404,7 +437,8 @@ func (client *Client) infiniteRead() {
 				log.Error().Err(err).Msg("connection closed")
 				return
 			} else {
-				log.Error().Err(err).Msg("decode error")
+				// XXX return ?
+				log.Error().Err(err).Msg("other read error")
 				return
 			}
 		}
@@ -423,10 +457,11 @@ func (client *Client) initConnect() (*pb.InitConnectResponse, error) {
 	return req.Dispatch(context.TODO(), client)
 }
 
-// XXX disconnect handling?
+// XXX disconnect/missed ping? handling?
 func (client *Client) heartbeat(d time.Duration) {
 	ticker := time.NewTicker(d)
 	defer ticker.Stop()
+	defer client.goroWG.Done()
 
 	// take the smaller timeout
 	timeout := d
