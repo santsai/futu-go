@@ -2,6 +2,7 @@ package futu_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"testing"
@@ -34,7 +35,7 @@ VcwwDz6DhmTnlMjfKeJN6MgJmYnKSDt+rmheQD1bw7U=
 
 type ClientTestSuite struct {
 	suite.Suite
-	sdk             *futu.Client
+	client          *futu.Client
 	accList         []*pb.TrdAcc
 	usAccountHeader *pb.TrdHeader
 }
@@ -49,7 +50,7 @@ func TestClientTestSuite(t *testing.T) {
 func (ts *ClientTestSuite) SetupSuite() {
 	var err error
 
-	ts.sdk, err = futu.NewClient(
+	ts.client, err = futu.NewClient(
 		futu.WithPrivateKey(privateKey),
 		futu.WithTimeout(15*time.Second),
 	)
@@ -57,9 +58,9 @@ func (ts *ClientTestSuite) SetupSuite() {
 		log.Error().Err(err).Msg("new client error")
 		ts.T().SkipNow()
 	}
-	ts.sdk.RegisterHandler(pb.ProtoId_Notify, func(s2c proto.Message) error {
+	ts.client.RegisterHandler(pb.ProtoId_Notify, func(s2c proto.Message) error {
 		msg := s2c.(*pb.NotifyResponse)
-		log.Info().Interface("s2c", msg).Msg("custom handler")
+		log.Info().Interface("s2c", msg).Msg("notify handler")
 		return nil
 	})
 
@@ -67,7 +68,7 @@ func (ts *ClientTestSuite) SetupSuite() {
 	accListReq := &pb.TrdGetAccListRequest{
 		NeedGeneralSecAccount: proto.Bool(true),
 	}
-	if resp, err := accListReq.Dispatch(context.TODO(), ts.sdk); err != nil {
+	if resp, err := accListReq.Dispatch(context.TODO(), ts.client); err != nil {
 		log.Error().Err(err).Msg("GetAccList error")
 		ts.T().SkipNow()
 	} else {
@@ -92,7 +93,7 @@ func (ts *ClientTestSuite) SetupSuite() {
 
 	//
 	subReq := &pb.QotSubRequest{
-		SecurityList: futu.NewSecurities(
+		SecurityList: futu.NewSecurityList(
 			"HK.09988", "HK.00700",
 		),
 
@@ -109,15 +110,15 @@ func (ts *ClientTestSuite) SetupSuite() {
 		IsSubOrUnSub: proto.Bool(true),
 	}
 
-	if _, err := subReq.Dispatch(context.TODO(), ts.sdk); err != nil {
+	if _, err := subReq.Dispatch(context.TODO(), ts.client); err != nil {
 		log.Error().Err(err).Msg("QotSubRequest")
 	}
 }
 
 // TearDownSuite run once at the very end of the testing suite, after all tests have been run.
 func (ts *ClientTestSuite) TearDownSuite() {
-	if ts.sdk != nil {
-		ts.sdk.Close()
+	if ts.client != nil {
+		ts.client.Close()
 	}
 }
 
@@ -125,7 +126,7 @@ func (ts *ClientTestSuite) TestGetGlobalState() {
 	should := require.New(ts.T())
 
 	req := &pb.GetGlobalStateRequest{}
-	resp, err := req.Dispatch(context.TODO(), ts.sdk)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 
 	fmt.Println(resp)
@@ -138,7 +139,7 @@ func (ts *ClientTestSuite) TestLockTrade() {
 		Unlock:       proto.Bool(false),
 		SecurityFirm: pb.SecurityFirm_FutuSecurities.Enum(),
 	}
-	_, err := req.Dispatch(context.TODO(), ts.sdk)
+	_, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 }
 
@@ -149,7 +150,7 @@ func (ts *ClientTestSuite) TestSubscribeAccPush() {
 		AccIDList: []uint64{ts.usAccountHeader.GetAccID()},
 	}
 
-	_, err := req.Dispatch(context.TODO(), ts.sdk)
+	_, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 }
 
@@ -160,7 +161,7 @@ func (ts *ClientTestSuite) TestGetFunds() {
 		Header: ts.usAccountHeader,
 	}
 
-	resp, err := req.Dispatch(context.TODO(), ts.sdk)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("data", resp.GetFunds()).Msg("GetFunds")
 }
@@ -172,7 +173,7 @@ func (ts *ClientTestSuite) TestGetPositionList() {
 		Header: ts.usAccountHeader,
 	}
 
-	resp, err := req.Dispatch(context.TODO(), ts.sdk)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	for _, pos := range resp.GetPositionList() {
 		log.Info().Interface("position", pos).Msg("GetPositionList")
@@ -190,7 +191,7 @@ func (ts *ClientTestSuite) TestGetMaxTrdQtys() {
 		SecMarket: pb.TrdSecMarket_US.Enum(),
 	}
 
-	resp, err := req.Dispatch(context.TODO(), ts.sdk)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("data", resp.GetMaxTrdQtys()).Msg("GetMaxTrdQtys")
 }
@@ -203,7 +204,7 @@ func (ts *ClientTestSuite) TestGetOpenOrderList() {
 		FilterStatusList: []pb.OrderStatus{pb.OrderStatus_Submitted},
 	}
 
-	resp, err := req.Dispatch(context.TODO(), ts.sdk)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	for _, order := range resp.GetOrderList() {
 		log.Info().Interface("open order", order).Msg("GetOpenOrderList")
@@ -220,9 +221,9 @@ func (ts *ClientTestSuite) TestPlaceOrderAndModifyOrder() {
 		Code:      proto.String("AAPL"),
 		SecMarket: pb.TrdSecMarket_US.Enum(),
 		Qty:       proto.Float64(1),
-		Remark:    proto.String("go sdk"),
+		Remark:    proto.String("go client"),
 	}
-	resp, err := orderReq.Dispatch(context.TODO(), ts.sdk)
+	resp, err := orderReq.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("result", resp).Msg("PlaceOrder")
 
@@ -232,7 +233,7 @@ func (ts *ClientTestSuite) TestPlaceOrderAndModifyOrder() {
 		OrderID:       proto.Uint64(resp.GetOrderID()),
 		ModifyOrderOp: pb.ModifyOrderOp_Cancel.Enum(),
 	}
-	cancelResp, err := cancelReq.Dispatch(context.TODO(), ts.sdk)
+	cancelResp, err := cancelReq.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("result", cancelResp).Msg("ModifyOrder")
 }
@@ -244,8 +245,8 @@ func (ts *ClientTestSuite) TestGetOrderFillList() {
 		Header: ts.usAccountHeader,
 	}
 
-	_, err := req.Dispatch(context.TODO(), ts.sdk)
-	should.Error(err) // 模拟交易不支持成交数据
+	_, err := req.Dispatch(context.TODO(), ts.client)
+	should.True(errors.Is(err, futu.ErrNotSupportedInSimEnv))
 }
 
 func (ts *ClientTestSuite) TestGetHistoryOrderList() {
@@ -261,7 +262,7 @@ func (ts *ClientTestSuite) TestGetHistoryOrderList() {
 		FilterStatusList: []pb.OrderStatus{pb.OrderStatus_Filled_All},
 	}
 
-	resp, err := req.Dispatch(context.TODO(), ts.sdk)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	for _, order := range resp.GetOrderList() {
 		log.Info().Interface("history order", order).Msg("GetHistoryOrderList")
@@ -280,8 +281,8 @@ func (ts *ClientTestSuite) TestGetHistoryOrderFillList() {
 		},
 	}
 
-	_, err := req.Dispatch(context.TODO(), ts.sdk)
-	should.Error(err) // 模拟交易不支持成交数据
+	_, err := req.Dispatch(context.TODO(), ts.client)
+	should.True(errors.Is(err, futu.ErrNotSupportedInSimEnv))
 }
 
 func (ts *ClientTestSuite) TestGetMarginRatio() {
@@ -300,10 +301,10 @@ func (ts *ClientTestSuite) TestGetMarginRatio() {
 			AccID:     proto.Uint64(acc.GetAccID()),
 			TrdMarket: pb.TrdMarket_US.Enum(),
 		},
-		SecurityList: futu.NewSecurities("US.AAPL"),
+		SecurityList: futu.NewSecurityList("US.AAPL"),
 	}
 
-	resp, err := req.Dispatch(context.TODO(), ts.sdk)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("margin ratio", resp).Msg("GetMarginRatio")
 }
@@ -315,22 +316,28 @@ func (ts *ClientTestSuite) TestGetOrderFee() {
 		Header:        ts.usAccountHeader,
 		OrderIdExList: []string{"1234"},
 	}
-	_, err := req.Dispatch(context.TODO(), ts.sdk)
-	should.Error(err) // 模拟交易不支持查询交易费用
+
+	_, err := req.Dispatch(context.TODO(), ts.client)
+	should.True(errors.Is(err, futu.ErrNotSupportedInSimEnv))
 }
 
-/*
 func (ts *ClientTestSuite) TestTrdFlowSummary() {
 	should := require.New(ts.T())
 
-	_, err := ts.sdk.TrdFlowSummary(ts.usAccountHeader, time.Now().Format("2006-01-02"))
-	should.EqualError(err, "模拟账户不支持查询现金流水")
+	req := &pb.TrdFlowSummaryRequest{
+		Header:       ts.usAccountHeader,
+		ClearingDate: futu.DatePtr(time.Now()),
+	}
+
+	_, err := req.Dispatch(context.TODO(), ts.client)
+	should.True(errors.Is(err, futu.ErrNotSupportedInSimEnv))
 }
 
 func (ts *ClientTestSuite) TestGetSubInfo() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetSubInfo()
+	req := pb.QotGetSubInfoRequest{}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("result", res).Msg("GetSubInfo")
 }
@@ -338,9 +345,13 @@ func (ts *ClientTestSuite) TestGetSubInfo() {
 func (ts *ClientTestSuite) TestGetBasicQot() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetBasicQot([]string{"HK.00700", "HK.09988"})
+	req := &pb.QotGetBasicQotRequest{
+		SecurityList: futu.NewSecurityList("HK.00700", "HK.09988"),
+	}
+
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	for _, qot := range res {
+	for _, qot := range res.GetBasicQotList() {
 		log.Info().Interface("qot", qot).Msg("GetBasicQot")
 	}
 }
@@ -348,12 +359,14 @@ func (ts *ClientTestSuite) TestGetBasicQot() {
 func (ts *ClientTestSuite) TestGetKL() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetKL(
-		"HK.09988",
-		adapt.KLType_Day,
-		adapt.With("rehabType", adapt.RehabType_Forward),
-		adapt.With("reqNum", 3),
-	)
+	req := &pb.QotGetKLRequest{
+		Security:  futu.NewSecurity("HK.09988"),
+		KlType:    pb.KLType_Day.Enum(),
+		RehabType: pb.RehabType_Forward.Enum(),
+		ReqNum:    proto.Int32(3),
+	}
+
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	for _, kl := range res.GetKlList() {
 		log.Info().Interface("kline", kl).Msg("GetKL")
@@ -363,7 +376,11 @@ func (ts *ClientTestSuite) TestGetKL() {
 func (ts *ClientTestSuite) TestGetRT() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetRT("HK.09988")
+	req := &pb.QotGetRTRequest{
+		Security: futu.NewSecurity("HK.09988"),
+	}
+
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	should.Equal("09988", res.GetSecurity().GetCode())
 	log.Info().Str("stock", res.GetName()).Int("num", len(res.GetRtList())).Msg("GetRT")
@@ -372,7 +389,11 @@ func (ts *ClientTestSuite) TestGetRT() {
 func (ts *ClientTestSuite) TestGetTicker() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetTicker("HK.09988")
+	req := &pb.QotGetTickerRequest{
+		Security:  futu.NewSecurity("HK.09988"),
+		MaxRetNum: proto.Int32(1000),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	should.Equal("09988", res.GetSecurity().GetCode())
 	log.Info().Str("stock", res.GetName()).Int("num", len(res.GetTickerList())).Msg("GetTicker")
@@ -381,7 +402,11 @@ func (ts *ClientTestSuite) TestGetTicker() {
 func (ts *ClientTestSuite) TestGetOrderBook() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetOrderBook("HK.09988")
+	req := &pb.QotGetOrderBookRequest{
+		Security: futu.NewSecurity("HK.09988"),
+		Num:      proto.Int32(100),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	should.Equal("09988", res.GetSecurity().GetCode())
 	log.Info().Str("stock", res.GetName()).
@@ -399,7 +424,10 @@ func (ts *ClientTestSuite) TestGetOrderBook() {
 func (ts *ClientTestSuite) TestGetBroker() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetBroker("HK.09988")
+	req := &pb.QotGetBrokerRequest{
+		Security: futu.NewSecurity("HK.09988"),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	should.Equal("09988", res.GetSecurity().GetCode())
 
@@ -418,48 +446,41 @@ func (ts *ClientTestSuite) TestGetBroker() {
 func (ts *ClientTestSuite) TestRequestHistoryKL() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.RequestHistoryKL(
-		"HK.09988",
-		adapt.KLType_Day,
-		"2024-10-01",
-		"2024-10-15",
-		adapt.With("rehabType", adapt.RehabType_Forward),
-		adapt.With("maxAckKLNum", 3), // 每次只取3条，模拟分页
-	)
-	should.NoError(err)
-	should.Equal("09988", res.GetSecurity().GetCode())
+	var next []byte = nil
+	first := true
 
-	for _, kl := range res.GetKlList() {
-		log.Info().Str("date", kl.GetTime()).Str("stock", res.GetName()).Float64("close", kl.GetClosePrice()).Msg("RequestHistoryKL")
-	}
+	for len(next) > 0 || first {
+		req := &pb.QotRequestHistoryKLRequest{
+			Security:    futu.NewSecurity("HK.09988"),
+			KlType:      pb.KLType_Day.Enum(),
+			BeginTime:   proto.String("2024-10-01"),
+			EndTime:     proto.String("2024-10-15"),
+			RehabType:   pb.RehabType_Forward.Enum(),
+			MaxAckKLNum: proto.Int32(3),
+			NextReqKey:  next,
+		}
 
-	next := res.GetNextReqKey()
-	for len(next) > 0 {
-		res, err = ts.sdk.RequestHistoryKL(
-			"HK.09988",
-			adapt.KLType_Day,
-			"2024-10-01",
-			"2024-10-15",
-			adapt.With("rehabType", adapt.RehabType_Forward),
-			adapt.With("maxAckKLNum", 3),
-			adapt.With("nextReqKey", next),
-		)
+		res, err := req.Dispatch(context.TODO(), ts.client)
+
 		should.NoError(err)
+		should.Equal("09988", res.GetSecurity().GetCode())
 
 		for _, kl := range res.GetKlList() {
 			log.Info().Str("date", kl.GetTime()).Str("stock", res.GetName()).Float64("close", kl.GetClosePrice()).Msg("RequestHistoryKL")
 		}
 
 		next = res.GetNextReqKey()
+		first = false
 	}
 }
 
 func (ts *ClientTestSuite) TestRequestHistoryKLQuota() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.RequestHistoryKLQuota(
-		adapt.With("bGetDetail", true), // 可选：返回详细拉取过的历史纪录
-	)
+	req := &pb.QotRequestHistoryKLQuotaRequest{
+		BGetDetail: proto.Bool(true),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("result", res).Msg("RequestHistoryKLQuota")
 }
@@ -467,9 +488,11 @@ func (ts *ClientTestSuite) TestRequestHistoryKLQuota() {
 func (ts *ClientTestSuite) TestRequestRehab() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.RequestRehab("HK.09988")
+	req := &pb.QotRequestRehabRequest{
+		Security: futu.NewSecurity("HK.09988"),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-
 	for _, rehab := range res.GetRehabList() {
 		log.Info().Interface("rehab", rehab).Msg("RequestRehab")
 	}
@@ -479,29 +502,36 @@ func (ts *ClientTestSuite) TestGetStaticInfo() {
 	should := require.New(ts.T())
 
 	// use securities to filter
-	res, err := ts.sdk.GetStaticInfo(adapt.WithSecurities([]string{"HK.09988", "HK.00700"}))
+	req := pb.QotGetStaticInfoRequest{
+		SecurityList: futu.NewSecurityList("HK.09988", "HK.00700"),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 
-	for _, info := range res {
+	for _, info := range resp.GetStaticInfoList() {
 		log.Info().Interface("info", info).Msg("GetStaticInfo by securities")
 	}
 
 	// use market and secType to filter
-	res2, err := ts.sdk.GetStaticInfo(
-		adapt.With("market", adapt.QotMarket_HK),
-		adapt.With("secType", adapt.SecurityType_Eqty),
-	)
+	req2 := pb.QotGetStaticInfoRequest{
+		Market:  pb.QotMarket_HK_Security.Enum(),
+		SecType: pb.SecurityType_Eqty.Enum(),
+	}
+	resp2, err := req2.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Int("num", len(res2)).Msg("GetStaticInfo by market")
+	log.Info().Int("num", len(resp2.GetStaticInfoList())).Msg("GetStaticInfo by market")
 }
 
 func (ts *ClientTestSuite) TestGetSecuritySnapshot() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetSecuritySnapshot([]string{"HK.09988", "HK.00700"})
+	req := &pb.QotGetSecuritySnapshotRequest{
+		SecurityList: futu.NewSecurityList("HK.09988", "HK.00700"),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 
-	for _, snap := range res {
+	for _, snap := range resp.GetSnapshotList() {
 		log.Info().Interface("snapshot", snap).Msg("GetSecuritySnapshot")
 	}
 }
@@ -509,12 +539,16 @@ func (ts *ClientTestSuite) TestGetSecuritySnapshot() {
 func (ts *ClientTestSuite) TestGetPlateSet() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetPlateSet(adapt.QotMarket_HK, adapt.PlateSetType_Industry)
+	req := &pb.QotGetPlateSetRequest{
+		Market:       pb.QotMarket_HK_Security.Enum(),
+		PlateSetType: pb.PlateSetType_Industry.Enum(),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 
-	for _, plate := range res {
+	for _, plate := range resp.GetPlateInfoList() {
 		log.Info().Str("name", plate.GetName()).
-			Int32("type", plate.GetPlateType()).
+			Interface("type", plate.GetPlateType()).
 			Interface("plate", plate.GetPlate()).
 			Msg("GetPlateSet")
 	}
@@ -523,14 +557,15 @@ func (ts *ClientTestSuite) TestGetPlateSet() {
 func (ts *ClientTestSuite) TestGetPlateSecurity() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetPlateSecurity(
-		"HK.LIST1059",
-		adapt.With("sortField", adapt.SortField_Turnover),
-		adapt.With("ascend", false),
-	)
+	req := &pb.QotGetPlateSecurityRequest{
+		Plate:     futu.NewSecurity("HK.LIST1059"),
+		SortField: pb.SortField_Turnover.Enum(),
+		Ascend:    proto.Bool(false),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 
-	for _, info := range res {
+	for _, info := range resp.GetStaticInfoList() {
 		log.Info().Interface("info", info).Msg("GetPlateSecurity")
 	}
 }
@@ -538,37 +573,54 @@ func (ts *ClientTestSuite) TestGetPlateSecurity() {
 func (ts *ClientTestSuite) TestGetReference() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetReference("HK.09988", adapt.ReferenceType_Warrant)
+	req := &pb.QotGetReferenceRequest{
+		Security:      futu.NewSecurity("HK.09988"),
+		ReferenceType: pb.ReferenceType_Warrant.Enum(),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Int("num", len(res)).Msg("GetReference")
+	log.Info().Int("num", len(resp.GetStaticInfoList())).Msg("GetReference")
 }
 
 func (ts *ClientTestSuite) TestGetOwnerPlate() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetOwnerPlate([]string{"HK.09988"})
+	req := &pb.QotGetOwnerPlateRequest{
+		SecurityList: futu.NewSecurityList("HK.09988"),
+	}
+
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Interface("data", res).Msg("GetOwnerPlate")
+	log.Info().Interface("data", resp.GetOwnerPlateList()).Msg("GetOwnerPlate")
 }
 
 func (ts *ClientTestSuite) TestGetOptionChain() {
 	should := require.New(ts.T())
 
-	beginTime := time.Now().AddDate(0, 0, -1).Format(futu.DateFormat)
-	endTime := time.Now().Format(futu.DateFormat)
+	now := time.Now()
+	req := &pb.QotGetOptionChainRequest{
+		Owner:     futu.NewSecurity("HK.09988"),
+		BeginTime: futu.DatePtr(now.AddDate(0, 0, -1)),
+		EndTime:   futu.DatePtr(now),
+	}
 
-	res, err := ts.sdk.GetOptionChain("HK.09988", beginTime, endTime)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Int("num", len(res)).Msg("GetOptionChain")
+	log.Info().Int("num", len(resp.GetOptionChain())).Msg("GetOptionChain")
 }
 
 func (ts *ClientTestSuite) TestGetWarrant() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetWarrant(0, 3,
-		adapt.With("owner", adapt.NewSecurity("HK.00981")),
-		adapt.With("status", adapt.WarrantStatus_Normal),
-	)
+	req := &pb.QotGetWarrantRequest{
+		Begin:     proto.Int32(0),
+		Num:       proto.Int32(3),
+		Owner:     futu.NewSecurity("HK.00981"),
+		Status:    pb.WarrantStatus_Normal.Enum(),
+		SortField: pb.SortField_Score.Enum(),
+		Ascend:    proto.Bool(false),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Int32("count", res.GetAllCount()).Msg("GetWarrant")
 	for _, warrant := range res.GetWarrantDataList() {
@@ -579,12 +631,14 @@ func (ts *ClientTestSuite) TestGetWarrant() {
 func (ts *ClientTestSuite) TestGetCapitalFlow() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetCapitalFlow(
-		"HK.09988",
-		adapt.With("beginTime", time.Now().AddDate(0, 0, -1).Format(futu.TimeFormat)),
-		adapt.With("endTime", time.Now().Format(futu.TimeFormat)),
-		adapt.With("periodType", adapt.PeriodType_DAY),
-	)
+	now := time.Now()
+	req := &pb.QotGetCapitalFlowRequest{
+		Security:   futu.NewSecurity("HK.09988"),
+		PeriodType: pb.PeriodType_DAY.Enum(),
+		BeginTime:  futu.DateTimePtr(now.AddDate(0, 0, -1)),
+		EndTime:    futu.DateTimePtr(now),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("data", res).Msg("GetCapitalFlow")
 }
@@ -592,52 +646,78 @@ func (ts *ClientTestSuite) TestGetCapitalFlow() {
 func (ts *ClientTestSuite) TestGetCapitalDistribution() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetCapitalDistribution("HK.09988")
+	req := pb.QotGetCapitalDistributionRequest{
+		Security: futu.NewSecurity("HK.09988"),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("data", res).Msg("GetCapitalDistribution")
 }
 
-func (ts *ClientTestSuite) TestGetUserSecurity() {
-	should := require.New(ts.T())
+func (ts *ClientTestSuite) TestUserSecurity() {
 
-	res, err := ts.sdk.GetUserSecurity("特别关注")
+	// get all groups
+	should := require.New(ts.T())
+	req := &pb.QotGetUserSecurityGroupRequest{
+		GroupType: pb.GroupType_All.Enum(),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Int("count", len(res)).Msg("GetUserSecurity")
-}
 
-func (ts *ClientTestSuite) TestModifyUserSecurity() {
-	should := require.New(ts.T())
+	var sysGroupName string
+	groupList := resp.GetGroupList()
+	for _, sg := range groupList {
+		log.Info().Interface("sec group", sg).Msg("GetUserSecurityGroup")
 
-	err := ts.sdk.ModifyUserSecurity(
-		"特别关注",
-		[]string{"HK.09988"},
-		adapt.ModifyUserSecurityOp_Add,
-	)
-	should.Error(err) // 仅支持修改自定义分组，不支持修改系统分组
+		// retain a system group name for later testing
+		if sysGroupName == "" &&
+			sg.GetGroupType() == pb.GroupType_System {
+			sysGroupName = sg.GetGroupName()
+		}
+	}
+
+	// test not exist
+	req2 := &pb.QotGetUserSecurityRequest{
+		GroupName: proto.String("does_not_exists"),
+	}
+	_, err2 := req2.Dispatch(context.TODO(), ts.client)
+	should.True(errors.Is(err2, futu.ErrUnknownWatchlist))
+
+	// test modify system group
+	req3 := &pb.QotModifyUserSecurityRequest{
+		GroupName:    proto.String(sysGroupName),
+		Op:           pb.ModifyUserSecurityOp_Add.Enum(),
+		SecurityList: futu.NewSecurityList("HK.09988"),
+	}
+	_, err3 := req3.Dispatch(context.TODO(), ts.client)
+	should.True(errors.Is(err3, futu.ErrModifyingSysSecGroup))
 }
 
 func (ts *ClientTestSuite) TestStockFilter() {
 	should := require.New(ts.T())
 
-	// f := &qotstockfilter.BaseFilter{
-	// 	FieldName:  proto.Int32(int32(qotstockfilter.StockField_StockField_MarketVal)),
-	// 	FilterMin:  proto.Float64(10000000000),
-	// 	SortDir:    proto.Int32(int32(qotstockfilter.SortDir_SortDir_Ascend)),
-	// 	IsNoFilter: proto.Bool(false),
-	// }
-	f := adapt.NewBaseFilter(
-		qotstockfilter.StockField_StockField_MarketVal,
-		10000000000,
-		0,
-		qotstockfilter.SortDir_SortDir_Ascend,
-	)
+	// min max missing testing
+	baseFilter := &pb.BaseFilter{
+		FieldName:  pb.StockField_MarketVal.Enum(),
+		SortDir:    pb.SortDir_Ascend.Enum(),
+		IsNoFilter: proto.Bool(false),
+	}
 
-	res, err := ts.sdk.StockFilter(
-		adapt.QotMarket_HK,
-		adapt.With("begin", 0),
-		adapt.With("num", 10),
-		adapt.WithBaseFilters(f),
-	)
+	req := &pb.QotStockFilterRequest{
+		Market:         pb.QotMarket_HK_Security.Enum(),
+		Begin:          proto.Int32(0),
+		Num:            proto.Int32(10),
+		BaseFilterList: []*pb.BaseFilter{baseFilter},
+	}
+
+	_, err := req.Dispatch(context.TODO(), ts.client)
+	should.True(errors.Is(err, futu.ErrFilterMinMaxRequired))
+
+	// fill in missing value
+	baseFilter.FilterMin = proto.Float64(100_000_000)
+	baseFilter.FilterMax = proto.Float64(100_000_000_000)
+	res, err := req.Dispatch(context.TODO(), ts.client)
+
 	should.NoError(err)
 	log.Info().Int("count", int(res.GetAllCount())).Msg("StockFilter")
 	for _, stock := range res.GetDataList() {
@@ -648,10 +728,13 @@ func (ts *ClientTestSuite) TestStockFilter() {
 func (ts *ClientTestSuite) TestGetIpoList() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetIpoList(adapt.QotMarket_HK)
+	req := &pb.QotGetIpoListRequest{
+		Market: pb.QotMarket_HK_Security.Enum(),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 
-	for _, ipo := range res {
+	for _, ipo := range resp.GetIpoList() {
 		log.Info().Interface("ipo", ipo).Msg("GetIpoList")
 	}
 }
@@ -659,15 +742,23 @@ func (ts *ClientTestSuite) TestGetIpoList() {
 func (ts *ClientTestSuite) TestGetFutureInfo() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetFutureInfo([]string{"HK.TCHmain"})
+	req := pb.QotGetFutureInfoRequest{
+		SecurityList: futu.NewSecurityList("HK.TCHmain"),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Interface("data", res).Msg("GetFutureInfo")
+	log.Info().Interface("data", resp.GetFutureInfoList()).Msg("GetFutureInfo")
 }
 
 func (ts *ClientTestSuite) TestRequestTradeDate() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.RequestTradeDate(adapt.QotMarket_HK, "", "2024-12-01", "2024-12-10")
+	req := pb.QotRequestTradeDateRequest{
+		Market:    pb.TradeDateMarket_HK.Enum(),
+		BeginTime: proto.String("2024-12-01"),
+		EndTime:   proto.String("2024-12-10"),
+	}
+	res, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
 	log.Info().Interface("data", res).Msg("RequestTradeDate")
 }
@@ -675,56 +766,66 @@ func (ts *ClientTestSuite) TestRequestTradeDate() {
 func (ts *ClientTestSuite) TestSetPriceReminder() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.SetPriceReminder(
-		"HK.09988",
-		adapt.SetPriceReminderOp_Add,
-		adapt.With("type", adapt.PriceReminderType_PriceDown),
-		adapt.With("freq", adapt.PriceReminderFreq_OnlyOnce),
-		adapt.With("value", 80),
-		adapt.With("note", "go sdk"),
-	)
-	should.NoError(err)
-	log.Info().Int64("result", res).Msg("SetPriceReminder")
-}
+	tag := "go-testing-30624700"
+	sec := futu.NewSecurity("HK.09988")
 
-func (ts *ClientTestSuite) TestGetPriceReminder() {
-	should := require.New(ts.T())
-
-	res, err := ts.sdk.GetPriceReminder("", adapt.QotMarket_HK)
-	should.NoError(err)
-	log.Info().Interface("data", res).Msg("GetPriceReminder")
-
-	// remove all the reminders
-	for _, reminder := range res {
-		_, err := ts.sdk.SetPriceReminder(
-			adapt.SecurityToCode(reminder.GetSecurity()),
-			adapt.SetPriceReminderOp_DelAll,
-		)
-		should.NoError(err)
+	// set remainder
+	req := pb.QotSetPriceReminderRequest{
+		Security: sec,
+		Op:       pb.SetPriceReminderOp_Add.Enum(),
+		Type:     pb.PriceReminderType_PriceDown.Enum(),
+		Freq:     pb.PriceReminderFreq_OnlyOnce.Enum(),
+		Value:    proto.Float64(0.1),
+		Note:     proto.String(tag),
 	}
-}
 
-func (ts *ClientTestSuite) TestGetUserSecurityGroup() {
-	should := require.New(ts.T())
-
-	res, err := ts.sdk.GetUserSecurityGroup(adapt.GroupType_System)
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Interface("data", res).Msg("GetUserSecurityGroup")
+	log.Info().Int64("result", resp.GetKey()).Msg("SetPriceReminder")
+
+	// get remainder
+	req2 := pb.QotGetPriceReminderRequest{
+		Security: sec,
+	}
+
+	res2, err2 := req2.Dispatch(context.TODO(), ts.client)
+	should.NoError(err2)
+	log.Info().Interface("data", res2.GetPriceReminderList()).Msg("GetPriceReminder")
+
+	// remove all added reminders
+	for _, reminder := range res2.GetPriceReminderList() {
+		for _, item := range reminder.GetItemList() {
+			if item.GetNote() == tag {
+				req := &pb.QotSetPriceReminderRequest{
+					Security: reminder.GetSecurity(),
+					Op:       pb.SetPriceReminderOp_Del.Enum(),
+					Key:      proto.Int64(item.GetKey()),
+				}
+				_, err := req.Dispatch(context.TODO(), ts.client)
+				should.NoError(err)
+			}
+		}
+	}
 }
 
 func (ts *ClientTestSuite) TestGetMarketState() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetMarketState([]string{"HK.09988"})
+	req := &pb.QotGetMarketStateRequest{
+		SecurityList: futu.NewSecurityList("HK.09988"),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Interface("data", res).Msg("GetMarketState")
+	log.Info().Interface("data", resp.GetMarketInfoList()).Msg("GetMarketState")
 }
 
 func (ts *ClientTestSuite) TestGetOptionExpirationDate() {
 	should := require.New(ts.T())
 
-	res, err := ts.sdk.GetOptionExpirationDate("HK.09988")
+	req := pb.QotGetOptionExpirationDateRequest{
+		Owner: futu.NewSecurity("HK.09988"),
+	}
+	resp, err := req.Dispatch(context.TODO(), ts.client)
 	should.NoError(err)
-	log.Info().Interface("data", res).Msg("GetOptionExpirationDate")
+	log.Info().Interface("data", resp.GetDateList()).Msg("GetOptionExpirationDate")
 }
-*/

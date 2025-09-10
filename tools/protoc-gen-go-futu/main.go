@@ -33,6 +33,7 @@ func generateProtoIdAdapt(plugin *protogen.Plugin) error {
 
 	// sort protoId by value
 	ids := []int{}
+	protoid_id2name[0xFFFF_FFFF] = "Unknown"
 	for k, _ := range protoid_id2name {
 		ids = append(ids, k)
 	}
@@ -47,6 +48,18 @@ func generateProtoIdAdapt(plugin *protogen.Plugin) error {
 		g.P("ProtoId_", protoid_id2name[v], " ProtoId =", v)
 	}
 	g.P(`)`)
+
+	g.P()
+
+	g.P(`func (id ProtoId) String() string {`)
+	g.P(`	switch id {`)
+	for _, v := range ids {
+		name := "ProtoId_" + protoid_id2name[v]
+		g.P(`case `, name, `: return "`, name, `"`)
+	}
+	g.P(`   }`)
+	g.P(`	return "(Unknown)"`)
+	g.P(`}`)
 
 	// gen IsPushId func
 	g.P(`func IsPushProtoId(id ProtoId) bool {`)
@@ -181,22 +194,15 @@ func generateResponseAdapt(plugin *protogen.Plugin, msgs []*protogen.Message) er
 	g.P(`
 
 		import (
-			"errors"
 			"google.golang.org/protobuf/proto"
 		)
 
 		type Response interface {
 			proto.Message
-			GetRetType() RetType
 			GetRetMsg() string
+			GetRetType() RetType
+			GetErrCode() int32
 			GetResponsePayload() proto.Message
-		}
-
-		func ResponseError(r Response) error {
-			if r.GetRetType() != RetType_Succeed {
-				return errors.New(r.GetRetMsg())
-			}
-			return nil
 		}
 
 	`)

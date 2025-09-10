@@ -246,7 +246,7 @@ func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request
 			return nil, rr.Err
 		}
 
-		return rr.Resp.GetResponsePayload(), pb.ResponseError(rr.Resp)
+		return rr.Resp.GetResponsePayload(), ResponseError(id, rr.Resp)
 	}
 }
 
@@ -321,8 +321,8 @@ func (client *Client) dial() error {
 func (client *Client) respWorker() {
 
 	defer func() {
-		client.goroWG.Done()
 		log.Info().Msg("worker exit")
+		client.goroWG.Done()
 	}()
 
 	for {
@@ -332,7 +332,7 @@ func (client *Client) respWorker() {
 
 		case rr := <-client.respChan:
 
-			log.Info().Uint32("proto_id", uint32(rr.ProtoID)).Uint32("sn", rr.SerialNo).Msg("listen")
+			log.Info().Stringer("protoId", rr.ProtoID).Uint32("sn", rr.SerialNo).Msg("respWorker")
 
 			// decrypt body
 			if cs := client.getCryptoService(rr.ProtoID); cs != nil {

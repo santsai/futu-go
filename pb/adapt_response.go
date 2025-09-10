@@ -3,22 +3,15 @@
 package pb
 
 import (
-	"errors"
 	"google.golang.org/protobuf/proto"
 )
 
 type Response interface {
 	proto.Message
-	GetRetType() RetType
 	GetRetMsg() string
+	GetRetType() RetType
+	GetErrCode() int32
 	GetResponsePayload() proto.Message
-}
-
-func ResponseError(r Response) error {
-	if r.GetRetType() != RetType_Succeed {
-		return errors.New(r.GetRetMsg())
-	}
-	return nil
 }
 
 func (m *GetDelayStatisticsResponse_Internal) GetResponsePayload() proto.Message {

@@ -30,6 +30,7 @@ func ProtoPtr[T ProtoPtrType](v T) *T {
 }
 
 // find TrdAcc in accList
+// simAccType: Unknown means finding a Real account
 func FindAccount(accList []*pb.TrdAcc, mkt pb.TrdMarket, accType pb.TrdAccType, simAccType pb.SimAccType) *pb.TrdAcc {
 
 	for _, acc := range accList {
@@ -94,8 +95,8 @@ func NewSecurity(code string) *pb.Security {
 	}
 }
 
-// NewSecurities creates a slice of Securities by a slice of code strings.
-func NewSecurities(codes ...string) []*pb.Security {
+// NewSecurityList creates a slice of Securities by a slice of code strings.
+func NewSecurityList(codes ...string) []*pb.Security {
 	sa := make([]*pb.Security, 0)
 	for _, v := range codes {
 		s := NewSecurity(v)
@@ -105,4 +106,9 @@ func NewSecurities(codes ...string) []*pb.Security {
 	}
 
 	return sa
+}
+
+// NewSecurityCode converts a Security to a code string, e.g. "HK.00700".
+func NewSecurityCode(s *pb.Security) string {
+	return GetMarketName(s.GetMarket()) + "." + s.GetCode()
 }
