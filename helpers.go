@@ -112,3 +112,27 @@ func NewSecurityList(codes ...string) []*pb.Security {
 func NewSecurityCode(s *pb.Security) string {
 	return GetMarketName(s.GetMarket()) + "." + s.GetCode()
 }
+
+// detects temporary code for hkex
+func IsTempSecurity(s *pb.Security) bool {
+	if s.GetMarket() != pb.QotMarket_HK_Security {
+		return false
+	}
+
+	code := s.GetCode()
+
+	// invalid code, not temp
+	if len(code) == 0 {
+		return false
+	}
+
+	// non num code, not temp
+	for _, n := range code {
+		if n < '0' || n > '9' {
+			return false
+		}
+	}
+
+	// as observed, temp code is like 8xxxxx with 6 digits
+	return len(code) > 5
+}

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/santsai/futu-go/pb"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 )
@@ -24,6 +25,9 @@ const (
 	err_NotSupportedInSimEnv
 	err_ModifyingSysSecGroup
 	err_FilterMinMaxRequired
+	err_RateLimited
+	err_SubQuotaExceed
+	err_SubTimeTooShort
 )
 
 var (
@@ -31,13 +35,25 @@ var (
 	ErrNotSupportedInSimEnv = &responseError{Code: err_NotSupportedInSimEnv}
 	ErrModifyingSysSecGroup = &responseError{Code: err_ModifyingSysSecGroup}
 	ErrFilterMinMaxRequired = &responseError{Code: err_FilterMinMaxRequired}
+	ErrRateLimited          = &responseError{Code: err_RateLimited}
+	ErrSubQuotaExceed       = &responseError{Code: err_SubQuotaExceed}
+	ErrSubTimeTooShort      = &responseError{Code: err_SubTimeTooShort}
+)
+
+type retMsgMatchType int
+
+const (
+	matchAll retMsgMatchType = iota
+	matchPrefix
+	matchSuffix
 )
 
 type retMsgMapping struct {
-	Id      pb.ProtoId
-	RetType pb.RetType
-	Msgs    []string
-	Code    responseErrorCode
+	Id        pb.ProtoId
+	RetType   pb.RetType
+	Msgs      []string
+	Code      responseErrorCode
+	MatchType retMsgMatchType
 }
 
 var retMsgMappings = []retMsgMapping{
@@ -89,6 +105,29 @@ var retMsgMappings = []retMsgMapping{
 		Msgs: []string{
 			"没有给需要筛选的字段进行区间赋值",
 		}},
+	{Code: err_RateLimited,
+		Id:      pb.ProtoId_QotStockFilter,
+		RetType: pb.RetType_Failed,
+		Msgs: []string{
+			"条件选股频率太高，请求失败，每30秒最多10次。",
+		}},
+	{Code: err_SubQuotaExceed,
+		Id:        pb.ProtoId_QotSub,
+		RetType:   pb.RetType_Failed,
+		MatchType: matchPrefix,
+		Msgs: []string{
+			//"订阅额度不足，订阅失败，已用订阅额度：1000/1000"
+			"订阅额度不足，订阅失败，已用订阅额度：",
+		}},
+	{Code: err_SubTimeTooShort,
+		Id:        pb.ProtoId_QotSub,
+		RetType:   pb.RetType_Failed,
+		MatchType: matchSuffix,
+		Msgs: []string{
+			//"HK.00002的KL_Day订阅时间过短，至少需要订阅1分钟"
+			"订阅时间过短，至少需要订阅1分钟",
+		}},
+	// &{Id:ProtoId_QotStockFilter RetType:RetType_Failed Msgs:[请求个数超过限制] Code:0}
 }
 
 type responseError struct {
@@ -119,9 +158,22 @@ mapping_loop:
 		}
 
 		for _, msg := range m.Msgs {
-			if msg == err.RetMsg {
-				err.Code = m.Code
-				break mapping_loop
+			switch m.MatchType {
+			case matchAll:
+				if msg == err.RetMsg {
+					err.Code = m.Code
+					break mapping_loop
+				}
+			case matchPrefix:
+				if strings.HasPrefix(err.RetMsg, msg) {
+					err.Code = m.Code
+					break mapping_loop
+				}
+			case matchSuffix:
+				if strings.HasSuffix(err.RetMsg, msg) {
+					err.Code = m.Code
+					break mapping_loop
+				}
 			}
 		}
 	}
