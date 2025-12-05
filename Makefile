@@ -43,4 +43,4 @@ gen_possible_enums:
 			gsub(/"/, "\\\"", $$0); \
 			print "enum_replaces[\"" $$0 "\"] = \"\"" \
 		}' | \
-		sort | uniq > ./tools/possible_enum.txt
+		uni2ascii -q | sort | uniq | ascii2uni -q > ./tools/possible_enum.txt
