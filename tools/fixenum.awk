@@ -1,4 +1,5 @@
 {
+enum_replaces["optional int32 accRole = 10; //账号分类，是不是主账号，取值见TrdAccRole"] = "TrdAccRole"
 enum_replaces["optional int32 accStatus = 9; //账号状态，取值见TrdAccStatus"] = "TrdAccStatus"
 enum_replaces["optional int32 accType = 4;   //账户类型，取值见TrdAccType"] = "TrdAccType"
 enum_replaces["optional int32 cashFlowDirection ="] = "TrdCashFlowDirection"

@@ -314,8 +314,6 @@ func GetPushResponseStruct(id ProtoId) Response {
 	switch id {
 	case ProtoId_Notify:
 		return &NotifyResponse_Internal{}
-	case ProtoId_KeepAlive:
-		return &KeepAliveResponse_Internal{}
 	case ProtoId_TrdUpdateOrder:
 		return &TrdUpdateOrderResponse_Internal{}
 	case ProtoId_TrdUpdateOrderFill:

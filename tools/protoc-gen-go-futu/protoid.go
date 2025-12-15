@@ -142,4 +142,4 @@ var protoid_name2id = map[string]int{
 	"QotGetMarketState":          3223,
 	"QotGetOptionExpirationDate": 3224,
 }
-var protoid_push = []int{1003, 1004, 2208, 2218, 3015, 3013, 3007, 3009, 3005, 3011, 3019}
+var protoid_push = []int{1003, 2208, 2218, 3015, 3013, 3007, 3009, 3005, 3011, 3019}

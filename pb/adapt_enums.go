@@ -1611,6 +1611,15 @@ const (
 	// 金额
 	TrailType_Amount TrailType = TrailType_TrailType_Amount
 
+	// 账户类型
+	// enum: TrdAccRole
+	// 未知
+	TrdAccRole_Unknown TrdAccRole = TrdAccRole_TrdAccRole_Unknown
+	// 普通账户
+	TrdAccRole_Normal TrdAccRole = TrdAccRole_TrdAccRole_Normal
+	// 主账户
+	TrdAccRole_Master TrdAccRole = TrdAccRole_TrdAccRole_Master
+
 	// 交易账户状态
 	// enum: TrdAccStatus
 	TrdAccStatus_Active   TrdAccStatus = TrdAccStatus_TrdAccStatus_Active

@@ -226,8 +226,6 @@ func IsPushProtoId(id ProtoId) bool {
 	switch id {
 	case ProtoId_Notify:
 		return true
-	case ProtoId_KeepAlive:
-		return true
 	case ProtoId_TrdUpdateOrder:
 		return true
 	case ProtoId_TrdUpdateOrderFill:
