@@ -1,0 +1,7 @@
+building container image
+% container build --platform=linux/amd64 . -t opend
+ 
+running container
+place xml cfg file and rsa pem into ./data folder
+% container run --rm -d --name opend -c 2 -m 1024M -v `pwd`/data:/root/.com.futunn.FutuOpenD opend
+
