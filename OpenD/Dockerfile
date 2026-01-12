@@ -28,4 +28,6 @@ COPY --from=extractor /tmp/$FILE/README.txt /opend
 COPY run.sh /opend
 RUN chmod u+x /opend/run.sh
 
+EXPOSE 11111/tcp
+
 CMD ["/opend/run.sh"]
