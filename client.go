@@ -6,6 +6,7 @@ import (
 	"crypto/sha1"
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"io"
 	"net"
 	"sync"
@@ -61,6 +62,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 
 	// connect
 	if err := client.dial(); err != nil {
+		err = fmt.Errorf("dial error: %w", err)
 		return nil, err
 	}
 
@@ -76,6 +78,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	s2c, err := client.initConnect()
 	if err != nil {
 		client.Close()
+		err = fmt.Errorf("initConnect error: %w", err)
 		return nil, err
 	}
 
