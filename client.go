@@ -52,17 +52,20 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 
 	client.respChan = make(chan *response, client.numBuffers)
 
+	var err error
+
 	// setup rsa
 	if client.privateKey != nil {
-		rsa, err := NewRSA(client.privateKey)
+		client.rsa, err = NewRSA(client.privateKey)
 		if err != nil {
 			return nil, err
 		}
-		client.rsa = rsa
 	}
 
 	// connect
-	if err := client.dial(); err != nil {
+	client.conn, err = net.Dial("tcp", client.openDAddr)
+	if err != nil {
+		client.conn = nil
 		err = fmt.Errorf("dial error: %w", err)
 		return nil, err
 	}
@@ -315,18 +318,6 @@ func (client *Client) dispatchClose() {
 // nextSN returns the next serial number.
 func (client *Client) nextSN() uint32 {
 	return client.sn.Add(1)
-}
-
-func (client *Client) dial() error {
-	conn, err := net.Dial("tcp", client.openDAddr)
-	if err != nil {
-		log.Error().Err(err).Msg("dial failed")
-		return err
-	}
-
-	client.conn = conn
-
-	return nil
 }
 
 func (client *Client) respWorker() {
