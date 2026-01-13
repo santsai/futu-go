@@ -139,8 +139,9 @@ func (client *Client) Close() error {
 
 	var err error = nil
 
-	if client.conn == nil {
+	if client.conn != nil {
 		err = client.conn.Close()
+		client.conn = nil
 		client.wgReader.Wait()
 	}
 
@@ -439,20 +440,23 @@ func (client *Client) respReadLoop() {
 	defer client.wgReader.Done()
 
 	for {
-		if err := client.respRead(); err != nil {
-			if errors.Is(err, io.EOF) || errors.Is(err, net.ErrClosed) {
-				// If the connection is closed, stop receiving data.
-				// io.EOF: The connection is closed by the remote end.
-				// net.ErrClosed: The connection is closed by the local end.
-				log.Error().Err(err).Msg("connection closed")
-				return
-			} else {
-				// XXX should not return on error!
-				// how to introduce a error and test?
-				log.Error().Err(err).Msg("other read error")
-				return
-			}
+		var err error
+		if err = client.respRead(); err == nil {
+			continue
 		}
+
+		// EOF
+		if errors.Is(err, io.EOF) || errors.Is(err, net.ErrClosed) {
+			// If the connection is closed, stop receiving data.
+			// io.EOF: The connection is closed by the remote end.
+			// net.ErrClosed: The connection is closed by the local end.
+			log.Error().Err(err).Msg("respRead: conn closed")
+			break
+		}
+
+		// XXX ignore other non-fatal? errors
+		// XXX should ignore or not? how to test?
+		log.Error().Err(err).Msg("respRead: unknown error")
 	}
 }
 
@@ -485,6 +489,7 @@ func (client *Client) heartbeat(d time.Duration) {
 		case <-client.closed:
 			log.Info().Msg("heartbeat stopped")
 			return
+
 		case <-ticker.C:
 			ctx, cancel := context.WithTimeout(context.TODO(), timeout)
 			req := &pb.KeepAliveRequest{
@@ -493,8 +498,9 @@ func (client *Client) heartbeat(d time.Duration) {
 
 			_, err := req.Dispatch(ctx, client)
 			cancel()
+			// XXX is this non-fatal?
 			if err != nil {
-				return
+				log.Error().Err(err).Msg("heartbeat error")
 			}
 		}
 	}
