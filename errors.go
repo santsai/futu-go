@@ -103,6 +103,7 @@ var retMsgMappings = []retMsgMapping{
 		Id:      pb.ProtoId_QotStockFilter,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
+			"The filter field needs to set the range",
 			"没有给需要筛选的字段进行区间赋值",
 		}},
 	{Code: err_RateLimited,

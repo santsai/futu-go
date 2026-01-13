@@ -151,54 +151,6 @@ func (client *Client) Close() error {
 	return err
 }
 
-// sendRequest sends a request to the server.
-func (client *Client) sendRequest(protoID pb.ProtoId, req proto.Message, dida *dispatchData) error {
-	var buf bytes.Buffer
-
-	body, err := proto.Marshal(req)
-	if err != nil {
-		close(dida.c)
-		return err
-	}
-	sha1Value := sha1.Sum(body)
-
-	if cs := client.getCryptoService(protoID); cs != nil {
-		body, err = cs.Encrypt(body)
-		if err != nil {
-			close(dida.c)
-			return err
-		}
-	}
-
-	sn := client.nextSN()
-
-	h := futuHeader{
-		HeaderFlag:   [2]byte{'F', 'T'},
-		ProtoID:      protoID,
-		ProtoFmtType: 0,
-		ProtoVer:     0,
-		SerialNo:     sn,
-		BodyLen:      uint32(len(body)),
-		BodySHA1:     sha1Value,
-	}
-
-	client.dispatchPut(protoID, sn, dida)
-
-	// XXX how to handle stored dida on err?
-
-	if err := binary.Write(&buf, binary.LittleEndian, &h); err != nil {
-		return err
-	}
-
-	if _, err := buf.Write(body); err != nil {
-		return err
-	}
-
-	_, err = buf.WriteTo(client.conn)
-
-	return err
-}
-
 func (client *Client) patchRequest(req pb.Request) {
 
 	payload := req.GetRequestPayload()
@@ -212,13 +164,75 @@ func (client *Client) patchRequest(req pb.Request) {
 	if setter, ok := payload.(pb.PacketIDSetter); ok {
 		setter.SetPacketID(client.nextTradePacketId())
 	}
-
 }
 
-func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request, resp pb.Response) (proto.Message, error) {
+func (client *Client) encodeRequest(protoId pb.ProtoId, req pb.Request) (*bytes.Buffer, uint32, error) {
 
-	// fill in some infomation
+	// fill in required infomation
 	client.patchRequest(req)
+
+	body, err := proto.Marshal(req)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	sha1Value := sha1.Sum(body)
+
+	if cs := client.getCryptoService(protoId); cs != nil {
+		body, err = cs.Encrypt(body)
+		if err != nil {
+			return nil, 0, err
+		}
+	}
+
+	sn := client.nextSN()
+
+	h := futuHeader{
+		HeaderFlag:   [2]byte{'F', 'T'},
+		ProtoID:      protoId,
+		ProtoFmtType: 0,
+		ProtoVer:     0,
+		SerialNo:     sn,
+		BodyLen:      uint32(len(body)),
+		BodySHA1:     sha1Value,
+	}
+
+	var buf bytes.Buffer
+	if err := binary.Write(&buf, binary.LittleEndian, &h); err != nil {
+		return nil, 0, err
+	}
+
+	if _, err := buf.Write(body); err != nil {
+		return nil, 0, err
+	}
+
+	return &buf, sn, nil
+}
+
+func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Request, resp pb.Response) (proto.Message, error) {
+
+	var (
+		buf *bytes.Buffer
+		sn  uint32
+		err error
+	)
+
+	// encode
+	if buf, sn, err = client.encodeRequest(protoId, req); err != nil {
+		return nil, err
+	}
+
+	dida := &dispatchData{
+		c:    make(chan *response, 1),
+		resp: resp,
+	}
+	client.dispatchPut(protoId, sn, dida)
+
+	// write to connection
+	if _, err = buf.WriteTo(client.conn); err != nil {
+		client.dispatchPop(protoId, sn)
+		return nil, err
+	}
 
 	// add timeout to context if not exist.
 	if _, ok := ctx.Deadline(); !ok {
@@ -227,14 +241,7 @@ func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request
 		defer cancel()
 	}
 
-	dida := &dispatchData{
-		c:    make(chan *response, 1),
-		resp: resp,
-	}
-	if err := client.sendRequest(id, req, dida); err != nil {
-		return nil, err
-	}
-
+	// wait response
 	select {
 	case <-ctx.Done():
 		return nil, ctx.Err()
@@ -249,7 +256,7 @@ func (client *Client) Request(ctx context.Context, id pb.ProtoId, req pb.Request
 			return nil, rr.Err
 		}
 
-		return rr.Resp.GetResponsePayload(), ResponseError(id, rr.Resp)
+		return rr.Resp.GetResponsePayload(), ResponseError(protoId, rr.Resp)
 	}
 }
 
@@ -440,7 +447,8 @@ func (client *Client) respReadLoop() {
 				log.Error().Err(err).Msg("connection closed")
 				return
 			} else {
-				// XXX return ?
+				// XXX should not return on error!
+				// how to introduce a error and test?
 				log.Error().Err(err).Msg("other read error")
 				return
 			}
