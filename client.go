@@ -320,6 +320,70 @@ func (client *Client) nextSN() uint32 {
 	return client.sn.Add(1)
 }
 
+func (client *Client) respWork(r *response) {
+
+	defer func() {
+		// things can happen during proto unmarshal
+		if r := recover(); r != nil {
+			log.Error().Interface("recover", r).Msg("panic recovered in respWork")
+		}
+	}()
+
+	// decrypt body
+	if cs := client.getCrypto(r.ProtoID); cs != nil {
+		if body, err := cs.Decrypt(r.Body); err != nil {
+			r.Err = err
+		} else {
+			r.Body = body
+			r.Encrypted = false
+		}
+	}
+
+	// verify body
+	if r.Err == nil {
+		ssum := sha1.Sum(r.Body)
+		if !bytes.Equal(r.BodySHA1, ssum[:]) {
+			r.Err = errSHA1Mismatch
+		}
+	}
+
+	// get dispatchData
+	dida := client.dispatchPop(r.ProtoID, r.SerialNo)
+	if dida == nil {
+		// no dispatchData registered
+		// dont know how to unmarshal. break.
+		log.Error().Uint32("protoId", uint32(r.ProtoID)).
+			Uint32("serialNo", r.SerialNo).
+			Msg("no unmarshal target")
+
+		return
+	}
+
+	// proto decode
+	if r.Err == nil {
+		r.Err = proto.Unmarshal(r.Body, dida.resp)
+
+		if r.Err == nil {
+			r.Resp = dida.resp
+		}
+	}
+
+	// dispatch
+	if dida.c != nil {
+		dida.c <- r
+		close(dida.c)
+
+	} else {
+		if r.Err == nil {
+			h := client.getHandler(r.ProtoID)
+			h(r.Resp.GetResponsePayload())
+		} else {
+			log.Error().Err(r.Err).Msg("push decrypt/decode error ignored")
+		}
+	}
+
+}
+
 func (client *Client) respWorker() {
 
 	defer func() {
@@ -332,72 +396,16 @@ func (client *Client) respWorker() {
 		case <-client.closed:
 			return
 
-		case rr := <-client.respChan:
+		case r := <-client.respChan:
 
-			log.Info().Stringer("protoId", rr.ProtoID).Uint32("sn", rr.SerialNo).Msg("respWorker")
+			log.Info().Stringer("protoId", r.ProtoID).Uint32("sn", r.SerialNo).Msg("respWorker")
+			client.respWork(r)
 
-			// decrypt body
-			if cs := client.getCrypto(rr.ProtoID); cs != nil {
-				if body, err := cs.Decrypt(rr.Body); err != nil {
-					rr.Err = err
-				} else {
-					rr.Body = body
-					rr.Encrypted = false
-				}
-			}
-
-			// verify body
-			if rr.Err == nil {
-				ssum := sha1.Sum(rr.Body)
-				if !bytes.Equal(rr.BodySHA1, ssum[:]) {
-					rr.Err = errSHA1Mismatch
-				}
-			}
-
-			// get dispatchData
-			dida := client.dispatchPop(rr.ProtoID, rr.SerialNo)
-			if dida == nil {
-				// no dispatchData registered
-				// dont know how to unmarshal. break.
-				log.Error().Uint32("protoId", uint32(rr.ProtoID)).
-					Uint32("serialNo", rr.SerialNo).
-					Msg("no unmarshal target")
-				break
-			}
-
-			// proto decode
-			if rr.Err == nil {
-				if err := proto.Unmarshal(rr.Body, dida.resp); err != nil {
-					rr.Err = err
-				} else {
-					rr.Resp = dida.resp
-				}
-			}
-
-			// dispatch
-			if dida.c != nil {
-				dida.c <- rr
-				close(dida.c)
-
-			} else {
-				if rr.Err == nil {
-					h := client.getHandler(rr.ProtoID)
-					h(rr.Resp.GetResponsePayload())
-				} else {
-					log.Error().Err(rr.Err).Msg("push decrypt/decode error ignored")
-				}
-			}
 		}
 	}
 }
 
 func (client *Client) respRead() error {
-	defer func() {
-		if r := recover(); r != nil {
-			log.Error().Interface("recover", r).Msg("")
-		}
-	}()
-
 	// read header, it will block until the header is read
 	var h futuHeader
 	if err := binary.Read(client.conn, binary.LittleEndian, &h); err != nil {
