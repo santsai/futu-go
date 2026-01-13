@@ -28,12 +28,13 @@ type Client struct {
 	closed   chan struct{}  // indicate the client is closed
 	connID   uint64
 	userID   uint64
-	aes      *AES
-	rsa      *RSA
 	handlers sync.Map // push notification handlers
 
-	readerWG sync.WaitGroup
-	goroWG   sync.WaitGroup
+	wgReader sync.WaitGroup
+	wgWorker sync.WaitGroup
+
+	aes *AES
+	rsa *RSA
 
 	dispatchMap   map[uint64]*dispatchData
 	dispatchMutex sync.Mutex
@@ -68,11 +69,11 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 
 	// spawn workers
 	for i := 0; i < client.numWorkers; i++ {
-		client.goroWG.Add(1)
+		client.wgWorker.Add(1)
 		go client.respWorker()
 	}
 
-	client.readerWG.Add(1)
+	client.wgReader.Add(1)
 	go client.respReadLoop()
 
 	s2c, err := client.initConnect()
@@ -104,7 +105,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	}
 
 	if interval := s2c.GetKeepAliveInterval(); interval > 0 {
-		client.goroWG.Add(1)
+		client.wgWorker.Add(1)
 		go client.heartbeat(time.Second * time.Duration(interval))
 	}
 
@@ -118,7 +119,7 @@ func (client *Client) nextTradePacketId() *pb.PacketID {
 	}
 }
 
-func (client *Client) getCryptoService(id pb.ProtoId) cryptoService {
+func (client *Client) getCrypto(id pb.ProtoId) cryptoService {
 	if client.privateKey == nil {
 		return nil
 	}
@@ -137,13 +138,13 @@ func (client *Client) Close() error {
 
 	if client.conn == nil {
 		err = client.conn.Close()
-		client.readerWG.Wait()
+		client.wgReader.Wait()
 	}
 
 	log.Info().Msg("read loop exited")
 
 	close(client.closed)
-	client.goroWG.Wait()
+	client.wgWorker.Wait()
 	log.Info().Msg("worker & heartbeat exited")
 
 	client.dispatchClose()
@@ -178,7 +179,7 @@ func (client *Client) encodeRequest(protoId pb.ProtoId, req pb.Request) (*bytes.
 
 	sha1Value := sha1.Sum(body)
 
-	if cs := client.getCryptoService(protoId); cs != nil {
+	if cs := client.getCrypto(protoId); cs != nil {
 		body, err = cs.Encrypt(body)
 		if err != nil {
 			return nil, 0, err
@@ -332,7 +333,7 @@ func (client *Client) respWorker() {
 
 	defer func() {
 		log.Info().Msg("worker exit")
-		client.goroWG.Done()
+		client.wgWorker.Done()
 	}()
 
 	for {
@@ -345,7 +346,7 @@ func (client *Client) respWorker() {
 			log.Info().Stringer("protoId", rr.ProtoID).Uint32("sn", rr.SerialNo).Msg("respWorker")
 
 			// decrypt body
-			if cs := client.getCryptoService(rr.ProtoID); cs != nil {
+			if cs := client.getCrypto(rr.ProtoID); cs != nil {
 				if body, err := cs.Decrypt(rr.Body); err != nil {
 					rr.Err = err
 				} else {
@@ -436,7 +437,7 @@ func (client *Client) respRead() error {
 
 func (client *Client) respReadLoop() {
 
-	defer client.readerWG.Done()
+	defer client.wgReader.Done()
 
 	for {
 		if err := client.respRead(); err != nil {
@@ -472,7 +473,7 @@ func (client *Client) initConnect() (*pb.InitConnectResponse, error) {
 func (client *Client) heartbeat(d time.Duration) {
 	ticker := time.NewTicker(d)
 	defer ticker.Stop()
-	defer client.goroWG.Done()
+	defer client.wgWorker.Done()
 
 	// take the smaller timeout
 	timeout := d
