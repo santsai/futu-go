@@ -1,6 +1,6 @@
 SHELL=/bin/zsh
 
-.PHONY: genpb gen_possible_enums
+.PHONY: runtest genkey genpb gen_possible_enums
 
 PROTO_FILES = $(wildcard ./proto/original/*.proto)
 PROTO_PLUGIN = protoc-gen-go-futu
@@ -29,6 +29,13 @@ genpb:
 		--go-futu_out=./pb	\
 		--go-futu_opt=module=github.com/santsai/futu-go/pb \
 		./proto/*.proto 2>&1
+
+
+genkey:
+	openssl genrsa -out ./OpenD/data/opend-dev-key.pem 1024
+
+runtest:
+	go test -v . -- -privateKey=./OpenD/data/opend-dev-key.pem
 
 #
 # awk:

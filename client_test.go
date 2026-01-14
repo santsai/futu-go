@@ -3,6 +3,7 @@ package futu_test
 import (
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"testing"
@@ -17,21 +18,7 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-var privateKey = []byte(`-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgQDMY2rkpYPQG+UQYs1/pVLa+gA6qY3j9vPO7rkfFwtQl+HwnWZO
-koKjB4plJXDhCBW8KYr+8HLObS7B2v7bPxMASbZcifBEzBDDarXlXe7U9rId1YkK
-k+zgt/+VmLsb/Pn6H2FunpBEaGMXQ4JjMKP7l3KKCYLR1qnWfH9vqW2/jQIDAQAB
-AoGAWiX3fcXrL50+GU4a6ZQXyXG/LCCg7s17l+f/StE1MmTrSN+DwmAospOe3SH4
-eajBPW7tWajgWmAZ4XMgOb/GNu12/n0TTzomGULSaGwi73e7VFExFVvRmrY7zCx4
-hmx5yg1i4IquACPfY7zaDUOYNOrVdJ3hHSCalZvWqfaSmUECQQD9SjaidkJszhue
-FoCqmCuO2Hh71ttpo8uovBooaTf+EHDIZyjp/JcNA4+GNLrzPLFbq3XIus87NGkp
-7g0JpY4lAkEAzpNCA3JRvzuukzgVIXsnNlYhKB+yP38i6YyLAXfk1kufxWzR+as6
-R4WCbG32w0wvaE3FPjuqGZey8mvsxXgrSQJBAMChml+ANRBux845Ku2TAT2IIEl+
-pCv5aEARnosxSmYstrmSyyj48x/wn0zf+XZXqEMhaViZylUqjPhYlQ3LHQkCQGS4
-ZA1uJfGJ1fqt84+Zjmrt38jCe5R+FrWs8vHKVWcvBD2sa0zCce4BaLAZhaF/efXv
-RWasjKlhz7xnZtB5YRECQCqIQLTNMzHBTiCCHgbJvE3C9+uzpb+El4oleM6n77IW
-VcwwDz6DhmTnlMjfKeJN6MgJmYnKSDt+rmheQD1bw7U=
------END RSA PRIVATE KEY-----`)
+var pemFile = flag.String("privateKey", "./OpenD/data/opend-dev-key.pem", "private key file")
 
 type ClientTestSuite struct {
 	suite.Suite
@@ -50,8 +37,14 @@ func TestClientTestSuite(t *testing.T) {
 func (ts *ClientTestSuite) SetupSuite() {
 	var err error
 
+	pem, err := os.ReadFile(*pemFile)
+	if err != nil {
+		log.Error().Err(err).Msg("error reading private key")
+		ts.T().SkipNow()
+	}
+
 	ts.client, err = futu.NewClient(
-		futu.WithPrivateKey(privateKey),
+		futu.WithPrivateKey(pem),
 		futu.WithTimeout(15*time.Second),
 	)
 	if err != nil {
