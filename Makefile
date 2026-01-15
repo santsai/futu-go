@@ -34,12 +34,12 @@ genpb:
 # % container system start
 # building opend container image
 build_opend:
-	cd OpenD && \
+	cd opend && \
 	container build --platform=linux/amd64 . -t opend
 
 # starting opend container
 start_opend:
-	cd OpenD && \
+	cd opend && \
 	container run --rm -it --name opend --platform linux/amd64 \
 		-p 11111:11111 \
 		-c 2 -m 1024M \
@@ -53,10 +53,10 @@ install_brew_tools:
 		uni2ascii
 
 genkey:
-	openssl genrsa -out ./OpenD/data/opend-dev-key.pem 1024
+	openssl genrsa -out ./opend/data/opend-dev-key.pem 1024
 
 runtest:
-	go test -v . -- -privateKey=./OpenD/data/opend-dev-key.pem
+	go test -v . -- -privateKey=./opend/data/opend-dev-key.pem
 
 #
 # awk:
