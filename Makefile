@@ -3,7 +3,7 @@ SHELL=/bin/zsh
 .PHONY: runtest genkey genpb gen_possible_enums
 .PHONY: start_opend build_opend install_brew_tools
 
-PROTO_FILES = $(wildcard ./proto/original/*.proto)
+PROTO_FILES = $(wildcard ./pb/proto/original/*.proto)
 PROTO_PLUGIN = protoc-gen-go-futu
 PROTO_PLUGIN_FOLDER = ./tools/$(PROTO_PLUGIN)/
 
@@ -17,19 +17,19 @@ $(PROTO_PLUGIN): $(wildcard $(PROTO_PLUGIN_FOLDER)/*.go)
 genpb:
 	@echo Applying fixproto.awk to originals
 	@$(foreach pf, $(PROTO_FILES), \
-		$(eval OUTFILE := ./proto/$(basename $(notdir $(pf))).proto);	\
+		$(eval OUTFILE := ./pb/proto/$(basename $(notdir $(pf))).proto);	\
 		awk -f ./tools/fixenum.awk -f ./tools/fixproto.awk $(pf) > $(OUTFILE) ;	\
 	)
 	@echo Making protoc plugin
 	@make $(PROTO_PLUGIN)
 	@echo Generating \*.pb.go
-	@protoc -I=./proto \
+	@protoc -I=./pb/proto \
 		--go_out=./pb \
 		--go_opt=module=github.com/santsai/futu-go/pb \
 		--plugin=protoc-gen-go-futu=./${PROTO_PLUGIN} \
 		--go-futu_out=./pb	\
 		--go-futu_opt=module=github.com/santsai/futu-go/pb \
-		./proto/*.proto 2>&1
+		./pb/proto/*.proto 2>&1
 
 # % container system start
 # building opend container image
@@ -65,7 +65,7 @@ runtest:
 # 3. print in awk format for easy adding
 #
 gen_possible_enums:
-	grep -h ' int32' proto/original/*proto | \
+	grep -h ' int32' pb/proto/original/*proto | \
 		awk '{ \
 			gsub(/^[[:space:]]+|[[:space:]\r]+$$/, ""); \
 			gsub(/"/, "\\\"", $$0); \
