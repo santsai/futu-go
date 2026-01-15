@@ -1,9 +1,7 @@
 package futu
 
 import (
-	"github.com/rs/zerolog/log"
 	"github.com/santsai/futu-go/pb"
-	"google.golang.org/protobuf/proto"
 )
 
 const (
@@ -30,21 +28,4 @@ type response struct {
 	Encrypted bool
 	Err       error
 	Resp      pb.Response
-}
-
-type dispatchData struct {
-	c    chan *response // c is nil for push
-	resp pb.Response
-}
-
-func makeRespId(protoId pb.ProtoId, serialNo uint32) uint64 {
-	return (uint64(protoId) << 32) | uint64(serialNo)
-}
-
-// Handler is the definition of a handler function.
-type Handler func(s2c proto.Message) error
-
-func defaultHandler(s2c proto.Message) error {
-	log.Info().Interface("s2c", s2c).Msg("notification (no handler)")
-	return nil
 }

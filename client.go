@@ -29,7 +29,6 @@ type Client struct {
 	closed   chan struct{}  // indicate the client is closed
 	connID   uint64
 	userID   uint64
-	handlers sync.Map // push notification handlers
 
 	wgReader sync.WaitGroup
 	wgWorker sync.WaitGroup
@@ -37,7 +36,9 @@ type Client struct {
 	aes *cipher.AES
 	rsa *cipher.RSA
 
-	dispatchMap   map[uint64]*dispatchData
+	//
+	handlers      map[pb.ProtoId]Handler // push notification handlers
+	dispatchMap   map[uint64]*dispatchItem
 	dispatchMutex sync.Mutex
 }
 
@@ -47,8 +48,8 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	client := &Client{
 		clientOptions: newClientOptions(opts),
 		closed:        make(chan struct{}),
-		dispatchMap:   map[uint64]*dispatchData{},
-		handlers:      sync.Map{},
+		dispatchMap:   map[uint64]*dispatchItem{},
+		handlers:      map[pb.ProtoId]Handler{},
 	}
 
 	client.respChan = make(chan *response, client.numBuffers)
@@ -230,11 +231,11 @@ func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Re
 		return nil, err
 	}
 
-	dida := &dispatchData{
+	ditem := &dispatchItem{
 		c:    make(chan *response, 1),
 		resp: resp,
 	}
-	client.dispatchPut(protoId, sn, dida)
+	client.dispatchPut(protoId, sn, ditem)
 
 	// write to connection
 	if _, err = buf.WriteTo(client.conn); err != nil {
@@ -255,7 +256,7 @@ func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Re
 		return nil, ctx.Err()
 	case <-client.closed:
 		return nil, ErrInterrupted
-	case rr, ok := <-dida.c:
+	case rr, ok := <-ditem.c:
 		if !ok {
 			return nil, ErrChannelClosed
 		}
@@ -266,57 +267,6 @@ func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Re
 
 		return rr.Resp.GetResponsePayload(), ResponseError(protoId, rr.Resp)
 	}
-}
-
-// RegisterHandler registers a handler for notifications of a specified protoID.
-func (client *Client) RegisterHandler(protoID pb.ProtoId, h Handler) *Client {
-	client.handlers.Store(protoID, h)
-	return client
-}
-
-func (client *Client) getHandler(protoID pb.ProtoId) Handler {
-	if h, ok := client.handlers.Load(protoID); ok {
-		return h.(Handler)
-	}
-
-	return defaultHandler
-}
-
-func (client *Client) dispatchPut(protoId pb.ProtoId, sn uint32, dida *dispatchData) {
-	id := makeRespId(protoId, sn)
-
-	client.dispatchMutex.Lock()
-	client.dispatchMap[id] = dida
-	client.dispatchMutex.Unlock()
-}
-
-func (client *Client) dispatchPop(protoId pb.ProtoId, sn uint32) *dispatchData {
-	id := makeRespId(protoId, sn)
-
-	client.dispatchMutex.Lock()
-	dida, ok := client.dispatchMap[id]
-	if ok {
-		delete(client.dispatchMap, id)
-	}
-	client.dispatchMutex.Unlock()
-
-	// handle push data.
-	if dida == nil {
-		if resp := pb.GetPushResponseStruct(protoId); resp != nil {
-			dida = &dispatchData{resp: resp}
-		}
-	}
-
-	return dida
-}
-
-func (client *Client) dispatchClose() {
-	client.dispatchMutex.Lock()
-	for id, dida := range client.dispatchMap {
-		close(dida.c)
-		delete(client.dispatchMap, id)
-	}
-	client.dispatchMutex.Unlock()
 }
 
 // nextSN returns the next serial number.
@@ -351,10 +301,10 @@ func (client *Client) respWork(r *response) {
 		}
 	}
 
-	// get dispatchData
-	dida := client.dispatchPop(r.ProtoID, r.SerialNo)
-	if dida == nil {
-		// no dispatchData registered
+	// get dispatchItem
+	ditem := client.dispatchPop(r.ProtoID, r.SerialNo)
+	if ditem == nil {
+		// no dispatchItem registered
 		// dont know how to unmarshal. break.
 		log.Error().Uint32("protoId", uint32(r.ProtoID)).
 			Uint32("serialNo", r.SerialNo).
@@ -365,17 +315,17 @@ func (client *Client) respWork(r *response) {
 
 	// proto decode
 	if r.Err == nil {
-		r.Err = proto.Unmarshal(r.Body, dida.resp)
+		r.Err = proto.Unmarshal(r.Body, ditem.resp)
 
 		if r.Err == nil {
-			r.Resp = dida.resp
+			r.Resp = ditem.resp
 		}
 	}
 
 	// dispatch
-	if dida.c != nil {
-		dida.c <- r
-		close(dida.c)
+	if ditem.c != nil {
+		ditem.c <- r
+		close(ditem.c)
 
 	} else {
 		if r.Err == nil {
