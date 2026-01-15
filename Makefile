@@ -1,6 +1,7 @@
 SHELL=/bin/zsh
 
 .PHONY: runtest genkey genpb gen_possible_enums
+.PHONY: start_opend build_opend install_brew_tools
 
 PROTO_FILES = $(wildcard ./proto/original/*.proto)
 PROTO_PLUGIN = protoc-gen-go-futu
@@ -30,6 +31,26 @@ genpb:
 		--go-futu_opt=module=github.com/santsai/futu-go/pb \
 		./proto/*.proto 2>&1
 
+# % container system start
+# building opend container image
+build_opend:
+	cd OpenD && \
+	container build --platform=linux/amd64 . -t opend
+
+# starting opend container
+start_opend:
+	cd OpenD && \
+	container run --rm -it --name opend --platform linux/amd64 \
+		-p 11111:11111 \
+		-c 2 -m 1024M \
+		-v `pwd`/data:/root/.com.futunn.FutuOpenD \
+		opend
+
+install_brew_tools:
+	brew install \
+		go container \
+		protobuf protoc-gen-go \
+		uni2ascii
 
 genkey:
 	openssl genrsa -out ./OpenD/data/opend-dev-key.pem 1024
