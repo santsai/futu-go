@@ -1,4 +1,4 @@
-package futu_test
+package cipher_test
 
 import (
 	"testing"

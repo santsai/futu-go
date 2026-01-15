@@ -11,11 +11,6 @@ const (
 	kClientVersion int32 = 100
 )
 
-type cryptoService interface {
-	Encrypt([]byte) ([]byte, error)
-	Decrypt([]byte) ([]byte, error)
-}
-
 type futuHeader struct {
 	HeaderFlag   [2]byte    // Packet header start flag, fixed as "FT"
 	ProtoID      pb.ProtoId // Protocol ID

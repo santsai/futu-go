@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
+	"github.com/santsai/futu-go/cipher"
 	"github.com/santsai/futu-go/pb"
 	"google.golang.org/protobuf/proto"
 )
@@ -33,8 +34,8 @@ type Client struct {
 	wgReader sync.WaitGroup
 	wgWorker sync.WaitGroup
 
-	aes *AES
-	rsa *RSA
+	aes *cipher.AES
+	rsa *cipher.RSA
 
 	dispatchMap   map[uint64]*dispatchData
 	dispatchMutex sync.Mutex
@@ -56,7 +57,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 
 	// setup rsa
 	if client.privateKey != nil {
-		client.rsa, err = NewRSA(client.privateKey)
+		client.rsa, err = cipher.NewRSA(client.privateKey)
 		if err != nil {
 			return nil, err
 		}
@@ -100,7 +101,9 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	client.userID = s2c.GetLoginUserID()
 
 	if client.privateKey != nil {
-		client.aes, err = NewAES([]byte(s2c.GetConnAESKey()), []byte(s2c.GetAesCBCiv()))
+		key := []byte(s2c.GetConnAESKey())
+		iv := []byte(s2c.GetAesCBCiv())
+		client.aes, err = cipher.NewAES(key, iv)
 		if err != nil {
 			client.Close()
 			return nil, err
@@ -122,7 +125,7 @@ func (client *Client) nextTradePacketId() *pb.PacketID {
 	}
 }
 
-func (client *Client) getCrypto(id pb.ProtoId) cryptoService {
+func (client *Client) getCipher(id pb.ProtoId) cipher.Cipher {
 	if client.privateKey == nil {
 		return nil
 	}
@@ -183,7 +186,7 @@ func (client *Client) encodeRequest(protoId pb.ProtoId, req pb.Request) (*bytes.
 
 	sha1Value := sha1.Sum(body)
 
-	if cs := client.getCrypto(protoId); cs != nil {
+	if cs := client.getCipher(protoId); cs != nil {
 		body, err = cs.Encrypt(body)
 		if err != nil {
 			return nil, 0, err
@@ -331,7 +334,7 @@ func (client *Client) respWork(r *response) {
 	}()
 
 	// decrypt body
-	if cs := client.getCrypto(r.ProtoID); cs != nil {
+	if cs := client.getCipher(r.ProtoID); cs != nil {
 		if body, err := cs.Decrypt(r.Body); err != nil {
 			r.Err = err
 		} else {

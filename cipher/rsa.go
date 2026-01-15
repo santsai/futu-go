@@ -1,4 +1,4 @@
-package futu
+package cipher
 
 import (
 	"crypto/rand"
