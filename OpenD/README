@@ -1,5 +1,0 @@
-to run container:
-place config.xml file and rsa pem into ./data folder
-for xml config:
-    - ip needs to be 0.0.0.0
-
