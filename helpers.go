@@ -2,6 +2,7 @@ package futu
 
 import (
 	"github.com/santsai/futu-go/pb"
+	"google.golang.org/protobuf/proto"
 	"strings"
 	"time"
 )
@@ -12,21 +13,11 @@ const (
 )
 
 func DateTimePtr(t time.Time) *string {
-	return ProtoPtr(t.Format(TimeFormat))
+	return proto.String(t.Format(TimeFormat))
 }
 
 func DatePtr(t time.Time) *string {
-	return ProtoPtr(t.Format(DateFormat))
-}
-
-type ProtoPtrType interface {
-	bool | uint64 | int32 | float32 | float64 | string
-}
-
-func ProtoPtr[T ProtoPtrType](v T) *T {
-	pv := new(T)
-	*pv = v
-	return pv
+	return proto.String(t.Format(DateFormat))
 }
 
 // find TrdAcc in accList

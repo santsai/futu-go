@@ -415,11 +415,11 @@ func (client *Client) respReadLoop() {
 
 func (client *Client) initConnect() (*pb.InitConnectResponse, error) {
 	req := &pb.InitConnectRequest{
-		ClientVer:           ProtoPtr(kClientVersion),
-		ClientID:            ProtoPtr(client.clientId),
-		RecvNotify:          ProtoPtr(client.recvNotify),
+		ClientVer:           proto.Int32(kClientVersion),
+		ClientID:            proto.String(client.clientId),
+		RecvNotify:          proto.Bool(client.recvNotify),
 		PacketEncAlgo:       pb.PacketEncAlgo_AES_CBC.Enum(),
-		ProgrammingLanguage: ProtoPtr("Go"),
+		ProgrammingLanguage: proto.String("Go"),
 	}
 
 	return req.Dispatch(context.TODO(), client)
