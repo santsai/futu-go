@@ -3,15 +3,15 @@ package cipher_test
 import (
 	"testing"
 
-	"github.com/santsai/futu-go"
+	"github.com/santsai/futu-go/cipher"
 	"github.com/stretchr/testify/require"
 )
 
-func TestCrypto(t *testing.T) {
+func TestAES(t *testing.T) {
 	should := require.New(t)
 
 	key := []byte("3FA037BF519D18D5")
-	c, err := futu.NewAES(key, nil)
+	c, err := cipher.NewAES(key, nil)
 	should.NoError(err)
 
 	data := []byte("hello, world")
@@ -19,7 +19,7 @@ func TestCrypto(t *testing.T) {
 	plaintext, _ := c.Decrypt(ciphertext)
 	should.Equal(data, plaintext)
 
-	_, err = futu.NewAES(nil, nil)
+	_, err = cipher.NewAES(nil, nil)
 	should.Error(err)
 
 	should.Nil(c.Decrypt(nil))

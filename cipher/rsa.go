@@ -31,19 +31,35 @@ func NewRSA(keyPEM []byte) (*RSA, error) {
 
 func (c *RSA) Encrypt(data []byte) ([]byte, error) {
 
+	var cdata []byte
 	pubKey := &c.privateKey.PublicKey
-	cdata, err := rsa.EncryptPKCS1v15(rand.Reader, pubKey, data)
-	if err != nil {
-		return nil, err
+	blksz := pubKey.Size() - 11
+
+	for start := 0; start < len(data); start += blksz {
+		block := data[start:min(start+blksz, len(data))]
+		encrypted, err := rsa.EncryptPKCS1v15(rand.Reader, pubKey, block)
+		if err != nil {
+			return nil, err
+		}
+		cdata = append(cdata, encrypted...)
 	}
+
 	return cdata, nil
 }
 
 func (c *RSA) Decrypt(data []byte) ([]byte, error) {
 
-	pdata, err := rsa.DecryptPKCS1v15(rand.Reader, c.privateKey, data)
-	if err != nil {
-		return nil, err
+	var pdata []byte
+	blksz := c.privateKey.Size()
+
+	for start := 0; start < len(data); start += blksz {
+		block := data[start:min(start+blksz, len(data))]
+		decrypted, err := rsa.DecryptPKCS1v15(rand.Reader, c.privateKey, block)
+		if err != nil {
+			return nil, err
+		}
+		pdata = append(pdata, decrypted...)
 	}
+
 	return pdata, nil
 }
