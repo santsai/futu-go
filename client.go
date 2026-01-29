@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"github.com/santsai/futu-go/cipher"
 	"github.com/santsai/futu-go/pb"
 	"google.golang.org/protobuf/proto"
 )
@@ -33,8 +32,7 @@ type Client struct {
 	wgReader sync.WaitGroup
 	wgWorker sync.WaitGroup
 
-	aes *cipher.AES
-	rsa *cipher.RSA
+	*cipherManager
 
 	//
 	handlers      map[pb.ProtoId]Handler // push notification handlers
@@ -56,12 +54,10 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 
 	var err error
 
-	// setup rsa
-	if client.privateKey != nil {
-		client.rsa, err = cipher.NewRSA(client.privateKey)
-		if err != nil {
-			return nil, err
-		}
+	// setup cipher manager
+	client.cipherManager, err = newCipherManager(client.privateKey)
+	if err != nil {
+		return nil, err
 	}
 
 	// connect
@@ -104,7 +100,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	if client.privateKey != nil {
 		key := []byte(s2c.GetConnAESKey())
 		iv := []byte(s2c.GetAesCBCiv())
-		client.aes, err = cipher.NewAES(key, iv)
+		err = client.UpdateAES(key, iv)
 		if err != nil {
 			client.Close()
 			return nil, err
@@ -124,18 +120,6 @@ func (client *Client) nextTradePacketId() *pb.PacketID {
 		ConnID:   proto.Uint64(client.connID),
 		SerialNo: proto.Uint32(client.nextSN()),
 	}
-}
-
-func (client *Client) getCipher(id pb.ProtoId) cipher.Cipher {
-	if client.privateKey == nil {
-		return nil
-	}
-
-	if id == pb.ProtoId_InitConnect {
-		return client.rsa
-	}
-
-	return client.aes
 }
 
 // Close closes the client.
@@ -187,11 +171,9 @@ func (client *Client) encodeRequest(protoId pb.ProtoId, req pb.Request) (*bytes.
 
 	sha1Value := sha1.Sum(body)
 
-	if cs := client.getCipher(protoId); cs != nil {
-		body, err = cs.Encrypt(body)
-		if err != nil {
-			return nil, 0, err
-		}
+	body, err = client.Encrypt(protoId, body)
+	if err != nil {
+		return nil, 0, err
 	}
 
 	sn := client.nextSN()
@@ -284,13 +266,11 @@ func (client *Client) respWork(r *response) {
 	}()
 
 	// decrypt body
-	if cs := client.getCipher(r.ProtoID); cs != nil {
-		if body, err := cs.Decrypt(r.Body); err != nil {
-			r.Err = err
-		} else {
-			r.Body = body
-			r.Encrypted = false
-		}
+	if body, err := client.Decrypt(r.ProtoID, r.Body); err != nil {
+		r.Err = err
+	} else {
+		r.Body = body
+		r.Encrypted = false
 	}
 
 	// verify body
