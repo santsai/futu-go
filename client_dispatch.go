@@ -4,6 +4,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/santsai/futu-go/pb"
 	"google.golang.org/protobuf/proto"
+	"sync"
 )
 
 // Handler is the definition of a handler function.
@@ -19,47 +20,59 @@ type dispatchItem struct {
 	resp pb.Response
 }
 
+type dispatcher struct {
+	handlers      map[pb.ProtoId]Handler // push notification handlers
+	dispatchMap   map[uint64]*dispatchItem
+	dispatchMutex sync.Mutex
+}
+
+func newDispatcher() *dispatcher {
+	return &dispatcher{
+		handlers:    make(map[pb.ProtoId]Handler),
+		dispatchMap: make(map[uint64]*dispatchItem),
+	}
+}
+
 func makeDispatchId(protoId pb.ProtoId, serialNo uint32) uint64 {
 	return (uint64(protoId) << 32) | uint64(serialNo)
 }
 
 // RegisterHandler registers a handler for notifications of a specified protoID.
-func (client *Client) RegisterHandler(protoID pb.ProtoId, h Handler) *Client {
-	client.dispatchMutex.Lock()
-	client.handlers[protoID] = h
-	client.dispatchMutex.Unlock()
-	return client
+func (disp *dispatcher) registerHandler(protoID pb.ProtoId, h Handler) {
+	disp.dispatchMutex.Lock()
+	disp.handlers[protoID] = h
+	disp.dispatchMutex.Unlock()
 }
 
-func (client *Client) getHandler(protoID pb.ProtoId) Handler {
+func (disp *dispatcher) getHandler(protoID pb.ProtoId) Handler {
 	rh := defaultHandler
 
-	client.dispatchMutex.Lock()
-	if h, ok := client.handlers[protoID]; ok {
+	disp.dispatchMutex.Lock()
+	if h, ok := disp.handlers[protoID]; ok {
 		rh = h
 	}
-	client.dispatchMutex.Unlock()
+	disp.dispatchMutex.Unlock()
 
 	return rh
 }
 
-func (client *Client) dispatchPut(protoId pb.ProtoId, sn uint32, ditem *dispatchItem) {
+func (disp *dispatcher) dispatchPut(protoId pb.ProtoId, sn uint32, ditem *dispatchItem) {
 	id := makeDispatchId(protoId, sn)
 
-	client.dispatchMutex.Lock()
-	client.dispatchMap[id] = ditem
-	client.dispatchMutex.Unlock()
+	disp.dispatchMutex.Lock()
+	disp.dispatchMap[id] = ditem
+	disp.dispatchMutex.Unlock()
 }
 
-func (client *Client) dispatchPop(protoId pb.ProtoId, sn uint32) *dispatchItem {
+func (disp *dispatcher) dispatchPop(protoId pb.ProtoId, sn uint32) *dispatchItem {
 	id := makeDispatchId(protoId, sn)
 
-	client.dispatchMutex.Lock()
-	ditem, ok := client.dispatchMap[id]
+	disp.dispatchMutex.Lock()
+	ditem, ok := disp.dispatchMap[id]
 	if ok {
-		delete(client.dispatchMap, id)
+		delete(disp.dispatchMap, id)
 	}
-	client.dispatchMutex.Unlock()
+	disp.dispatchMutex.Unlock()
 
 	// handle push data.
 	if ditem == nil {
@@ -71,11 +84,13 @@ func (client *Client) dispatchPop(protoId pb.ProtoId, sn uint32) *dispatchItem {
 	return ditem
 }
 
-func (client *Client) dispatchClose() {
-	client.dispatchMutex.Lock()
-	for id, ditem := range client.dispatchMap {
-		close(ditem.c)
-		delete(client.dispatchMap, id)
+func (disp *dispatcher) dispatchClose() {
+	disp.dispatchMutex.Lock()
+	for id, ditem := range disp.dispatchMap {
+		if ditem.c != nil {  // Only close channels that are not nil
+			close(ditem.c)
+		}
+		delete(disp.dispatchMap, id)
 	}
-	client.dispatchMutex.Unlock()
+	disp.dispatchMutex.Unlock()
 }

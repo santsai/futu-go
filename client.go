@@ -34,10 +34,7 @@ type Client struct {
 
 	*cipherManager
 
-	//
-	handlers      map[pb.ProtoId]Handler // push notification handlers
-	dispatchMap   map[uint64]*dispatchItem
-	dispatchMutex sync.Mutex
+	*dispatcher
 }
 
 // New creates a new client.
@@ -46,8 +43,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	client := &Client{
 		clientOptions: newClientOptions(opts),
 		closed:        make(chan struct{}),
-		dispatchMap:   map[uint64]*dispatchItem{},
-		handlers:      map[pb.ProtoId]Handler{},
+		dispatcher:    newDispatcher(),
 	}
 
 	client.respChan = make(chan *response, client.numBuffers)
@@ -249,6 +245,12 @@ func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Re
 
 		return rr.Resp.GetResponsePayload(), ResponseError(protoId, rr.Resp)
 	}
+}
+
+// RegisterHandler registers a handler for notifications of a specified protoID.
+func (client *Client) RegisterHandler(protoID pb.ProtoId, h Handler) *Client {
+	client.registerHandler(protoID, h)
+	return client
 }
 
 // nextSN returns the next serial number.
