@@ -125,9 +125,11 @@ var retMsgMappings = []retMsgMapping{
 		RetType:   pb.RetType_Failed,
 		MatchType: matchSuffix,
 		Msgs: []string{
+			"subscription time is too short, you have to subscribe at least one minute",
 			//"HK.00002的KL_Day订阅时间过短，至少需要订阅1分钟"
 			"订阅时间过短，至少需要订阅1分钟",
 		}},
+	//&{Id:ProtoId_QotSub RetType:RetType_Failed Msgs:[No stock code is specified] Code:0 MatchType:0}
 	// &{Id:ProtoId_QotStockFilter RetType:RetType_Failed Msgs:[请求个数超过限制] Code:0}
 }
 
