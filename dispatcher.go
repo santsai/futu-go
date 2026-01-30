@@ -87,7 +87,7 @@ func (disp *dispatcher) dispatchPop(protoId pb.ProtoId, sn uint32) *dispatchItem
 func (disp *dispatcher) dispatchClose() {
 	disp.dispatchMutex.Lock()
 	for id, ditem := range disp.dispatchMap {
-		if ditem.c != nil {  // Only close channels that are not nil
+		if ditem.c != nil { // Only close channels that are not nil
 			close(ditem.c)
 		}
 		delete(disp.dispatchMap, id)
