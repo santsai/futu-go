@@ -19,6 +19,7 @@ genpb:
 	@$(foreach pf, $(PROTO_FILES), \
 		$(eval OUTFILE := ./pb/proto/$(basename $(notdir $(pf))).proto);	\
 		awk -f ./tools/fixenum.awk -f ./tools/fixproto.awk $(pf) > $(OUTFILE) ;	\
+		buf format $(OUTFILE) -w;    \
 	)
 	@echo Making protoc plugin
 	@make $(PROTO_PLUGIN)
@@ -50,7 +51,7 @@ install_brew_tools:
 	brew install \
 		go container \
 		protobuf protoc-gen-go \
-		uni2ascii
+		uni2ascii buf
 
 genkey:
 	openssl genrsa -out ./opend/data/opend-dev-key.pem 1024

@@ -2508,7 +2508,17 @@ func (s *TrdGetAccListRequest) SetUserID(o uint64) {
 
 // TrdGetFundsRequest
 
-// 货币种类，参见Trd_Common.Currency。期货账户必填，其它账户忽略
+// 账户资产类型，JP信用/衍生品账户必填，参考 TrdAssetCategory
+func (s *TrdGetFundsRequest) WithAssetCategory(o TrdAssetCategory) *TrdGetFundsRequest {
+	s.AssetCategory = o.Enum()
+	return s
+}
+
+func (s *TrdGetFundsRequest) SetAssetCategory(o TrdAssetCategory) {
+	s.AssetCategory = o.Enum()
+}
+
+// 货币种类，参见Trd_Common.Currency。综合账户必填，其它账户忽略
 func (s *TrdGetFundsRequest) WithCurrency(o Currency) *TrdGetFundsRequest {
 	s.Currency = o.Enum()
 	return s
@@ -2686,6 +2696,16 @@ func (s *TrdGetMaxTrdQtysRequest) SetOrderType(o OrderType) {
 	s.OrderType = o.Enum()
 }
 
+// 持仓ID，JP券商查询平仓数量时使用
+func (s *TrdGetMaxTrdQtysRequest) WithPositionID(o uint64) *TrdGetMaxTrdQtysRequest {
+	s.PositionID = &o
+	return s
+}
+
+func (s *TrdGetMaxTrdQtysRequest) SetPositionID(o uint64) {
+	s.PositionID = &o
+}
+
 // 价格，（证券账户精确到小数点后 3 位，期货账户精确到小数点后 9 位，超出部分会被舍弃）。如果是竞价、市价单，请也填入一个当前价格，服务器才好计算
 func (s *TrdGetMaxTrdQtysRequest) WithPrice(o float64) *TrdGetMaxTrdQtysRequest {
 	s.Price = &o
@@ -2814,6 +2834,16 @@ func (s *TrdGetOrderListRequest) SetRefreshCache(o bool) {
 
 // TrdGetPositionListRequest
 
+// 账户资产类型，JP信用/衍生品账户必填，参考 TrdAssetCategory
+func (s *TrdGetPositionListRequest) WithAssetCategory(o TrdAssetCategory) *TrdGetPositionListRequest {
+	s.AssetCategory = o.Enum()
+	return s
+}
+
+func (s *TrdGetPositionListRequest) SetAssetCategory(o TrdAssetCategory) {
+	s.AssetCategory = o.Enum()
+}
+
 // 过滤条件
 func (s *TrdGetPositionListRequest) WithFilterConditions(o *TrdFilterConditions) *TrdGetPositionListRequest {
 	s.FilterConditions = o
@@ -2875,6 +2905,16 @@ func (s *TrdHeader) WithAccID(o uint64) *TrdHeader {
 
 func (s *TrdHeader) SetAccID(o uint64) {
 	s.AccID = &o
+}
+
+// JP子账户类型，取值见 TrdSubAccType
+func (s *TrdHeader) WithJpAccType(o TrdSubAccType) *TrdHeader {
+	s.JpAccType = o.Enum()
+	return s
+}
+
+func (s *TrdHeader) SetJpAccType(o TrdSubAccType) {
+	s.JpAccType = o.Enum()
 }
 
 // 交易环境, 参见TrdEnv的枚举定义
@@ -3129,6 +3169,16 @@ func (s *TrdPlaceOrderRequest) WithPacketID(o *PacketID) *TrdPlaceOrderRequest {
 
 func (s *TrdPlaceOrderRequest) SetPacketID(o *PacketID) {
 	s.PacketID = o
+}
+
+// 持仓ID，JP券商查询平仓数量时使用
+func (s *TrdPlaceOrderRequest) WithPositionID(o uint64) *TrdPlaceOrderRequest {
+	s.PositionID = &o
+	return s
+}
+
+func (s *TrdPlaceOrderRequest) SetPositionID(o uint64) {
+	s.PositionID = &o
 }
 
 // 价格，（证券账户精确到小数点后 3 位，期货账户精确到小数点后 9 位，超出部分会被舍弃）

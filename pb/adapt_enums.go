@@ -1181,6 +1181,12 @@ const (
 	SecurityFirm_FutuSG SecurityFirm = SecurityFirm_SecurityFirm_FutuSG
 	// 富途证券（澳洲）
 	SecurityFirm_FutuAU SecurityFirm = SecurityFirm_SecurityFirm_FutuAU
+	// 富途证券（加拿大）
+	SecurityFirm_FutuCA SecurityFirm = SecurityFirm_SecurityFirm_FutuCA
+	// 富途证券（马来西亚）
+	SecurityFirm_FutuMY SecurityFirm = SecurityFirm_SecurityFirm_FutuMY
+	// 富途证券（日本）
+	SecurityFirm_FutuJP SecurityFirm = SecurityFirm_SecurityFirm_FutuJP
 
 	// enum: SecurityStatus
 	// 未知
@@ -1284,6 +1290,8 @@ const (
 	SimAccType_Option SimAccType = SimAccType_SimAccType_Option
 	// 期货模拟账户
 	SimAccType_Futures SimAccType = SimAccType_SimAccType_Futures
+	// 股票和期权模拟账户（支持交易股票和期权）
+	SimAccType_StockAndOption SimAccType = SimAccType_SimAccType_StockAndOption
 
 	// 排序方向
 	// enum: SortDir
@@ -1619,6 +1627,8 @@ const (
 	TrdAccRole_Normal TrdAccRole = TrdAccRole_TrdAccRole_Normal
 	// 主账户
 	TrdAccRole_Master TrdAccRole = TrdAccRole_TrdAccRole_Master
+	// IPO 账户，仅MY券商
+	TrdAccRole_IPO TrdAccRole = TrdAccRole_TrdAccRole_IPO
 
 	// 交易账户状态
 	// enum: TrdAccStatus
@@ -1633,6 +1643,23 @@ const (
 	TrdAccType_Cash TrdAccType = TrdAccType_TrdAccType_Cash
 	// 保证金账户
 	TrdAccType_Margin TrdAccType = TrdAccType_TrdAccType_Margin
+	// 加拿大免税账户
+	TrdAccType_TFSA TrdAccType = TrdAccType_TrdAccType_TFSA
+	// 加拿大注册退休账户
+	TrdAccType_RRSP TrdAccType = TrdAccType_TrdAccType_RRSP
+	// 加拿大配偶退休账户
+	TrdAccType_SRRSP TrdAccType = TrdAccType_TrdAccType_SRRSP
+	// 日本衍生品账户
+	TrdAccType_Derivatives TrdAccType = TrdAccType_TrdAccType_Derivatives
+
+	// 日内交易限制情况
+	// enum: TrdAssetCategory
+	// 未知
+	TrdAssetCategory_Unknown TrdAssetCategory = TrdAssetCategory_TrdAssetCategory_Unknown
+	// 本国
+	TrdAssetCategory_JP TrdAssetCategory = TrdAssetCategory_TrdAssetCategory_JP
+	// 外国
+	TrdAssetCategory_US TrdAssetCategory = TrdAssetCategory_TrdAssetCategory_US
 
 	// enum: TrdCashFlowDirection
 	// 未知
@@ -1688,6 +1715,12 @@ const (
 	TrdMarket_HK_Fund TrdMarket = TrdMarket_TrdMarket_HK_Fund
 	// 美国基金市场
 	TrdMarket_US_Fund TrdMarket = TrdMarket_TrdMarket_US_Fund
+	// 新加坡基金市场
+	TrdMarket_SG_Fund TrdMarket = TrdMarket_TrdMarket_SG_Fund
+	// 马来西亚基金市场
+	TrdMarket_MY_Fund TrdMarket = TrdMarket_TrdMarket_MY_Fund
+	// 日本基金市场
+	TrdMarket_JP_Fund TrdMarket = TrdMarket_TrdMarket_JP_Fund
 
 	// 可交易证券所属市场，目前主要是区分A股的沪市和深市，香港和美国暂不需要细分
 	// enum: TrdSecMarket
@@ -1726,6 +1759,43 @@ const (
 	TrdSide_SellShort TrdSide = TrdSide_TrdSide_SellShort
 	// 买回
 	TrdSide_BuyBack TrdSide = TrdSide_TrdSide_BuyBack
+
+	// JP子账户类型
+	// enum: TrdSubAccType
+	// 未知
+	TrdSubAccType_None TrdSubAccType = TrdSubAccType_TrdSubAccType_None
+	// 日本-一般口座-long
+	TrdSubAccType_JP_GENERAL TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_GENERAL
+	// 日本-特定口座-long
+	TrdSubAccType_JP_TOKUTEI TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_TOKUTEI
+	// 日本-一般NISA
+	TrdSubAccType_JP_NISA_GENERAL TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_NISA_GENERAL
+	// 日本-累计NISA
+	TrdSubAccType_JP_NISA_TSUMITATE TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_NISA_TSUMITATE
+	// 日本-一般口座-Short
+	TrdSubAccType_JP_GENERAL_SHORT TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_GENERAL_SHORT
+	// 日本-特定口座-Short
+	TrdSubAccType_JP_TOKUTEI_SHORT TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_TOKUTEI_SHORT
+	// 日本-本国信用交易抵押品-一般
+	TrdSubAccType_JP_HONPO_GENERAL TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_HONPO_GENERAL
+	// 日本-外国信用交易抵押品-一般
+	TrdSubAccType_JP_GAIKOKU_GENERAL TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_GAIKOKU_GENERAL
+	// 日本-本国信用交易抵押品-特定
+	TrdSubAccType_JP_HONPO_TOKUTEI TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_HONPO_TOKUTEI
+	// 日本-外国信用交易抵押品-特定
+	TrdSubAccType_JP_GAIKOKU_TOKUTEI TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_GAIKOKU_TOKUTEI
+	// 日本-衍生品-Long
+	TrdSubAccType_JP_DERIVATIVE_LONG TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_DERIVATIVE_LONG
+	// 日本-衍生品-Short
+	TrdSubAccType_JP_DERIVATIVE_SHORT TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_DERIVATIVE_SHORT
+	// 日本-本国衍生品证据金-一般
+	TrdSubAccType_JP_HONPO_DERIVATIVE_GENERAL TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_HONPO_DERIVATIVE_GENERAL
+	// 日本-外国衍生品证据金-一般
+	TrdSubAccType_JP_GAIKOKU_DERIVATIVE_GENERAL TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_GAIKOKU_DERIVATIVE_GENERAL
+	// 日本-本国衍生品证据金-特定
+	TrdSubAccType_JP_HONPO_DERIVATIVE_TOKUTEI TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_HONPO_DERIVATIVE_TOKUTEI
+	// 日本-外国衍生品证据金-特定
+	TrdSubAccType_JP_GAIKOKU_DERIVATIVE_TOKUTEI TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_GAIKOKU_DERIVATIVE_TOKUTEI
 
 	// enum: UpdateType
 	// 无需升级
