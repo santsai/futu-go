@@ -1,35 +1,29 @@
 syntax = "proto2";
 package futupb;
-option java_package = "com.futu.openapi.pb";
-option go_package = "github.com/santsai/futu-go/pb";
-
-import "Trd_Common.proto";
 
 import "Common.proto";
+import "Trd_Common.proto";
 
-message TrdUnlockTradeRequest
-{
-	required bool unlock = 1; //true解锁交易，false锁定交易
-	optional string pwdMD5 = 2; //交易密码的MD5转16进制(全小写)，解锁交易必须要填密码，锁定交易不需要验证密码，可不填
-	optional SecurityFirm securityFirm = 3; //券商标识，取值见Trd_Common.SecurityFirm
+option go_package = "github.com/santsai/futu-go/pb";
+option java_package = "com.futu.openapi.pb";
+
+message TrdUnlockTradeRequest {
+  required bool unlock = 1; //true解锁交易，false锁定交易
+  optional string pwdMD5 = 2; //交易密码的MD5转16进制(全小写)，解锁交易必须要填密码，锁定交易不需要验证密码，可不填
+  optional SecurityFirm securityFirm = 3; //券商标识，取值见Trd_Common.SecurityFirm
 }
 
-message TrdUnlockTradeResponse
-{
+message TrdUnlockTradeResponse {}
 
+message TrdUnlockTradeRequest_Internal {
+  required TrdUnlockTradeRequest payload = 1;
 }
 
-message TrdUnlockTradeRequest_Internal
-{
-	required TrdUnlockTradeRequest payload = 1;
-}
+message TrdUnlockTradeResponse_Internal {
+  //以下3个字段每条协议都有，注释说明在InitConnect.proto中
+  required RetType retType = 1 [default = RetType_Unknown];
+  optional string retMsg = 2;
+  optional int32 errCode = 3;
 
-message TrdUnlockTradeResponse_Internal
-{
-	//以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	required RetType retType = 1 [default = RetType_Unknown];
-	optional string retMsg = 2;
-	optional int32 errCode = 3;
-
-	optional TrdUnlockTradeResponse payload = 4;
+  optional TrdUnlockTradeResponse payload = 4;
 }

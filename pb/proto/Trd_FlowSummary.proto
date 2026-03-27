@@ -1,55 +1,49 @@
 syntax = "proto2";
 package futupb;
-option java_package = "com.futu.openapi.pb";
-option go_package = "github.com/santsai/futu-go/pb";
 
 import "Common.proto";
-
 import "Trd_Common.proto";
 
-enum TrdCashFlowDirection
-{
-	TrdCashFlowDirection_Unknown = 0; //未知
-	TrdCashFlowDirection_In = 1; //现金流入
-	TrdCashFlowDirection_Out = 2; //现金流出
+option go_package = "github.com/santsai/futu-go/pb";
+option java_package = "com.futu.openapi.pb";
+
+enum TrdCashFlowDirection {
+  TrdCashFlowDirection_Unknown = 0; //未知
+  TrdCashFlowDirection_In = 1; //现金流入
+  TrdCashFlowDirection_Out = 2; //现金流出
 }
 
-message FlowSummaryInfo
-{
-	optional string clearingDate = 1; //清算日期
-	optional string settlementDate = 2; //结算日期
-	optional Currency currency = 3; //币种
-	optional string cashFlowType = 4; //现金流类型
-	optional TrdCashFlowDirection cashFlowDirection = 5; //现金流方向 TrdCashFlowDirection
-	optional double cashFlowAmount = 6; //金额
-	optional string cashFlowRemark = 7; // 备注
-	optional uint64 cashFlowID = 8; // 现金流ID
+message FlowSummaryInfo {
+  optional string clearingDate = 1; //清算日期
+  optional string settlementDate = 2; //结算日期
+  optional Currency currency = 3; //币种
+  optional string cashFlowType = 4; //现金流类型
+  optional TrdCashFlowDirection cashFlowDirection = 5; //现金流方向 TrdCashFlowDirection
+  optional double cashFlowAmount = 6; //金额
+  optional string cashFlowRemark = 7; // 备注
+  optional uint64 cashFlowID = 8; // 现金流ID
 }
 
-message TrdFlowSummaryRequest
-{
-	required TrdHeader header = 1; //交易公共参数头
-	required string clearingDate = 2; //清算日期，格式 "2017-05-20"
-	optional TrdCashFlowDirection cashFlowDirection = 3; //现金流方向 TrdCashFlowDirection
+message TrdFlowSummaryRequest {
+  required TrdHeader header = 1; //交易公共参数头
+  required string clearingDate = 2; //清算日期，格式 "2017-05-20"
+  optional TrdCashFlowDirection cashFlowDirection = 3; //现金流方向 TrdCashFlowDirection
 }
 
-message TrdFlowSummaryResponse
-{
-	required TrdHeader header = 1; //交易公共参数头
-	repeated FlowSummaryInfo flowSummaryInfoList = 2; //账户资金
+message TrdFlowSummaryResponse {
+  required TrdHeader header = 1; //交易公共参数头
+  repeated FlowSummaryInfo flowSummaryInfoList = 2; //账户资金
 }
 
-message TrdFlowSummaryRequest_Internal
-{
-	required TrdFlowSummaryRequest payload = 1;
+message TrdFlowSummaryRequest_Internal {
+  required TrdFlowSummaryRequest payload = 1;
 }
 
-message TrdFlowSummaryResponse_Internal
-{
-	//以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	required RetType retType = 1 [default = RetType_Unknown];
-	optional string retMsg = 2;
-	optional int32 errCode = 3;
+message TrdFlowSummaryResponse_Internal {
+  //以下3个字段每条协议都有，注释说明在InitConnect.proto中
+  required RetType retType = 1 [default = RetType_Unknown];
+  optional string retMsg = 2;
+  optional int32 errCode = 3;
 
-	optional TrdFlowSummaryResponse payload = 4;
+  optional TrdFlowSummaryResponse payload = 4;
 }

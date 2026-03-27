@@ -1,34 +1,31 @@
 syntax = "proto2";
 package futupb;
-option java_package = "com.futu.openapi.pb";
-option go_package = "github.com/santsai/futu-go/pb";
 
 import "Common.proto";
 import "Trd_Common.proto";
 
-message TrdGetAccListRequest
-{
-	required uint64 userID = 1; //历史原因，目前已废弃，填0即可
-	optional TrdCategory trdCategory = 2; //交易品类，参考 TrdCategory
-	optional bool needGeneralSecAccount = 3; //是否返回综合账户 （适用于 HK/US/SG/AU 综合账户体系）
+option go_package = "github.com/santsai/futu-go/pb";
+option java_package = "com.futu.openapi.pb";
+
+message TrdGetAccListRequest {
+  required uint64 userID = 1; //历史原因，目前已废弃，填0即可
+  optional TrdCategory trdCategory = 2; //交易品类，参考 TrdCategory
+  optional bool needGeneralSecAccount = 3; //是否返回综合账户 （适用于 HK/US/SG/AU 综合账户体系）
 }
 
-message TrdGetAccListResponse
-{
-	repeated TrdAcc accList = 1; //交易业务账户列表
+message TrdGetAccListResponse {
+  repeated TrdAcc accList = 1; //交易业务账户列表
 }
 
-message TrdGetAccListRequest_Internal
-{
-	required TrdGetAccListRequest payload = 1;
+message TrdGetAccListRequest_Internal {
+  required TrdGetAccListRequest payload = 1;
 }
 
-message TrdGetAccListResponse_Internal
-{
-	//以下3个字段每条协议都有，注释说明在InitConnect.proto中
-	required RetType retType = 1 [default = RetType_Unknown];
-	optional string retMsg = 2;
-	optional int32 errCode = 3;
+message TrdGetAccListResponse_Internal {
+  //以下3个字段每条协议都有，注释说明在InitConnect.proto中
+  required RetType retType = 1 [default = RetType_Unknown];
+  optional string retMsg = 2;
+  optional int32 errCode = 3;
 
-	optional TrdGetAccListResponse payload = 4;
+  optional TrdGetAccListResponse payload = 4;
 }

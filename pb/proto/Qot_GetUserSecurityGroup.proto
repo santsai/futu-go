@@ -1,46 +1,41 @@
 syntax = "proto2";
 package futupb;
-option java_package = "com.futu.openapi.pb";
-option go_package = "github.com/santsai/futu-go/pb";
 
 import "Common.proto";
 import "Qot_Common.proto";
 
+option go_package = "github.com/santsai/futu-go/pb";
+option java_package = "com.futu.openapi.pb";
+
 // 自选股分组类型
-enum GroupType
-{
-	GroupType_Unknown = 0; // 未知
-    GroupType_Custom = 1; // 自定义分组
-    GroupType_System = 2; // 系统分组
-    GroupType_All = 3; // 全部分组
+enum GroupType {
+  GroupType_Unknown = 0; // 未知
+  GroupType_Custom = 1; // 自定义分组
+  GroupType_System = 2; // 系统分组
+  GroupType_All = 3; // 全部分组
 }
 
-message QotGetUserSecurityGroupRequest
-{
-	required GroupType groupType = 1; // GroupType,自选股分组类型。
+message QotGetUserSecurityGroupRequest {
+  required GroupType groupType = 1; // GroupType,自选股分组类型。
 }
 
-message GroupData
-{
-	required string groupName = 1; // 自选股分组名字
-	required GroupType groupType = 2; // GroupType,自选股分组类型。
+message GroupData {
+  required string groupName = 1; // 自选股分组名字
+  required GroupType groupType = 2; // GroupType,自选股分组类型。
 }
 
-message QotGetUserSecurityGroupResponse
-{
-	repeated GroupData groupList = 1; // 自选股分组列表
+message QotGetUserSecurityGroupResponse {
+  repeated GroupData groupList = 1; // 自选股分组列表
 }
 
-message QotGetUserSecurityGroupRequest_Internal
-{
-	required QotGetUserSecurityGroupRequest payload = 1;
+message QotGetUserSecurityGroupRequest_Internal {
+  required QotGetUserSecurityGroupRequest payload = 1;
 }
 
-message QotGetUserSecurityGroupResponse_Internal
-{
-	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
-	optional string retMsg = 2;
-	optional int32 errCode = 3;
+message QotGetUserSecurityGroupResponse_Internal {
+  required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
+  optional string retMsg = 2;
+  optional int32 errCode = 3;
 
-	optional QotGetUserSecurityGroupResponse payload = 4;
+  optional QotGetUserSecurityGroupResponse payload = 4;
 }

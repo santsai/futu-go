@@ -1,31 +1,28 @@
 syntax = "proto2";
 package futupb;
-option java_package = "com.futu.openapi.pb";
-option go_package = "github.com/santsai/futu-go/pb";
 
 import "Common.proto";
 import "Qot_Common.proto";
 
-message QotRequestRehabRequest
-{
-	required Security security = 1; //股票
+option go_package = "github.com/santsai/futu-go/pb";
+option java_package = "com.futu.openapi.pb";
+
+message QotRequestRehabRequest {
+  required Security security = 1; //股票
 }
 
-message QotRequestRehabResponse
-{
-	repeated Rehab rehabList = 1; //复权信息
+message QotRequestRehabResponse {
+  repeated Rehab rehabList = 1; //复权信息
 }
 
-message QotRequestRehabRequest_Internal
-{
-	required QotRequestRehabRequest payload = 1;
+message QotRequestRehabRequest_Internal {
+  required QotRequestRehabRequest payload = 1;
 }
 
-message QotRequestRehabResponse_Internal
-{
-	required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
-	optional string retMsg = 2;
-	optional int32 errCode = 3;
+message QotRequestRehabResponse_Internal {
+  required RetType retType = 1 [default = RetType_Unknown]; //RetType,返回结果
+  optional string retMsg = 2;
+  optional int32 errCode = 3;
 
-	optional QotRequestRehabResponse payload = 4;
+  optional QotRequestRehabResponse payload = 4;
 }
