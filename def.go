@@ -29,3 +29,10 @@ type response struct {
 	Err       error
 	Resp      pb.Response
 }
+
+type request struct {
+	respC   chan *response
+	protoId pb.ProtoId
+	req     pb.Request
+	resp    pb.Response
+}

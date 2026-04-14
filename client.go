@@ -10,7 +10,6 @@ import (
 	"io"
 	"net"
 	"sync"
-	"sync/atomic"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -23,12 +22,14 @@ type Client struct {
 	clientOptions
 
 	conn     net.Conn
-	sn       atomic.Uint32  // serial number
+	sn       uint32         // packet serial number
 	respChan chan *response // response channel
+	reqChan  chan *request  // request channel
 	closed   chan struct{}  // indicate the client is closed
 	connID   uint64
 	userID   uint64
 
+	wgWriter sync.WaitGroup
 	wgReader sync.WaitGroup
 	wgWorker sync.WaitGroup
 
@@ -46,6 +47,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 		dispatcher:    newDispatcher(),
 	}
 
+	client.reqChan = make(chan *request, client.numBuffers)
 	client.respChan = make(chan *response, client.numBuffers)
 
 	var err error
@@ -70,8 +72,13 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 		go client.respWorker()
 	}
 
+	// resp reading
 	client.wgReader.Add(1)
 	go client.respReadLoop()
+
+	// req writing
+	client.wgWriter.Add(1)
+	go client.reqWriteLoop()
 
 	s2c, err := client.initConnect()
 	if err != nil {
@@ -133,6 +140,7 @@ func (client *Client) Close() error {
 
 	close(client.closed)
 	client.wgWorker.Wait()
+	client.wgWriter.Wait()
 	log.Info().Msg("worker & heartbeat exited")
 
 	client.dispatchClose()
@@ -196,8 +204,7 @@ func (client *Client) encodeRequest(protoId pb.ProtoId, req pb.Request) (*bytes.
 	return &buf, sn, nil
 }
 
-func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Request, resp pb.Response) (proto.Message, error) {
-
+func (client *Client) writeRequest(r *request) {
 	var (
 		buf *bytes.Buffer
 		sn  uint32
@@ -205,20 +212,48 @@ func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Re
 	)
 
 	// encode
-	if buf, sn, err = client.encodeRequest(protoId, req); err != nil {
-		return nil, err
+	if buf, sn, err = client.encodeRequest(r.protoId, r.req); err != nil {
+		r.respC <- &response{Err: err}
+		return
 	}
 
-	ditem := &dispatchItem{
-		c:    make(chan *response, 1),
-		resp: resp,
+	item := &dispatchItem{
+		c:    r.respC,
+		resp: r.resp,
 	}
-	client.dispatchPut(protoId, sn, ditem)
+	client.dispatchPut(r.protoId, sn, item)
 
 	// write to connection
 	if _, err = buf.WriteTo(client.conn); err != nil {
-		client.dispatchPop(protoId, sn)
-		return nil, err
+		client.dispatchPop(r.protoId, sn)
+		r.respC <- &response{Err: err}
+		return
+	}
+}
+
+func (client *Client) reqWriteLoop() {
+
+	defer client.wgWriter.Done()
+
+	for {
+		select {
+		case <-client.closed:
+			return
+		case r := <-client.reqChan:
+			client.writeRequest(r)
+		}
+	}
+
+}
+
+func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Request, resp pb.Response) (proto.Message, error) {
+
+	respC := make(chan *response, 1)
+	client.reqChan <- &request{
+		respC:   respC,
+		protoId: protoId,
+		req:     req,
+		resp:    resp,
 	}
 
 	// add timeout to context if not exist.
@@ -234,7 +269,7 @@ func (client *Client) Request(ctx context.Context, protoId pb.ProtoId, req pb.Re
 		return nil, ctx.Err()
 	case <-client.closed:
 		return nil, ErrInterrupted
-	case rr, ok := <-ditem.c:
+	case rr, ok := <-respC:
 		if !ok {
 			return nil, ErrChannelClosed
 		}
@@ -255,7 +290,8 @@ func (client *Client) RegisterHandler(protoID pb.ProtoId, h Handler) *Client {
 
 // nextSN returns the next serial number.
 func (client *Client) nextSN() uint32 {
-	return client.sn.Add(1)
+	client.sn += 1
+	return client.sn
 }
 
 func (client *Client) respWork(r *response) {
