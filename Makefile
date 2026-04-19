@@ -17,9 +17,10 @@ $(PROTO_PLUGIN): $(wildcard $(PROTO_PLUGIN_FOLDER)/*.go)
 genpb:
 	@echo Applying fixproto.awk to originals
 	@$(foreach pf, $(PROTO_FILES), \
-		$(eval OUTFILE := ./pb/proto/$(basename $(notdir $(pf))).proto);	\
+		buf format $(pf) -w;       \
+		$(eval OUTFILE := ./pb/proto/$(notdir $(pf)));	\
 		awk -f ./tools/fixenum.awk -f ./tools/fixproto.awk $(pf) > $(OUTFILE) ;	\
-		buf format $(OUTFILE) -w;    \
+		buf format $(OUTFILE) -w;   \
 	)
 	@echo Making protoc plugin
 	@make $(PROTO_PLUGIN)

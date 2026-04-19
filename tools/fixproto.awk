@@ -50,29 +50,29 @@
     }
 
 	# rename C2S -> xxxRequest
-	if ($0 ~/^message C2S$/) {
+	if ($0 ~/^message C2S {/) {
 		request_name = pkg_name "Request"
-		$0 = "message " request_name
+		sub(/C2S/, request_name, $0)
 	}
 
 	# rename S2C -> xxxResponse
-	if ($0 ~/^message S2C$/) {
+	if ($0 ~/^message S2C {/) {
 		in_response = 0
 		in_response_payload = 1
 
 		response_name = pkg_name "Response"
-		$0 = "message " response_name
+		sub(/S2C/, response_name, $0)
 	}
 
-	if ($0 ~ /^message Request$/) {
-		$0 = "message " pkg_name "Request_Internal"
+	if ($0 ~ /^message Request {$/) {
+		$0 = "message " pkg_name "Request_Internal {"
 	}
 
-	if ($0 ~ /^message Response$/) {
+	if ($0 ~ /^message Response {$/) {
 		in_response = 1
 		in_response_payload = 0
 
-		$0 = "message " pkg_name "Response_Internal"
+		$0 = "message " pkg_name "Response_Internal {"
 	}
 
 	if ($0 ~ /required C2S c2s = 1;$/) {
@@ -105,8 +105,9 @@
 	# ProgramStatus, QotRight
 	if (pkg_name == "Notify") {
 		if (!(in_response || in_response_payload) &&
-			match($0, /^message (.*)$/)) {
-			$0 = $0 "Notice"
+			match($0, /^message ([^ ]+)/)) {
+			msgname = substr($0, RSTART, RLENGTH)
+			sub(/message ([^ ]+)/, msgname "Notice", $0)
 		}
 
 		if (in_response_payload &&
@@ -115,6 +116,12 @@
 			sub(/optional ([^ ]+)/, msgname "Notice", $0)
 		}
 	}
+
+    # reset on message close
+    if ($0 ~ /^}$/) {
+        in_response = 0
+        in_response_payload = 0
+    }
 
 	# remove package names
 	# eg: Qot_Common.Security -> Security
