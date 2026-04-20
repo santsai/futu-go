@@ -23,16 +23,22 @@ enum QotMarket {
 
 enum SecurityType {
   SecurityType_Unknown = 0; //未知
-  SecurityType_Bond = 1; //债券
+  SecurityType_Bond = 1; //场内债券
   SecurityType_Bwrt = 2; //一揽子权证
   SecurityType_Eqty = 3; //正股
-  SecurityType_Trust = 4; //信托,基金
+  SecurityType_Trust = 4; //信托
   SecurityType_Warrant = 5; //窝轮
   SecurityType_Index = 6; //指数
   SecurityType_Plate = 7; //板块
   SecurityType_Drvt = 8; //期权
   SecurityType_PlateSet = 9; //板块集
   SecurityType_Future = 10; //期货
+  SecurityType_Forex = 11; // 外汇
+  SecurityType_WealthManageFund = 12; // 财富管理产品
+  SecurityType_ExchangeFund = 13; // 场内基金产品
+  SecurityType_Crypto = 14; // 数字货币
+  SecurityType_OTCBond = 15; // 财富管理债券 - 场外债券
+  SecurityType_OTCStructNotes = 16; // 财富管理 - 结构化票据
 }
 
 enum PlateSetType {
@@ -420,6 +426,7 @@ enum QotRight {
   QotRight_Level2 = 3; //Level2
   QotRight_SF = 4; //SF高级行情
   QotRight_No = 5; //无权限
+  QotRight_Level3 = 6; //Level3
 }
 
 // 提醒类型

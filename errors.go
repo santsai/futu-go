@@ -75,21 +75,24 @@ var retMsgMappings = []retMsgMapping{
 		Id:      pb.ProtoId_TrdGetOrderFee,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"Simulated trade is not supported",
+			"Paper trading is not supported",
+			"Simulated trade is not supported", // deprecated
 			"暂时不支持模拟交易",
 		}},
 	{Code: err_NotSupportedInSimEnv,
 		Id:      pb.ProtoId_TrdGetHistoryOrderFillList,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"Simulated trade does not support deal list",
+			"Paper trading does not support deal list",
+			"Simulated trade does not support deal list", // deprecated
 			"模拟交易不支持成交数据",
 		}},
 	{Code: err_NotSupportedInSimEnv,
 		Id:      pb.ProtoId_TrdGetOrderFillList,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"Simulated trade does not support deal list",
+			"Paper trading does not support deal list",
+			"Simulated trade does not support deal list", // deprecated
 			"模拟交易不支持成交数据",
 		}},
 	{Code: err_ModifyingSysSecGroup,

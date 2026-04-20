@@ -1,4 +1,4 @@
-ARG FILE=Futu_OpenD_9.6.5608_Ubuntu18.04
+ARG FILE=Futu_OpenD_10.3.6308_Ubuntu18.04
 
 # for extracting opend
 FROM debian:trixie-slim AS extractor

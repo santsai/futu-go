@@ -110,17 +110,23 @@ func (QotMarket) EnumDescriptor() ([]byte, []int) {
 type SecurityType int32
 
 const (
-	SecurityType_SecurityType_Unknown  SecurityType = 0  //未知
-	SecurityType_SecurityType_Bond     SecurityType = 1  //债券
-	SecurityType_SecurityType_Bwrt     SecurityType = 2  //一揽子权证
-	SecurityType_SecurityType_Eqty     SecurityType = 3  //正股
-	SecurityType_SecurityType_Trust    SecurityType = 4  //信托,基金
-	SecurityType_SecurityType_Warrant  SecurityType = 5  //窝轮
-	SecurityType_SecurityType_Index    SecurityType = 6  //指数
-	SecurityType_SecurityType_Plate    SecurityType = 7  //板块
-	SecurityType_SecurityType_Drvt     SecurityType = 8  //期权
-	SecurityType_SecurityType_PlateSet SecurityType = 9  //板块集
-	SecurityType_SecurityType_Future   SecurityType = 10 //期货
+	SecurityType_SecurityType_Unknown          SecurityType = 0  //未知
+	SecurityType_SecurityType_Bond             SecurityType = 1  //场内债券
+	SecurityType_SecurityType_Bwrt             SecurityType = 2  //一揽子权证
+	SecurityType_SecurityType_Eqty             SecurityType = 3  //正股
+	SecurityType_SecurityType_Trust            SecurityType = 4  //信托
+	SecurityType_SecurityType_Warrant          SecurityType = 5  //窝轮
+	SecurityType_SecurityType_Index            SecurityType = 6  //指数
+	SecurityType_SecurityType_Plate            SecurityType = 7  //板块
+	SecurityType_SecurityType_Drvt             SecurityType = 8  //期权
+	SecurityType_SecurityType_PlateSet         SecurityType = 9  //板块集
+	SecurityType_SecurityType_Future           SecurityType = 10 //期货
+	SecurityType_SecurityType_Forex            SecurityType = 11 // 外汇
+	SecurityType_SecurityType_WealthManageFund SecurityType = 12 // 财富管理产品
+	SecurityType_SecurityType_ExchangeFund     SecurityType = 13 // 场内基金产品
+	SecurityType_SecurityType_Crypto           SecurityType = 14 // 数字货币
+	SecurityType_SecurityType_OTCBond          SecurityType = 15 // 财富管理债券 - 场外债券
+	SecurityType_SecurityType_OTCStructNotes   SecurityType = 16 // 财富管理 - 结构化票据
 )
 
 // Enum value maps for SecurityType.
@@ -137,19 +143,31 @@ var (
 		8:  "SecurityType_Drvt",
 		9:  "SecurityType_PlateSet",
 		10: "SecurityType_Future",
+		11: "SecurityType_Forex",
+		12: "SecurityType_WealthManageFund",
+		13: "SecurityType_ExchangeFund",
+		14: "SecurityType_Crypto",
+		15: "SecurityType_OTCBond",
+		16: "SecurityType_OTCStructNotes",
 	}
 	SecurityType_value = map[string]int32{
-		"SecurityType_Unknown":  0,
-		"SecurityType_Bond":     1,
-		"SecurityType_Bwrt":     2,
-		"SecurityType_Eqty":     3,
-		"SecurityType_Trust":    4,
-		"SecurityType_Warrant":  5,
-		"SecurityType_Index":    6,
-		"SecurityType_Plate":    7,
-		"SecurityType_Drvt":     8,
-		"SecurityType_PlateSet": 9,
-		"SecurityType_Future":   10,
+		"SecurityType_Unknown":          0,
+		"SecurityType_Bond":             1,
+		"SecurityType_Bwrt":             2,
+		"SecurityType_Eqty":             3,
+		"SecurityType_Trust":            4,
+		"SecurityType_Warrant":          5,
+		"SecurityType_Index":            6,
+		"SecurityType_Plate":            7,
+		"SecurityType_Drvt":             8,
+		"SecurityType_PlateSet":         9,
+		"SecurityType_Future":           10,
+		"SecurityType_Forex":            11,
+		"SecurityType_WealthManageFund": 12,
+		"SecurityType_ExchangeFund":     13,
+		"SecurityType_Crypto":           14,
+		"SecurityType_OTCBond":          15,
+		"SecurityType_OTCStructNotes":   16,
 	}
 )
 
@@ -2271,6 +2289,7 @@ const (
 	QotRight_QotRight_Level2  QotRight = 3 //Level2
 	QotRight_QotRight_SF      QotRight = 4 //SF高级行情
 	QotRight_QotRight_No      QotRight = 5 //无权限
+	QotRight_QotRight_Level3  QotRight = 6 //Level3
 )
 
 // Enum value maps for QotRight.
@@ -2282,6 +2301,7 @@ var (
 		3: "QotRight_Level2",
 		4: "QotRight_SF",
 		5: "QotRight_No",
+		6: "QotRight_Level3",
 	}
 	QotRight_value = map[string]int32{
 		"QotRight_Unknown": 0,
@@ -2290,6 +2310,7 @@ var (
 		"QotRight_Level2":  3,
 		"QotRight_SF":      4,
 		"QotRight_No":      5,
+		"QotRight_Level3":  6,
 	}
 )
 
@@ -5435,7 +5456,7 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x15QotMarket_AU_Security\x103\x12\x19\n" +
 	"\x15QotMarket_MY_Security\x10=\x12\x19\n" +
 	"\x15QotMarket_CA_Security\x10G\x12\x19\n" +
-	"\x15QotMarket_FX_Security\x10Q*\x9a\x02\n" +
+	"\x15QotMarket_FX_Security\x10Q*\xc8\x03\n" +
 	"\fSecurityType\x12\x18\n" +
 	"\x14SecurityType_Unknown\x10\x00\x12\x15\n" +
 	"\x11SecurityType_Bond\x10\x01\x12\x15\n" +
@@ -5448,7 +5469,13 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x11SecurityType_Drvt\x10\b\x12\x19\n" +
 	"\x15SecurityType_PlateSet\x10\t\x12\x17\n" +
 	"\x13SecurityType_Future\x10\n" +
-	"*\x8a\x01\n" +
+	"\x12\x16\n" +
+	"\x12SecurityType_Forex\x10\v\x12!\n" +
+	"\x1dSecurityType_WealthManageFund\x10\f\x12\x1d\n" +
+	"\x19SecurityType_ExchangeFund\x10\r\x12\x17\n" +
+	"\x13SecurityType_Crypto\x10\x0e\x12\x18\n" +
+	"\x14SecurityType_OTCBond\x10\x0f\x12\x1f\n" +
+	"\x1bSecurityType_OTCStructNotes\x10\x10*\x8a\x01\n" +
 	"\fPlateSetType\x12\x14\n" +
 	"\x10PlateSetType_All\x10\x00\x12\x19\n" +
 	"\x15PlateSetType_Industry\x10\x01\x12\x17\n" +
@@ -5771,14 +5798,15 @@ const file_Qot_Common_proto_rawDesc = "" +
 	"\x0eCompanyAct_Add\x10 \x12\x17\n" +
 	"\x13CompanyAct_Dividend\x10@\x12\x1a\n" +
 	"\x15CompanyAct_SPDividend\x10\x80\x01\x12\x17\n" +
-	"\x12CompanyAct_SpinOff\x10\x80\x02*~\n" +
+	"\x12CompanyAct_SpinOff\x10\x80\x02*\x93\x01\n" +
 	"\bQotRight\x12\x14\n" +
 	"\x10QotRight_Unknown\x10\x00\x12\x10\n" +
 	"\fQotRight_Bmp\x10\x01\x12\x13\n" +
 	"\x0fQotRight_Level1\x10\x02\x12\x13\n" +
 	"\x0fQotRight_Level2\x10\x03\x12\x0f\n" +
 	"\vQotRight_SF\x10\x04\x12\x0f\n" +
-	"\vQotRight_No\x10\x05*\xce\x04\n" +
+	"\vQotRight_No\x10\x05\x12\x13\n" +
+	"\x0fQotRight_Level3\x10\x06*\xce\x04\n" +
 	"\x11PriceReminderType\x12\x1d\n" +
 	"\x19PriceReminderType_Unknown\x10\x00\x12\x1d\n" +
 	"\x19PriceReminderType_PriceUp\x10\x01\x12\x1f\n" +

@@ -72,7 +72,14 @@ func (ts *ClientTestSuite) SetupSuite() {
 	}
 
 	//
-	acc := futu.FindAccount(ts.accList, pb.TrdMarket_US, pb.TrdAccType_Margin, pb.SimAccType_Stock)
+	var acc *pb.TrdAcc
+	simTypes := []pb.SimAccType{pb.SimAccType_Stock, pb.SimAccType_StockAndOption}
+	for _, stype := range simTypes {
+		acc = futu.FindAccount(ts.accList, pb.TrdMarket_US, pb.TrdAccType_Margin, stype)
+		if acc != nil {
+			break
+		}
+	}
 	if acc == nil {
 		ts.T().Skip("no suitable account found")
 	}

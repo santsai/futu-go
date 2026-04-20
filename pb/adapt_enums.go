@@ -1125,6 +1125,8 @@ const (
 	QotRight_SF QotRight = QotRight_QotRight_SF
 	// 无权限
 	QotRight_No QotRight = QotRight_QotRight_No
+	// Level3
+	QotRight_Level3 QotRight = QotRight_QotRight_Level3
 
 	// enum: ReferenceType
 	ReferenceType_Unknown ReferenceType = ReferenceType_ReferenceType_Unknown
@@ -1237,13 +1239,13 @@ const (
 	// enum: SecurityType
 	// 未知
 	SecurityType_Unknown SecurityType = SecurityType_SecurityType_Unknown
-	// 债券
+	// 场内债券
 	SecurityType_Bond SecurityType = SecurityType_SecurityType_Bond
 	// 一揽子权证
 	SecurityType_Bwrt SecurityType = SecurityType_SecurityType_Bwrt
 	// 正股
 	SecurityType_Eqty SecurityType = SecurityType_SecurityType_Eqty
-	// 信托,基金
+	// 信托
 	SecurityType_Trust SecurityType = SecurityType_SecurityType_Trust
 	// 窝轮
 	SecurityType_Warrant SecurityType = SecurityType_SecurityType_Warrant
@@ -1257,6 +1259,18 @@ const (
 	SecurityType_PlateSet SecurityType = SecurityType_SecurityType_PlateSet
 	// 期货
 	SecurityType_Future SecurityType = SecurityType_SecurityType_Future
+	// 外汇
+	SecurityType_Forex SecurityType = SecurityType_SecurityType_Forex
+	// 财富管理产品
+	SecurityType_WealthManageFund SecurityType = SecurityType_SecurityType_WealthManageFund
+	// 场内基金产品
+	SecurityType_ExchangeFund SecurityType = SecurityType_SecurityType_ExchangeFund
+	// 数字货币
+	SecurityType_Crypto SecurityType = SecurityType_SecurityType_Crypto
+	// 财富管理债券 - 场外债券
+	SecurityType_OTCBond SecurityType = SecurityType_SecurityType_OTCBond
+	// 财富管理 - 结构化票据
+	SecurityType_OTCStructNotes SecurityType = SecurityType_SecurityType_OTCStructNotes
 
 	// enum: Session
 	Session_NONE      Session = Session_Session_NONE
