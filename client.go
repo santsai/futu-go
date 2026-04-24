@@ -4,11 +4,7 @@ import (
 	"bytes"
 	"context"
 	"crypto/sha1"
-	"encoding/binary"
-	"errors"
 	"fmt"
-	"io"
-	"net"
 	"sync"
 	"time"
 
@@ -21,20 +17,14 @@ import (
 type Client struct {
 	clientOptions
 
-	conn     net.Conn
-	sn       uint32         // packet serial number
 	respChan chan *response // response channel
 	reqChan  chan *request  // request channel
 	closed   chan struct{}  // indicate the client is closed
-	connID   uint64
-	userID   uint64
 
 	wgWriter sync.WaitGroup
-	wgReader sync.WaitGroup
 	wgWorker sync.WaitGroup
 
-	*cipherManager
-
+	p *protocol
 	*dispatcher
 }
 
@@ -52,16 +42,10 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 
 	var err error
 
-	// setup cipher manager
-	client.cipherManager, err = newCipherManager(client.privateKey)
-	if err != nil {
-		return nil, err
-	}
-
 	// connect
-	client.conn, err = net.Dial("tcp", client.openDAddr)
+	client.p, err = newProtocol(client.openDAddr, client.privateKey, client.respChan)
 	if err != nil {
-		client.conn = nil
+		client.p = nil
 		err = fmt.Errorf("dial error: %w", err)
 		return nil, err
 	}
@@ -71,10 +55,6 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 		client.wgWorker.Add(1)
 		go client.respWorker()
 	}
-
-	// resp reading
-	client.wgReader.Add(1)
-	go client.respReadLoop()
 
 	// req writing
 	client.wgWriter.Add(1)
@@ -97,17 +77,9 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 		Str("aes_cbc_iv", s2c.GetAesCBCiv()).
 		Msg("init connect success")
 
-	client.connID = s2c.GetConnID()
-	client.userID = s2c.GetLoginUserID()
-
-	if client.privateKey != nil {
-		key := []byte(s2c.GetConnAESKey())
-		iv := []byte(s2c.GetAesCBCiv())
-		err = client.UpdateAES(key, iv)
-		if err != nil {
-			client.Close()
-			return nil, err
-		}
+	if err := client.p.updateWithInitResponse(s2c); err != nil {
+		client.Close()
+		return nil, err
 	}
 
 	if interval := s2c.GetKeepAliveInterval(); interval > 0 {
@@ -118,22 +90,14 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	return client, nil
 }
 
-func (client *Client) nextTradePacketId() *pb.PacketID {
-	return &pb.PacketID{
-		ConnID:   proto.Uint64(client.connID),
-		SerialNo: proto.Uint32(client.nextSN()),
-	}
-}
-
 // Close closes the client.
 func (client *Client) Close() error {
 
 	var err error = nil
 
-	if client.conn != nil {
-		err = client.conn.Close()
-		client.conn = nil
-		client.wgReader.Wait()
+	if client.p != nil {
+		err = client.p.Close()
+		client.p = nil
 	}
 
 	log.Info().Msg("read loop exited")
@@ -148,89 +112,6 @@ func (client *Client) Close() error {
 	return err
 }
 
-func (client *Client) patchRequest(req pb.Request) {
-
-	payload := req.GetRequestPayload()
-
-	// UserID is no longer needed. but is required in proto.
-	if setter, ok := payload.(pb.UserIDSetter); ok {
-		setter.SetUserID(client.userID)
-	}
-
-	// avoid replay attacks
-	if setter, ok := payload.(pb.PacketIDSetter); ok {
-		setter.SetPacketID(client.nextTradePacketId())
-	}
-}
-
-func (client *Client) encodeRequest(protoId pb.ProtoId, req pb.Request) (*bytes.Buffer, uint32, error) {
-
-	// fill in required infomation
-	client.patchRequest(req)
-
-	body, err := proto.Marshal(req)
-	if err != nil {
-		return nil, 0, err
-	}
-
-	sha1Value := sha1.Sum(body)
-
-	body, err = client.Encrypt(protoId, body)
-	if err != nil {
-		return nil, 0, err
-	}
-
-	sn := client.nextSN()
-
-	h := futuHeader{
-		HeaderFlag:   [2]byte{'F', 'T'},
-		ProtoID:      protoId,
-		ProtoFmtType: 0,
-		ProtoVer:     0,
-		SerialNo:     sn,
-		BodyLen:      uint32(len(body)),
-		BodySHA1:     sha1Value,
-	}
-
-	var buf bytes.Buffer
-	if err := binary.Write(&buf, binary.LittleEndian, &h); err != nil {
-		return nil, 0, err
-	}
-
-	if _, err := buf.Write(body); err != nil {
-		return nil, 0, err
-	}
-
-	return &buf, sn, nil
-}
-
-func (client *Client) writeRequest(r *request) {
-	var (
-		buf *bytes.Buffer
-		sn  uint32
-		err error
-	)
-
-	// encode
-	if buf, sn, err = client.encodeRequest(r.protoId, r.req); err != nil {
-		r.respC <- &response{Err: err}
-		return
-	}
-
-	item := &dispatchItem{
-		c:    r.respC,
-		resp: r.resp,
-	}
-	client.dispatchPut(r.protoId, sn, item)
-
-	// write to connection
-	if _, err = buf.WriteTo(client.conn); err != nil {
-		client.dispatchPop(r.protoId, sn)
-		r.respC <- &response{Err: err}
-		return
-	}
-}
-
 func (client *Client) reqWriteLoop() {
 
 	defer client.wgWriter.Done()
@@ -240,7 +121,19 @@ func (client *Client) reqWriteLoop() {
 		case <-client.closed:
 			return
 		case r := <-client.reqChan:
-			client.writeRequest(r)
+
+			client.p.prepareRequest(r)
+
+			item := &dispatchItem{
+				c:    r.respC,
+				resp: r.resp,
+			}
+
+			client.dispatchPut(r.protoId, r.serialNo, item)
+			if err := client.p.writeRequest(r); err != nil {
+				client.dispatchPop(r.protoId, r.serialNo)
+				r.respC <- &response{Err: err}
+			}
 		}
 	}
 
@@ -288,12 +181,6 @@ func (client *Client) RegisterHandler(protoID pb.ProtoId, h Handler) *Client {
 	return client
 }
 
-// nextSN returns the next serial number.
-func (client *Client) nextSN() uint32 {
-	client.sn += 1
-	return client.sn
-}
-
 func (client *Client) respWork(r *response) {
 
 	defer func() {
@@ -304,7 +191,7 @@ func (client *Client) respWork(r *response) {
 	}()
 
 	// decrypt body
-	if body, err := client.Decrypt(r.ProtoID, r.Body); err != nil {
+	if body, err := client.p.Decrypt(r.ProtoID, r.Body); err != nil {
 		r.Err = err
 	} else {
 		r.Body = body
@@ -374,60 +261,6 @@ func (client *Client) respWorker() {
 			client.respWork(r)
 
 		}
-	}
-}
-
-func (client *Client) respRead() error {
-	// read header, it will block until the header is read
-	var h futuHeader
-	if err := binary.Read(client.conn, binary.LittleEndian, &h); err != nil {
-		return err
-	}
-	if h.HeaderFlag != [2]byte{'F', 'T'} {
-		return errors.New("header flag error")
-	}
-
-	// read body, it will block until the body is read
-	b := make([]byte, h.BodyLen)
-	if _, err := io.ReadFull(client.conn, b); err != nil {
-		return err
-	}
-
-	resp := &response{
-		ProtoID:   h.ProtoID,
-		SerialNo:  h.SerialNo,
-		BodySHA1:  h.BodySHA1[:],
-		Body:      b,
-		Encrypted: client.privateKey != nil,
-	}
-
-	client.respChan <- resp
-
-	return nil
-}
-
-func (client *Client) respReadLoop() {
-
-	defer client.wgReader.Done()
-
-	for {
-		var err error
-		if err = client.respRead(); err == nil {
-			continue
-		}
-
-		// EOF
-		if errors.Is(err, io.EOF) || errors.Is(err, net.ErrClosed) {
-			// If the connection is closed, stop receiving data.
-			// io.EOF: The connection is closed by the remote end.
-			// net.ErrClosed: The connection is closed by the local end.
-			log.Error().Err(err).Msg("respRead: conn closed")
-			break
-		}
-
-		// XXX ignore other non-fatal? errors
-		// XXX should ignore or not? how to test?
-		log.Error().Err(err).Msg("respRead: unknown error")
 	}
 }
 
