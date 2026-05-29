@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 enum ReferenceType {
   ReferenceType_Unknown = 0;
@@ -16,6 +14,7 @@ enum ReferenceType {
 message QotGetReferenceRequest {
   required Security security = 1; //股票
   required ReferenceType referenceType = 2; // ReferenceType, 相关类型
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotGetReferenceResponse {

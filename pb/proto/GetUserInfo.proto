@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 enum UpdateType {
   UpdateType_None = 0; //无需升级
@@ -33,7 +31,7 @@ message GetUserInfoResponse {
   optional string apiLevel = 3; //api用户等级描述, 已在2.10版本之后废弃
   optional QotRight hkQotRight = 4; //港股行情权限, QotRight
   optional QotRight usQotRight = 5; //美股行情权限, QotRight
-  optional int32 cnQotRight = 6; //A股行情权限, QotRight // 废弃，使用shQotRight和szQotRight
+  optional QotRight cnQotRight = 6; //A股行情权限, QotRight // 废弃，使用shQotRight和szQotRight
   optional bool isNeedAgreeDisclaimer = 7; //已开户用户需要同意免责声明，未开户或已同意的用户返回false
   optional int64 userID = 8; //用户牛牛号
   optional UpdateType updateType = 9; //升级类型，UpdateType
@@ -60,6 +58,11 @@ message GetUserInfoResponse {
   optional bool isAppNNOrMM = 30; //true:NN false:MM
   optional QotRight shQotRight = 31; //上海市场行情权限, QotRight
   optional QotRight szQotRight = 32; //深圳市场行情权限, QotRight
+  optional int32 extra = 33; // 透传信息
+  optional QotRight ccQotRight = 34; //加密货币市场行情权限, QotRight
+  optional QotRight sgStockQotRight = 35; //新加坡股票行情权限, QotRight
+  optional QotRight myStockQotRight = 36; //马来西亚股票行情权限, QotRight
+  optional QotRight jpStockQotRight = 37; //日本股票行情权限, QotRight
 }
 
 message GetUserInfoRequest_Internal {

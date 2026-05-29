@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 enum CodeChangeType {
   CodeChangeType_Unkown = 0; //未知
@@ -49,6 +47,7 @@ message QotGetCodeChangeRequest {
   repeated Security securityList = 2; //根据股票筛选
   repeated TimeFilter timeFilterList = 3; //根据时间筛选
   repeated CodeChangeType typeList = 4; //CodeChangeType，根据类型筛选
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotGetCodeChangeResponse {

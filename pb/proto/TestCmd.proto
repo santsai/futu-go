@@ -1,20 +1,21 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 //内部使用
 message TestCmdRequest {
   required string cmd = 1;
-  optional string params = 2;
+  optional string paramStr = 2;
+  optional bytes paramBytes = 3;
 }
 
 message TestCmdResponse {
   required string cmd = 1;
-  required string result = 2;
+  optional string resultStr = 2;
+  optional bytes resultBytes = 3;
 }
 
 message TestCmdRequest_Internal {

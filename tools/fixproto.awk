@@ -1,16 +1,17 @@
+# vim: noet ts=4
 {
-    # Remove trailing carriage return
-    sub(/\r$/, "")
+	# Remove trailing carriage return
+	# sub(/\r$/, "")
 
-    # Remove trailing whitespace
-    sub(/[[:space:]]*$/, "")
+	# Remove trailing whitespace
+	# sub(/[[:space:]]*$/, "")
 
 	# Spelling error
 	sub(/_Unkonw /, "_Unknown ")
 	sub(/_Unknow /, "_Unknown ")
 
-    # Replace package line & capture pkg_name
-    if ($0 ~ /^package .*;$/) {
+	# Replace package line & capture pkg_name
+	if ($0 ~ /^package .*;$/) {
 
 		# eg: package: Qot_GetBasicQot
 		# pkg_name: QotGetBasicQot
@@ -19,35 +20,54 @@
 		sub(/;$/, "", pkg_name)
 		sub(/_/, "", pkg_name)
 
-        $0 = "package futupb;"
-    }
+		$0 = "package futupb;\n"
+		$0 = $0 "option go_package = \"github.com/santsai/futu-go/pb\";"
 
-    # Replace go_package option line
-    if ($0 ~ /^option go_package .*;$/) {
-        $0 = "option go_package = \"github.com/santsai/futu-go/pb\";"
-
-		# add missing import "Common.proto"
-		if (pkg_name == "TestCmd" ||
-			pkg_name == "TrdFlowSummary" ||
-			pkg_name == "TrdGetMarginRatio" ||
-			pkg_name == "UsedQuota" ||
-			0) {
-			$0 = $0 "\n\nimport \"Common.proto\";" 
+		if (pkg_name == "Common") {
+			pkg_name = "Types"
 		}
 
-		# missing "Qot_Common.proto"
-		if (pkg_name == "GetUserInfo" ||
-			pkg_name == "Notify" ||
-			0) {
-			$0 = $0 "\n\nimport \"Qot_Common.proto\";" 
+		# fix imports
+		if (pkg_name != "Types") {
+			$0 = $0 "\nimport \"Types.proto\";"
 		}
+	}
 
-		# missing "Trd_Common.proto"
-		if (pkg_name == "TrdUnlockTrade" ||
-			0) {
-			$0 = $0 "\n\nimport \"Trd_Common.proto\";" 
+	# Remove existing imports
+	if ($0 ~ /^import \".*Common.proto\";/) {
+		$0 = ""
+	}
+
+	# Replace go_package option line
+	if ($0 ~ /^option .*_package .*;$/) {
+		$0 = ""
+	}
+
+	# duplicate names fix
+	if (pkg_name ~ /^Qot.*Screen$/) {
+
+		PFX = pkg_name
+		sub("Qot", "", PFX)
+
+		split("Boundary Interval Sort", kws, " ")
+		nkws = length(kws)
+		for (i = 1; i <= nkws; i++) {
+			if ($0 ~ (" " kws[i] " ")) {
+				sub(kws[i], PFX kws[i], $0)
+			}
 		}
-    }
+	}
+
+	# duplicate name fix
+	if (pkg_name ~ /^Notify$/) {
+		split("GtwEvent ProgramStatus ConnectStatus QotRight APILevel APIQuota UsedQuota", kws, " ")
+		nkws = length(kws)
+		for (i = 1; i <= nkws; i++) {
+			if ($0 ~ (" " kws[i] " ")) {
+				sub(kws[i], "Notify" kws[i], $0)
+			}
+		}
+	}
 
 	# rename C2S -> xxxRequest
 	if ($0 ~/^message C2S {/) {
@@ -57,9 +77,6 @@
 
 	# rename S2C -> xxxResponse
 	if ($0 ~/^message S2C {/) {
-		in_response = 0
-		in_response_payload = 1
-
 		response_name = pkg_name "Response"
 		sub(/S2C/, response_name, $0)
 	}
@@ -69,17 +86,14 @@
 	}
 
 	if ($0 ~ /^message Response {$/) {
-		in_response = 1
-		in_response_payload = 0
-
 		$0 = "message " pkg_name "Response_Internal {"
 	}
 
-	if ($0 ~ /required C2S c2s = 1;$/) {
+	if ($0 ~ /required C2S c2s = 1;/) {
 		sub(/C2S c2s/, request_name " payload", $0)
 	}
 
-	if ($0 ~ /optional S2C s2c = 4;$/) {
+	if ($0 ~ /optional S2C s2c = 4;/) {
 		sub(/S2C s2c/, response_name " payload", $0)
 	}
 
@@ -101,33 +115,11 @@
 		}
 	}
 
-	# handle duplicate message in Notify.proto
-	# ProgramStatus, QotRight
-	if (pkg_name == "Notify") {
-		if (!(in_response || in_response_payload) &&
-			match($0, /^message ([^ ]+)/)) {
-			msgname = substr($0, RSTART, RLENGTH)
-			sub(/message ([^ ]+)/, msgname "Notice", $0)
-		}
-
-		if (in_response_payload &&
-			match($0, /optional ([^ ]+)/)) {
-			msgname = substr($0, RSTART, RLENGTH)
-			sub(/optional ([^ ]+)/, msgname "Notice", $0)
-		}
-	}
-
-    # reset on message close
-    if ($0 ~ /^}$/) {
-        in_response = 0
-        in_response_payload = 0
-    }
-
 	# remove package names
 	# eg: Qot_Common.Security -> Security
 	sub(/ Common\./, " ", $0)
 	sub(/ Qot_Common\./, " ", $0)
 	sub(/ Trd_Common\./, " ", $0)
 
-    print
+	print
 }

@@ -58,6 +58,54 @@ func (m *QotGetCodeChangeResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *QotGetCompanyExecutiveBackgroundResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCompanyExecutivesResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCompanyOperationalEfficiencyResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCompanyProfileResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCorporateActionsBuybacksResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCorporateActionsDividendsResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCorporateActionsStockSplitsResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetDailyShortVolumeResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFinancialsEarningsPriceHistoryResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFinancialsEarningsPriceMoveResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFinancialsRevenueBreakdownResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFinancialsStatementsResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetFutureInfoResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
@@ -71,6 +119,14 @@ func (m *QotGetHistoryKLPointsResponse_Internal) GetResponsePayload() proto.Mess
 }
 
 func (m *QotGetHoldingChangeListResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetInsiderHolderListResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetInsiderTradeListResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -90,7 +146,31 @@ func (m *QotGetOptionChainResponse_Internal) GetResponsePayload() proto.Message 
 	return m.GetPayload()
 }
 
+func (m *QotGetOptionExerciseProbabilityResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetOptionExpirationDateResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionQuoteResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionStrategyResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionStrategyAnalysisResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionStrategySpreadResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionVolatilityResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -122,11 +202,43 @@ func (m *QotGetRehabResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *QotGetResearchAnalystConsensusResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetResearchMorningstarReportResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetResearchRatingSummaryResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetRTResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
 func (m *QotGetSecuritySnapshotResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShareholdersHolderDetailResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShareholdersHoldingChangesResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShareholdersInstitutionalResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShareholdersOverviewResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShortInterestResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -146,6 +258,10 @@ func (m *QotGetTickerResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *QotGetTopTenBuySellBrokersResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetUserSecurityResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
@@ -154,11 +270,23 @@ func (m *QotGetUserSecurityGroupResponse_Internal) GetResponsePayload() proto.Me
 	return m.GetPayload()
 }
 
+func (m *QotGetValuationDetailResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetValuationPlateStockListResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetWarrantResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
 func (m *QotModifyUserSecurityResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotOptionScreenResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -187,6 +315,10 @@ func (m *QotSetPriceReminderResponse_Internal) GetResponsePayload() proto.Messag
 }
 
 func (m *QotStockFilterResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotStockScreenResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -222,6 +354,10 @@ func (m *QotUpdateTickerResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *QotWarrantScreenResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *TestCmdResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
@@ -231,6 +367,10 @@ func (m *TrdFlowSummaryResponse_Internal) GetResponsePayload() proto.Message {
 }
 
 func (m *TrdGetAccListResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetComboMaxTrdQtysResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -275,6 +415,10 @@ func (m *TrdModifyOrderResponse_Internal) GetResponsePayload() proto.Message {
 }
 
 func (m *TrdNotifyResponse_Internal) GetResponsePayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdPlaceComboOrderResponse_Internal) GetResponsePayload() proto.Message {
 	return m.GetPayload()
 }
 

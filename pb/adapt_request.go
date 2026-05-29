@@ -154,6 +154,174 @@ func (m *QotGetCodeChangeRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *QotGetCompanyExecutiveBackgroundRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCompanyExecutiveBackgroundResponse, error) {
+	req := &QotGetCompanyExecutiveBackgroundRequest_Internal{Payload: m}
+	resp_internal := &QotGetCompanyExecutiveBackgroundResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetCompanyExecutiveBackground, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetCompanyExecutiveBackgroundResponse), nil
+	}
+}
+
+func (m *QotGetCompanyExecutiveBackgroundRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCompanyExecutivesRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCompanyExecutivesResponse, error) {
+	req := &QotGetCompanyExecutivesRequest_Internal{Payload: m}
+	resp_internal := &QotGetCompanyExecutivesResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetCompanyExecutives, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetCompanyExecutivesResponse), nil
+	}
+}
+
+func (m *QotGetCompanyExecutivesRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCompanyOperationalEfficiencyRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCompanyOperationalEfficiencyResponse, error) {
+	req := &QotGetCompanyOperationalEfficiencyRequest_Internal{Payload: m}
+	resp_internal := &QotGetCompanyOperationalEfficiencyResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetCompanyOperationalEfficiency, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetCompanyOperationalEfficiencyResponse), nil
+	}
+}
+
+func (m *QotGetCompanyOperationalEfficiencyRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCompanyProfileRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCompanyProfileResponse, error) {
+	req := &QotGetCompanyProfileRequest_Internal{Payload: m}
+	resp_internal := &QotGetCompanyProfileResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetCompanyProfile, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetCompanyProfileResponse), nil
+	}
+}
+
+func (m *QotGetCompanyProfileRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCorporateActionsBuybacksRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCorporateActionsBuybacksResponse, error) {
+	req := &QotGetCorporateActionsBuybacksRequest_Internal{Payload: m}
+	resp_internal := &QotGetCorporateActionsBuybacksResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetCorporateActionsBuybacks, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetCorporateActionsBuybacksResponse), nil
+	}
+}
+
+func (m *QotGetCorporateActionsBuybacksRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCorporateActionsDividendsRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCorporateActionsDividendsResponse, error) {
+	req := &QotGetCorporateActionsDividendsRequest_Internal{Payload: m}
+	resp_internal := &QotGetCorporateActionsDividendsResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetCorporateActionsDividends, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetCorporateActionsDividendsResponse), nil
+	}
+}
+
+func (m *QotGetCorporateActionsDividendsRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetCorporateActionsStockSplitsRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetCorporateActionsStockSplitsResponse, error) {
+	req := &QotGetCorporateActionsStockSplitsRequest_Internal{Payload: m}
+	resp_internal := &QotGetCorporateActionsStockSplitsResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetCorporateActionsStockSplits, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetCorporateActionsStockSplitsResponse), nil
+	}
+}
+
+func (m *QotGetCorporateActionsStockSplitsRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetDailyShortVolumeRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetDailyShortVolumeResponse, error) {
+	req := &QotGetDailyShortVolumeRequest_Internal{Payload: m}
+	resp_internal := &QotGetDailyShortVolumeResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetDailyShortVolume, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetDailyShortVolumeResponse), nil
+	}
+}
+
+func (m *QotGetDailyShortVolumeRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFinancialsEarningsPriceHistoryRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetFinancialsEarningsPriceHistoryResponse, error) {
+	req := &QotGetFinancialsEarningsPriceHistoryRequest_Internal{Payload: m}
+	resp_internal := &QotGetFinancialsEarningsPriceHistoryResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetFinancialsEarningsPriceHistory, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetFinancialsEarningsPriceHistoryResponse), nil
+	}
+}
+
+func (m *QotGetFinancialsEarningsPriceHistoryRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFinancialsEarningsPriceMoveRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetFinancialsEarningsPriceMoveResponse, error) {
+	req := &QotGetFinancialsEarningsPriceMoveRequest_Internal{Payload: m}
+	resp_internal := &QotGetFinancialsEarningsPriceMoveResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetFinancialsEarningsPriceMove, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetFinancialsEarningsPriceMoveResponse), nil
+	}
+}
+
+func (m *QotGetFinancialsEarningsPriceMoveRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFinancialsRevenueBreakdownRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetFinancialsRevenueBreakdownResponse, error) {
+	req := &QotGetFinancialsRevenueBreakdownRequest_Internal{Payload: m}
+	resp_internal := &QotGetFinancialsRevenueBreakdownResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetFinancialsRevenueBreakdown, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetFinancialsRevenueBreakdownResponse), nil
+	}
+}
+
+func (m *QotGetFinancialsRevenueBreakdownRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetFinancialsStatementsRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetFinancialsStatementsResponse, error) {
+	req := &QotGetFinancialsStatementsRequest_Internal{Payload: m}
+	resp_internal := &QotGetFinancialsStatementsResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetFinancialsStatements, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetFinancialsStatementsResponse), nil
+	}
+}
+
+func (m *QotGetFinancialsStatementsRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetFutureInfoRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetFutureInfoResponse, error) {
 	req := &QotGetFutureInfoRequest_Internal{Payload: m}
 	resp_internal := &QotGetFutureInfoResponse_Internal{}
@@ -219,6 +387,34 @@ func (m *QotGetHoldingChangeListRequest_Internal) GetRequestPayload() proto.Mess
 	return m.GetPayload()
 }
 
+func (m *QotGetInsiderHolderListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetInsiderHolderListResponse, error) {
+	req := &QotGetInsiderHolderListRequest_Internal{Payload: m}
+	resp_internal := &QotGetInsiderHolderListResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetInsiderHolderList, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetInsiderHolderListResponse), nil
+	}
+}
+
+func (m *QotGetInsiderHolderListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetInsiderTradeListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetInsiderTradeListResponse, error) {
+	req := &QotGetInsiderTradeListRequest_Internal{Payload: m}
+	resp_internal := &QotGetInsiderTradeListResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetInsiderTradeList, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetInsiderTradeListResponse), nil
+	}
+}
+
+func (m *QotGetInsiderTradeListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetIpoListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetIpoListResponse, error) {
 	req := &QotGetIpoListRequest_Internal{Payload: m}
 	resp_internal := &QotGetIpoListResponse_Internal{}
@@ -275,6 +471,20 @@ func (m *QotGetOptionChainRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *QotGetOptionExerciseProbabilityRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionExerciseProbabilityResponse, error) {
+	req := &QotGetOptionExerciseProbabilityRequest_Internal{Payload: m}
+	resp_internal := &QotGetOptionExerciseProbabilityResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetOptionExerciseProbability, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetOptionExerciseProbabilityResponse), nil
+	}
+}
+
+func (m *QotGetOptionExerciseProbabilityRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetOptionExpirationDateRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionExpirationDateResponse, error) {
 	req := &QotGetOptionExpirationDateRequest_Internal{Payload: m}
 	resp_internal := &QotGetOptionExpirationDateResponse_Internal{}
@@ -286,6 +496,76 @@ func (m *QotGetOptionExpirationDateRequest) Dispatch(ctx context.Context, rh Req
 }
 
 func (m *QotGetOptionExpirationDateRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionQuoteRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionQuoteResponse, error) {
+	req := &QotGetOptionQuoteRequest_Internal{Payload: m}
+	resp_internal := &QotGetOptionQuoteResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetOptionQuote, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetOptionQuoteResponse), nil
+	}
+}
+
+func (m *QotGetOptionQuoteRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionStrategyRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionStrategyResponse, error) {
+	req := &QotGetOptionStrategyRequest_Internal{Payload: m}
+	resp_internal := &QotGetOptionStrategyResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetOptionStrategy, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetOptionStrategyResponse), nil
+	}
+}
+
+func (m *QotGetOptionStrategyRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionStrategyAnalysisRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionStrategyAnalysisResponse, error) {
+	req := &QotGetOptionStrategyAnalysisRequest_Internal{Payload: m}
+	resp_internal := &QotGetOptionStrategyAnalysisResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetOptionStrategyAnalysis, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetOptionStrategyAnalysisResponse), nil
+	}
+}
+
+func (m *QotGetOptionStrategyAnalysisRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionStrategySpreadRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionStrategySpreadResponse, error) {
+	req := &QotGetOptionStrategySpreadRequest_Internal{Payload: m}
+	resp_internal := &QotGetOptionStrategySpreadResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetOptionStrategySpread, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetOptionStrategySpreadResponse), nil
+	}
+}
+
+func (m *QotGetOptionStrategySpreadRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetOptionVolatilityRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetOptionVolatilityResponse, error) {
+	req := &QotGetOptionVolatilityRequest_Internal{Payload: m}
+	resp_internal := &QotGetOptionVolatilityResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetOptionVolatility, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetOptionVolatilityResponse), nil
+	}
+}
+
+func (m *QotGetOptionVolatilityRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -392,6 +672,48 @@ func (m *QotGetRehabRequest_Internal) GetRequestPayload() proto.Message {
 
 */
 
+func (m *QotGetResearchAnalystConsensusRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetResearchAnalystConsensusResponse, error) {
+	req := &QotGetResearchAnalystConsensusRequest_Internal{Payload: m}
+	resp_internal := &QotGetResearchAnalystConsensusResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetResearchAnalystConsensus, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetResearchAnalystConsensusResponse), nil
+	}
+}
+
+func (m *QotGetResearchAnalystConsensusRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetResearchMorningstarReportRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetResearchMorningstarReportResponse, error) {
+	req := &QotGetResearchMorningstarReportRequest_Internal{Payload: m}
+	resp_internal := &QotGetResearchMorningstarReportResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetResearchMorningstarReport, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetResearchMorningstarReportResponse), nil
+	}
+}
+
+func (m *QotGetResearchMorningstarReportRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetResearchRatingSummaryRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetResearchRatingSummaryResponse, error) {
+	req := &QotGetResearchRatingSummaryRequest_Internal{Payload: m}
+	resp_internal := &QotGetResearchRatingSummaryResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetResearchRatingSummary, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetResearchRatingSummaryResponse), nil
+	}
+}
+
+func (m *QotGetResearchRatingSummaryRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetRTRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetRTResponse, error) {
 	req := &QotGetRTRequest_Internal{Payload: m}
 	resp_internal := &QotGetRTResponse_Internal{}
@@ -417,6 +739,76 @@ func (m *QotGetSecuritySnapshotRequest) Dispatch(ctx context.Context, rh Request
 }
 
 func (m *QotGetSecuritySnapshotRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShareholdersHolderDetailRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetShareholdersHolderDetailResponse, error) {
+	req := &QotGetShareholdersHolderDetailRequest_Internal{Payload: m}
+	resp_internal := &QotGetShareholdersHolderDetailResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetShareholdersHolderDetail, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetShareholdersHolderDetailResponse), nil
+	}
+}
+
+func (m *QotGetShareholdersHolderDetailRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShareholdersHoldingChangesRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetShareholdersHoldingChangesResponse, error) {
+	req := &QotGetShareholdersHoldingChangesRequest_Internal{Payload: m}
+	resp_internal := &QotGetShareholdersHoldingChangesResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetShareholdersHoldingChanges, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetShareholdersHoldingChangesResponse), nil
+	}
+}
+
+func (m *QotGetShareholdersHoldingChangesRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShareholdersInstitutionalRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetShareholdersInstitutionalResponse, error) {
+	req := &QotGetShareholdersInstitutionalRequest_Internal{Payload: m}
+	resp_internal := &QotGetShareholdersInstitutionalResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetShareholdersInstitutional, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetShareholdersInstitutionalResponse), nil
+	}
+}
+
+func (m *QotGetShareholdersInstitutionalRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShareholdersOverviewRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetShareholdersOverviewResponse, error) {
+	req := &QotGetShareholdersOverviewRequest_Internal{Payload: m}
+	resp_internal := &QotGetShareholdersOverviewResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetShareholdersOverview, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetShareholdersOverviewResponse), nil
+	}
+}
+
+func (m *QotGetShareholdersOverviewRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetShortInterestRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetShortInterestResponse, error) {
+	req := &QotGetShortInterestRequest_Internal{Payload: m}
+	resp_internal := &QotGetShortInterestResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetShortInterest, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetShortInterestResponse), nil
+	}
+}
+
+func (m *QotGetShortInterestRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -476,6 +868,20 @@ func (m *QotGetTickerRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *QotGetTopTenBuySellBrokersRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetTopTenBuySellBrokersResponse, error) {
+	req := &QotGetTopTenBuySellBrokersRequest_Internal{Payload: m}
+	resp_internal := &QotGetTopTenBuySellBrokersResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetTopTenBuySellBrokers, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetTopTenBuySellBrokersResponse), nil
+	}
+}
+
+func (m *QotGetTopTenBuySellBrokersRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetUserSecurityRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetUserSecurityResponse, error) {
 	req := &QotGetUserSecurityRequest_Internal{Payload: m}
 	resp_internal := &QotGetUserSecurityResponse_Internal{}
@@ -504,6 +910,34 @@ func (m *QotGetUserSecurityGroupRequest_Internal) GetRequestPayload() proto.Mess
 	return m.GetPayload()
 }
 
+func (m *QotGetValuationDetailRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetValuationDetailResponse, error) {
+	req := &QotGetValuationDetailRequest_Internal{Payload: m}
+	resp_internal := &QotGetValuationDetailResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetValuationDetail, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetValuationDetailResponse), nil
+	}
+}
+
+func (m *QotGetValuationDetailRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotGetValuationPlateStockListRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetValuationPlateStockListResponse, error) {
+	req := &QotGetValuationPlateStockListRequest_Internal{Payload: m}
+	resp_internal := &QotGetValuationPlateStockListResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotGetValuationPlateStockList, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotGetValuationPlateStockListResponse), nil
+	}
+}
+
+func (m *QotGetValuationPlateStockListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotGetWarrantRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotGetWarrantResponse, error) {
 	req := &QotGetWarrantRequest_Internal{Payload: m}
 	resp_internal := &QotGetWarrantResponse_Internal{}
@@ -529,6 +963,20 @@ func (m *QotModifyUserSecurityRequest) Dispatch(ctx context.Context, rh RequestH
 }
 
 func (m *QotModifyUserSecurityRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotOptionScreenRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotOptionScreenResponse, error) {
+	req := &QotOptionScreenRequest_Internal{Payload: m}
+	resp_internal := &QotOptionScreenResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotOptionScreen, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotOptionScreenResponse), nil
+	}
+}
+
+func (m *QotOptionScreenRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -630,6 +1078,20 @@ func (m *QotStockFilterRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *QotStockScreenRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotStockScreenResponse, error) {
+	req := &QotStockScreenRequest_Internal{Payload: m}
+	resp_internal := &QotStockScreenResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotStockScreen, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotStockScreenResponse), nil
+	}
+}
+
+func (m *QotStockScreenRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *QotSubRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotSubResponse, error) {
 	req := &QotSubRequest_Internal{Payload: m}
 	resp_internal := &QotSubResponse_Internal{}
@@ -641,6 +1103,20 @@ func (m *QotSubRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotSu
 }
 
 func (m *QotSubRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *QotWarrantScreenRequest) Dispatch(ctx context.Context, rh RequestHandler) (*QotWarrantScreenResponse, error) {
+	req := &QotWarrantScreenRequest_Internal{Payload: m}
+	resp_internal := &QotWarrantScreenResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_QotWarrantScreen, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*QotWarrantScreenResponse), nil
+	}
+}
+
+func (m *QotWarrantScreenRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -683,6 +1159,20 @@ func (m *TrdGetAccListRequest) Dispatch(ctx context.Context, rh RequestHandler) 
 }
 
 func (m *TrdGetAccListRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
+func (m *TrdGetComboMaxTrdQtysRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdGetComboMaxTrdQtysResponse, error) {
+	req := &TrdGetComboMaxTrdQtysRequest_Internal{Payload: m}
+	resp_internal := &TrdGetComboMaxTrdQtysResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_TrdGetComboMaxTrdQtys, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*TrdGetComboMaxTrdQtysResponse), nil
+	}
+}
+
+func (m *TrdGetComboMaxTrdQtysRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
@@ -826,6 +1316,20 @@ func (m *TrdModifyOrderRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
+func (m *TrdPlaceComboOrderRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdPlaceComboOrderResponse, error) {
+	req := &TrdPlaceComboOrderRequest_Internal{Payload: m}
+	resp_internal := &TrdPlaceComboOrderResponse_Internal{}
+	if resp, err := rh.Request(ctx, ProtoId_TrdPlaceComboOrder, req, resp_internal); err != nil {
+		return nil, err
+	} else {
+		return resp.(*TrdPlaceComboOrderResponse), nil
+	}
+}
+
+func (m *TrdPlaceComboOrderRequest_Internal) GetRequestPayload() proto.Message {
+	return m.GetPayload()
+}
+
 func (m *TrdPlaceOrderRequest) Dispatch(ctx context.Context, rh RequestHandler) (*TrdPlaceOrderResponse, error) {
 	req := &TrdPlaceOrderRequest_Internal{Payload: m}
 	resp_internal := &TrdPlaceOrderResponse_Internal{}
@@ -920,7 +1424,10 @@ func (m *VerificationRequest_Internal) GetRequestPayload() proto.Message {
 	return m.GetPayload()
 }
 
-/* protoid: used/total (68/69)
+/* protoid: used/total (104/108)
 unused:
+SkillWrapTechnicalUnusual
+SkillWrapDerivativeUnusual
+SkillWrapFinancialUnusual
 InitQuantMode
 */

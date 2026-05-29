@@ -1,0 +1,26 @@
+syntax = "proto2";
+package futupb;
+
+import "Types.proto";
+
+option go_package = "github.com/santsai/futu-go/pb";
+
+message QotGetCompanyExecutiveBackgroundRequest {
+  required Security security = 1; // 股票
+  optional string leaderName = 2; // 高管姓名（使用GetCompanyExecutives返回的leaderName字段）
+}
+
+message QotGetCompanyExecutiveBackgroundResponse {
+  optional string briefBackground = 1; // 高管背景简介
+}
+
+message QotGetCompanyExecutiveBackgroundRequest_Internal {
+  required QotGetCompanyExecutiveBackgroundRequest payload = 1;
+}
+
+message QotGetCompanyExecutiveBackgroundResponse_Internal {
+  required RetType retType = 1 [default = RetType_Unknown];
+  optional string retMsg = 2;
+  optional int32 errCode = 3;
+  optional QotGetCompanyExecutiveBackgroundResponse payload = 4;
+}

@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 // 提醒信息列表
 message PriceReminderItem {
@@ -27,6 +25,7 @@ message PriceReminder {
 message QotGetPriceReminderRequest {
   optional Security security = 1; // 查询股票下的到价提醒项，security和market二选一，都存在的情况下security优先。
   optional QotMarket market = 2; //Qot_Common::QotMarket 市场，查询市场下的到价提醒项，不区分沪深
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotGetPriceReminderResponse {

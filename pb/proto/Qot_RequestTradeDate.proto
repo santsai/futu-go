@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 message QotRequestTradeDateRequest {
   // 当 market 和 security 同时存在，会忽略 market，仅对 security 进行查询。
@@ -13,6 +11,7 @@ message QotRequestTradeDateRequest {
   required string beginTime = 2; //开始时间字符串
   required string endTime = 3; //结束时间字符串
   optional Security security = 4; // 指定标的
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message TradeDate {

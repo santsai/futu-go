@@ -130,6 +130,81 @@ func (s *BaseFilter) SetSortDir(o SortDir) {
 	s.SortDir = o.Enum()
 }
 
+// Choice
+// 选项
+
+// 内容类型: 1=数字, 2=文本
+func (s *Choice) WithContentType(o int32) *Choice {
+	s.ContentType = &o
+	return s
+}
+
+func (s *Choice) SetContentType(o int32) {
+	s.ContentType = &o
+}
+
+// 文本值
+func (s *Choice) WithText(o string) *Choice {
+	s.Text = &o
+	return s
+}
+
+func (s *Choice) SetText(o string) {
+	s.Text = &o
+}
+
+// 数字值
+func (s *Choice) WithValue(o int64) *Choice {
+	s.Value = &o
+	return s
+}
+
+func (s *Choice) SetValue(o int64) {
+	s.Value = &o
+}
+
+// ComboLeg
+
+// 持仓ID，仅 moomoo JP 平仓时使用
+func (s *ComboLeg) WithPositionID(o uint64) *ComboLeg {
+	s.PositionID = &o
+	return s
+}
+
+func (s *ComboLeg) SetPositionID(o uint64) {
+	s.PositionID = &o
+}
+
+// 数量比例
+func (s *ComboLeg) WithQtyRatio(o float64) *ComboLeg {
+	s.QtyRatio = &o
+	return s
+}
+
+func (s *ComboLeg) SetQtyRatio(o float64) {
+	s.QtyRatio = &o
+}
+
+// 股票/期权
+func (s *ComboLeg) WithSecurity(o *Security) *ComboLeg {
+	s.Security = o
+	return s
+}
+
+func (s *ComboLeg) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// 方向，取值见 TrdSide
+func (s *ComboLeg) WithSide(o TrdSide) *ComboLeg {
+	s.Side = o.Enum()
+	return s
+}
+
+func (s *ComboLeg) SetSide(o TrdSide) {
+	s.Side = o.Enum()
+}
+
 // CustomIndicatorFilter
 // 自定义技术指标属性筛选
 
@@ -406,6 +481,29 @@ func (s *DataFilter) SetVolMin(o float64) {
 	s.VolMin = &o
 }
 
+// FilterGroup
+// 筛选条件组(组内OR, 组间AND)
+
+// 期权筛选条件
+func (s *FilterGroup) WithOptionList(o ...*OptionIndicator) *FilterGroup {
+	s.OptionList = o
+	return s
+}
+
+func (s *FilterGroup) SetOptionList(o ...*OptionIndicator) {
+	s.OptionList = o
+}
+
+// 标的筛选条件
+func (s *FilterGroup) WithUnderlyingList(o ...*UnderlyingIndicator) *FilterGroup {
+	s.UnderlyingList = o
+	return s
+}
+
+func (s *FilterGroup) SetUnderlyingList(o ...*UnderlyingIndicator) {
+	s.UnderlyingList = o
+}
+
 // FinancialFilter
 // 财务属性筛选
 
@@ -525,7 +623,49 @@ func (s *GetUserInfoRequest) SetFlag(o int32) {
 	s.Flag = &o
 }
 
+// IndicatorValue
+
+// 字符串确切值列表(用于PLATE等, 如 ["BK1001"])
+func (s *IndicatorValue) WithStrValueList(o ...string) *IndicatorValue {
+	s.StrValueList = o
+	return s
+}
+
+func (s *IndicatorValue) SetStrValueList(o ...string) {
+	s.StrValueList = o
+}
+
+// 值区间(用于范围型筛选, double 值)
+func (s *IndicatorValue) WithValueInterval(o *OptionScreenInterval) *IndicatorValue {
+	s.ValueInterval = o
+	return s
+}
+
+func (s *IndicatorValue) SetValueInterval(o *OptionScreenInterval) {
+	s.ValueInterval = o
+}
+
+// 确切值列表(用于枚举型筛选, 无倍率)
+func (s *IndicatorValue) WithValueList(o ...int64) *IndicatorValue {
+	s.ValueList = o
+	return s
+}
+
+func (s *IndicatorValue) SetValueList(o ...int64) {
+	s.ValueList = o
+}
+
 // InitConnectRequest
+
+// AI调用类型，0表示非AI调用，1表示skills
+func (s *InitConnectRequest) WithAiType(o int32) *InitConnectRequest {
+	s.AiType = &o
+	return s
+}
+
+func (s *InitConnectRequest) SetAiType(o int32) {
+	s.AiType = &o
+}
 
 // 客户端唯一标识，无生具体生成规则，客户端自己保证唯一性即可
 func (s *InitConnectRequest) WithClientID(o string) *InitConnectRequest {
@@ -599,6 +739,119 @@ func (s *KeepAliveRequest) SetTime(o int64) {
 	s.Time = &o
 }
 
+// OptionIndicator
+// 期权筛选条件
+
+// OptionIndicatorType
+func (s *OptionIndicator) WithIndicatorType(o OptionIndicatorType) *OptionIndicator {
+	s.IndicatorType = o.Enum()
+	return s
+}
+
+func (s *OptionIndicator) SetIndicatorType(o OptionIndicatorType) {
+	s.IndicatorType = o.Enum()
+}
+
+// 筛选条件
+func (s *OptionIndicator) WithIndicatorValue(o *IndicatorValue) *OptionIndicator {
+	s.IndicatorValue = o
+	return s
+}
+
+func (s *OptionIndicator) SetIndicatorValue(o *IndicatorValue) {
+	s.IndicatorValue = o
+}
+
+// OptionPlate
+// 板块
+
+// 父板块ID (如 "BK1000")
+func (s *OptionPlate) WithParentPlateId(o string) *OptionPlate {
+	s.ParentPlateId = &o
+	return s
+}
+
+func (s *OptionPlate) SetParentPlateId(o string) {
+	s.ParentPlateId = &o
+}
+
+// 板块ID列表 (并集关系, 如 ["BK1001","BK1002"])
+func (s *OptionPlate) WithPlateIdList(o ...string) *OptionPlate {
+	s.PlateIdList = o
+	return s
+}
+
+func (s *OptionPlate) SetPlateIdList(o ...string) {
+	s.PlateIdList = o
+}
+
+// OptionScreenBoundary
+
+// 是否包含此值
+func (s *OptionScreenBoundary) WithIncludes(o bool) *OptionScreenBoundary {
+	s.Includes = &o
+	return s
+}
+
+func (s *OptionScreenBoundary) SetIncludes(o bool) {
+	s.Includes = &o
+}
+
+// 边界值 (double, 用户直接传原始值)
+func (s *OptionScreenBoundary) WithValue(o float64) *OptionScreenBoundary {
+	s.Value = &o
+	return s
+}
+
+func (s *OptionScreenBoundary) SetValue(o float64) {
+	s.Value = &o
+}
+
+// OptionScreenInterval
+
+// 区间上限
+func (s *OptionScreenInterval) WithFilterMax(o *OptionScreenBoundary) *OptionScreenInterval {
+	s.FilterMax = o
+	return s
+}
+
+func (s *OptionScreenInterval) SetFilterMax(o *OptionScreenBoundary) {
+	s.FilterMax = o
+}
+
+// 区间下限
+func (s *OptionScreenInterval) WithFilterMin(o *OptionScreenBoundary) *OptionScreenInterval {
+	s.FilterMin = o
+	return s
+}
+
+func (s *OptionScreenInterval) SetFilterMin(o *OptionScreenBoundary) {
+	s.FilterMin = o
+}
+
+// OptionScreenSort
+// 排序
+
+// 0=升序, 1=降序
+func (s *OptionScreenSort) WithDirection(o int32) *OptionScreenSort {
+	s.Direction = &o
+	return s
+}
+
+func (s *OptionScreenSort) SetDirection(o int32) {
+	s.Direction = &o
+}
+
+// OptionIndicatorType(排序字段)
+func (s *OptionScreenSort) WithIndicatorType(o OptionIndicatorType) *OptionScreenSort {
+	s.IndicatorType = o.Enum()
+	return s
+}
+
+func (s *OptionScreenSort) SetIndicatorType(o OptionIndicatorType) {
+	s.IndicatorType = o.Enum()
+}
+
 // PacketID
 //包的唯一标识，用于回放攻击的识别和保护
 
@@ -620,6 +873,49 @@ func (s *PacketID) WithSerialNo(o uint32) *PacketID {
 
 func (s *PacketID) SetSerialNo(o uint32) {
 	s.SerialNo = &o
+}
+
+// Param
+// 参数 (用于动态指标等)
+
+// 数字数组
+func (s *Param) WithAval(o ...int64) *Param {
+	s.Aval = o
+	return s
+}
+
+func (s *Param) SetAval(o ...int64) {
+	s.Aval = o
+}
+
+// 数字值
+func (s *Param) WithIval(o int64) *Param {
+	s.Ival = &o
+	return s
+}
+
+func (s *Param) SetIval(o int64) {
+	s.Ival = &o
+}
+
+// 字符串值
+func (s *Param) WithSval(o string) *Param {
+	s.Sval = &o
+	return s
+}
+
+func (s *Param) SetSval(o string) {
+	s.Sval = &o
+}
+
+// 类型: 1=字符串, 2=int64, 3=int64数组
+func (s *Param) WithType(o int32) *Param {
+	s.Type = &o
+	return s
+}
+
+func (s *Param) SetType(o int32) {
+	s.Type = &o
 }
 
 // PatternFilter
@@ -665,7 +961,317 @@ func (s *PatternFilter) SetKlType(o KLType) {
 	s.KlType = o.Enum()
 }
 
+// Plate
+
+// 父板块ID (如 "BK1000")
+func (s *Plate) WithParentPlateId(o string) *Plate {
+	s.ParentPlateId = &o
+	return s
+}
+
+func (s *Plate) SetParentPlateId(o string) {
+	s.ParentPlateId = &o
+}
+
+// 板块ID列表 (并集关系, 如 ["BK1001","BK1002"])
+func (s *Plate) WithPlateIdList(o ...string) *Plate {
+	s.PlateIdList = o
+	return s
+}
+
+func (s *Plate) SetPlateIdList(o ...string) {
+	s.PlateIdList = o
+}
+
+// PropertyBasic
+
+// PropertyNameBasic: 1101=代码, 1102=名称, 1103=行业
+func (s *PropertyBasic) WithName(o int32) *PropertyBasic {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertyBasic) SetName(o int32) {
+	s.Name = &o
+}
+
+// PropertyBroker
+
+// 近n日
+func (s *PropertyBroker) WithDays(o int32) *PropertyBroker {
+	s.Days = &o
+	return s
+}
+
+func (s *PropertyBroker) SetDays(o int32) {
+	s.Days = &o
+}
+
+// Broker: 6101=集中度, 6102=变动, 6103=数量, ...
+func (s *PropertyBroker) WithName(o int32) *PropertyBroker {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertyBroker) SetName(o int32) {
+	s.Name = &o
+}
+
+// 参数 (如broker_id, 前N名的N等)
+func (s *PropertyBroker) WithParam(o string) *PropertyBroker {
+	s.Param = &o
+	return s
+}
+
+func (s *PropertyBroker) SetParam(o string) {
+	s.Param = &o
+}
+
+// PropertyCumulative
+
+// 天数 (默认1)
+func (s *PropertyCumulative) WithDays(o uint32) *PropertyCumulative {
+	s.Days = &o
+	return s
+}
+
+func (s *PropertyCumulative) SetDays(o uint32) {
+	s.Days = &o
+}
+
+// PropertyNameCumulative: 3101=涨跌额, 3102=涨跌幅, ...
+func (s *PropertyCumulative) WithName(o int32) *PropertyCumulative {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertyCumulative) SetName(o int32) {
+	s.Name = &o
+}
+
+// 周期平均
+func (s *PropertyCumulative) WithPeriodAverage(o int32) *PropertyCumulative {
+	s.PeriodAverage = &o
+	return s
+}
+
+func (s *PropertyCumulative) SetPeriodAverage(o int32) {
+	s.PeriodAverage = &o
+}
+
+// PropertyFeatured
+
+// 自定义参数1
+func (s *PropertyFeatured) WithFirstCustomParam(o int64) *PropertyFeatured {
+	s.FirstCustomParam = &o
+	return s
+}
+
+func (s *PropertyFeatured) SetFirstCustomParam(o int64) {
+	s.FirstCustomParam = &o
+}
+
+// Featured: 5101=筹码获利比例, 5201=指标解读, ...
+func (s *PropertyFeatured) WithName(o int32) *PropertyFeatured {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertyFeatured) SetName(o int32) {
+	s.Name = &o
+}
+
+// K线周期
+func (s *PropertyFeatured) WithPeriod(o int32) *PropertyFeatured {
+	s.Period = &o
+	return s
+}
+
+func (s *PropertyFeatured) SetPeriod(o int32) {
+	s.Period = &o
+}
+
+// 范围周期
+func (s *PropertyFeatured) WithRangePeriod(o int32) *PropertyFeatured {
+	s.RangePeriod = &o
+	return s
+}
+
+func (s *PropertyFeatured) SetRangePeriod(o int32) {
+	s.RangePeriod = &o
+}
+
+// PropertyFinancial
+
+// 时间跨度 [1,9], 成长能力因子专用
+func (s *PropertyFinancial) WithDuration(o int64) *PropertyFinancial {
+	s.Duration = &o
+	return s
+}
+
+func (s *PropertyFinancial) SetDuration(o int64) {
+	s.Duration = &o
+}
+
+// 未来时间段, 参考 FutureDuration
+func (s *PropertyFinancial) WithFutureDuration(o int32) *PropertyFinancial {
+	s.FutureDuration = &o
+	return s
+}
+
+func (s *PropertyFinancial) SetFutureDuration(o int32) {
+	s.FutureDuration = &o
+}
+
+// PropertyNameFinancial: 4101=净利润, 4102=净利润增长率, ...
+func (s *PropertyFinancial) WithName(o int32) *PropertyFinancial {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertyFinancial) SetName(o int32) {
+	s.Name = &o
+}
+
+// 周期平均
+func (s *PropertyFinancial) WithPeriodAverage(o int32) *PropertyFinancial {
+	s.PeriodAverage = &o
+	return s
+}
+
+func (s *PropertyFinancial) SetPeriodAverage(o int32) {
+	s.PeriodAverage = &o
+}
+
+// Term: 1=Q1, 2=Q2, 100=年报, 10=最新单季, ...
+func (s *PropertyFinancial) WithTerm(o int32) *PropertyFinancial {
+	s.Term = &o
+	return s
+}
+
+func (s *PropertyFinancial) SetTerm(o int32) {
+	s.Term = &o
+}
+
+// 年份 (2024/2023/...)
+func (s *PropertyFinancial) WithYear(o int32) *PropertyFinancial {
+	s.Year = &o
+	return s
+}
+
+func (s *PropertyFinancial) SetYear(o int32) {
+	s.Year = &o
+}
+
+// PropertyIndicator
+
+// 动态参数 (如MA6填6, BOLL(15,3)填15和3)
+func (s *PropertyIndicator) WithIndicatorParams(o ...int64) *PropertyIndicator {
+	s.IndicatorParams = o
+	return s
+}
+
+func (s *PropertyIndicator) SetIndicatorParams(o ...int64) {
+	s.IndicatorParams = o
+}
+
+// Indicator: 1=最新价, 11=MA5, 31=KDJ_K, 41=MACD_DIF, ...
+func (s *PropertyIndicator) WithName(o int32) *PropertyIndicator {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertyIndicator) SetName(o int32) {
+	s.Name = &o
+}
+
+// Period: 1=1分, 11=日, 21=周, 31=月, ...
+func (s *PropertyIndicator) WithPeriod(o int32) *PropertyIndicator {
+	s.Period = &o
+	return s
+}
+
+func (s *PropertyIndicator) SetPeriod(o int32) {
+	s.Period = &o
+}
+
+// PropertyKlineShape
+
+// KlineShape: 6200=形态, 6201=涨跌概率, ...
+func (s *PropertyKlineShape) WithName(o int32) *PropertyKlineShape {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertyKlineShape) SetName(o int32) {
+	s.Name = &o
+}
+
+// K线周期, 目前仅支持日K和1小时K
+func (s *PropertyKlineShape) WithPeriod(o int32) *PropertyKlineShape {
+	s.Period = &o
+	return s
+}
+
+func (s *PropertyKlineShape) SetPeriod(o int32) {
+	s.Period = &o
+}
+
+// PropertyOption
+
+// Option: 1000=正股IV, 1001=IV排名, ...
+func (s *PropertyOption) WithName(o int32) *PropertyOption {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertyOption) SetName(o int32) {
+	s.Name = &o
+}
+
+// 参数
+func (s *PropertyOption) WithParam(o *Param) *PropertyOption {
+	s.Param = o
+	return s
+}
+
+func (s *PropertyOption) SetParam(o *Param) {
+	s.Param = o
+}
+
+// HV周期: 0=30天, 1=60天, 2=90天, 3=120天, 4=365天
+func (s *PropertyOption) WithPeriod(o int32) *PropertyOption {
+	s.Period = &o
+	return s
+}
+
+func (s *PropertyOption) SetPeriod(o int32) {
+	s.Period = &o
+}
+
+// PropertySimple
+
+// PropertyNameSimple: 2201=最新价(倍率1000), 2301=市值(倍率1000), ...
+func (s *PropertySimple) WithName(o int32) *PropertySimple {
+	s.Name = &o
+	return s
+}
+
+func (s *PropertySimple) SetName(o int32) {
+	s.Name = &o
+}
+
 // QotGetBasicQotRequest
+
+// 行情公共参数头
+func (s *QotGetBasicQotRequest) WithHeader(o *QotHeader) *QotGetBasicQotRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetBasicQotRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 股票
 func (s *QotGetBasicQotRequest) WithSecurityList(o ...*Security) *QotGetBasicQotRequest {
@@ -679,6 +1285,16 @@ func (s *QotGetBasicQotRequest) SetSecurityList(o ...*Security) {
 
 // QotGetBrokerRequest
 
+// 行情公共参数头
+func (s *QotGetBrokerRequest) WithHeader(o *QotHeader) *QotGetBrokerRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetBrokerRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // 股票
 func (s *QotGetBrokerRequest) WithSecurity(o *Security) *QotGetBrokerRequest {
 	s.Security = o
@@ -690,6 +1306,16 @@ func (s *QotGetBrokerRequest) SetSecurity(o *Security) {
 }
 
 // QotGetCapitalDistributionRequest
+
+// 行情公共参数头
+func (s *QotGetCapitalDistributionRequest) WithHeader(o *QotHeader) *QotGetCapitalDistributionRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetCapitalDistributionRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 股票
 func (s *QotGetCapitalDistributionRequest) WithSecurity(o *Security) *QotGetCapitalDistributionRequest {
@@ -723,6 +1349,16 @@ func (s *QotGetCapitalFlowRequest) SetEndTime(o string) {
 	s.EndTime = &o
 }
 
+// 行情公共参数头
+func (s *QotGetCapitalFlowRequest) WithHeader(o *QotHeader) *QotGetCapitalFlowRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetCapitalFlowRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // PeriodType 周期类型
 func (s *QotGetCapitalFlowRequest) WithPeriodType(o PeriodType) *QotGetCapitalFlowRequest {
 	s.PeriodType = o.Enum()
@@ -744,6 +1380,16 @@ func (s *QotGetCapitalFlowRequest) SetSecurity(o *Security) {
 }
 
 // QotGetCodeChangeRequest
+
+// 行情公共参数头
+func (s *QotGetCodeChangeRequest) WithHeader(o *QotHeader) *QotGetCodeChangeRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetCodeChangeRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 占位
 func (s *QotGetCodeChangeRequest) WithPlaceHolder(o int32) *QotGetCodeChangeRequest {
@@ -785,7 +1431,361 @@ func (s *QotGetCodeChangeRequest) SetTypeList(o ...CodeChangeType) {
 	s.TypeList = o
 }
 
+// QotGetCompanyExecutiveBackgroundRequest
+
+// 高管姓名（使用GetCompanyExecutives返回的leaderName字段）
+func (s *QotGetCompanyExecutiveBackgroundRequest) WithLeaderName(o string) *QotGetCompanyExecutiveBackgroundRequest {
+	s.LeaderName = &o
+	return s
+}
+
+func (s *QotGetCompanyExecutiveBackgroundRequest) SetLeaderName(o string) {
+	s.LeaderName = &o
+}
+
+// 股票
+func (s *QotGetCompanyExecutiveBackgroundRequest) WithSecurity(o *Security) *QotGetCompanyExecutiveBackgroundRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetCompanyExecutiveBackgroundRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetCompanyExecutivesRequest
+
+// 股票
+func (s *QotGetCompanyExecutivesRequest) WithSecurity(o *Security) *QotGetCompanyExecutivesRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetCompanyExecutivesRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetCompanyOperationalEfficiencyRequest
+
+// 货币代码(ISO 4217)，如 CNY、USD、HKD、SGD、JPY、CAD、AUD；不传返回默认货币
+func (s *QotGetCompanyOperationalEfficiencyRequest) WithCurrencyCode(o string) *QotGetCompanyOperationalEfficiencyRequest {
+	s.CurrencyCode = &o
+	return s
+}
+
+func (s *QotGetCompanyOperationalEfficiencyRequest) SetCurrencyCode(o string) {
+	s.CurrencyCode = &o
+}
+
+// 财报周期筛选，详见 Qot_Common.F10Type 定义，支持 0-7，默认 0(不限)
+func (s *QotGetCompanyOperationalEfficiencyRequest) WithFinancialType(o F10Type) *QotGetCompanyOperationalEfficiencyRequest {
+	s.FinancialType = o.Enum()
+	return s
+}
+
+func (s *QotGetCompanyOperationalEfficiencyRequest) SetFinancialType(o F10Type) {
+	s.FinancialType = o.Enum()
+}
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetCompanyOperationalEfficiencyRequest) WithNextKey(o string) *QotGetCompanyOperationalEfficiencyRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetCompanyOperationalEfficiencyRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetCompanyOperationalEfficiencyRequest) WithNum(o int32) *QotGetCompanyOperationalEfficiencyRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetCompanyOperationalEfficiencyRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 股票
+func (s *QotGetCompanyOperationalEfficiencyRequest) WithSecurity(o *Security) *QotGetCompanyOperationalEfficiencyRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetCompanyOperationalEfficiencyRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetCompanyProfileRequest
+
+// 股票
+func (s *QotGetCompanyProfileRequest) WithSecurity(o *Security) *QotGetCompanyProfileRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetCompanyProfileRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetCorporateActionsBuybacksRequest
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetCorporateActionsBuybacksRequest) WithNextKey(o string) *QotGetCorporateActionsBuybacksRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetCorporateActionsBuybacksRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetCorporateActionsBuybacksRequest) WithNum(o int32) *QotGetCorporateActionsBuybacksRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetCorporateActionsBuybacksRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 股票
+func (s *QotGetCorporateActionsBuybacksRequest) WithSecurity(o *Security) *QotGetCorporateActionsBuybacksRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetCorporateActionsBuybacksRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetCorporateActionsDividendsRequest
+
+// 股票
+func (s *QotGetCorporateActionsDividendsRequest) WithSecurity(o *Security) *QotGetCorporateActionsDividendsRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetCorporateActionsDividendsRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetCorporateActionsStockSplitsRequest
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetCorporateActionsStockSplitsRequest) WithNextKey(o string) *QotGetCorporateActionsStockSplitsRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetCorporateActionsStockSplitsRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetCorporateActionsStockSplitsRequest) WithNum(o int32) *QotGetCorporateActionsStockSplitsRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetCorporateActionsStockSplitsRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 股票
+func (s *QotGetCorporateActionsStockSplitsRequest) WithSecurity(o *Security) *QotGetCorporateActionsStockSplitsRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetCorporateActionsStockSplitsRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetDailyShortVolumeRequest
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetDailyShortVolumeRequest) WithNextKey(o string) *QotGetDailyShortVolumeRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetDailyShortVolumeRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetDailyShortVolumeRequest) WithNum(o int32) *QotGetDailyShortVolumeRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetDailyShortVolumeRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 股票
+func (s *QotGetDailyShortVolumeRequest) WithSecurity(o *Security) *QotGetDailyShortVolumeRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetDailyShortVolumeRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetFinancialsEarningsPriceHistoryRequest
+
+// 股票
+func (s *QotGetFinancialsEarningsPriceHistoryRequest) WithSecurity(o *Security) *QotGetFinancialsEarningsPriceHistoryRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetFinancialsEarningsPriceHistoryRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetFinancialsEarningsPriceMoveRequest
+
+// 财报周期数量，默认 10，取值范围 [1, 50]
+func (s *QotGetFinancialsEarningsPriceMoveRequest) WithPeriodCount(o int32) *QotGetFinancialsEarningsPriceMoveRequest {
+	s.PeriodCount = &o
+	return s
+}
+
+func (s *QotGetFinancialsEarningsPriceMoveRequest) SetPeriodCount(o int32) {
+	s.PeriodCount = &o
+}
+
+// 股票
+func (s *QotGetFinancialsEarningsPriceMoveRequest) WithSecurity(o *Security) *QotGetFinancialsEarningsPriceMoveRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetFinancialsEarningsPriceMoveRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetFinancialsRevenueBreakdownRequest
+
+// 币种代码（ISO 4217），如 CNY、USD、HKD、SGD、JPY、CAD、AUD；不填返回原始货币数据
+func (s *QotGetFinancialsRevenueBreakdownRequest) WithCurrencyCode(o string) *QotGetFinancialsRevenueBreakdownRequest {
+	s.CurrencyCode = &o
+	return s
+}
+
+func (s *QotGetFinancialsRevenueBreakdownRequest) SetCurrencyCode(o string) {
+	s.CurrencyCode = &o
+}
+
+// 筛选时间戳（Unix 时间戳（秒），0 或不填返回最新一期，回传型，须为 screenDateList 中某个 date 值）
+func (s *QotGetFinancialsRevenueBreakdownRequest) WithDate(o uint32) *QotGetFinancialsRevenueBreakdownRequest {
+	s.Date = &o
+	return s
+}
+
+func (s *QotGetFinancialsRevenueBreakdownRequest) SetDate(o uint32) {
+	s.Date = &o
+}
+
+// 财报类型，详见 Qot_Common.F10Type 定义，支持 0-7, 9，默认 0(Unknown)
+func (s *QotGetFinancialsRevenueBreakdownRequest) WithFinancialType(o F10Type) *QotGetFinancialsRevenueBreakdownRequest {
+	s.FinancialType = o.Enum()
+	return s
+}
+
+func (s *QotGetFinancialsRevenueBreakdownRequest) SetFinancialType(o F10Type) {
+	s.FinancialType = o.Enum()
+}
+
+// 股票
+func (s *QotGetFinancialsRevenueBreakdownRequest) WithSecurity(o *Security) *QotGetFinancialsRevenueBreakdownRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetFinancialsRevenueBreakdownRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetFinancialsStatementsRequest
+
+// 币种代码（ISO 4217），如 CNY、USD、HKD、SGD、JPY、CAD、AUD；不填返回原始货币数据
+func (s *QotGetFinancialsStatementsRequest) WithCurrencyCode(o string) *QotGetFinancialsStatementsRequest {
+	s.CurrencyCode = &o
+	return s
+}
+
+func (s *QotGetFinancialsStatementsRequest) SetCurrencyCode(o string) {
+	s.CurrencyCode = &o
+}
+
+// 财报类型，详见 Qot_Common.F10Type 定义，支持 0-7, 9-11，默认 10(QuarterlyAnnual)
+func (s *QotGetFinancialsStatementsRequest) WithFinancialType(o F10Type) *QotGetFinancialsStatementsRequest {
+	s.FinancialType = o.Enum()
+	return s
+}
+
+func (s *QotGetFinancialsStatementsRequest) SetFinancialType(o F10Type) {
+	s.FinancialType = o.Enum()
+}
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetFinancialsStatementsRequest) WithNextKey(o string) *QotGetFinancialsStatementsRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetFinancialsStatementsRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetFinancialsStatementsRequest) WithNum(o int32) *QotGetFinancialsStatementsRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetFinancialsStatementsRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 股票
+func (s *QotGetFinancialsStatementsRequest) WithSecurity(o *Security) *QotGetFinancialsStatementsRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetFinancialsStatementsRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// 财务报表类型（详见 Qot_Common.FinancialStatementsType 定义），默认利润表（Income=1）
+func (s *QotGetFinancialsStatementsRequest) WithStatementType(o FinancialStatementsType) *QotGetFinancialsStatementsRequest {
+	s.StatementType = o.Enum()
+	return s
+}
+
+func (s *QotGetFinancialsStatementsRequest) SetStatementType(o FinancialStatementsType) {
+	s.StatementType = o.Enum()
+}
+
 // QotGetFutureInfoRequest
+
+// 行情公共参数头
+func (s *QotGetFutureInfoRequest) WithHeader(o *QotHeader) *QotGetFutureInfoRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetFutureInfoRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 股票列表
 func (s *QotGetFutureInfoRequest) WithSecurityList(o ...*Security) *QotGetFutureInfoRequest {
@@ -798,6 +1798,16 @@ func (s *QotGetFutureInfoRequest) SetSecurityList(o ...*Security) {
 }
 
 // QotGetHistoryKLPointsRequest
+
+// 行情公共参数头
+func (s *QotGetHistoryKLPointsRequest) WithHeader(o *QotHeader) *QotGetHistoryKLPointsRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetHistoryKLPointsRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // Qot_Common.KLType,K线类型
 func (s *QotGetHistoryKLPointsRequest) WithKlType(o KLType) *QotGetHistoryKLPointsRequest {
@@ -891,6 +1901,16 @@ func (s *QotGetHistoryKLRequest) SetEndTime(o string) {
 	s.EndTime = &o
 }
 
+// 行情公共参数头
+func (s *QotGetHistoryKLRequest) WithHeader(o *QotHeader) *QotGetHistoryKLRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetHistoryKLRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // Qot_Common.KLType,K线类型
 func (s *QotGetHistoryKLRequest) WithKlType(o KLType) *QotGetHistoryKLRequest {
 	s.KlType = o.Enum()
@@ -963,6 +1983,16 @@ func (s *QotGetHoldingChangeListRequest) SetEndTime(o string) {
 	s.EndTime = &o
 }
 
+// 行情公共参数头
+func (s *QotGetHoldingChangeListRequest) WithHeader(o *QotHeader) *QotGetHoldingChangeListRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetHoldingChangeListRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // 持有者类别（1机构、2基金、3高管）
 func (s *QotGetHoldingChangeListRequest) WithHolderCategory(o HolderCategory) *QotGetHoldingChangeListRequest {
 	s.HolderCategory = o.Enum()
@@ -983,7 +2013,89 @@ func (s *QotGetHoldingChangeListRequest) SetSecurity(o *Security) {
 	s.Security = o
 }
 
+// QotGetInsiderHolderListRequest
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetInsiderHolderListRequest) WithNextKey(o string) *QotGetInsiderHolderListRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetInsiderHolderListRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~20
+func (s *QotGetInsiderHolderListRequest) WithNum(o int32) *QotGetInsiderHolderListRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetInsiderHolderListRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+func (s *QotGetInsiderHolderListRequest) WithSecurity(o *Security) *QotGetInsiderHolderListRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetInsiderHolderListRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetInsiderTradeListRequest
+
+// 股东id，非必传，传了为指定某一个股东；可取自 GetInsiderHolderList（3241）或本协议（3242）返回的 holderId
+func (s *QotGetInsiderTradeListRequest) WithHolderId(o int64) *QotGetInsiderTradeListRequest {
+	s.HolderId = &o
+	return s
+}
+
+func (s *QotGetInsiderTradeListRequest) SetHolderId(o int64) {
+	s.HolderId = &o
+}
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetInsiderTradeListRequest) WithNextKey(o string) *QotGetInsiderTradeListRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetInsiderTradeListRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetInsiderTradeListRequest) WithNum(o int32) *QotGetInsiderTradeListRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetInsiderTradeListRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+func (s *QotGetInsiderTradeListRequest) WithSecurity(o *Security) *QotGetInsiderTradeListRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetInsiderTradeListRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
 // QotGetIpoListRequest
+
+// 行情公共参数头
+func (s *QotGetIpoListRequest) WithHeader(o *QotHeader) *QotGetIpoListRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetIpoListRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // Qot_Common::QotMarket股票市场，支持沪股和深股，且沪股和深股不做区分都代表A股市场。
 func (s *QotGetIpoListRequest) WithMarket(o QotMarket) *QotGetIpoListRequest {
@@ -996,6 +2108,16 @@ func (s *QotGetIpoListRequest) SetMarket(o QotMarket) {
 }
 
 // QotGetKLRequest
+
+// 行情公共参数头
+func (s *QotGetKLRequest) WithHeader(o *QotHeader) *QotGetKLRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetKLRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // Qot_Common.KLType,K线类型
 func (s *QotGetKLRequest) WithKlType(o KLType) *QotGetKLRequest {
@@ -1038,6 +2160,16 @@ func (s *QotGetKLRequest) SetSecurity(o *Security) {
 }
 
 // QotGetMarketStateRequest
+
+// 行情公共参数头
+func (s *QotGetMarketStateRequest) WithHeader(o *QotHeader) *QotGetMarketStateRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetMarketStateRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 股票列表
 func (s *QotGetMarketStateRequest) WithSecurityList(o ...*Security) *QotGetMarketStateRequest {
@@ -1091,6 +2223,16 @@ func (s *QotGetOptionChainRequest) SetEndTime(o string) {
 	s.EndTime = &o
 }
 
+// 行情公共参数头
+func (s *QotGetOptionChainRequest) WithHeader(o *QotHeader) *QotGetOptionChainRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetOptionChainRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // Qot_Common.IndexOptionType，指数期权的类型，仅用于恒指国指
 func (s *QotGetOptionChainRequest) WithIndexOptionType(o IndexOptionType) *QotGetOptionChainRequest {
 	s.IndexOptionType = o.Enum()
@@ -1121,7 +2263,29 @@ func (s *QotGetOptionChainRequest) SetType(o OptionType) {
 	s.Type = o.Enum()
 }
 
+// QotGetOptionExerciseProbabilityRequest
+
+// 股票
+func (s *QotGetOptionExerciseProbabilityRequest) WithSecurity(o *Security) *QotGetOptionExerciseProbabilityRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetOptionExerciseProbabilityRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
 // QotGetOptionExpirationDateRequest
+
+// 行情公共参数头
+func (s *QotGetOptionExpirationDateRequest) WithHeader(o *QotHeader) *QotGetOptionExpirationDateRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetOptionExpirationDateRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // Qot_Common.IndexOptionType，指数期权的类型，仅用于恒指国指
 func (s *QotGetOptionExpirationDateRequest) WithIndexOptionType(o IndexOptionType) *QotGetOptionExpirationDateRequest {
@@ -1143,7 +2307,247 @@ func (s *QotGetOptionExpirationDateRequest) SetOwner(o *Security) {
 	s.Owner = o
 }
 
+// QotGetOptionQuoteRequest
+
+// 行情公共参数头
+func (s *QotGetOptionQuoteRequest) WithHeader(o *QotHeader) *QotGetOptionQuoteRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetOptionQuoteRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
+// 组合策略合约腿列表
+func (s *QotGetOptionQuoteRequest) WithMultiLegs(o ...*ComboLeg) *QotGetOptionQuoteRequest {
+	s.MultiLegs = o
+	return s
+}
+
+func (s *QotGetOptionQuoteRequest) SetMultiLegs(o ...*ComboLeg) {
+	s.MultiLegs = o
+}
+
+// QotGetOptionStrategyAnalysisRequest
+
+// 行情公共参数头
+func (s *QotGetOptionStrategyAnalysisRequest) WithHeader(o *QotHeader) *QotGetOptionStrategyAnalysisRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetOptionStrategyAnalysisRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
+// 组合策略合约腿列表，至少传入 1 条
+func (s *QotGetOptionStrategyAnalysisRequest) WithMultiLegs(o ...*ComboLeg) *QotGetOptionStrategyAnalysisRequest {
+	s.MultiLegs = o
+	return s
+}
+
+func (s *QotGetOptionStrategyAnalysisRequest) SetMultiLegs(o ...*ComboLeg) {
+	s.MultiLegs = o
+}
+
+// QotGetOptionStrategyRequest
+
+// 到期日（近端到期日）
+func (s *QotGetOptionStrategyRequest) WithExpireTime(o string) *QotGetOptionStrategyRequest {
+	s.ExpireTime = &o
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetExpireTime(o string) {
+	s.ExpireTime = &o
+}
+
+// 远端到期日，对角策略（DiagonalSpread）时使用
+func (s *QotGetOptionStrategyRequest) WithFarExpireTime(o string) *QotGetOptionStrategyRequest {
+	s.FarExpireTime = &o
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetFarExpireTime(o string) {
+	s.FarExpireTime = &o
+}
+
+// 行情公共参数头
+func (s *QotGetOptionStrategyRequest) WithHeader(o *QotHeader) *QotGetOptionStrategyRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
+// Qot_Common.IndexOptionType，指数期权类型，仅用于恒指国指
+func (s *QotGetOptionStrategyRequest) WithIndexOptionType(o IndexOptionType) *QotGetOptionStrategyRequest {
+	s.IndexOptionType = o.Enum()
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetIndexOptionType(o IndexOptionType) {
+	s.IndexOptionType = o.Enum()
+}
+
+// OptionStrategyType，期权策略类型
+func (s *QotGetOptionStrategyRequest) WithOptionStrategy(o OptionStrategyType) *QotGetOptionStrategyRequest {
+	s.OptionStrategy = o.Enum()
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetOptionStrategy(o OptionStrategyType) {
+	s.OptionStrategy = o.Enum()
+}
+
+// Qot_Common.OptionType，期权类型，不填表示都返回
+func (s *QotGetOptionStrategyRequest) WithOptionType(o OptionType) *QotGetOptionStrategyRequest {
+	s.OptionType = o.Enum()
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetOptionType(o OptionType) {
+	s.OptionType = o.Enum()
+}
+
+// 期权标的股，目前仅支持港美正股以及恒指国指
+func (s *QotGetOptionStrategyRequest) WithOwner(o *Security) *QotGetOptionStrategyRequest {
+	s.Owner = o
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetOwner(o *Security) {
+	s.Owner = o
+}
+
+// 价差筛选值，仅对价差类策略有效，不填表示返回所有
+func (s *QotGetOptionStrategyRequest) WithSpread(o float64) *QotGetOptionStrategyRequest {
+	s.Spread = &o
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetSpread(o float64) {
+	s.Spread = &o
+}
+
+// 行权价筛选，不填表示返回所有行权价
+func (s *QotGetOptionStrategyRequest) WithStrikePrice(o float64) *QotGetOptionStrategyRequest {
+	s.StrikePrice = &o
+	return s
+}
+
+func (s *QotGetOptionStrategyRequest) SetStrikePrice(o float64) {
+	s.StrikePrice = &o
+}
+
+// QotGetOptionStrategySpreadRequest
+
+// 到期日（近端到期日）
+func (s *QotGetOptionStrategySpreadRequest) WithExpireTime(o string) *QotGetOptionStrategySpreadRequest {
+	s.ExpireTime = &o
+	return s
+}
+
+func (s *QotGetOptionStrategySpreadRequest) SetExpireTime(o string) {
+	s.ExpireTime = &o
+}
+
+// 远端到期日，对角策略（DiagonalSpread）时必传
+func (s *QotGetOptionStrategySpreadRequest) WithFarExpireTime(o string) *QotGetOptionStrategySpreadRequest {
+	s.FarExpireTime = &o
+	return s
+}
+
+func (s *QotGetOptionStrategySpreadRequest) SetFarExpireTime(o string) {
+	s.FarExpireTime = &o
+}
+
+// 行情公共参数头
+func (s *QotGetOptionStrategySpreadRequest) WithHeader(o *QotHeader) *QotGetOptionStrategySpreadRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetOptionStrategySpreadRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
+// Qot_Common.IndexOptionType，指数期权类型，仅用于恒指国指
+func (s *QotGetOptionStrategySpreadRequest) WithIndexOptionType(o IndexOptionType) *QotGetOptionStrategySpreadRequest {
+	s.IndexOptionType = o.Enum()
+	return s
+}
+
+func (s *QotGetOptionStrategySpreadRequest) SetIndexOptionType(o IndexOptionType) {
+	s.IndexOptionType = o.Enum()
+}
+
+// Qot_GetOptionStrategy.OptionStrategyType，期权策略类型
+func (s *QotGetOptionStrategySpreadRequest) WithOptionStrategy(o OptionStrategyType) *QotGetOptionStrategySpreadRequest {
+	s.OptionStrategy = o.Enum()
+	return s
+}
+
+func (s *QotGetOptionStrategySpreadRequest) SetOptionStrategy(o OptionStrategyType) {
+	s.OptionStrategy = o.Enum()
+}
+
+// 期权标的股，目前仅支持港美正股以及恒指国指
+func (s *QotGetOptionStrategySpreadRequest) WithOwner(o *Security) *QotGetOptionStrategySpreadRequest {
+	s.Owner = o
+	return s
+}
+
+func (s *QotGetOptionStrategySpreadRequest) SetOwner(o *Security) {
+	s.Owner = o
+}
+
+// QotGetOptionVolatilityRequest
+
+// 标的物历史波动率周期（5~250 日）；不填默认 30 日
+func (s *QotGetOptionVolatilityRequest) WithHvTimePeriod(o int32) *QotGetOptionVolatilityRequest {
+	s.HvTimePeriod = &o
+	return s
+}
+
+func (s *QotGetOptionVolatilityRequest) SetHvTimePeriod(o int32) {
+	s.HvTimePeriod = &o
+}
+
+// 查询时间周期，详见 Qot_Common.OptionVolatilityTimePeriodType 定义，不填默认月
+func (s *QotGetOptionVolatilityRequest) WithQueryTimePeriod(o OptionVolatilityTimePeriodType) *QotGetOptionVolatilityRequest {
+	s.QueryTimePeriod = o.Enum()
+	return s
+}
+
+func (s *QotGetOptionVolatilityRequest) SetQueryTimePeriod(o OptionVolatilityTimePeriodType) {
+	s.QueryTimePeriod = o.Enum()
+}
+
+// 股票
+func (s *QotGetOptionVolatilityRequest) WithSecurity(o *Security) *QotGetOptionVolatilityRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetOptionVolatilityRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
 // QotGetOrderBookRequest
+
+// 行情公共参数头
+func (s *QotGetOrderBookRequest) WithHeader(o *QotHeader) *QotGetOrderBookRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetOrderBookRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 请求的摆盘个数
 func (s *QotGetOrderBookRequest) WithNum(o int32) *QotGetOrderBookRequest {
@@ -1153,6 +2557,16 @@ func (s *QotGetOrderBookRequest) WithNum(o int32) *QotGetOrderBookRequest {
 
 func (s *QotGetOrderBookRequest) SetNum(o int32) {
 	s.Num = &o
+}
+
+// Qot_Common.OrderBookType, 摆盘类型，不传默认返回整股盘
+func (s *QotGetOrderBookRequest) WithOrderBookType(o OrderBookType) *QotGetOrderBookRequest {
+	s.OrderBookType = o.Enum()
+	return s
+}
+
+func (s *QotGetOrderBookRequest) SetOrderBookType(o OrderBookType) {
+	s.OrderBookType = o.Enum()
 }
 
 // 股票
@@ -1166,6 +2580,16 @@ func (s *QotGetOrderBookRequest) SetSecurity(o *Security) {
 }
 
 // QotGetOwnerPlateRequest
+
+// 行情公共参数头
+func (s *QotGetOwnerPlateRequest) WithHeader(o *QotHeader) *QotGetOwnerPlateRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetOwnerPlateRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 股票
 func (s *QotGetOwnerPlateRequest) WithSecurityList(o ...*Security) *QotGetOwnerPlateRequest {
@@ -1187,6 +2611,16 @@ func (s *QotGetPlateSecurityRequest) WithAscend(o bool) *QotGetPlateSecurityRequ
 
 func (s *QotGetPlateSecurityRequest) SetAscend(o bool) {
 	s.Ascend = &o
+}
+
+// 行情公共参数头
+func (s *QotGetPlateSecurityRequest) WithHeader(o *QotHeader) *QotGetPlateSecurityRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetPlateSecurityRequest) SetHeader(o *QotHeader) {
+	s.Header = o
 }
 
 // 板块
@@ -1211,6 +2645,16 @@ func (s *QotGetPlateSecurityRequest) SetSortField(o SortField) {
 
 // QotGetPlateSetRequest
 
+// 行情公共参数头
+func (s *QotGetPlateSetRequest) WithHeader(o *QotHeader) *QotGetPlateSetRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetPlateSetRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // Qot_Common.QotMarket,股票市场
 func (s *QotGetPlateSetRequest) WithMarket(o QotMarket) *QotGetPlateSetRequest {
 	s.Market = o.Enum()
@@ -1232,6 +2676,16 @@ func (s *QotGetPlateSetRequest) SetPlateSetType(o PlateSetType) {
 }
 
 // QotGetPriceReminderRequest
+
+// 行情公共参数头
+func (s *QotGetPriceReminderRequest) WithHeader(o *QotHeader) *QotGetPriceReminderRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetPriceReminderRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // Qot_Common::QotMarket 市场，查询市场下的到价提醒项，不区分沪深
 func (s *QotGetPriceReminderRequest) WithMarket(o QotMarket) *QotGetPriceReminderRequest {
@@ -1255,6 +2709,16 @@ func (s *QotGetPriceReminderRequest) SetSecurity(o *Security) {
 
 // QotGetRTRequest
 
+// 行情公共参数头
+func (s *QotGetRTRequest) WithHeader(o *QotHeader) *QotGetRTRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetRTRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // 股票
 func (s *QotGetRTRequest) WithSecurity(o *Security) *QotGetRTRequest {
 	s.Security = o
@@ -1266,6 +2730,16 @@ func (s *QotGetRTRequest) SetSecurity(o *Security) {
 }
 
 // QotGetReferenceRequest
+
+// 行情公共参数头
+func (s *QotGetReferenceRequest) WithHeader(o *QotHeader) *QotGetReferenceRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetReferenceRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // ReferenceType, 相关类型
 func (s *QotGetReferenceRequest) WithReferenceType(o ReferenceType) *QotGetReferenceRequest {
@@ -1289,6 +2763,16 @@ func (s *QotGetReferenceRequest) SetSecurity(o *Security) {
 
 // QotGetRehabRequest
 
+// 行情公共参数头
+func (s *QotGetRehabRequest) WithHeader(o *QotHeader) *QotGetRehabRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetRehabRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // 股票
 func (s *QotGetRehabRequest) WithSecurityList(o ...*Security) *QotGetRehabRequest {
 	s.SecurityList = o
@@ -1299,7 +2783,93 @@ func (s *QotGetRehabRequest) SetSecurityList(o ...*Security) {
 	s.SecurityList = o
 }
 
+// QotGetResearchAnalystConsensusRequest
+
+// 股票
+func (s *QotGetResearchAnalystConsensusRequest) WithSecurity(o *Security) *QotGetResearchAnalystConsensusRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetResearchAnalystConsensusRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetResearchMorningstarReportRequest
+
+// 股票
+func (s *QotGetResearchMorningstarReportRequest) WithSecurity(o *Security) *QotGetResearchMorningstarReportRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetResearchMorningstarReportRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetResearchRatingSummaryRequest
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetResearchRatingSummaryRequest) WithNextKey(o string) *QotGetResearchRatingSummaryRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetResearchRatingSummaryRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~20
+func (s *QotGetResearchRatingSummaryRequest) WithNum(o int32) *QotGetResearchRatingSummaryRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetResearchRatingSummaryRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 评级维度（详见 Qot_Common.ResearchRatingDimensionType 定义），默认机构维度
+func (s *QotGetResearchRatingSummaryRequest) WithRatingDimensionType(o ResearchRatingDimensionType) *QotGetResearchRatingSummaryRequest {
+	s.RatingDimensionType = o.Enum()
+	return s
+}
+
+func (s *QotGetResearchRatingSummaryRequest) SetRatingDimensionType(o ResearchRatingDimensionType) {
+	s.RatingDimensionType = o.Enum()
+}
+
+// 股票
+func (s *QotGetResearchRatingSummaryRequest) WithSecurity(o *Security) *QotGetResearchRatingSummaryRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetResearchRatingSummaryRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// 空=取该股票的评级汇总列表；非空=取该 uid（institutionUid 或 analystUid）的评级详情
+func (s *QotGetResearchRatingSummaryRequest) WithUid(o string) *QotGetResearchRatingSummaryRequest {
+	s.Uid = &o
+	return s
+}
+
+func (s *QotGetResearchRatingSummaryRequest) SetUid(o string) {
+	s.Uid = &o
+}
+
 // QotGetSecuritySnapshotRequest
+
+// 行情公共参数头
+func (s *QotGetSecuritySnapshotRequest) WithHeader(o *QotHeader) *QotGetSecuritySnapshotRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetSecuritySnapshotRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 股票
 func (s *QotGetSecuritySnapshotRequest) WithSecurityList(o ...*Security) *QotGetSecuritySnapshotRequest {
@@ -1311,7 +2881,244 @@ func (s *QotGetSecuritySnapshotRequest) SetSecurityList(o ...*Security) {
 	s.SecurityList = o
 }
 
+// QotGetShareholdersHolderDetailRequest
+
+// 按持股人 ID 过滤；默认 0 表示不过滤；可取自 GetShareholdersOverview（3237）、GetShareholdersHoldingChanges（3238）、本协议（3239）、GetInsiderHolderList（3241）、GetInsiderTradeList（3242）返回的 holderId
+func (s *QotGetShareholdersHolderDetailRequest) WithHolderId(o int32) *QotGetShareholdersHolderDetailRequest {
+	s.HolderId = &o
+	return s
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) SetHolderId(o int32) {
+	s.HolderId = &o
+}
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetShareholdersHolderDetailRequest) WithNextKey(o string) *QotGetShareholdersHolderDetailRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetShareholdersHolderDetailRequest) WithNum(o int32) *QotGetShareholdersHolderDetailRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 指定统计周期 ID；与 Qot_GetShareholdersOverview（3237）返回的 holdingPeriodList 中 periodId 一致；默认 0 表示最新周期
+func (s *QotGetShareholdersHolderDetailRequest) WithPeriodId(o int32) *QotGetShareholdersHolderDetailRequest {
+	s.PeriodId = &o
+	return s
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) SetPeriodId(o int32) {
+	s.PeriodId = &o
+}
+
+// 请求数据类型，详见 Qot_Common.HolderDetailType 定义，默认按服务端默认逻辑返回
+func (s *QotGetShareholdersHolderDetailRequest) WithRequestType(o HolderDetailType) *QotGetShareholdersHolderDetailRequest {
+	s.RequestType = o.Enum()
+	return s
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) SetRequestType(o HolderDetailType) {
+	s.RequestType = o.Enum()
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) WithSecurity(o *Security) *QotGetShareholdersHolderDetailRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// 排序列，详见 Qot_Common.SortField，61=持股股数（默认）62=持股变动数
+func (s *QotGetShareholdersHolderDetailRequest) WithSortColumn(o SortField) *QotGetShareholdersHolderDetailRequest {
+	s.SortColumn = o.Enum()
+	return s
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) SetSortColumn(o SortField) {
+	s.SortColumn = o.Enum()
+}
+
+// 排序方向，详见 Qot_Common.SortType 定义，默认降序
+func (s *QotGetShareholdersHolderDetailRequest) WithSortType(o SortType) *QotGetShareholdersHolderDetailRequest {
+	s.SortType = o.Enum()
+	return s
+}
+
+func (s *QotGetShareholdersHolderDetailRequest) SetSortType(o SortType) {
+	s.SortType = o.Enum()
+}
+
+// QotGetShareholdersHoldingChangesRequest
+
+// 筛选类型，详见 Qot_Common.HoldingChangesFilterType 定义，默认全部
+func (s *QotGetShareholdersHoldingChangesRequest) WithFilterType(o HoldingChangesFilterType) *QotGetShareholdersHoldingChangesRequest {
+	s.FilterType = o.Enum()
+	return s
+}
+
+func (s *QotGetShareholdersHoldingChangesRequest) SetFilterType(o HoldingChangesFilterType) {
+	s.FilterType = o.Enum()
+}
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetShareholdersHoldingChangesRequest) WithNextKey(o string) *QotGetShareholdersHoldingChangesRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetShareholdersHoldingChangesRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetShareholdersHoldingChangesRequest) WithNum(o int32) *QotGetShareholdersHoldingChangesRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetShareholdersHoldingChangesRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 股票
+func (s *QotGetShareholdersHoldingChangesRequest) WithSecurity(o *Security) *QotGetShareholdersHoldingChangesRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetShareholdersHoldingChangesRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// 排序字段，详见 Qot_Common.SortField，62=持股变动数（默认）63=持股日期 64=变动比例 65=变动金额 66=持股比例
+func (s *QotGetShareholdersHoldingChangesRequest) WithSortColumn(o SortField) *QotGetShareholdersHoldingChangesRequest {
+	s.SortColumn = o.Enum()
+	return s
+}
+
+func (s *QotGetShareholdersHoldingChangesRequest) SetSortColumn(o SortField) {
+	s.SortColumn = o.Enum()
+}
+
+// 排序方向，详见 Qot_Common.SortType 定义，默认降序
+func (s *QotGetShareholdersHoldingChangesRequest) WithSortType(o SortType) *QotGetShareholdersHoldingChangesRequest {
+	s.SortType = o.Enum()
+	return s
+}
+
+func (s *QotGetShareholdersHoldingChangesRequest) SetSortType(o SortType) {
+	s.SortType = o.Enum()
+}
+
+// QotGetShareholdersInstitutionalRequest
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetShareholdersInstitutionalRequest) WithNextKey(o string) *QotGetShareholdersInstitutionalRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetShareholdersInstitutionalRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetShareholdersInstitutionalRequest) WithNum(o int32) *QotGetShareholdersInstitutionalRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetShareholdersInstitutionalRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+func (s *QotGetShareholdersInstitutionalRequest) WithSecurity(o *Security) *QotGetShareholdersInstitutionalRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetShareholdersInstitutionalRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetShareholdersOverviewRequest
+
+// 指定报告期 ID；传 0 或不传则返回最新数据，并额外返回可用报告期列表
+func (s *QotGetShareholdersOverviewRequest) WithPeriodId(o int32) *QotGetShareholdersOverviewRequest {
+	s.PeriodId = &o
+	return s
+}
+
+func (s *QotGetShareholdersOverviewRequest) SetPeriodId(o int32) {
+	s.PeriodId = &o
+}
+
+func (s *QotGetShareholdersOverviewRequest) WithSecurity(o *Security) *QotGetShareholdersOverviewRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetShareholdersOverviewRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// QotGetShortInterestRequest
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetShortInterestRequest) WithNextKey(o string) *QotGetShortInterestRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetShortInterestRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetShortInterestRequest) WithNum(o int32) *QotGetShortInterestRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetShortInterestRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 股票
+func (s *QotGetShortInterestRequest) WithSecurity(o *Security) *QotGetShortInterestRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetShortInterestRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
 // QotGetStaticInfoRequest
+
+// 行情公共参数头
+func (s *QotGetStaticInfoRequest) WithHeader(o *QotHeader) *QotGetStaticInfoRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetStaticInfoRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // Qot_Common.QotMarket,股票市场
 func (s *QotGetStaticInfoRequest) WithMarket(o QotMarket) *QotGetStaticInfoRequest {
@@ -1345,6 +3152,16 @@ func (s *QotGetStaticInfoRequest) SetSecurityList(o ...*Security) {
 
 // QotGetSubInfoRequest
 
+// 行情公共参数头
+func (s *QotGetSubInfoRequest) WithHeader(o *QotHeader) *QotGetSubInfoRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetSubInfoRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // 是否返回所有连接的订阅状态,不传或者传false只返回当前连接数据
 func (s *QotGetSubInfoRequest) WithIsReqAllConn(o bool) *QotGetSubInfoRequest {
 	s.IsReqAllConn = &o
@@ -1377,6 +3194,16 @@ func (s *QotGetSuspendRequest) SetEndTime(o string) {
 	s.EndTime = &o
 }
 
+// 行情公共参数头
+func (s *QotGetSuspendRequest) WithHeader(o *QotHeader) *QotGetSuspendRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetSuspendRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // 股票
 func (s *QotGetSuspendRequest) WithSecurityList(o ...*Security) *QotGetSuspendRequest {
 	s.SecurityList = o
@@ -1388,6 +3215,16 @@ func (s *QotGetSuspendRequest) SetSecurityList(o ...*Security) {
 }
 
 // QotGetTickerRequest
+
+// 行情公共参数头
+func (s *QotGetTickerRequest) WithHeader(o *QotHeader) *QotGetTickerRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetTickerRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 最多返回的逐笔个数,实际返回数量不一定会返回这么多,最多返回1000个
 func (s *QotGetTickerRequest) WithMaxRetNum(o int32) *QotGetTickerRequest {
@@ -1409,6 +3246,28 @@ func (s *QotGetTickerRequest) SetSecurity(o *Security) {
 	s.Security = o
 }
 
+// QotGetTopTenBuySellBrokersRequest
+
+// 不填或 0=实时，N=取前第 N 个交易日的历史数据
+func (s *QotGetTopTenBuySellBrokersRequest) WithDaysBefore(o int32) *QotGetTopTenBuySellBrokersRequest {
+	s.DaysBefore = &o
+	return s
+}
+
+func (s *QotGetTopTenBuySellBrokersRequest) SetDaysBefore(o int32) {
+	s.DaysBefore = &o
+}
+
+// 股票
+func (s *QotGetTopTenBuySellBrokersRequest) WithSecurity(o *Security) *QotGetTopTenBuySellBrokersRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetTopTenBuySellBrokersRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
 // QotGetUserSecurityGroupRequest
 
 // GroupType,自选股分组类型。
@@ -1421,6 +3280,16 @@ func (s *QotGetUserSecurityGroupRequest) SetGroupType(o GroupType) {
 	s.GroupType = o.Enum()
 }
 
+// 行情公共参数头
+func (s *QotGetUserSecurityGroupRequest) WithHeader(o *QotHeader) *QotGetUserSecurityGroupRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetUserSecurityGroupRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // QotGetUserSecurityRequest
 
 // 分组名,有同名的返回排序首个
@@ -1431,6 +3300,121 @@ func (s *QotGetUserSecurityRequest) WithGroupName(o string) *QotGetUserSecurityR
 
 func (s *QotGetUserSecurityRequest) SetGroupName(o string) {
 	s.GroupName = &o
+}
+
+// 行情公共参数头
+func (s *QotGetUserSecurityRequest) WithHeader(o *QotHeader) *QotGetUserSecurityRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetUserSecurityRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
+// QotGetValuationDetailRequest
+// ===== 请求 / 响应 =====
+
+// 历史数据时间周期，详见 Qot_Common.ValuationIntervalType 定义
+func (s *QotGetValuationDetailRequest) WithIntervalType(o ValuationIntervalType) *QotGetValuationDetailRequest {
+	s.IntervalType = o.Enum()
+	return s
+}
+
+func (s *QotGetValuationDetailRequest) SetIntervalType(o ValuationIntervalType) {
+	s.IntervalType = o.Enum()
+}
+
+// 股票
+func (s *QotGetValuationDetailRequest) WithSecurity(o *Security) *QotGetValuationDetailRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetValuationDetailRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// 估值类型，详见 Qot_Common.ValuationType 定义，默认 0(Unknown，使用推荐类型)
+func (s *QotGetValuationDetailRequest) WithValuationType(o ValuationType) *QotGetValuationDetailRequest {
+	s.ValuationType = o.Enum()
+	return s
+}
+
+func (s *QotGetValuationDetailRequest) SetValuationType(o ValuationType) {
+	s.ValuationType = o.Enum()
+}
+
+// QotGetValuationPlateStockListRequest
+
+// 板块:仅指数成分股估值有效,按板块筛选成分股，不传则不筛选
+func (s *QotGetValuationPlateStockListRequest) WithFilterSecurity(o *Security) *QotGetValuationPlateStockListRequest {
+	s.FilterSecurity = o
+	return s
+}
+
+func (s *QotGetValuationPlateStockListRequest) SetFilterSecurity(o *Security) {
+	s.FilterSecurity = o
+}
+
+// 分页标识，首次不填，续拉时填上次返回的 nextKey；"-1" 表示无更多数据
+func (s *QotGetValuationPlateStockListRequest) WithNextKey(o string) *QotGetValuationPlateStockListRequest {
+	s.NextKey = &o
+	return s
+}
+
+func (s *QotGetValuationPlateStockListRequest) SetNextKey(o string) {
+	s.NextKey = &o
+}
+
+// 每页返回数量，默认 10，范围 1~50
+func (s *QotGetValuationPlateStockListRequest) WithNum(o int32) *QotGetValuationPlateStockListRequest {
+	s.Num = &o
+	return s
+}
+
+func (s *QotGetValuationPlateStockListRequest) SetNum(o int32) {
+	s.Num = &o
+}
+
+// 股票
+func (s *QotGetValuationPlateStockListRequest) WithSecurity(o *Security) *QotGetValuationPlateStockListRequest {
+	s.Security = o
+	return s
+}
+
+func (s *QotGetValuationPlateStockListRequest) SetSecurity(o *Security) {
+	s.Security = o
+}
+
+// 排序列，详见 Qot_Common.SortField，51=市值（默认）52=估值 53=预测估值 54=历史分位
+func (s *QotGetValuationPlateStockListRequest) WithSortId(o SortField) *QotGetValuationPlateStockListRequest {
+	s.SortId = o.Enum()
+	return s
+}
+
+func (s *QotGetValuationPlateStockListRequest) SetSortId(o SortField) {
+	s.SortId = o.Enum()
+}
+
+// 排序方向，详见 Qot_Common.SortType 定义，默认升序（SortType_Asc=2）
+func (s *QotGetValuationPlateStockListRequest) WithSortType(o SortType) *QotGetValuationPlateStockListRequest {
+	s.SortType = o.Enum()
+	return s
+}
+
+func (s *QotGetValuationPlateStockListRequest) SetSortType(o SortType) {
+	s.SortType = o.Enum()
+}
+
+// 估值类型，详见 Qot_Common.ValuationType 定义，支持 1-3，默认 1(PE)
+func (s *QotGetValuationPlateStockListRequest) WithValuationType(o ValuationType) *QotGetValuationPlateStockListRequest {
+	s.ValuationType = o.Enum()
+	return s
+}
+
+func (s *QotGetValuationPlateStockListRequest) SetValuationType(o ValuationType) {
+	s.ValuationType = o.Enum()
 }
 
 // QotGetWarrantRequest
@@ -1513,6 +3497,16 @@ func (s *QotGetWarrantRequest) WithDeltaMin(o float64) *QotGetWarrantRequest {
 
 func (s *QotGetWarrantRequest) SetDeltaMin(o float64) {
 	s.DeltaMin = &o
+}
+
+// 行情公共参数头
+func (s *QotGetWarrantRequest) WithHeader(o *QotHeader) *QotGetWarrantRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotGetWarrantRequest) SetHeader(o *QotHeader) {
+	s.Header = o
 }
 
 // 引伸波幅的过滤上限（闭区间），仅认购认沽支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
@@ -1775,6 +3769,19 @@ func (s *QotGetWarrantRequest) SetVolMin(o uint64) {
 	s.VolMin = &o
 }
 
+// QotHeader
+//行情协议公共参数头
+
+// 券商标识，取值见 SecurityFirm
+func (s *QotHeader) WithSecurityFirm(o SecurityFirm) *QotHeader {
+	s.SecurityFirm = o.Enum()
+	return s
+}
+
+func (s *QotHeader) SetSecurityFirm(o SecurityFirm) {
+	s.SecurityFirm = o.Enum()
+}
+
 // QotModifyUserSecurityRequest
 
 // 分组名,有同名的返回排序的首个
@@ -1785,6 +3792,16 @@ func (s *QotModifyUserSecurityRequest) WithGroupName(o string) *QotModifyUserSec
 
 func (s *QotModifyUserSecurityRequest) SetGroupName(o string) {
 	s.GroupName = &o
+}
+
+// 行情公共参数头
+func (s *QotModifyUserSecurityRequest) WithHeader(o *QotHeader) *QotModifyUserSecurityRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotModifyUserSecurityRequest) SetHeader(o *QotHeader) {
+	s.Header = o
 }
 
 // ModifyUserSecurityOp,操作类型
@@ -1807,7 +3824,89 @@ func (s *QotModifyUserSecurityRequest) SetSecurityList(o ...*Security) {
 	s.SecurityList = o
 }
 
+// QotOptionScreenRequest
+
+// 筛选条件组(组间AND)
+func (s *QotOptionScreenRequest) WithFilterList(o ...*FilterGroup) *QotOptionScreenRequest {
+	s.FilterList = o
+	return s
+}
+
+func (s *QotOptionScreenRequest) SetFilterList(o ...*FilterGroup) {
+	s.FilterList = o
+}
+
+// MarketCategory 市场品类列表(至少一个)
+func (s *QotOptionScreenRequest) WithMarketCategoryList(o ...int32) *QotOptionScreenRequest {
+	s.MarketCategoryList = o
+	return s
+}
+
+func (s *QotOptionScreenRequest) SetMarketCategoryList(o ...int32) {
+	s.MarketCategoryList = o
+}
+
+// 期权字段, 值为 OptionIndicatorType
+func (s *QotOptionScreenRequest) WithOptionRetrieveList(o ...OptionIndicatorType) *QotOptionScreenRequest {
+	s.OptionRetrieveList = o
+	return s
+}
+
+func (s *QotOptionScreenRequest) SetOptionRetrieveList(o ...OptionIndicatorType) {
+	s.OptionRetrieveList = o
+}
+
+// 最大数量(最大1000)
+func (s *QotOptionScreenRequest) WithPageCount(o int32) *QotOptionScreenRequest {
+	s.PageCount = &o
+	return s
+}
+
+func (s *QotOptionScreenRequest) SetPageCount(o int32) {
+	s.PageCount = &o
+}
+
+// 数据偏移位，从0开始
+func (s *QotOptionScreenRequest) WithPageFrom(o int32) *QotOptionScreenRequest {
+	s.PageFrom = &o
+	return s
+}
+
+func (s *QotOptionScreenRequest) SetPageFrom(o int32) {
+	s.PageFrom = &o
+}
+
+// 排序
+func (s *QotOptionScreenRequest) WithSortList(o ...*OptionScreenSort) *QotOptionScreenRequest {
+	s.SortList = o
+	return s
+}
+
+func (s *QotOptionScreenRequest) SetSortList(o ...*OptionScreenSort) {
+	s.SortList = o
+}
+
+// 标的字段, 值为 UnderlyingIndicatorType
+func (s *QotOptionScreenRequest) WithUnderlyingRetrieveList(o ...UnderlyingIndicatorType) *QotOptionScreenRequest {
+	s.UnderlyingRetrieveList = o
+	return s
+}
+
+func (s *QotOptionScreenRequest) SetUnderlyingRetrieveList(o ...UnderlyingIndicatorType) {
+	s.UnderlyingRetrieveList = o
+}
+
 // QotRegQotPushRequest
+
+// 行情公共参数头
+func (s *QotRegQotPushRequest) WithHeader(o *QotHeader) *QotRegQotPushRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotRegQotPushRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
 
 // 注册后如果本地已有数据是否首推一次已存在数据,该参数不指定则默认true
 func (s *QotRegQotPushRequest) WithIsFirstPush(o bool) *QotRegQotPushRequest {
@@ -1871,6 +3970,16 @@ func (s *QotRequestHistoryKLQuotaRequest) SetBGetDetail(o bool) {
 	s.BGetDetail = &o
 }
 
+// 行情公共参数头
+func (s *QotRequestHistoryKLQuotaRequest) WithHeader(o *QotHeader) *QotRequestHistoryKLQuotaRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotRequestHistoryKLQuotaRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // QotRequestHistoryKLRequest
 
 // 开始时间字符串
@@ -1901,6 +4010,16 @@ func (s *QotRequestHistoryKLRequest) WithExtendedTime(o bool) *QotRequestHistory
 
 func (s *QotRequestHistoryKLRequest) SetExtendedTime(o bool) {
 	s.ExtendedTime = &o
+}
+
+// 行情公共参数头
+func (s *QotRequestHistoryKLRequest) WithHeader(o *QotHeader) *QotRequestHistoryKLRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotRequestHistoryKLRequest) SetHeader(o *QotHeader) {
+	s.Header = o
 }
 
 // Qot_Common.KLType,K线类型
@@ -1975,6 +4094,16 @@ func (s *QotRequestHistoryKLRequest) SetSession(o Session) {
 
 // QotRequestRehabRequest
 
+// 行情公共参数头
+func (s *QotRequestRehabRequest) WithHeader(o *QotHeader) *QotRequestRehabRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotRequestRehabRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // 股票
 func (s *QotRequestRehabRequest) WithSecurity(o *Security) *QotRequestRehabRequest {
 	s.Security = o
@@ -2007,6 +4136,16 @@ func (s *QotRequestTradeDateRequest) SetEndTime(o string) {
 	s.EndTime = &o
 }
 
+// 行情公共参数头
+func (s *QotRequestTradeDateRequest) WithHeader(o *QotHeader) *QotRequestTradeDateRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotRequestTradeDateRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // Qot_Common.TradeDateMarket,要查询的市场
 func (s *QotRequestTradeDateRequest) WithMarket(o TradeDateMarket) *QotRequestTradeDateRequest {
 	s.Market = o.Enum()
@@ -2037,6 +4176,16 @@ func (s *QotSetPriceReminderRequest) WithFreq(o PriceReminderFreq) *QotSetPriceR
 
 func (s *QotSetPriceReminderRequest) SetFreq(o PriceReminderFreq) {
 	s.Freq = o.Enum()
+}
+
+// 行情公共参数头
+func (s *QotSetPriceReminderRequest) WithHeader(o *QotHeader) *QotSetPriceReminderRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotSetPriceReminderRequest) SetHeader(o *QotHeader) {
+	s.Header = o
 }
 
 // 到价提醒的标识，GetPriceReminder协议可获得，用于指定要操作的到价提醒项，对于新增的情况不需要填
@@ -2161,6 +4310,16 @@ func (s *QotStockFilterRequest) SetFinancialFilterList(o ...*FinancialFilter) {
 	s.FinancialFilterList = o
 }
 
+// 行情公共参数头
+func (s *QotStockFilterRequest) WithHeader(o *QotHeader) *QotStockFilterRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotStockFilterRequest) SetHeader(o *QotHeader) {
+	s.Header = o
+}
+
 // Qot_Common::QotMarket股票市场，支持沪股和深股，且沪股和深股不做区分都代表A股市场。
 func (s *QotStockFilterRequest) WithMarket(o QotMarket) *QotStockFilterRequest {
 	s.Market = o.Enum()
@@ -2201,6 +4360,78 @@ func (s *QotStockFilterRequest) SetPlate(o *Security) {
 	s.Plate = o
 }
 
+// QotStockScreenRequest
+
+// 筛选过滤器列表
+func (s *QotStockScreenRequest) WithFilterList(o ...*ScreenQuery) *QotStockScreenRequest {
+	s.FilterList = o
+	return s
+}
+
+func (s *QotStockScreenRequest) SetFilterList(o ...*ScreenQuery) {
+	s.FilterList = o
+}
+
+// 最大拉取数量 (最大300)
+func (s *QotStockScreenRequest) WithPageCount(o int32) *QotStockScreenRequest {
+	s.PageCount = &o
+	return s
+}
+
+func (s *QotStockScreenRequest) SetPageCount(o int32) {
+	s.PageCount = &o
+}
+
+// 数据偏移位, 从0开始
+func (s *QotStockScreenRequest) WithPageFrom(o int32) *QotStockScreenRequest {
+	s.PageFrom = &o
+	return s
+}
+
+func (s *QotStockScreenRequest) SetPageFrom(o int32) {
+	s.PageFrom = &o
+}
+
+// 取回属性设置
+func (s *QotStockScreenRequest) WithRetrieveList(o ...*RetrieveQuery) *QotStockScreenRequest {
+	s.RetrieveList = o
+	return s
+}
+
+func (s *QotStockScreenRequest) SetRetrieveList(o ...*RetrieveQuery) {
+	s.RetrieveList = o
+}
+
+// 排序
+func (s *QotStockScreenRequest) WithSort(o *StockScreenSort) *QotStockScreenRequest {
+	s.Sort = o
+	return s
+}
+
+func (s *QotStockScreenRequest) SetSort(o *StockScreenSort) {
+	s.Sort = o
+}
+
+// 多字段排序 (有值时优先于sort)
+func (s *QotStockScreenRequest) WithSortList(o ...*StockScreenSort) *QotStockScreenRequest {
+	s.SortList = o
+	return s
+}
+
+func (s *QotStockScreenRequest) SetSortList(o ...*StockScreenSort) {
+	s.SortList = o
+}
+
+// 自选股ID列表
+func (s *QotStockScreenRequest) WithWatchlistStockIds(o ...uint64) *QotStockScreenRequest {
+	s.WatchlistStockIds = o
+	return s
+}
+
+func (s *QotStockScreenRequest) SetWatchlistStockIds(o ...uint64) {
+	s.WatchlistStockIds = o
+}
+
 // QotSubRequest
 
 // 是否允许美股盘前盘后数据（仅用于订阅美股的实时K线、实时分时、实时逐笔）
@@ -2211,6 +4442,16 @@ func (s *QotSubRequest) WithExtendedTime(o bool) *QotSubRequest {
 
 func (s *QotSubRequest) SetExtendedTime(o bool) {
 	s.ExtendedTime = &o
+}
+
+// 行情公共参数头
+func (s *QotSubRequest) WithHeader(o *QotHeader) *QotSubRequest {
+	s.Header = o
+	return s
+}
+
+func (s *QotSubRequest) SetHeader(o *QotHeader) {
+	s.Header = o
 }
 
 // 注册后如果本地已有数据是否首推一次已存在数据,该参数不指定则默认true
@@ -2283,7 +4524,7 @@ func (s *QotSubRequest) SetSecurityList(o ...*Security) {
 	s.SecurityList = o
 }
 
-// 时段 Session
+// 时段
 func (s *QotSubRequest) WithSession(o Session) *QotSubRequest {
 	s.Session = o.Enum()
 	return s
@@ -2301,6 +4542,752 @@ func (s *QotSubRequest) WithSubTypeList(o ...SubType) *QotSubRequest {
 
 func (s *QotSubRequest) SetSubTypeList(o ...SubType) {
 	s.SubTypeList = o
+}
+
+// QotWarrantScreenRequest
+
+// 筛选条件列表
+func (s *QotWarrantScreenRequest) WithFilterList(o ...*ScreenGroup) *QotWarrantScreenRequest {
+	s.FilterList = o
+	return s
+}
+
+func (s *QotWarrantScreenRequest) SetFilterList(o ...*ScreenGroup) {
+	s.FilterList = o
+}
+
+// 是否延迟行情
+func (s *QotWarrantScreenRequest) WithIsDelay(o bool) *QotWarrantScreenRequest {
+	s.IsDelay = &o
+	return s
+}
+
+func (s *QotWarrantScreenRequest) SetIsDelay(o bool) {
+	s.IsDelay = &o
+}
+
+// 市场: 1=HK, 4=SG, 15=MY
+func (s *QotWarrantScreenRequest) WithMarketType(o int32) *QotWarrantScreenRequest {
+	s.MarketType = &o
+	return s
+}
+
+func (s *QotWarrantScreenRequest) SetMarketType(o int32) {
+	s.MarketType = &o
+}
+
+// 仅返回数量
+func (s *QotWarrantScreenRequest) WithOnlyCount(o bool) *QotWarrantScreenRequest {
+	s.OnlyCount = &o
+	return s
+}
+
+func (s *QotWarrantScreenRequest) SetOnlyCount(o bool) {
+	s.OnlyCount = &o
+}
+
+// 每页最大数量
+func (s *QotWarrantScreenRequest) WithPageCount(o int32) *QotWarrantScreenRequest {
+	s.PageCount = &o
+	return s
+}
+
+func (s *QotWarrantScreenRequest) SetPageCount(o int32) {
+	s.PageCount = &o
+}
+
+// 数据偏移位, 从0开始
+func (s *QotWarrantScreenRequest) WithPageFrom(o int32) *QotWarrantScreenRequest {
+	s.PageFrom = &o
+	return s
+}
+
+func (s *QotWarrantScreenRequest) SetPageFrom(o int32) {
+	s.PageFrom = &o
+}
+
+// 排序列表 (多字段排序)
+func (s *QotWarrantScreenRequest) WithSortList(o ...*WarrantScreenSort) *QotWarrantScreenRequest {
+	s.SortList = o
+	return s
+}
+
+func (s *QotWarrantScreenRequest) SetSortList(o ...*WarrantScreenSort) {
+	s.SortList = o
+}
+
+// QueryIndicatorPattern
+
+func (s *QueryIndicatorPattern) WithContinuousPeriod(o int32) *QueryIndicatorPattern {
+	s.ContinuousPeriod = &o
+	return s
+}
+
+func (s *QueryIndicatorPattern) SetContinuousPeriod(o int32) {
+	s.ContinuousPeriod = &o
+}
+
+// 是否匹配条件 (默认true)
+func (s *QueryIndicatorPattern) WithIsMatching(o bool) *QueryIndicatorPattern {
+	s.IsMatching = &o
+	return s
+}
+
+func (s *QueryIndicatorPattern) SetIsMatching(o bool) {
+	s.IsMatching = &o
+}
+
+// Pattern 枚举 (新字段)
+func (s *QueryIndicatorPattern) WithName(o int32) *QueryIndicatorPattern {
+	s.Name = &o
+	return s
+}
+
+func (s *QueryIndicatorPattern) SetName(o int32) {
+	s.Name = &o
+}
+
+// 【已废弃, 用name字段】Pattern 枚举
+func (s *QueryIndicatorPattern) WithPattern(o int32) *QueryIndicatorPattern {
+	s.Pattern = &o
+	return s
+}
+
+func (s *QueryIndicatorPattern) SetPattern(o int32) {
+	s.Pattern = &o
+}
+
+// 【已废弃, 用periodType】
+func (s *QueryIndicatorPattern) WithPeriod(o int32) *QueryIndicatorPattern {
+	s.Period = &o
+	return s
+}
+
+func (s *QueryIndicatorPattern) SetPeriod(o int32) {
+	s.Period = &o
+}
+
+// Period 枚举 (新字段)
+func (s *QueryIndicatorPattern) WithPeriodType(o int32) *QueryIndicatorPattern {
+	s.PeriodType = &o
+	return s
+}
+
+func (s *QueryIndicatorPattern) SetPeriodType(o int32) {
+	s.PeriodType = &o
+}
+
+// 子形态列表
+func (s *QueryIndicatorPattern) WithSubPatterns(o ...int32) *QueryIndicatorPattern {
+	s.SubPatterns = o
+	return s
+}
+
+func (s *QueryIndicatorPattern) SetSubPatterns(o ...int32) {
+	s.SubPatterns = o
+}
+
+// QueryIndicatorPositional
+
+func (s *QueryIndicatorPositional) WithContinuousPeriod(o int32) *QueryIndicatorPositional {
+	s.ContinuousPeriod = &o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetContinuousPeriod(o int32) {
+	s.ContinuousPeriod = &o
+}
+
+// 【已废弃, 用firstIndicatorName】
+func (s *QueryIndicatorPositional) WithFirstIndicator(o int32) *QueryIndicatorPositional {
+	s.FirstIndicator = &o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetFirstIndicator(o int32) {
+	s.FirstIndicator = &o
+}
+
+// Indicator 枚举, 替换 field 3
+func (s *QueryIndicatorPositional) WithFirstIndicatorName(o int32) *QueryIndicatorPositional {
+	s.FirstIndicatorName = &o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetFirstIndicatorName(o int32) {
+	s.FirstIndicatorName = &o
+}
+
+func (s *QueryIndicatorPositional) WithFirstIndicatorParams(o ...int64) *QueryIndicatorPositional {
+	s.FirstIndicatorParams = o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetFirstIndicatorParams(o ...int64) {
+	s.FirstIndicatorParams = o
+}
+
+func (s *QueryIndicatorPositional) WithIntervals(o ...*StockScreenInterval) *QueryIndicatorPositional {
+	s.Intervals = o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetIntervals(o ...*StockScreenInterval) {
+	s.Intervals = o
+}
+
+// 【已废弃, 用periodType】
+func (s *QueryIndicatorPositional) WithPeriod(o int32) *QueryIndicatorPositional {
+	s.Period = &o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetPeriod(o int32) {
+	s.Period = &o
+}
+
+// Period 枚举, 替换 field 2
+func (s *QueryIndicatorPositional) WithPeriodType(o int32) *QueryIndicatorPositional {
+	s.PeriodType = &o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetPeriodType(o int32) {
+	s.PeriodType = &o
+}
+
+// Position: 1=上方, 2=下方, 3=上穿, 4=下穿
+func (s *QueryIndicatorPositional) WithPosition(o int32) *QueryIndicatorPositional {
+	s.Position = &o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetPosition(o int32) {
+	s.Position = &o
+}
+
+func (s *QueryIndicatorPositional) WithSecondIndicator(o int32) *QueryIndicatorPositional {
+	s.SecondIndicator = &o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetSecondIndicator(o int32) {
+	s.SecondIndicator = &o
+}
+
+func (s *QueryIndicatorPositional) WithSecondIndicatorParams(o ...int64) *QueryIndicatorPositional {
+	s.SecondIndicatorParams = o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetSecondIndicatorParams(o ...int64) {
+	s.SecondIndicatorParams = o
+}
+
+func (s *QueryIndicatorPositional) WithSecondValue(o int64) *QueryIndicatorPositional {
+	s.SecondValue = &o
+	return s
+}
+
+func (s *QueryIndicatorPositional) SetSecondValue(o int64) {
+	s.SecondValue = &o
+}
+
+// QueryKlineShape
+
+func (s *QueryKlineShape) WithProperty(o *PropertyKlineShape) *QueryKlineShape {
+	s.Property = o
+	return s
+}
+
+func (s *QueryKlineShape) SetProperty(o *PropertyKlineShape) {
+	s.Property = o
+}
+
+// K线形态类型集合, 参考 KlineShapeType
+func (s *QueryKlineShape) WithValueSet(o ...int64) *QueryKlineShape {
+	s.ValueSet = o
+	return s
+}
+
+func (s *QueryKlineShape) SetValueSet(o ...int64) {
+	s.ValueSet = o
+}
+
+// QueryPlate
+
+// 板块列表 (并集关系)
+func (s *QueryPlate) WithPlateList(o ...*Plate) *QueryPlate {
+	s.PlateList = o
+	return s
+}
+
+func (s *QueryPlate) SetPlateList(o ...*Plate) {
+	s.PlateList = o
+}
+
+// QueryPropertyBroker
+
+func (s *QueryPropertyBroker) WithIntervals(o ...*StockScreenInterval) *QueryPropertyBroker {
+	s.Intervals = o
+	return s
+}
+
+func (s *QueryPropertyBroker) SetIntervals(o ...*StockScreenInterval) {
+	s.Intervals = o
+}
+
+func (s *QueryPropertyBroker) WithProperty(o *PropertyBroker) *QueryPropertyBroker {
+	s.Property = o
+	return s
+}
+
+func (s *QueryPropertyBroker) SetProperty(o *PropertyBroker) {
+	s.Property = o
+}
+
+// QueryPropertyCumulative
+
+func (s *QueryPropertyCumulative) WithContinuousPeriod(o int32) *QueryPropertyCumulative {
+	s.ContinuousPeriod = &o
+	return s
+}
+
+func (s *QueryPropertyCumulative) SetContinuousPeriod(o int32) {
+	s.ContinuousPeriod = &o
+}
+
+func (s *QueryPropertyCumulative) WithFilterMax(o *StockScreenBoundary) *QueryPropertyCumulative {
+	s.FilterMax = o
+	return s
+}
+
+func (s *QueryPropertyCumulative) SetFilterMax(o *StockScreenBoundary) {
+	s.FilterMax = o
+}
+
+func (s *QueryPropertyCumulative) WithFilterMin(o *StockScreenBoundary) *QueryPropertyCumulative {
+	s.FilterMin = o
+	return s
+}
+
+func (s *QueryPropertyCumulative) SetFilterMin(o *StockScreenBoundary) {
+	s.FilterMin = o
+}
+
+func (s *QueryPropertyCumulative) WithProperty(o *PropertyCumulative) *QueryPropertyCumulative {
+	s.Property = o
+	return s
+}
+
+func (s *QueryPropertyCumulative) SetProperty(o *PropertyCumulative) {
+	s.Property = o
+}
+
+func (s *QueryPropertyCumulative) WithUnit(o int32) *QueryPropertyCumulative {
+	s.Unit = &o
+	return s
+}
+
+func (s *QueryPropertyCumulative) SetUnit(o int32) {
+	s.Unit = &o
+}
+
+// QueryPropertyFeatured
+
+// 【已废弃, 用intervals】
+func (s *QueryPropertyFeatured) WithFilterMax(o *StockScreenBoundary) *QueryPropertyFeatured {
+	s.FilterMax = o
+	return s
+}
+
+func (s *QueryPropertyFeatured) SetFilterMax(o *StockScreenBoundary) {
+	s.FilterMax = o
+}
+
+// 【已废弃, 用intervals】
+func (s *QueryPropertyFeatured) WithFilterMin(o *StockScreenBoundary) *QueryPropertyFeatured {
+	s.FilterMin = o
+	return s
+}
+
+func (s *QueryPropertyFeatured) SetFilterMin(o *StockScreenBoundary) {
+	s.FilterMin = o
+}
+
+// 区间 (多个为或的关系)
+func (s *QueryPropertyFeatured) WithIntervals(o ...*StockScreenInterval) *QueryPropertyFeatured {
+	s.Intervals = o
+	return s
+}
+
+func (s *QueryPropertyFeatured) SetIntervals(o ...*StockScreenInterval) {
+	s.Intervals = o
+}
+
+func (s *QueryPropertyFeatured) WithProperty(o *PropertyFeatured) *QueryPropertyFeatured {
+	s.Property = o
+	return s
+}
+
+func (s *QueryPropertyFeatured) SetProperty(o *PropertyFeatured) {
+	s.Property = o
+}
+
+// 值集合 (多个为或的关系)
+func (s *QueryPropertyFeatured) WithValueSet(o ...int64) *QueryPropertyFeatured {
+	s.ValueSet = o
+	return s
+}
+
+func (s *QueryPropertyFeatured) SetValueSet(o ...int64) {
+	s.ValueSet = o
+}
+
+// QueryPropertyFinancial
+
+func (s *QueryPropertyFinancial) WithContinuousPeriod(o int32) *QueryPropertyFinancial {
+	s.ContinuousPeriod = &o
+	return s
+}
+
+func (s *QueryPropertyFinancial) SetContinuousPeriod(o int32) {
+	s.ContinuousPeriod = &o
+}
+
+func (s *QueryPropertyFinancial) WithFilterMax(o *StockScreenBoundary) *QueryPropertyFinancial {
+	s.FilterMax = o
+	return s
+}
+
+func (s *QueryPropertyFinancial) SetFilterMax(o *StockScreenBoundary) {
+	s.FilterMax = o
+}
+
+func (s *QueryPropertyFinancial) WithFilterMin(o *StockScreenBoundary) *QueryPropertyFinancial {
+	s.FilterMin = o
+	return s
+}
+
+func (s *QueryPropertyFinancial) SetFilterMin(o *StockScreenBoundary) {
+	s.FilterMin = o
+}
+
+func (s *QueryPropertyFinancial) WithProperty(o *PropertyFinancial) *QueryPropertyFinancial {
+	s.Property = o
+	return s
+}
+
+func (s *QueryPropertyFinancial) SetProperty(o *PropertyFinancial) {
+	s.Property = o
+}
+
+func (s *QueryPropertyFinancial) WithUnit(o int32) *QueryPropertyFinancial {
+	s.Unit = &o
+	return s
+}
+
+func (s *QueryPropertyFinancial) SetUnit(o int32) {
+	s.Unit = &o
+}
+
+// QueryPropertyOption
+
+func (s *QueryPropertyOption) WithIntervals(o ...*StockScreenInterval) *QueryPropertyOption {
+	s.Intervals = o
+	return s
+}
+
+func (s *QueryPropertyOption) SetIntervals(o ...*StockScreenInterval) {
+	s.Intervals = o
+}
+
+func (s *QueryPropertyOption) WithProperty(o *PropertyOption) *QueryPropertyOption {
+	s.Property = o
+	return s
+}
+
+func (s *QueryPropertyOption) SetProperty(o *PropertyOption) {
+	s.Property = o
+}
+
+// QueryPropertySimple
+
+func (s *QueryPropertySimple) WithFilterMax(o *StockScreenBoundary) *QueryPropertySimple {
+	s.FilterMax = o
+	return s
+}
+
+func (s *QueryPropertySimple) SetFilterMax(o *StockScreenBoundary) {
+	s.FilterMax = o
+}
+
+func (s *QueryPropertySimple) WithFilterMin(o *StockScreenBoundary) *QueryPropertySimple {
+	s.FilterMin = o
+	return s
+}
+
+func (s *QueryPropertySimple) SetFilterMin(o *StockScreenBoundary) {
+	s.FilterMin = o
+}
+
+func (s *QueryPropertySimple) WithProperty(o *PropertySimple) *QueryPropertySimple {
+	s.Property = o
+	return s
+}
+
+func (s *QueryPropertySimple) SetProperty(o *PropertySimple) {
+	s.Property = o
+}
+
+func (s *QueryPropertySimple) WithUnit(o int32) *QueryPropertySimple {
+	s.Unit = &o
+	return s
+}
+
+func (s *QueryPropertySimple) SetUnit(o int32) {
+	s.Unit = &o
+}
+
+// QuerySimpleField
+
+// 筛选值列表 (并集关系)
+func (s *QuerySimpleField) WithScreenValueList(o ...int64) *QuerySimpleField {
+	s.ScreenValueList = o
+	return s
+}
+
+func (s *QuerySimpleField) SetScreenValueList(o ...int64) {
+	s.ScreenValueList = o
+}
+
+// SimpleField: 1=市场, 2=交易所, 3=指数, 4=自选股, ...
+func (s *QuerySimpleField) WithSimpleField(o int32) *QuerySimpleField {
+	s.SimpleField = &o
+	return s
+}
+
+func (s *QuerySimpleField) SetSimpleField(o int32) {
+	s.SimpleField = &o
+}
+
+// RetrieveQuery
+// 取回属性设置 (各字段互斥, 仅设置其中一个)
+
+func (s *RetrieveQuery) WithBasicProperty(o *PropertyBasic) *RetrieveQuery {
+	s.BasicProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetBasicProperty(o *PropertyBasic) {
+	s.BasicProperty = o
+}
+
+func (s *RetrieveQuery) WithBrokerProperty(o *PropertyBroker) *RetrieveQuery {
+	s.BrokerProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetBrokerProperty(o *PropertyBroker) {
+	s.BrokerProperty = o
+}
+
+func (s *RetrieveQuery) WithCumulativeProperty(o *PropertyCumulative) *RetrieveQuery {
+	s.CumulativeProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetCumulativeProperty(o *PropertyCumulative) {
+	s.CumulativeProperty = o
+}
+
+func (s *RetrieveQuery) WithFeaturedProperty(o *PropertyFeatured) *RetrieveQuery {
+	s.FeaturedProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetFeaturedProperty(o *PropertyFeatured) {
+	s.FeaturedProperty = o
+}
+
+func (s *RetrieveQuery) WithFinancialProperty(o *PropertyFinancial) *RetrieveQuery {
+	s.FinancialProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetFinancialProperty(o *PropertyFinancial) {
+	s.FinancialProperty = o
+}
+
+func (s *RetrieveQuery) WithIndicatorProperty(o *PropertyIndicator) *RetrieveQuery {
+	s.IndicatorProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetIndicatorProperty(o *PropertyIndicator) {
+	s.IndicatorProperty = o
+}
+
+func (s *RetrieveQuery) WithKlineShapeProperty(o *PropertyKlineShape) *RetrieveQuery {
+	s.KlineShapeProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetKlineShapeProperty(o *PropertyKlineShape) {
+	s.KlineShapeProperty = o
+}
+
+func (s *RetrieveQuery) WithOptionProperty(o *PropertyOption) *RetrieveQuery {
+	s.OptionProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetOptionProperty(o *PropertyOption) {
+	s.OptionProperty = o
+}
+
+func (s *RetrieveQuery) WithSimpleProperty(o *PropertySimple) *RetrieveQuery {
+	s.SimpleProperty = o
+	return s
+}
+
+func (s *RetrieveQuery) SetSimpleProperty(o *PropertySimple) {
+	s.SimpleProperty = o
+}
+
+// ScreenGroup
+// 筛选组 (各字段描述参考 wrnt_screener_common.proto FieldId 枚举)
+
+// 多选筛选
+func (s *ScreenGroup) WithChoices(o ...*Choice) *ScreenGroup {
+	s.Choices = o
+	return s
+}
+
+func (s *ScreenGroup) SetChoices(o ...*Choice) {
+	s.Choices = o
+}
+
+// FieldId 枚举: 1=代码, 4=发行人, 5=正股, 6=类型, 8=最新价, ...
+func (s *ScreenGroup) WithFieldId(o int32) *ScreenGroup {
+	s.FieldId = &o
+	return s
+}
+
+func (s *ScreenGroup) SetFieldId(o int32) {
+	s.FieldId = &o
+}
+
+// 区间筛选
+func (s *ScreenGroup) WithInterval(o *WarrantScreenInterval) *ScreenGroup {
+	s.Interval = o
+	return s
+}
+
+func (s *ScreenGroup) SetInterval(o *WarrantScreenInterval) {
+	s.Interval = o
+}
+
+// ScreenQuery
+// 筛选过滤器 (各字段互斥, 仅设置其中一个)
+
+func (s *ScreenQuery) WithBrokerHoldingsQuery(o *QueryPropertyBroker) *ScreenQuery {
+	s.BrokerHoldingsQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetBrokerHoldingsQuery(o *QueryPropertyBroker) {
+	s.BrokerHoldingsQuery = o
+}
+
+func (s *ScreenQuery) WithCumulativePropertyQuery(o *QueryPropertyCumulative) *ScreenQuery {
+	s.CumulativePropertyQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetCumulativePropertyQuery(o *QueryPropertyCumulative) {
+	s.CumulativePropertyQuery = o
+}
+
+func (s *ScreenQuery) WithFeaturedPropertyQuery(o *QueryPropertyFeatured) *ScreenQuery {
+	s.FeaturedPropertyQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetFeaturedPropertyQuery(o *QueryPropertyFeatured) {
+	s.FeaturedPropertyQuery = o
+}
+
+func (s *ScreenQuery) WithFinancialPropertyQuery(o *QueryPropertyFinancial) *ScreenQuery {
+	s.FinancialPropertyQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetFinancialPropertyQuery(o *QueryPropertyFinancial) {
+	s.FinancialPropertyQuery = o
+}
+
+func (s *ScreenQuery) WithIndicatorPatternQuery(o *QueryIndicatorPattern) *ScreenQuery {
+	s.IndicatorPatternQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetIndicatorPatternQuery(o *QueryIndicatorPattern) {
+	s.IndicatorPatternQuery = o
+}
+
+func (s *ScreenQuery) WithIndicatorPositionalQuery(o *QueryIndicatorPositional) *ScreenQuery {
+	s.IndicatorPositionalQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetIndicatorPositionalQuery(o *QueryIndicatorPositional) {
+	s.IndicatorPositionalQuery = o
+}
+
+func (s *ScreenQuery) WithKlineShapeQuery(o *QueryKlineShape) *ScreenQuery {
+	s.KlineShapeQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetKlineShapeQuery(o *QueryKlineShape) {
+	s.KlineShapeQuery = o
+}
+
+func (s *ScreenQuery) WithOptionQuery(o *QueryPropertyOption) *ScreenQuery {
+	s.OptionQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetOptionQuery(o *QueryPropertyOption) {
+	s.OptionQuery = o
+}
+
+func (s *ScreenQuery) WithPlateQuery(o *QueryPlate) *ScreenQuery {
+	s.PlateQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetPlateQuery(o *QueryPlate) {
+	s.PlateQuery = o
+}
+
+func (s *ScreenQuery) WithSimpleFieldQuery(o *QuerySimpleField) *ScreenQuery {
+	s.SimpleFieldQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetSimpleFieldQuery(o *QuerySimpleField) {
+	s.SimpleFieldQuery = o
+}
+
+func (s *ScreenQuery) WithSimplePropertyQuery(o *QueryPropertySimple) *ScreenQuery {
+	s.SimplePropertyQuery = o
+	return s
+}
+
+func (s *ScreenQuery) SetSimplePropertyQuery(o *QueryPropertySimple) {
+	s.SimplePropertyQuery = o
 }
 
 // Security
@@ -2326,6 +5313,156 @@ func (s *Security) SetMarket(o QotMarket) {
 	s.Market = o.Enum()
 }
 
+// StockScreenBoundary
+// 边界值
+
+// 是否包含此值
+func (s *StockScreenBoundary) WithIncludes(o bool) *StockScreenBoundary {
+	s.Includes = &o
+	return s
+}
+
+func (s *StockScreenBoundary) SetIncludes(o bool) {
+	s.Includes = &o
+}
+
+// 边界值 (double, 用户直接传原始值, OpenD 负责倍率转换)
+func (s *StockScreenBoundary) WithValue(o float64) *StockScreenBoundary {
+	s.Value = &o
+	return s
+}
+
+func (s *StockScreenBoundary) SetValue(o float64) {
+	s.Value = &o
+}
+
+// StockScreenInterval
+// 区间
+
+// 区间上限
+func (s *StockScreenInterval) WithFilterMax(o *StockScreenBoundary) *StockScreenInterval {
+	s.FilterMax = o
+	return s
+}
+
+func (s *StockScreenInterval) SetFilterMax(o *StockScreenBoundary) {
+	s.FilterMax = o
+}
+
+// 区间下限
+func (s *StockScreenInterval) WithFilterMin(o *StockScreenBoundary) *StockScreenInterval {
+	s.FilterMin = o
+	return s
+}
+
+func (s *StockScreenInterval) SetFilterMin(o *StockScreenBoundary) {
+	s.FilterMin = o
+}
+
+// 数值单位 (0=默认, 1=万/K, 2=空/M, 3=亿/B, 仅展示用)
+func (s *StockScreenInterval) WithUnit(o int32) *StockScreenInterval {
+	s.Unit = &o
+	return s
+}
+
+func (s *StockScreenInterval) SetUnit(o int32) {
+	s.Unit = &o
+}
+
+// StockScreenSort
+// 排序 (选一个属性设置排序)
+
+func (s *StockScreenSort) WithBasicProperty(o *PropertyBasic) *StockScreenSort {
+	s.BasicProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetBasicProperty(o *PropertyBasic) {
+	s.BasicProperty = o
+}
+
+func (s *StockScreenSort) WithBrokerProperty(o *PropertyBroker) *StockScreenSort {
+	s.BrokerProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetBrokerProperty(o *PropertyBroker) {
+	s.BrokerProperty = o
+}
+
+func (s *StockScreenSort) WithCumulativeProperty(o *PropertyCumulative) *StockScreenSort {
+	s.CumulativeProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetCumulativeProperty(o *PropertyCumulative) {
+	s.CumulativeProperty = o
+}
+
+// SortDirection: 1=升序, 2=降序, 3=绝对值升序, 4=绝对值降序
+func (s *StockScreenSort) WithDirection(o int32) *StockScreenSort {
+	s.Direction = &o
+	return s
+}
+
+func (s *StockScreenSort) SetDirection(o int32) {
+	s.Direction = &o
+}
+
+func (s *StockScreenSort) WithFeaturedProperty(o *PropertyFeatured) *StockScreenSort {
+	s.FeaturedProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetFeaturedProperty(o *PropertyFeatured) {
+	s.FeaturedProperty = o
+}
+
+func (s *StockScreenSort) WithFinancialProperty(o *PropertyFinancial) *StockScreenSort {
+	s.FinancialProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetFinancialProperty(o *PropertyFinancial) {
+	s.FinancialProperty = o
+}
+
+func (s *StockScreenSort) WithIndicatorProperty(o *PropertyIndicator) *StockScreenSort {
+	s.IndicatorProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetIndicatorProperty(o *PropertyIndicator) {
+	s.IndicatorProperty = o
+}
+
+func (s *StockScreenSort) WithKlineShapeProperty(o *PropertyKlineShape) *StockScreenSort {
+	s.KlineShapeProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetKlineShapeProperty(o *PropertyKlineShape) {
+	s.KlineShapeProperty = o
+}
+
+func (s *StockScreenSort) WithOptionProperty(o *PropertyOption) *StockScreenSort {
+	s.OptionProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetOptionProperty(o *PropertyOption) {
+	s.OptionProperty = o
+}
+
+func (s *StockScreenSort) WithSimpleProperty(o *PropertySimple) *StockScreenSort {
+	s.SimpleProperty = o
+	return s
+}
+
+func (s *StockScreenSort) SetSimpleProperty(o *PropertySimple) {
+	s.SimpleProperty = o
+}
+
 // TestCmdRequest
 //内部使用
 
@@ -2338,13 +5475,22 @@ func (s *TestCmdRequest) SetCmd(o string) {
 	s.Cmd = &o
 }
 
-func (s *TestCmdRequest) WithParams(o string) *TestCmdRequest {
-	s.Params = &o
+func (s *TestCmdRequest) WithParamBytes(o []byte) *TestCmdRequest {
+	s.ParamBytes = o
 	return s
 }
 
-func (s *TestCmdRequest) SetParams(o string) {
-	s.Params = &o
+func (s *TestCmdRequest) SetParamBytes(o []byte) {
+	s.ParamBytes = o
+}
+
+func (s *TestCmdRequest) WithParamStr(o string) *TestCmdRequest {
+	s.ParamStr = &o
+	return s
+}
+
+func (s *TestCmdRequest) SetParamStr(o string) {
+	s.ParamStr = &o
 }
 
 // TimeFilter
@@ -2454,7 +5600,7 @@ func (s *TrdFlowSummaryRequest) SetCashFlowDirection(o TrdCashFlowDirection) {
 	s.CashFlowDirection = o.Enum()
 }
 
-// 清算日期，格式 "2017-05-20"
+// 清算日期，证券/期货账户有效，格式 "2017-05-20"
 func (s *TrdFlowSummaryRequest) WithClearingDate(o string) *TrdFlowSummaryRequest {
 	s.ClearingDate = &o
 	return s
@@ -2462,6 +5608,16 @@ func (s *TrdFlowSummaryRequest) WithClearingDate(o string) *TrdFlowSummaryReques
 
 func (s *TrdFlowSummaryRequest) SetClearingDate(o string) {
 	s.ClearingDate = &o
+}
+
+// 创建日期结束时间，仅数字货币账户有效，格式 "2017-05-20"
+func (s *TrdFlowSummaryRequest) WithEndCreateDate(o string) *TrdFlowSummaryRequest {
+	s.EndCreateDate = &o
+	return s
+}
+
+func (s *TrdFlowSummaryRequest) SetEndCreateDate(o string) {
+	s.EndCreateDate = &o
 }
 
 // 交易公共参数头
@@ -2472,6 +5628,16 @@ func (s *TrdFlowSummaryRequest) WithHeader(o *TrdHeader) *TrdFlowSummaryRequest 
 
 func (s *TrdFlowSummaryRequest) SetHeader(o *TrdHeader) {
 	s.Header = o
+}
+
+// 创建日期开始时间，仅数字货币账户有效，格式 "2017-05-20"
+func (s *TrdFlowSummaryRequest) WithStartCreateDate(o string) *TrdFlowSummaryRequest {
+	s.StartCreateDate = &o
+	return s
+}
+
+func (s *TrdFlowSummaryRequest) SetStartCreateDate(o string) {
+	s.StartCreateDate = &o
 }
 
 // TrdGetAccListRequest
@@ -2504,6 +5670,68 @@ func (s *TrdGetAccListRequest) WithUserID(o uint64) *TrdGetAccListRequest {
 
 func (s *TrdGetAccListRequest) SetUserID(o uint64) {
 	s.UserID = &o
+}
+
+// TrdGetComboMaxTrdQtysRequest
+
+// 组合的腿信息
+func (s *TrdGetComboMaxTrdQtysRequest) WithComboLegs(o ...*ComboLeg) *TrdGetComboMaxTrdQtysRequest {
+	s.ComboLegs = o
+	return s
+}
+
+func (s *TrdGetComboMaxTrdQtysRequest) SetComboLegs(o ...*ComboLeg) {
+	s.ComboLegs = o
+}
+
+// 交易公共参数头
+func (s *TrdGetComboMaxTrdQtysRequest) WithHeader(o *TrdHeader) *TrdGetComboMaxTrdQtysRequest {
+	s.Header = o
+	return s
+}
+
+func (s *TrdGetComboMaxTrdQtysRequest) SetHeader(o *TrdHeader) {
+	s.Header = o
+}
+
+// 订单号，改单时使用
+func (s *TrdGetComboMaxTrdQtysRequest) WithOrderIDEx(o string) *TrdGetComboMaxTrdQtysRequest {
+	s.OrderIDEx = &o
+	return s
+}
+
+func (s *TrdGetComboMaxTrdQtysRequest) SetOrderIDEx(o string) {
+	s.OrderIDEx = &o
+}
+
+// 订单类型, 参见Trd_Common.OrderType的枚举定义
+func (s *TrdGetComboMaxTrdQtysRequest) WithOrderType(o OrderType) *TrdGetComboMaxTrdQtysRequest {
+	s.OrderType = o.Enum()
+	return s
+}
+
+func (s *TrdGetComboMaxTrdQtysRequest) SetOrderType(o OrderType) {
+	s.OrderType = o.Enum()
+}
+
+// 价格
+func (s *TrdGetComboMaxTrdQtysRequest) WithPrice(o float64) *TrdGetComboMaxTrdQtysRequest {
+	s.Price = &o
+	return s
+}
+
+func (s *TrdGetComboMaxTrdQtysRequest) SetPrice(o float64) {
+	s.Price = &o
+}
+
+// 数量，实际数量为 qty * 腿的 qty_ratio
+func (s *TrdGetComboMaxTrdQtysRequest) WithQty(o float64) *TrdGetComboMaxTrdQtysRequest {
+	s.Qty = &o
+	return s
+}
+
+func (s *TrdGetComboMaxTrdQtysRequest) SetQty(o float64) {
+	s.Qty = &o
 }
 
 // TrdGetFundsRequest
@@ -2844,6 +6072,16 @@ func (s *TrdGetPositionListRequest) SetAssetCategory(o TrdAssetCategory) {
 	s.AssetCategory = o.Enum()
 }
 
+// 货币种类，参见Trd_Common.Currency。加密货币账户必填，其他账户忽略
+func (s *TrdGetPositionListRequest) WithCurrency(o Currency) *TrdGetPositionListRequest {
+	s.Currency = o.Enum()
+	return s
+}
+
+func (s *TrdGetPositionListRequest) SetCurrency(o Currency) {
+	s.Currency = o.Enum()
+}
+
 // 过滤条件
 func (s *TrdGetPositionListRequest) WithFilterConditions(o *TrdFilterConditions) *TrdGetPositionListRequest {
 	s.FilterConditions = o
@@ -2882,6 +6120,16 @@ func (s *TrdGetPositionListRequest) WithHeader(o *TrdHeader) *TrdGetPositionList
 
 func (s *TrdGetPositionListRequest) SetHeader(o *TrdHeader) {
 	s.Header = o
+}
+
+// 是否展示组合期权视图，默认false
+func (s *TrdGetPositionListRequest) WithOptionStrategyView(o bool) *TrdGetPositionListRequest {
+	s.OptionStrategyView = &o
+	return s
+}
+
+func (s *TrdGetPositionListRequest) SetOptionStrategyView(o bool) {
+	s.OptionStrategyView = &o
 }
 
 // 立即刷新OpenD缓存的此数据，默认不填。true向服务器获取最新数据更新缓存并返回；flase或没填则返回OpenD缓存的数据，不会向服务器请求。
@@ -3089,6 +6337,98 @@ func (s *TrdModifyOrderRequest) SetMarket(o TrdMarket) {
 	s.TrdMarket = o.Enum()
 }
 
+// TrdPlaceComboOrderRequest
+
+// 组合的腿信息
+func (s *TrdPlaceComboOrderRequest) WithComboLegs(o ...*ComboLeg) *TrdPlaceComboOrderRequest {
+	s.ComboLegs = o
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetComboLegs(o ...*ComboLeg) {
+	s.ComboLegs = o
+}
+
+// 订单过期时间，timeInForce 为 GTD 时有效
+func (s *TrdPlaceComboOrderRequest) WithExpireTime(o string) *TrdPlaceComboOrderRequest {
+	s.ExpireTime = &o
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetExpireTime(o string) {
+	s.ExpireTime = &o
+}
+
+// 交易公共参数头
+func (s *TrdPlaceComboOrderRequest) WithHeader(o *TrdHeader) *TrdPlaceComboOrderRequest {
+	s.Header = o
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetHeader(o *TrdHeader) {
+	s.Header = o
+}
+
+// 订单类型, 参见Trd_Common.OrderType的枚举定义
+func (s *TrdPlaceComboOrderRequest) WithOrderType(o OrderType) *TrdPlaceComboOrderRequest {
+	s.OrderType = o.Enum()
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetOrderType(o OrderType) {
+	s.OrderType = o.Enum()
+}
+
+// 交易写操作防重放攻击
+func (s *TrdPlaceComboOrderRequest) WithPacketID(o *PacketID) *TrdPlaceComboOrderRequest {
+	s.PacketID = o
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetPacketID(o *PacketID) {
+	s.PacketID = o
+}
+
+// 价格
+func (s *TrdPlaceComboOrderRequest) WithPrice(o float64) *TrdPlaceComboOrderRequest {
+	s.Price = &o
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetPrice(o float64) {
+	s.Price = &o
+}
+
+// 数量，实际数量为 qty * 腿的 qty_ratio
+func (s *TrdPlaceComboOrderRequest) WithQty(o float64) *TrdPlaceComboOrderRequest {
+	s.Qty = &o
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetQty(o float64) {
+	s.Qty = &o
+}
+
+// 用户备注字符串，最多只能传64字节。可用于标识订单唯一信息等，下单填上，订单结构就会带上。
+func (s *TrdPlaceComboOrderRequest) WithRemark(o string) *TrdPlaceComboOrderRequest {
+	s.Remark = &o
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetRemark(o string) {
+	s.Remark = &o
+}
+
+// 订单有效期限，参见TrdCommon_TimeInForce的枚举定义
+func (s *TrdPlaceComboOrderRequest) WithTimeInForce(o TimeInForce) *TrdPlaceComboOrderRequest {
+	s.TimeInForce = o.Enum()
+	return s
+}
+
+func (s *TrdPlaceComboOrderRequest) SetTimeInForce(o TimeInForce) {
+	s.TimeInForce = o.Enum()
+}
+
 // TrdPlaceOrderRequest
 
 // 是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
@@ -3129,6 +6469,16 @@ func (s *TrdPlaceOrderRequest) WithCode(o string) *TrdPlaceOrderRequest {
 
 func (s *TrdPlaceOrderRequest) SetCode(o string) {
 	s.Code = &o
+}
+
+// 订单到期时间，仅在timeInForce为GTD时有效
+func (s *TrdPlaceOrderRequest) WithExpireTime(o string) *TrdPlaceOrderRequest {
+	s.ExpireTime = &o
+	return s
+}
+
+func (s *TrdPlaceOrderRequest) SetExpireTime(o string) {
+	s.ExpireTime = &o
 }
 
 // 是否允许盘前盘后成交。仅适用于美股限价单。默认false
@@ -3367,6 +6717,39 @@ func (s *TrdUnlockTradeRequest) SetUnlock(o bool) {
 	s.Unlock = &o
 }
 
+// UnderlyingIndicator
+// 标的筛选条件
+
+// UnderlyingIndicatorType
+func (s *UnderlyingIndicator) WithIndicatorType(o UnderlyingIndicatorType) *UnderlyingIndicator {
+	s.IndicatorType = o.Enum()
+	return s
+}
+
+func (s *UnderlyingIndicator) SetIndicatorType(o UnderlyingIndicatorType) {
+	s.IndicatorType = o.Enum()
+}
+
+// 筛选条件
+func (s *UnderlyingIndicator) WithIndicatorValue(o *IndicatorValue) *UnderlyingIndicator {
+	s.IndicatorValue = o
+	return s
+}
+
+func (s *UnderlyingIndicator) SetIndicatorValue(o *IndicatorValue) {
+	s.IndicatorValue = o
+}
+
+// 板块列表, 仅PLATE(103)类型使用
+func (s *UnderlyingIndicator) WithPlateList(o ...*OptionPlate) *UnderlyingIndicator {
+	s.PlateList = o
+	return s
+}
+
+func (s *UnderlyingIndicator) SetPlateList(o ...*OptionPlate) {
+	s.PlateList = o
+}
+
 // UsedQuotaRequest
 // VerificationRequest
 //图形验证码下载之后会将其存至固定路径，请到该路径下查看验证码
@@ -3402,4 +6785,83 @@ func (s *VerificationRequest) WithType(o VerificationType) *VerificationRequest 
 
 func (s *VerificationRequest) SetType(o VerificationType) {
 	s.Type = o.Enum()
+}
+
+// WarrantScreenBoundary
+// 边界值
+
+// 是否包含此值
+func (s *WarrantScreenBoundary) WithIncludes(o bool) *WarrantScreenBoundary {
+	s.Includes = &o
+	return s
+}
+
+func (s *WarrantScreenBoundary) SetIncludes(o bool) {
+	s.Includes = &o
+}
+
+// 边界值 (double, 用户直接传原始值, OpenD 负责倍率转换)
+func (s *WarrantScreenBoundary) WithValue(o float64) *WarrantScreenBoundary {
+	s.Value = &o
+	return s
+}
+
+func (s *WarrantScreenBoundary) SetValue(o float64) {
+	s.Value = &o
+}
+
+// WarrantScreenInterval
+// 区间
+
+// 区间上限
+func (s *WarrantScreenInterval) WithFilterMax(o *WarrantScreenBoundary) *WarrantScreenInterval {
+	s.FilterMax = o
+	return s
+}
+
+func (s *WarrantScreenInterval) SetFilterMax(o *WarrantScreenBoundary) {
+	s.FilterMax = o
+}
+
+// 区间下限
+func (s *WarrantScreenInterval) WithFilterMin(o *WarrantScreenBoundary) *WarrantScreenInterval {
+	s.FilterMin = o
+	return s
+}
+
+func (s *WarrantScreenInterval) SetFilterMin(o *WarrantScreenBoundary) {
+	s.FilterMin = o
+}
+
+// 数值单位
+func (s *WarrantScreenInterval) WithUnit(o int32) *WarrantScreenInterval {
+	s.Unit = &o
+	return s
+}
+
+func (s *WarrantScreenInterval) SetUnit(o int32) {
+	s.Unit = &o
+}
+
+// WarrantScreenSort
+// 排序
+
+// 0=升序, 1=降序
+func (s *WarrantScreenSort) WithDirection(o int32) *WarrantScreenSort {
+	s.Direction = &o
+	return s
+}
+
+func (s *WarrantScreenSort) SetDirection(o int32) {
+	s.Direction = &o
+}
+
+// FieldId 枚举, 排序字段
+func (s *WarrantScreenSort) WithSortFieldId(o int32) *WarrantScreenSort {
+	s.SortFieldId = &o
+	return s
+}
+
+func (s *WarrantScreenSort) SetSortFieldId(o int32) {
+	s.SortFieldId = &o
 }

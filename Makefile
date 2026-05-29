@@ -1,11 +1,17 @@
+# vim: noet ts=4
 SHELL=/bin/zsh
 
 .PHONY: runtest genkey genpb gen_possible_enums
 .PHONY: start_opend build_opend install_brew_tools
 
-PROTO_FILES = $(wildcard ./pb/proto/original/*.proto)
+PROTO_BASE = ./pb/proto
+PROTO_BASE_ORIG = $(PROTO_BASE)/original
 PROTO_PLUGIN = protoc-gen-go-futu
 PROTO_PLUGIN_FOLDER = ./tools/$(PROTO_PLUGIN)/
+
+_PROTO_FILES = $(wildcard $(PROTO_BASE_ORIG)/*.proto)
+# make sure only one Types.proto
+PROTO_FILES = $(filter-out %Types.proto, $(_PROTO_FILES)) $(PROTO_BASE_ORIG)/Types.proto
 
 all:
 
@@ -15,13 +21,23 @@ $(PROTO_PLUGIN): $(wildcard $(PROTO_PLUGIN_FOLDER)/*.go)
 
 
 genpb:
-	@echo Applying fixproto.awk to originals
-	@$(foreach pf, $(PROTO_FILES), \
+	# merge common proto
+	@cd $(PROTO_BASE_ORIG);	\
+		cat Common.proto > Types.proto; \
+		cat *_Common.proto | grep -Ev "^(syntax|import|option|package) " \
+			>> Types.proto;
+	# make sure original proto are in consistent format
+	@$(foreach pf, $(PROTO_FILES),	\
+		buf format $(pf) -w;		\
+	)
+	# apply proto fixups using awk
+	@$(foreach pf, $(filter-out %Common.proto, $(PROTO_FILES)), \
 		buf format $(pf) -w;       \
-		$(eval OUTFILE := ./pb/proto/$(notdir $(pf)));	\
+		$(eval OUTFILE := $(PROTO_BASE)/$(notdir $(pf)));	\
 		awk -f ./tools/fixenum.awk -f ./tools/fixproto.awk $(pf) > $(OUTFILE) ;	\
 		buf format $(OUTFILE) -w;   \
 	)
+
 	@echo Making protoc plugin
 	@make $(PROTO_PLUGIN)
 	@echo Generating \*.pb.go

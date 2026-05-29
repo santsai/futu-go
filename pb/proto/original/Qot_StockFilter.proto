@@ -297,6 +297,7 @@ message C2S {
   repeated FinancialFilter financialFilterList = 7; // 财务指标过滤器
   repeated PatternFilter patternFilterList = 8; // 形态技术指标过滤器
   repeated CustomIndicatorFilter customIndicatorFilterList = 9; // 自定义技术指标过滤器
+  optional Qot_Common.QotHeader header = 100; //行情公共参数头
 }
 
 message S2C {

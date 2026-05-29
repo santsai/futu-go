@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 //交易时间
 message TradeTime {
@@ -37,6 +35,7 @@ message FutureInfo {
 
 message QotGetFutureInfoRequest {
   repeated Security securityList = 1; //股票列表
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotGetFutureInfoResponse {

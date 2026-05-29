@@ -61,16 +61,52 @@ message USIpoExData {
   required int64 issueSize = 3; // 发行量
 }
 
+// 新加坡Ipo列表额外数据
+message SGIpoExData {
+  required double ipoPriceMin = 1; // 最低发行价
+  required double ipoPriceMax = 2; // 最高发行价
+  required int64 issueSize = 3; // 发行量
+  optional string applyStartTime = 4; // 开始认购日期字符串
+  optional double applyStartTimestamp = 5; // 开始认购日期时间戳
+  optional string applyEndTime = 6; // 截止认购日期字符串
+  optional double applyEndTimestamp = 7; // 截止认购日期时间戳
+  optional string winningTime = 8; // 公布中签日期字符串
+  optional double winningTimestamp = 9; // 公布中签日期时间戳
+}
+
+// 马来西亚Ipo列表额外数据
+message MYIpoExData {
+  required double offerPrice = 1; // 发行价
+  required int64 issueSize = 2; // 发行量
+  optional string applyStartTime = 3; // 开始认购日期字符串
+  optional double applyStartTimestamp = 4; // 开始认购日期时间戳
+  optional string applyEndTime = 5; // 截止认购日期字符串
+  optional double applyEndTimestamp = 6; // 截止认购日期时间戳
+  optional string winningTime = 7; // 公布中签日期字符串
+  optional double winningTimestamp = 8; // 公布中签日期时间戳
+}
+
+// 日本Ipo列表额外数据
+message JPIpoExData {
+  required double ipoPriceMin = 1; // 最低发行价
+  required double ipoPriceMax = 2; // 最高发行价
+  required int64 issueSize = 3; // 发行量
+}
+
 // 新股Ipo数据
 message IpoData {
   required BasicIpoData basic = 1; // IPO基本数据
   optional CNIpoExData cnExData = 2; // A股IPO额外数据
   optional HKIpoExData hkExData = 3; // 港股IPO额外数据
   optional USIpoExData usExData = 4; // 美股IPO额外数据
+  optional SGIpoExData sgExData = 5; // 新加坡IPO额外数据
+  optional MYIpoExData myExData = 6; // 马来西亚IPO额外数据
+  optional JPIpoExData jpExData = 7; // 日本IPO额外数据
 }
 
 message C2S {
   required int32 market = 1; // Qot_Common::QotMarket股票市场，支持沪股和深股，且沪股和深股不做区分都代表A股市场。
+  optional Qot_Common.QotHeader header = 100; //行情公共参数头
 }
 
 message S2C {

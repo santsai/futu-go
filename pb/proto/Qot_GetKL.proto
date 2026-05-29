@@ -1,17 +1,16 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 message QotGetKLRequest {
   required RehabType rehabType = 1; //Qot_Common.RehabType,复权类型
   required KLType klType = 2; //Qot_Common.KLType,K线类型
   required Security security = 3; //股票
   required int32 reqNum = 4; //请求K线根数
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotGetKLResponse {

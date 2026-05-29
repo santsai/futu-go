@@ -35,6 +35,14 @@ const (
 	// 掉期
 	AssetClass_Swap AssetClass = AssetClass_AssetClass_Swap
 
+	// 券商净买卖方向
+	// enum: BuySellType
+	BuySellType_Unknown BuySellType = BuySellType_BuySellType_Unknown
+	// 净买入
+	BuySellType_NetBuy BuySellType = BuySellType_BuySellType_NetBuy
+	// 净卖出
+	BuySellType_NetSell BuySellType = BuySellType_BuySellType_NetSell
+
 	// 账户风险控制等级
 	// enum: CltRiskLevel
 	// 未知
@@ -114,6 +122,15 @@ const (
 	CompanyAct_SPDividend CompanyAct = CompanyAct_CompanyAct_SPDividend
 	// 分立
 	CompanyAct_SpinOff CompanyAct = CompanyAct_CompanyAct_SpinOff
+
+	// 公司资料字段类型
+	// enum: CompanyProfileFieldType
+	// 文本
+	CompanyProfileFieldType_SourceText CompanyProfileFieldType = CompanyProfileFieldType_CompanyProfileFieldType_SourceText
+	// 链接
+	CompanyProfileFieldType_LinkType CompanyProfileFieldType = CompanyProfileFieldType_CompanyProfileFieldType_LinkType
+	// 独立标题
+	CompanyProfileFieldType_IndependentTitle CompanyProfileFieldType = CompanyProfileFieldType_CompanyProfileFieldType_IndependentTitle
 
 	// 货币种类
 	// enum: Currency
@@ -237,6 +254,17 @@ const (
 	// 下单统计
 	DelayStatisticsType_PlaceOrder DelayStatisticsType = DelayStatisticsType_DelayStatisticsType_PlaceOrder
 
+	// 财报发布时间类型
+	// enum: EarningsPubTimeType
+	// 未知
+	EarningsPubTimeType_Unknown EarningsPubTimeType = EarningsPubTimeType_EarningsPubTimeType_Unknown
+	// 盘前发布
+	EarningsPubTimeType_PreMarket EarningsPubTimeType = EarningsPubTimeType_EarningsPubTimeType_PreMarket
+	// 盘后发布
+	EarningsPubTimeType_AfterMarket EarningsPubTimeType = EarningsPubTimeType_EarningsPubTimeType_AfterMarket
+	// 盘中发布
+	EarningsPubTimeType_DuringMarket EarningsPubTimeType = EarningsPubTimeType_EarningsPubTimeType_DuringMarket
+
 	// 所属交易所
 	// enum: ExchType
 	// 未知
@@ -277,6 +305,14 @@ const (
 	ExchType_SG_SGX ExchType = ExchType_ExchType_SG_SGX
 	// 大阪交易所
 	ExchType_JP_OSE ExchType = ExchType_ExchType_JP_OSE
+	// 加密货币交易所
+	ExchType_CC_CRYPTO ExchType = ExchType_ExchType_CC_CRYPTO
+	// 马来西亚交易所
+	ExchType_MY_MYX ExchType = ExchType_ExchType_MY_MYX
+	// 东京证券交易所
+	ExchType_JP_TSE ExchType = ExchType_ExchType_JP_TSE
+	// 日经指数
+	ExchType_JP_Nikkei ExchType = ExchType_ExchType_JP_Nikkei
 
 	// 交割周期
 	// enum: ExpirationCycle
@@ -300,6 +336,48 @@ const (
 	ExpirationCycle_WeekThu ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekThu
 	// 周五
 	ExpirationCycle_WeekFri ExpirationCycle = ExpirationCycle_ExpirationCycle_WeekFri
+
+	// enum: ExposureLevel
+	// 未知
+	ExposureLevel_Unknown ExposureLevel = ExposureLevel_ExposureLevel_Unknown
+	// 正常
+	ExposureLevel_Normal ExposureLevel = ExposureLevel_ExposureLevel_Normal
+	// 即将用尽
+	ExposureLevel_NearLimit ExposureLevel = ExposureLevel_ExposureLevel_NearLimit
+	// 受限
+	ExposureLevel_Restricted ExposureLevel = ExposureLevel_ExposureLevel_Restricted
+	// 安全
+	ExposureLevel_Safe ExposureLevel = ExposureLevel_ExposureLevel_Safe
+	// 适中
+	ExposureLevel_Moderate ExposureLevel = ExposureLevel_ExposureLevel_Moderate
+	// 预警
+	ExposureLevel_Warning ExposureLevel = ExposureLevel_ExposureLevel_Warning
+	// 危险
+	ExposureLevel_MarginCall ExposureLevel = ExposureLevel_ExposureLevel_MarginCall
+
+	// 财报类型
+	// enum: F10Type
+	F10Type_Unknown F10Type = F10Type_F10Type_Unknown
+	// 单季报，Q1
+	F10Type_Q1 F10Type = F10Type_F10Type_Q1
+	// 单季报，Q2
+	F10Type_Q2 F10Type = F10Type_F10Type_Q2
+	// 单季报，Q3
+	F10Type_Q3 F10Type = F10Type_F10Type_Q3
+	// 单季报，Q4
+	F10Type_Q4 F10Type = F10Type_F10Type_Q4
+	// 累计季报，Q6（Q1+Q2）
+	F10Type_Q6 F10Type = F10Type_F10Type_Q6
+	// 累计季报，Q9（Q1+Q2+Q3）
+	F10Type_Q9 F10Type = F10Type_F10Type_Q9
+	// 年报
+	F10Type_Annual F10Type = F10Type_F10Type_Annual
+	// 单季报组合（Q1, Q2, Q3, Q4）
+	F10Type_Quarterly F10Type = F10Type_F10Type_Quarterly
+	// 单季报 + 年报
+	F10Type_QuarterlyAnnual F10Type = F10Type_F10Type_QuarterlyAnnual
+	// 累计季报（Q1, Q6, Q9, Annual）
+	F10Type_MulQuarterly F10Type = F10Type_F10Type_MulQuarterly
 
 	// 财务属性
 	// enum: FinancialField
@@ -413,6 +491,18 @@ const (
 	// 最近季报
 	FinancialQuarter_MostRecentQuarter FinancialQuarter = FinancialQuarter_FinancialQuarter_MostRecentQuarter
 
+	// 财务报表类型
+	// enum: FinancialStatementsType
+	FinancialStatementsType_Unknown FinancialStatementsType = FinancialStatementsType_FinancialStatementsType_Unknown
+	// 利润表
+	FinancialStatementsType_Income FinancialStatementsType = FinancialStatementsType_FinancialStatementsType_Income
+	// 资产负债表
+	FinancialStatementsType_BalanceSheet FinancialStatementsType = FinancialStatementsType_FinancialStatementsType_BalanceSheet
+	// 现金流量表
+	FinancialStatementsType_CashFlow FinancialStatementsType = FinancialStatementsType_FinancialStatementsType_CashFlow
+	// 关键指标
+	FinancialStatementsType_MainIndex FinancialStatementsType = FinancialStatementsType_FinancialStatementsType_MainIndex
+
 	// 自选股分组类型
 	// enum: GroupType
 	// 未知
@@ -467,6 +557,66 @@ const (
 	HolderCategory_Fund HolderCategory = HolderCategory_HolderCategory_Fund
 	// 高管
 	HolderCategory_SeniorManager HolderCategory = HolderCategory_HolderCategory_SeniorManager
+
+	// 股东持仓明细机构类型
+	// enum: HolderDetailType
+	// 默认不过滤，按服务端默认逻辑返回
+	HolderDetailType_Default HolderDetailType = HolderDetailType_HolderDetailType_Default
+	// 全部
+	HolderDetailType_All HolderDetailType = HolderDetailType_HolderDetailType_All
+	// 其他机构
+	HolderDetailType_Unclassified HolderDetailType = HolderDetailType_HolderDetailType_Unclassified
+	// 传统投资经理
+	HolderDetailType_TraditionalInvestmentManager HolderDetailType = HolderDetailType_HolderDetailType_TraditionalInvestmentManager
+	// 对冲基金
+	HolderDetailType_HedgeFundManager HolderDetailType = HolderDetailType_HolderDetailType_HedgeFundManager
+	// 风险资本/私募股权投资
+	HolderDetailType_VCOrPE HolderDetailType = HolderDetailType_HolderDetailType_VCOrPE
+	// 企业年金
+	HolderDetailType_CorporatePensionPlanSponsor HolderDetailType = HolderDetailType_HolderDetailType_CorporatePensionPlanSponsor
+	// 基金会基金
+	HolderDetailType_FoundationFundSponsor HolderDetailType = HolderDetailType_HolderDetailType_FoundationFundSponsor
+	// 保险公司
+	HolderDetailType_InsuranceCompany HolderDetailType = HolderDetailType_HolderDetailType_InsuranceCompany
+	// 银行/投资银行
+	HolderDetailType_BankOrInvestmentBank HolderDetailType = HolderDetailType_HolderDetailType_BankOrInvestmentBank
+	// 家族办公室/信托
+	HolderDetailType_FamilyOfficesOrTrust HolderDetailType = HolderDetailType_HolderDetailType_FamilyOfficesOrTrust
+	// 主权财富基金
+	HolderDetailType_SovereignWealthFund HolderDetailType = HolderDetailType_HolderDetailType_SovereignWealthFund
+	// REIT
+	HolderDetailType_REIT HolderDetailType = HolderDetailType_HolderDetailType_REIT
+	// 结构化融资经理
+	HolderDetailType_StructuredFinancePoolManager HolderDetailType = HolderDetailType_HolderDetailType_StructuredFinancePoolManager
+	// 联合养老金
+	HolderDetailType_UnionPensionPlanSponsor HolderDetailType = HolderDetailType_HolderDetailType_UnionPensionPlanSponsor
+	// 政府养老金
+	HolderDetailType_GovernmentPensionPlanSponsor HolderDetailType = HolderDetailType_HolderDetailType_GovernmentPensionPlanSponsor
+	// 捐赠基金
+	HolderDetailType_EndowmentFundSponsor HolderDetailType = HolderDetailType_HolderDetailType_EndowmentFundSponsor
+	// 个人
+	HolderDetailType_IndividualInsiders HolderDetailType = HolderDetailType_HolderDetailType_IndividualInsiders
+	// ADS
+	HolderDetailType_IssueSponsoredADR HolderDetailType = HolderDetailType_HolderDetailType_IssueSponsoredADR
+	// 上市公司
+	HolderDetailType_CorporationsPublic HolderDetailType = HolderDetailType_HolderDetailType_CorporationsPublic
+	// 未公开上市公司
+	HolderDetailType_CorporationsPrivate HolderDetailType = HolderDetailType_HolderDetailType_CorporationsPrivate
+	// 国有股
+	HolderDetailType_StateOwnedShares HolderDetailType = HolderDetailType_HolderDetailType_StateOwnedShares
+
+	// 持股变动筛选类型
+	// enum: HoldingChangesFilterType
+	// 全部（默认）
+	HoldingChangesFilterType_Unknown HoldingChangesFilterType = HoldingChangesFilterType_HoldingChangesFilterType_Unknown
+	// 增持
+	HoldingChangesFilterType_Increase HoldingChangesFilterType = HoldingChangesFilterType_HoldingChangesFilterType_Increase
+	// 减持
+	HoldingChangesFilterType_Decrease HoldingChangesFilterType = HoldingChangesFilterType_HoldingChangesFilterType_Decrease
+	// 建仓
+	HoldingChangesFilterType_NewIn HoldingChangesFilterType = HoldingChangesFilterType_HoldingChangesFilterType_NewIn
+	// 清仓
+	HoldingChangesFilterType_CloseOut HoldingChangesFilterType = HoldingChangesFilterType_HoldingChangesFilterType_CloseOut
 
 	// enum: IndexOptionType
 	// 未知
@@ -601,6 +751,31 @@ const (
 	KLType_3Min KLType = KLType_KLType_3Min
 	// 季K
 	KLType_Quarter KLType = KLType_KLType_Quarter
+	// 10分K
+	KLType_10Min KLType = KLType_KLType_10Min
+	// 120分K
+	KLType_120Min KLType = KLType_KLType_120Min
+	// 180分K
+	KLType_180Min KLType = KLType_KLType_180Min
+	// 240分K
+	KLType_240Min KLType = KLType_KLType_240Min
+
+	// 期权市场品类 (枚举值与后台 FTCmdOptionMarket.MarketCategory 一致, 直接透传)
+	// enum: MarketCategory
+	// 美股股票期权
+	MarketCategory_US_Stock MarketCategory = MarketCategory_MarketCategory_US_Stock
+	// 美股指数期权
+	MarketCategory_US_Index MarketCategory = MarketCategory_MarketCategory_US_Index
+	// 美股期货期权
+	MarketCategory_US_Future MarketCategory = MarketCategory_MarketCategory_US_Future
+	// 港股股票期权
+	MarketCategory_HK_Stock MarketCategory = MarketCategory_MarketCategory_HK_Stock
+	// 港股指数期权
+	MarketCategory_HK_Index MarketCategory = MarketCategory_MarketCategory_HK_Index
+	// 日股股票期权
+	MarketCategory_JP_Stock MarketCategory = MarketCategory_MarketCategory_JP_Stock
+	// 日股指数期权
+	MarketCategory_JP_Index MarketCategory = MarketCategory_MarketCategory_JP_Index
 
 	// 修改订单的操作类型
 	// enum: ModifyOrderOp
@@ -625,6 +800,15 @@ const (
 	ModifyUserSecurityOp_Del ModifyUserSecurityOp = ModifyUserSecurityOp_ModifyUserSecurityOp_Del
 	// 移出分组
 	ModifyUserSecurityOp_MoveOut ModifyUserSecurityOp = ModifyUserSecurityOp_ModifyUserSecurityOp_MoveOut
+
+	// 晨星评级类型
+	// enum: MorningstarRatingType
+	// 未知
+	MorningstarRatingType_Unknown MorningstarRatingType = MorningstarRatingType_MorningstarRatingType_Unknown
+	// 定量评级（系统模型给出）
+	MorningstarRatingType_Quantitative MorningstarRatingType = MorningstarRatingType_MorningstarRatingType_Quantitative
+	// 定性评级（分析师人工给出）
+	MorningstarRatingType_Qualitative MorningstarRatingType = MorningstarRatingType_MorningstarRatingType_Qualitative
 
 	// 当请求时间点数据为空时，如何返回数据
 	// enum: NoDataMode
@@ -670,6 +854,110 @@ const (
 	// 价外
 	OptionCondType_Outside OptionCondType = OptionCondType_OptionCondType_Outside
 
+	// 期权隐含波动率状态
+	// enum: OptionImpvolStatusType
+	// 期权波动率处于震荡中
+	ImpvolFluctuating OptionImpvolStatusType = OptionImpvolStatusType_ImpvolFluctuating
+	// 期权波动率处于高估
+	ImpvolOvervalued OptionImpvolStatusType = OptionImpvolStatusType_ImpvolOvervalued
+	// 期权波动率处于低估
+	ImpvolUndervalued OptionImpvolStatusType = OptionImpvolStatusType_ImpvolUndervalued
+
+	// 期权筛选因子类型
+	// enum: OptionIndicatorType
+	// 未知
+	OptionIndicatorType_Unknown OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Unknown
+	// 【范围】行权价
+	OptionIndicatorType_StrikePrice OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_StrikePrice
+	// 【范围】距离到期日天数
+	OptionIndicatorType_LeftDay OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_LeftDay
+	// 【确切值】期权类型(CALL/PUT)
+	OptionIndicatorType_OptionType OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_OptionType
+	// 【确切值】行权方式(美式/欧式)
+	OptionIndicatorType_ExerciseType OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_ExerciseType
+	// 【确切值】到期类型(周/月/季)
+	OptionIndicatorType_ExpirationType OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_ExpirationType
+	// 【确切值】到期日时间戳(秒)
+	OptionIndicatorType_StrikeDateTimestamp OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_StrikeDateTimestamp
+	// 【确切值】价内/价外(0:价外,1:价内)
+	OptionIndicatorType_InTheMoney OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_InTheMoney
+	// 【范围】期权价格
+	OptionIndicatorType_Price OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Price
+	// 【范围】期权中间价
+	OptionIndicatorType_MidPrice OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_MidPrice
+	// 【范围】买价
+	OptionIndicatorType_BidPrice OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_BidPrice
+	// 【范围】卖价
+	OptionIndicatorType_AskPrice OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_AskPrice
+	// 【范围】买卖价差
+	OptionIndicatorType_BidAskSpread OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_BidAskSpread
+	// 【范围】买量
+	OptionIndicatorType_BidVolume OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_BidVolume
+	// 【范围】卖量
+	OptionIndicatorType_AskVolume OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_AskVolume
+	// 【范围】买卖量比
+	OptionIndicatorType_BidAskVolumeRatio OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_BidAskVolumeRatio
+	// 【范围】涨跌幅
+	OptionIndicatorType_ChangeRatio OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_ChangeRatio
+	// 【范围】成交量
+	OptionIndicatorType_Volume OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Volume
+	// 【范围】成交额
+	OptionIndicatorType_Turnover OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Turnover
+	// 【范围】持仓量
+	OptionIndicatorType_OpenInterest OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_OpenInterest
+	// 【范围】持仓市值
+	OptionIndicatorType_OpenInterestMarketCap OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_OpenInterestMarketCap
+	// 【范围】成交量/持仓量
+	OptionIndicatorType_VolOIRatio OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_VolOIRatio
+	// 【范围】权利金, 仅 sort/retrieve
+	OptionIndicatorType_Premium OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Premium
+	// 【范围】隐含波动率
+	OptionIndicatorType_ImpliedVolatility OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_ImpliedVolatility
+	// 【范围】历史波动率
+	OptionIndicatorType_HistoryVolatility OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_HistoryVolatility
+	// 【范围】IV/HV
+	OptionIndicatorType_IVHVRatio OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_IVHVRatio
+	// 【范围】Delta
+	OptionIndicatorType_Delta OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Delta
+	// 【范围】Gamma
+	OptionIndicatorType_Gamma OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Gamma
+	// 【范围】Vega
+	OptionIndicatorType_Vega OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Vega
+	// 【范围】Theta
+	OptionIndicatorType_Theta OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Theta
+	// 【范围】Rho
+	OptionIndicatorType_Rho OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_Rho
+	// 【范围】杠杆比率
+	OptionIndicatorType_LeverageRatio OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_LeverageRatio
+	// 【范围】有效杠杆
+	OptionIndicatorType_EffectiveGearing OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_EffectiveGearing
+	// 【范围】买入到盈亏平衡点比率
+	OptionIndicatorType_BuyToBep OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_BuyToBep
+	// 【范围】卖出到盈亏平衡点比率
+	OptionIndicatorType_SellToBep OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_SellToBep
+	// 【范围】买入盈利概率
+	OptionIndicatorType_BuyProfitProbability OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_BuyProfitProbability
+	// 【范围】卖出盈利概率
+	OptionIndicatorType_SellProfitProbability OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_SellProfitProbability
+	// 【范围】内在价值百分比
+	OptionIndicatorType_IntrinsicValuePer OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_IntrinsicValuePer
+	// 【范围】时间价值百分比
+	OptionIndicatorType_TimeValuePer OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_TimeValuePer
+	// 【范围】价内程度
+	OptionIndicatorType_ITMDegree OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_ITMDegree
+	// 【范围】价外程度
+	OptionIndicatorType_OTMDegree OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_OTMDegree
+	// 【范围】价内概率
+	OptionIndicatorType_ITMProbability OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_ITMProbability
+	// 【范围】价外概率
+	OptionIndicatorType_OTMProbability OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_OTMProbability
+	// 【范围】卖出年化收益率
+	OptionIndicatorType_SellAnnualizedReturn OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_SellAnnualizedReturn
+	// 【范围】卖出区间收益率
+	OptionIndicatorType_IntervalReturn OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_IntervalReturn
+	// 已废弃, 传入会报错
+	OptionIndicatorType_BuyBreakEvenPoint OptionIndicatorType = OptionIndicatorType_OptionIndicatorType_BuyBreakEvenPoint
+
 	// 期权结算方式
 	// enum: OptionSettlementMode
 	// 未知
@@ -688,6 +976,36 @@ const (
 	// 非标准
 	OptionStandardType_NonStandard OptionStandardType = OptionStandardType_OptionStandardType_NonStandard
 
+	// enum: OptionStrategyType
+	// 未知
+	OptionStrategyType_Unknown OptionStrategyType = OptionStrategyType_OptionStrategyType_Unknown
+	// 单个期权
+	OptionStrategyType_SingleOption OptionStrategyType = OptionStrategyType_OptionStrategyType_SingleOption
+	// 股票担保
+	OptionStrategyType_Covered OptionStrategyType = OptionStrategyType_OptionStrategyType_Covered
+	// 垂直策略
+	OptionStrategyType_Spread OptionStrategyType = OptionStrategyType_OptionStrategyType_Spread
+	// 跨式策略
+	OptionStrategyType_Straddle OptionStrategyType = OptionStrategyType_OptionStrategyType_Straddle
+	// 宽跨式策略
+	OptionStrategyType_Strangle OptionStrategyType = OptionStrategyType_OptionStrategyType_Strangle
+	// 领式策略
+	OptionStrategyType_Collar OptionStrategyType = OptionStrategyType_OptionStrategyType_Collar
+	// 蝶式策略
+	OptionStrategyType_Butterfly OptionStrategyType = OptionStrategyType_OptionStrategyType_Butterfly
+	// 鹰式策略
+	OptionStrategyType_Condor OptionStrategyType = OptionStrategyType_OptionStrategyType_Condor
+	// 铁蝶式策略
+	OptionStrategyType_IronButterfly OptionStrategyType = OptionStrategyType_OptionStrategyType_IronButterfly
+	// 铁鹰式策略
+	OptionStrategyType_IronCondor OptionStrategyType = OptionStrategyType_OptionStrategyType_IronCondor
+	// 日历策略
+	OptionStrategyType_CalendarSpread OptionStrategyType = OptionStrategyType_OptionStrategyType_CalendarSpread
+	// 对角策略
+	OptionStrategyType_DiagonalSpread OptionStrategyType = OptionStrategyType_OptionStrategyType_DiagonalSpread
+	// 自定义策略
+	OptionStrategyType_Customize OptionStrategyType = OptionStrategyType_OptionStrategyType_Customize
+
 	// enum: OptionType
 	// 未知
 	OptionType_Unknown OptionType = OptionType_OptionType_Unknown
@@ -695,6 +1013,27 @@ const (
 	OptionType_Call OptionType = OptionType_OptionType_Call
 	// 跌
 	OptionType_Put OptionType = OptionType_OptionType_Put
+
+	// 期权波动率查询时间周期
+	// enum: OptionVolatilityTimePeriodType
+	// 未知
+	OptionVolatilityTimePeriodType_Unknown OptionVolatilityTimePeriodType = OptionVolatilityTimePeriodType_OptionVolatilityTimePeriodType_Unknown
+	// 周
+	OptionVolatilityTimePeriodType_Week OptionVolatilityTimePeriodType = OptionVolatilityTimePeriodType_OptionVolatilityTimePeriodType_Week
+	// 月（默认）
+	OptionVolatilityTimePeriodType_Month OptionVolatilityTimePeriodType = OptionVolatilityTimePeriodType_OptionVolatilityTimePeriodType_Month
+	// 季度
+	OptionVolatilityTimePeriodType_Quarter OptionVolatilityTimePeriodType = OptionVolatilityTimePeriodType_OptionVolatilityTimePeriodType_Quarter
+	// 半年
+	OptionVolatilityTimePeriodType_HalfYear OptionVolatilityTimePeriodType = OptionVolatilityTimePeriodType_OptionVolatilityTimePeriodType_HalfYear
+	// 年
+	OptionVolatilityTimePeriodType_Year OptionVolatilityTimePeriodType = OptionVolatilityTimePeriodType_OptionVolatilityTimePeriodType_Year
+
+	// enum: OrderBookType
+	// 整股盘(默认)
+	OrderBookType_Normal OrderBookType = OrderBookType_OrderBookType_Normal
+	// 碎股盘
+	OrderBookType_Odd OrderBookType = OrderBookType_OrderBookType_Odd
 
 	// 一笔成交的状态
 	// enum: OrderFillStatus
@@ -871,6 +1210,14 @@ const (
 	// 空仓
 	PositionSide_Short PositionSide = PositionSide_PositionSide_Short
 
+	// enum: PositionType
+	// 未知
+	PositionType_Unknown PositionType = PositionType_PositionType_Unknown
+	// 组合汇总持仓
+	PositionType_Combined PositionType = PositionType_PositionType_Combined
+	// 单腿持仓
+	PositionType_Leg PositionType = PositionType_PositionType_Leg
+
 	// 提醒频率
 	// enum: PriceReminderFreq
 	// 未知
@@ -1005,6 +1352,8 @@ const (
 	QotMarket_CA_Security QotMarket = QotMarket_QotMarket_CA_Security
 	// 外汇市场
 	QotMarket_FX_Security QotMarket = QotMarket_QotMarket_FX_Security
+	// 加密货币市场
+	QotMarket_CC_Security QotMarket = QotMarket_QotMarket_CC_Security
 
 	// enum: QotMarketState
 	// 无交易
@@ -1156,6 +1505,29 @@ const (
 	// 跌穿，first从上往下穿second
 	RelativePosition_CrossDown RelativePosition = RelativePosition_RelativePosition_CrossDown
 
+	// 研报评级汇总-评级维度
+	// enum: ResearchRatingDimensionType
+	ResearchRatingDimensionType_Unknown ResearchRatingDimensionType = ResearchRatingDimensionType_ResearchRatingDimensionType_Unknown
+	// 机构维度（默认）
+	ResearchRatingDimensionType_Institution ResearchRatingDimensionType = ResearchRatingDimensionType_ResearchRatingDimensionType_Institution
+	// 分析师维度
+	ResearchRatingDimensionType_Analyst ResearchRatingDimensionType = ResearchRatingDimensionType_ResearchRatingDimensionType_Analyst
+
+	// 分析师评级
+	// enum: ResearchRatingType
+	// 未知
+	ResearchRatingType_Unknown ResearchRatingType = ResearchRatingType_ResearchRatingType_Unknown
+	// Sell（卖出）
+	ResearchRatingType_Sell ResearchRatingType = ResearchRatingType_ResearchRatingType_Sell
+	// Underperform（跑输大盘）
+	ResearchRatingType_Underperform ResearchRatingType = ResearchRatingType_ResearchRatingType_Underperform
+	// Hold（持有）
+	ResearchRatingType_Hold ResearchRatingType = ResearchRatingType_ResearchRatingType_Hold
+	// Buy（买入）
+	ResearchRatingType_Buy ResearchRatingType = ResearchRatingType_ResearchRatingType_Buy
+	// Strong Buy（强力推荐）
+	ResearchRatingType_StrongBuy ResearchRatingType = ResearchRatingType_ResearchRatingType_StrongBuy
+
 	// 返回结果
 	// enum: RetType
 	// 成功
@@ -1170,6 +1542,18 @@ const (
 	RetType_Unknown RetType = RetType_RetType_Unknown
 	// 包内容非法
 	RetType_Invalid RetType = RetType_RetType_Invalid
+
+	// 主营构成维度类型
+	// enum: RevenueBreakdownType
+	RevenueBreakdownType_Unknown RevenueBreakdownType = RevenueBreakdownType_RevenueBreakdownType_Unknown
+	// 产品
+	RevenueBreakdownType_Product RevenueBreakdownType = RevenueBreakdownType_RevenueBreakdownType_Product
+	// 行业
+	RevenueBreakdownType_Industry RevenueBreakdownType = RevenueBreakdownType_RevenueBreakdownType_Industry
+	// 地区
+	RevenueBreakdownType_Region RevenueBreakdownType = RevenueBreakdownType_RevenueBreakdownType_Region
+	// 业务
+	RevenueBreakdownType_Business RevenueBreakdownType = RevenueBreakdownType_RevenueBreakdownType_Business
 
 	// 券商
 	// enum: SecurityFirm
@@ -1261,16 +1645,8 @@ const (
 	SecurityType_Future SecurityType = SecurityType_SecurityType_Future
 	// 外汇
 	SecurityType_Forex SecurityType = SecurityType_SecurityType_Forex
-	// 财富管理产品
-	SecurityType_WealthManageFund SecurityType = SecurityType_SecurityType_WealthManageFund
-	// 场内基金产品
-	SecurityType_ExchangeFund SecurityType = SecurityType_SecurityType_ExchangeFund
 	// 数字货币
 	SecurityType_Crypto SecurityType = SecurityType_SecurityType_Crypto
-	// 财富管理债券 - 场外债券
-	SecurityType_OTCBond SecurityType = SecurityType_SecurityType_OTCBond
-	// 财富管理 - 结构化票据
-	SecurityType_OTCStructNotes SecurityType = SecurityType_SecurityType_OTCStructNotes
 
 	// enum: Session
 	Session_NONE      Session = Session_Session_NONE
@@ -1306,6 +1682,8 @@ const (
 	SimAccType_Futures SimAccType = SimAccType_SimAccType_Futures
 	// 股票和期权模拟账户（支持交易股票和期权）
 	SimAccType_StockAndOption SimAccType = SimAccType_SimAccType_StockAndOption
+	// 比赛账户
+	SimAccType_Competition SimAccType = SimAccType_SimAccType_Competition
 
 	// 排序方向
 	// enum: SortDir
@@ -1316,7 +1694,7 @@ const (
 	// 降序
 	SortDir_Descend SortDir = SortDir_SortDir_Descend
 
-	// 窝轮排序
+	// 排序
 	// enum: SortField
 	SortField_Unknown SortField = SortField_SortField_Unknown
 	// 代码
@@ -1419,6 +1797,35 @@ const (
 	SortField_Position SortField = SortField_SortField_Position
 	// 日增仓
 	SortField_PositionChange SortField = SortField_SortField_PositionChange
+	// 市值
+	SortField_MarketCap SortField = SortField_SortField_MarketCap
+	// 估值
+	SortField_Valuation SortField = SortField_SortField_Valuation
+	// 预测估值
+	SortField_ForwardValuation SortField = SortField_SortField_ForwardValuation
+	// 历史分位
+	SortField_HistoricalPercentile SortField = SortField_SortField_HistoricalPercentile
+	// 持股股数
+	SortField_HolderQuantity SortField = SortField_SortField_HolderQuantity
+	// 持股变动数
+	SortField_ShareChangeNum SortField = SortField_SortField_ShareChangeNum
+	// 持股日期
+	SortField_HoldingDate SortField = SortField_SortField_HoldingDate
+	// 变动比例
+	SortField_HolderPctChange SortField = SortField_SortField_HolderPctChange
+	// 变动金额
+	SortField_HolderChangeAmount SortField = SortField_SortField_HolderChangeAmount
+	// 持股比例
+	SortField_HolderPct SortField = SortField_SortField_HolderPct
+
+	// 排序方向
+	// enum: SortType
+	// 未知
+	SortType_Unknown SortType = SortType_SortType_Unknown
+	// 降序
+	SortType_Desc SortType = SortType_SortType_Desc
+	// 升序
+	SortType_Asc SortType = SortType_SortType_Asc
 
 	// 简单属性
 	// enum: StockField
@@ -1503,6 +1910,16 @@ const (
 	SubType_KL_Year SubType = SubType_SubType_KL_Year
 	// 3分K
 	SubType_KL_3Min SubType = SubType_SubType_KL_3Min
+	// 10分K
+	SubType_KL_10Min SubType = SubType_SubType_KL_10Min
+	// 120分K
+	SubType_KL_120Min SubType = SubType_SubType_KL_120Min
+	// 180分K
+	SubType_KL_180Min SubType = SubType_SubType_KL_180Min
+	// 240分K
+	SubType_KL_240Min SubType = SubType_SubType_KL_240Min
+	// 碎股摆盘
+	SubType_OrderBook_Odd SubType = SubType_SubType_OrderBook_Odd
 
 	// enum: TickerDirection
 	// 未知
@@ -1595,6 +2012,10 @@ const (
 	TimeInForce_DAY TimeInForce = TimeInForce_TimeInForce_DAY
 	// 撤单前有效，最多持续90自然日。
 	TimeInForce_GTC TimeInForce = TimeInForce_TimeInForce_GTC
+	// 立即执行，否则取消
+	TimeInForce_IOC TimeInForce = TimeInForce_TimeInForce_IOC
+	// 指定日期前有效
+	TimeInForce_GTD TimeInForce = TimeInForce_TimeInForce_GTD
 
 	// 交易日查询市场
 	// enum: TradeDateMarket
@@ -1614,6 +2035,12 @@ const (
 	TradeDateMarket_JP_Future TradeDateMarket = TradeDateMarket_TradeDateMarket_JP_Future
 	// 新加坡期货
 	TradeDateMarket_SG_Future TradeDateMarket = TradeDateMarket_TradeDateMarket_SG_Future
+	// 新加坡证券
+	TradeDateMarket_SG TradeDateMarket = TradeDateMarket_TradeDateMarket_SG
+	// 马来西亚
+	TradeDateMarket_MY TradeDateMarket = TradeDateMarket_TradeDateMarket_MY
+	// 日本（正股/ETF）
+	TradeDateMarket_JP TradeDateMarket = TradeDateMarket_TradeDateMarket_JP
 
 	// 交易日类型
 	// enum: TradeDateType
@@ -1691,6 +2118,8 @@ const (
 	TrdCategory_Security TrdCategory = TrdCategory_TrdCategory_Security
 	// 期货
 	TrdCategory_Future TrdCategory = TrdCategory_TrdCategory_Future
+	// 加密货币
+	TrdCategory_Crypto TrdCategory = TrdCategory_TrdCategory_Crypto
 
 	// 交易环境
 	// enum: TrdEnv
@@ -1715,6 +2144,8 @@ const (
 	TrdMarket_Futures TrdMarket = TrdMarket_TrdMarket_Futures
 	// 期货市场
 	TrdMarket_SG TrdMarket = TrdMarket_TrdMarket_SG
+	// 加密货币市场
+	TrdMarket_Crypto TrdMarket = TrdMarket_TrdMarket_Crypto
 	// 澳洲市场
 	TrdMarket_AU TrdMarket = TrdMarket_TrdMarket_AU
 	// 模拟交易期货市场
@@ -1760,6 +2191,8 @@ const (
 	TrdSecMarket_CA TrdSecMarket = TrdSecMarket_TrdSecMarket_CA
 	// 外汇
 	TrdSecMarket_FX TrdSecMarket = TrdSecMarket_TrdSecMarket_FX
+	// 加密货币市场
+	TrdSecMarket_CC TrdSecMarket = TrdSecMarket_TrdSecMarket_CC
 
 	// 交易方向
 	// enum: TrdSide
@@ -1811,6 +2244,43 @@ const (
 	// 日本-外国衍生品证据金-特定
 	TrdSubAccType_JP_GAIKOKU_DERIVATIVE_TOKUTEI TrdSubAccType = TrdSubAccType_TrdSubAccType_JP_GAIKOKU_DERIVATIVE_TOKUTEI
 
+	// 标的筛选因子类型
+	// enum: UnderlyingIndicatorType
+	// 未知
+	UnderlyingIndicatorType_Unknown UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_Unknown
+	// 【确切值】指定标的范围(股票ID列表)
+	UnderlyingIndicatorType_StockList UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_StockList
+	// 【已废弃】指定板块, 后端不支持
+	UnderlyingIndicatorType_Plate UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_Plate
+	// 【确切值】指定指数类型
+	UnderlyingIndicatorType_IndexList UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_IndexList
+	// 【范围】总成交量
+	UnderlyingIndicatorType_Volume UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_Volume
+	// 【范围】总持仓量
+	UnderlyingIndicatorType_OpenInterest UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_OpenInterest
+	// 【范围】标的IV
+	UnderlyingIndicatorType_IV UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_IV
+	// 【范围】标的HV
+	UnderlyingIndicatorType_HV UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_HV
+	// 【范围】标的IV Rank
+	UnderlyingIndicatorType_IVRank UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_IVRank
+	// 【范围】标的IV Percentile
+	UnderlyingIndicatorType_IVPercentile UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_IVPercentile
+	// 【范围】标的IV变化量
+	UnderlyingIndicatorType_IVChange UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_IVChange
+	// 【范围】标的IV变化率
+	UnderlyingIndicatorType_IVChangeRatio UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_IVChangeRatio
+	// 【范围】标的IV/HV
+	UnderlyingIndicatorType_IVHVRatio UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_IVHVRatio
+	// 【范围】标的IV-HV
+	UnderlyingIndicatorType_IVHVSpread UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_IVHVSpread
+	// 【范围】标的市值
+	UnderlyingIndicatorType_MarketCap UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_MarketCap
+	// 【范围】标的最新价
+	UnderlyingIndicatorType_StockPrice UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_StockPrice
+	// 【范围】涨跌幅
+	UnderlyingIndicatorType_ChangeRatio UnderlyingIndicatorType = UnderlyingIndicatorType_UnderlyingIndicatorType_ChangeRatio
+
 	// enum: UpdateType
 	// 无需升级
 	UpdateType_None UpdateType = UpdateType_UpdateType_None
@@ -1824,7 +2294,7 @@ const (
 	UserAttribution_Unknown UserAttribution = UserAttribution_UserAttribution_Unknown
 	// 大陆
 	UserAttribution_NN UserAttribution = UserAttribution_UserAttribution_NN
-	// 美国
+	// MooMoo
 	UserAttribution_MM UserAttribution = UserAttribution_UserAttribution_MM
 	// 新加坡
 	UserAttribution_SG UserAttribution = UserAttribution_UserAttribution_SG
@@ -1847,6 +2317,42 @@ const (
 	// 升级类型
 	UserInfoField_Update UserInfoField = UserInfoField_UserInfoField_Update
 	UserInfoField_WebKey UserInfoField = UserInfoField_UserInfoField_WebKey
+
+	// 估值历史区间类型
+	// enum: ValuationIntervalType
+	// 未知
+	ValuationIntervalType_Unknown ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Unknown
+	// 3个月
+	ValuationIntervalType_Month3 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Month3
+	// 6个月
+	ValuationIntervalType_Month6 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Month6
+	// 1年
+	ValuationIntervalType_Year1 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Year1
+	// 3年
+	ValuationIntervalType_Year3 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Year3
+	// 从2019年起
+	ValuationIntervalType_Since2019 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Since2019
+	// 5年
+	ValuationIntervalType_Year5 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Year5
+	// 10年
+	ValuationIntervalType_Year10 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Year10
+	// 2年
+	ValuationIntervalType_Year2 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Year2
+	// 20年
+	ValuationIntervalType_Year20 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Year20
+	// 30年
+	ValuationIntervalType_Year30 ValuationIntervalType = ValuationIntervalType_ValuationIntervalType_Year30
+
+	// 估值类型
+	// enum: ValuationType
+	// 未知
+	ValuationType_Unknown ValuationType = ValuationType_ValuationType_Unknown
+	// 市盈率
+	ValuationType_PE ValuationType = ValuationType_ValuationType_PE
+	// 市净率
+	ValuationType_PB ValuationType = ValuationType_ValuationType_PB
+	// 市销率
+	ValuationType_PS ValuationType = ValuationType_ValuationType_PS
 
 	// enum: VerificationOp
 	// 未知操作

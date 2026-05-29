@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 enum ModifyUserSecurityOp {
   ModifyUserSecurityOp_Unknown = 0;
@@ -18,6 +16,7 @@ message QotModifyUserSecurityRequest {
   required string groupName = 1; //分组名,有同名的返回排序的首个
   required ModifyUserSecurityOp op = 2; //ModifyUserSecurityOp,操作类型
   repeated Security securityList = 3; //新增、删除或移出该分组下的股票
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotModifyUserSecurityResponse {}

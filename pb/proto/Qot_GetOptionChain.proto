@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 enum OptionCondType {
   OptionCondType_Unknown = 0;
@@ -51,6 +49,7 @@ message QotGetOptionChainRequest {
   required string beginTime = 4; //期权到期日开始时间
   required string endTime = 5; //期权到期日结束时间，时间跨度最多一个月
   optional DataFilter dataFilter = 7; //数据字段筛选
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message OptionItem {

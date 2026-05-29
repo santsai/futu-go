@@ -1,0 +1,32 @@
+syntax = "proto2";
+package futupb;
+
+import "Types.proto";
+
+option go_package = "github.com/santsai/futu-go/pb";
+
+message QotGetOptionExerciseProbabilityRequest {
+  required Security security = 1; // 股票
+}
+
+message StrikeProbabilityItem {
+  optional int64 timestamp = 1; // 数据点时间戳（秒）
+  optional string timestampStr = 2; // 日期字符串，格式 YYYY-MM-DD，对应市场时区
+  optional double securityPrice = 3; // 正股价格
+  optional double strikeProbability = 4; // 行权概率，百分号前的值，如 12.34 表示 12.34%
+}
+
+message QotGetOptionExerciseProbabilityResponse {
+  repeated StrikeProbabilityItem itemList = 1; // 行权概率列表，时间按从大到小排序
+}
+
+message QotGetOptionExerciseProbabilityRequest_Internal {
+  required QotGetOptionExerciseProbabilityRequest payload = 1;
+}
+
+message QotGetOptionExerciseProbabilityResponse_Internal {
+  required RetType retType = 1 [default = RetType_Unknown];
+  optional string retMsg = 2;
+  optional int32 errCode = 3;
+  optional QotGetOptionExerciseProbabilityResponse payload = 4;
+}

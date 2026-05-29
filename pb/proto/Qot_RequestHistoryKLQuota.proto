@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 message DetailItem {
   required Security security = 1; //拉取的股票
@@ -16,6 +14,7 @@ message DetailItem {
 
 message QotRequestHistoryKLQuotaRequest {
   optional bool bGetDetail = 2; //是否返回详细拉取过的历史纪录
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotRequestHistoryKLQuotaResponse {

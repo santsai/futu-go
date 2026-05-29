@@ -1,0 +1,33 @@
+syntax = "proto2";
+package futupb;
+
+import "Types.proto";
+
+option go_package = "github.com/santsai/futu-go/pb";
+
+//仅支持以下策略类型查询有效价差：
+//  Spread, Strangle, Collar, Butterfly, Condor, IronButterfly, IronCondor, DiagonalSpread
+
+message QotGetOptionStrategySpreadRequest {
+  required Security owner = 1; //期权标的股，目前仅支持港美正股以及恒指国指
+  required OptionStrategyType option_strategy = 2; //Qot_GetOptionStrategy.OptionStrategyType，期权策略类型
+  optional string expire_time = 3; //到期日（近端到期日）
+  optional string far_expire_time = 4; //远端到期日，对角策略（DiagonalSpread）时必传
+  optional IndexOptionType index_option_type = 5; //Qot_Common.IndexOptionType，指数期权类型，仅用于恒指国指
+  optional QotHeader header = 100; //行情公共参数头
+}
+
+message QotGetOptionStrategySpreadResponse {
+  repeated double spreadList = 1; //有效价差列表，如 [0.5, 1.0, 2.0]，单位与正股价格一致
+}
+
+message QotGetOptionStrategySpreadRequest_Internal {
+  required QotGetOptionStrategySpreadRequest payload = 1;
+}
+
+message QotGetOptionStrategySpreadResponse_Internal {
+  required RetType retType = 1 [default = RetType_Unknown]; //RetType，返回结果
+  optional string retMsg = 2;
+  optional int32 errCode = 3;
+  optional QotGetOptionStrategySpreadResponse payload = 4;
+}

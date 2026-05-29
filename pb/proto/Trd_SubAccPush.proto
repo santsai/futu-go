@@ -1,10 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 message TrdSubAccPushRequest {
   repeated uint64 accIDList = 1; //要接收推送数据的业务账号列表，全量非增量，即使用者请每次传需要接收推送数据的所有业务账号

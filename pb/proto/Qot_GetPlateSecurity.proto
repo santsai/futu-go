@@ -1,16 +1,15 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 message QotGetPlateSecurityRequest {
   required Security plate = 1; //板块
   optional SortField sortField = 2; //Qot_Common.SortField,根据哪个字段排序,不填默认Code排序
   optional bool ascend = 3; //升序ture, 降序false, 不填默认升序
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotGetPlateSecurityResponse {

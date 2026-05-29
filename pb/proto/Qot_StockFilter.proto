@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 // 使用到以下 6 个结构体（BaseFilter，AccumulateFilter，FinancialFilter，BaseData，AccumulateData，FinancialData）的用户请注意，由于属性字段名“field”与 C # 的 protobuf 保留函数名产生冲突，Futu API 将从 3.18 版本开始将这一字段统一更名为“fieldName”，请注意修改使用到对应接口的字段名。
 
@@ -297,6 +295,7 @@ message QotStockFilterRequest {
   repeated FinancialFilter financialFilterList = 7; // 财务指标过滤器
   repeated PatternFilter patternFilterList = 8; // 形态技术指标过滤器
   repeated CustomIndicatorFilter customIndicatorFilterList = 9; // 自定义技术指标过滤器
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotStockFilterResponse {

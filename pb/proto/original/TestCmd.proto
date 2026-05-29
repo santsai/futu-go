@@ -7,12 +7,14 @@ option java_package = "com.futu.openapi.pb";
 //内部使用
 message C2S {
   required string cmd = 1;
-  optional string params = 2;
+  optional string paramStr = 2;
+  optional bytes paramBytes = 3;
 }
 
 message S2C {
   required string cmd = 1;
-  required string result = 2;
+  optional string resultStr = 2;
+  optional bytes resultBytes = 3;
 }
 
 message Request {

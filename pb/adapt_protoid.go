@@ -5,76 +5,115 @@ package pb
 type ProtoId uint32
 
 const (
-	ProtoId_InitConnect                ProtoId = 1001
-	ProtoId_GetGlobalState             ProtoId = 1002
-	ProtoId_Notify                     ProtoId = 1003
-	ProtoId_KeepAlive                  ProtoId = 1004
-	ProtoId_GetUserInfo                ProtoId = 1005
-	ProtoId_Verification               ProtoId = 1006
-	ProtoId_GetDelayStatistics         ProtoId = 1007
-	ProtoId_TestCmd                    ProtoId = 1008
-	ProtoId_InitQuantMode              ProtoId = 1009
-	ProtoId_TrdGetAccList              ProtoId = 2001
-	ProtoId_TrdUnlockTrade             ProtoId = 2005
-	ProtoId_TrdSubAccPush              ProtoId = 2008
-	ProtoId_TrdGetFunds                ProtoId = 2101
-	ProtoId_TrdGetPositionList         ProtoId = 2102
-	ProtoId_TrdGetMaxTrdQtys           ProtoId = 2111
-	ProtoId_TrdGetOrderList            ProtoId = 2201
-	ProtoId_TrdPlaceOrder              ProtoId = 2202
-	ProtoId_TrdModifyOrder             ProtoId = 2205
-	ProtoId_TrdUpdateOrder             ProtoId = 2208
-	ProtoId_TrdGetOrderFillList        ProtoId = 2211
-	ProtoId_TrdUpdateOrderFill         ProtoId = 2218
-	ProtoId_TrdGetHistoryOrderList     ProtoId = 2221
-	ProtoId_TrdGetHistoryOrderFillList ProtoId = 2222
-	ProtoId_TrdGetMarginRatio          ProtoId = 2223
-	ProtoId_TrdGetOrderFee             ProtoId = 2225
-	ProtoId_TrdFlowSummary             ProtoId = 2226
-	ProtoId_QotSub                     ProtoId = 3001
-	ProtoId_QotRegQotPush              ProtoId = 3002
-	ProtoId_QotGetSubInfo              ProtoId = 3003
-	ProtoId_QotGetBasicQot             ProtoId = 3004
-	ProtoId_QotUpdateBasicQot          ProtoId = 3005
-	ProtoId_QotGetKL                   ProtoId = 3006
-	ProtoId_QotUpdateKL                ProtoId = 3007
-	ProtoId_QotGetRT                   ProtoId = 3008
-	ProtoId_QotUpdateRT                ProtoId = 3009
-	ProtoId_QotGetTicker               ProtoId = 3010
-	ProtoId_QotUpdateTicker            ProtoId = 3011
-	ProtoId_QotGetOrderBook            ProtoId = 3012
-	ProtoId_QotUpdateOrderBook         ProtoId = 3013
-	ProtoId_QotGetBroker               ProtoId = 3014
-	ProtoId_QotUpdateBroker            ProtoId = 3015
-	ProtoId_QotUpdatePriceReminder     ProtoId = 3019
-	ProtoId_QotRequestHistoryKL        ProtoId = 3103
-	ProtoId_QotRequestHistoryKLQuota   ProtoId = 3104
-	ProtoId_QotRequestRehab            ProtoId = 3105
-	ProtoId_QotGetSuspend              ProtoId = 3201
-	ProtoId_QotGetStaticInfo           ProtoId = 3202
-	ProtoId_QotGetSecuritySnapshot     ProtoId = 3203
-	ProtoId_QotGetPlateSet             ProtoId = 3204
-	ProtoId_QotGetPlateSecurity        ProtoId = 3205
-	ProtoId_QotGetReference            ProtoId = 3206
-	ProtoId_QotGetOwnerPlate           ProtoId = 3207
-	ProtoId_QotGetHoldingChangeList    ProtoId = 3208
-	ProtoId_QotGetOptionChain          ProtoId = 3209
-	ProtoId_QotGetWarrant              ProtoId = 3210
-	ProtoId_QotGetCapitalFlow          ProtoId = 3211
-	ProtoId_QotGetCapitalDistribution  ProtoId = 3212
-	ProtoId_QotGetUserSecurity         ProtoId = 3213
-	ProtoId_QotModifyUserSecurity      ProtoId = 3214
-	ProtoId_QotStockFilter             ProtoId = 3215
-	ProtoId_QotGetCodeChange           ProtoId = 3216
-	ProtoId_QotGetIpoList              ProtoId = 3217
-	ProtoId_QotGetFutureInfo           ProtoId = 3218
-	ProtoId_QotRequestTradeDate        ProtoId = 3219
-	ProtoId_QotSetPriceReminder        ProtoId = 3220
-	ProtoId_QotGetPriceReminder        ProtoId = 3221
-	ProtoId_QotGetUserSecurityGroup    ProtoId = 3222
-	ProtoId_QotGetMarketState          ProtoId = 3223
-	ProtoId_QotGetOptionExpirationDate ProtoId = 3224
-	ProtoId_Unknown                    ProtoId = 4294967295
+	ProtoId_InitConnect                          ProtoId = 1001
+	ProtoId_GetGlobalState                       ProtoId = 1002
+	ProtoId_Notify                               ProtoId = 1003
+	ProtoId_KeepAlive                            ProtoId = 1004
+	ProtoId_GetUserInfo                          ProtoId = 1005
+	ProtoId_Verification                         ProtoId = 1006
+	ProtoId_GetDelayStatistics                   ProtoId = 1007
+	ProtoId_TestCmd                              ProtoId = 1008
+	ProtoId_InitQuantMode                        ProtoId = 1009
+	ProtoId_TrdGetAccList                        ProtoId = 2001
+	ProtoId_TrdUnlockTrade                       ProtoId = 2005
+	ProtoId_TrdSubAccPush                        ProtoId = 2008
+	ProtoId_TrdGetFunds                          ProtoId = 2101
+	ProtoId_TrdGetPositionList                   ProtoId = 2102
+	ProtoId_TrdGetMaxTrdQtys                     ProtoId = 2111
+	ProtoId_TrdGetComboMaxTrdQtys                ProtoId = 2112
+	ProtoId_TrdGetOrderList                      ProtoId = 2201
+	ProtoId_TrdPlaceOrder                        ProtoId = 2202
+	ProtoId_TrdModifyOrder                       ProtoId = 2205
+	ProtoId_TrdUpdateOrder                       ProtoId = 2208
+	ProtoId_TrdGetOrderFillList                  ProtoId = 2211
+	ProtoId_TrdUpdateOrderFill                   ProtoId = 2218
+	ProtoId_TrdGetHistoryOrderList               ProtoId = 2221
+	ProtoId_TrdGetHistoryOrderFillList           ProtoId = 2222
+	ProtoId_TrdGetMarginRatio                    ProtoId = 2223
+	ProtoId_TrdGetOrderFee                       ProtoId = 2225
+	ProtoId_TrdFlowSummary                       ProtoId = 2226
+	ProtoId_TrdPlaceComboOrder                   ProtoId = 2227
+	ProtoId_QotSub                               ProtoId = 3001
+	ProtoId_QotRegQotPush                        ProtoId = 3002
+	ProtoId_QotGetSubInfo                        ProtoId = 3003
+	ProtoId_QotGetBasicQot                       ProtoId = 3004
+	ProtoId_QotUpdateBasicQot                    ProtoId = 3005
+	ProtoId_QotGetKL                             ProtoId = 3006
+	ProtoId_QotUpdateKL                          ProtoId = 3007
+	ProtoId_QotGetRT                             ProtoId = 3008
+	ProtoId_QotUpdateRT                          ProtoId = 3009
+	ProtoId_QotGetTicker                         ProtoId = 3010
+	ProtoId_QotUpdateTicker                      ProtoId = 3011
+	ProtoId_QotGetOrderBook                      ProtoId = 3012
+	ProtoId_QotUpdateOrderBook                   ProtoId = 3013
+	ProtoId_QotGetBroker                         ProtoId = 3014
+	ProtoId_QotUpdateBroker                      ProtoId = 3015
+	ProtoId_QotUpdatePriceReminder               ProtoId = 3019
+	ProtoId_QotRequestHistoryKL                  ProtoId = 3103
+	ProtoId_QotRequestHistoryKLQuota             ProtoId = 3104
+	ProtoId_QotRequestRehab                      ProtoId = 3105
+	ProtoId_QotGetSuspend                        ProtoId = 3201
+	ProtoId_QotGetStaticInfo                     ProtoId = 3202
+	ProtoId_QotGetSecuritySnapshot               ProtoId = 3203
+	ProtoId_QotGetPlateSet                       ProtoId = 3204
+	ProtoId_QotGetPlateSecurity                  ProtoId = 3205
+	ProtoId_QotGetReference                      ProtoId = 3206
+	ProtoId_QotGetOwnerPlate                     ProtoId = 3207
+	ProtoId_QotGetHoldingChangeList              ProtoId = 3208
+	ProtoId_QotGetOptionChain                    ProtoId = 3209
+	ProtoId_QotGetWarrant                        ProtoId = 3210
+	ProtoId_QotGetCapitalFlow                    ProtoId = 3211
+	ProtoId_QotGetCapitalDistribution            ProtoId = 3212
+	ProtoId_QotGetUserSecurity                   ProtoId = 3213
+	ProtoId_QotModifyUserSecurity                ProtoId = 3214
+	ProtoId_QotStockFilter                       ProtoId = 3215
+	ProtoId_QotGetCodeChange                     ProtoId = 3216
+	ProtoId_QotGetIpoList                        ProtoId = 3217
+	ProtoId_QotGetFutureInfo                     ProtoId = 3218
+	ProtoId_QotRequestTradeDate                  ProtoId = 3219
+	ProtoId_QotSetPriceReminder                  ProtoId = 3220
+	ProtoId_QotGetPriceReminder                  ProtoId = 3221
+	ProtoId_QotGetUserSecurityGroup              ProtoId = 3222
+	ProtoId_QotGetMarketState                    ProtoId = 3223
+	ProtoId_QotGetOptionExpirationDate           ProtoId = 3224
+	ProtoId_QotGetFinancialsEarningsPriceMove    ProtoId = 3225
+	ProtoId_QotGetFinancialsEarningsPriceHistory ProtoId = 3226
+	ProtoId_QotGetFinancialsStatements           ProtoId = 3227
+	ProtoId_QotGetFinancialsRevenueBreakdown     ProtoId = 3228
+	ProtoId_QotGetResearchAnalystConsensus       ProtoId = 3229
+	ProtoId_QotGetResearchRatingSummary          ProtoId = 3230
+	ProtoId_QotGetResearchMorningstarReport      ProtoId = 3231
+	ProtoId_QotGetValuationDetail                ProtoId = 3232
+	ProtoId_QotGetValuationPlateStockList        ProtoId = 3233
+	ProtoId_QotGetCorporateActionsDividends      ProtoId = 3234
+	ProtoId_QotGetCorporateActionsBuybacks       ProtoId = 3235
+	ProtoId_QotGetCorporateActionsStockSplits    ProtoId = 3236
+	ProtoId_QotGetShareholdersOverview           ProtoId = 3237
+	ProtoId_QotGetShareholdersHoldingChanges     ProtoId = 3238
+	ProtoId_QotGetShareholdersHolderDetail       ProtoId = 3239
+	ProtoId_QotGetShareholdersInstitutional      ProtoId = 3240
+	ProtoId_QotGetInsiderHolderList              ProtoId = 3241
+	ProtoId_QotGetInsiderTradeList               ProtoId = 3242
+	ProtoId_QotGetCompanyProfile                 ProtoId = 3243
+	ProtoId_QotGetCompanyExecutives              ProtoId = 3244
+	ProtoId_QotGetCompanyExecutiveBackground     ProtoId = 3245
+	ProtoId_QotGetCompanyOperationalEfficiency   ProtoId = 3246
+	ProtoId_QotGetTopTenBuySellBrokers           ProtoId = 3247
+	ProtoId_QotGetDailyShortVolume               ProtoId = 3248
+	ProtoId_QotGetShortInterest                  ProtoId = 3249
+	ProtoId_QotGetOptionVolatility               ProtoId = 3250
+	ProtoId_QotGetOptionExerciseProbability      ProtoId = 3251
+	ProtoId_QotStockScreen                       ProtoId = 3252
+	ProtoId_QotOptionScreen                      ProtoId = 3253
+	ProtoId_QotWarrantScreen                     ProtoId = 3254
+	ProtoId_QotGetOptionQuote                    ProtoId = 3255
+	ProtoId_QotGetOptionStrategy                 ProtoId = 3256
+	ProtoId_QotGetOptionStrategyAnalysis         ProtoId = 3257
+	ProtoId_QotGetOptionStrategySpread           ProtoId = 3258
+	ProtoId_SkillWrapTechnicalUnusual            ProtoId = 3801
+	ProtoId_SkillWrapFinancialUnusual            ProtoId = 3802
+	ProtoId_SkillWrapDerivativeUnusual           ProtoId = 3803
+	ProtoId_Unknown                              ProtoId = 4294967295
 )
 
 func (id ProtoId) String() string {
@@ -109,6 +148,8 @@ func (id ProtoId) String() string {
 		return "ProtoId_TrdGetPositionList"
 	case ProtoId_TrdGetMaxTrdQtys:
 		return "ProtoId_TrdGetMaxTrdQtys"
+	case ProtoId_TrdGetComboMaxTrdQtys:
+		return "ProtoId_TrdGetComboMaxTrdQtys"
 	case ProtoId_TrdGetOrderList:
 		return "ProtoId_TrdGetOrderList"
 	case ProtoId_TrdPlaceOrder:
@@ -131,6 +172,8 @@ func (id ProtoId) String() string {
 		return "ProtoId_TrdGetOrderFee"
 	case ProtoId_TrdFlowSummary:
 		return "ProtoId_TrdFlowSummary"
+	case ProtoId_TrdPlaceComboOrder:
+		return "ProtoId_TrdPlaceComboOrder"
 	case ProtoId_QotSub:
 		return "ProtoId_QotSub"
 	case ProtoId_QotRegQotPush:
@@ -217,6 +260,80 @@ func (id ProtoId) String() string {
 		return "ProtoId_QotGetMarketState"
 	case ProtoId_QotGetOptionExpirationDate:
 		return "ProtoId_QotGetOptionExpirationDate"
+	case ProtoId_QotGetFinancialsEarningsPriceMove:
+		return "ProtoId_QotGetFinancialsEarningsPriceMove"
+	case ProtoId_QotGetFinancialsEarningsPriceHistory:
+		return "ProtoId_QotGetFinancialsEarningsPriceHistory"
+	case ProtoId_QotGetFinancialsStatements:
+		return "ProtoId_QotGetFinancialsStatements"
+	case ProtoId_QotGetFinancialsRevenueBreakdown:
+		return "ProtoId_QotGetFinancialsRevenueBreakdown"
+	case ProtoId_QotGetResearchAnalystConsensus:
+		return "ProtoId_QotGetResearchAnalystConsensus"
+	case ProtoId_QotGetResearchRatingSummary:
+		return "ProtoId_QotGetResearchRatingSummary"
+	case ProtoId_QotGetResearchMorningstarReport:
+		return "ProtoId_QotGetResearchMorningstarReport"
+	case ProtoId_QotGetValuationDetail:
+		return "ProtoId_QotGetValuationDetail"
+	case ProtoId_QotGetValuationPlateStockList:
+		return "ProtoId_QotGetValuationPlateStockList"
+	case ProtoId_QotGetCorporateActionsDividends:
+		return "ProtoId_QotGetCorporateActionsDividends"
+	case ProtoId_QotGetCorporateActionsBuybacks:
+		return "ProtoId_QotGetCorporateActionsBuybacks"
+	case ProtoId_QotGetCorporateActionsStockSplits:
+		return "ProtoId_QotGetCorporateActionsStockSplits"
+	case ProtoId_QotGetShareholdersOverview:
+		return "ProtoId_QotGetShareholdersOverview"
+	case ProtoId_QotGetShareholdersHoldingChanges:
+		return "ProtoId_QotGetShareholdersHoldingChanges"
+	case ProtoId_QotGetShareholdersHolderDetail:
+		return "ProtoId_QotGetShareholdersHolderDetail"
+	case ProtoId_QotGetShareholdersInstitutional:
+		return "ProtoId_QotGetShareholdersInstitutional"
+	case ProtoId_QotGetInsiderHolderList:
+		return "ProtoId_QotGetInsiderHolderList"
+	case ProtoId_QotGetInsiderTradeList:
+		return "ProtoId_QotGetInsiderTradeList"
+	case ProtoId_QotGetCompanyProfile:
+		return "ProtoId_QotGetCompanyProfile"
+	case ProtoId_QotGetCompanyExecutives:
+		return "ProtoId_QotGetCompanyExecutives"
+	case ProtoId_QotGetCompanyExecutiveBackground:
+		return "ProtoId_QotGetCompanyExecutiveBackground"
+	case ProtoId_QotGetCompanyOperationalEfficiency:
+		return "ProtoId_QotGetCompanyOperationalEfficiency"
+	case ProtoId_QotGetTopTenBuySellBrokers:
+		return "ProtoId_QotGetTopTenBuySellBrokers"
+	case ProtoId_QotGetDailyShortVolume:
+		return "ProtoId_QotGetDailyShortVolume"
+	case ProtoId_QotGetShortInterest:
+		return "ProtoId_QotGetShortInterest"
+	case ProtoId_QotGetOptionVolatility:
+		return "ProtoId_QotGetOptionVolatility"
+	case ProtoId_QotGetOptionExerciseProbability:
+		return "ProtoId_QotGetOptionExerciseProbability"
+	case ProtoId_QotStockScreen:
+		return "ProtoId_QotStockScreen"
+	case ProtoId_QotOptionScreen:
+		return "ProtoId_QotOptionScreen"
+	case ProtoId_QotWarrantScreen:
+		return "ProtoId_QotWarrantScreen"
+	case ProtoId_QotGetOptionQuote:
+		return "ProtoId_QotGetOptionQuote"
+	case ProtoId_QotGetOptionStrategy:
+		return "ProtoId_QotGetOptionStrategy"
+	case ProtoId_QotGetOptionStrategyAnalysis:
+		return "ProtoId_QotGetOptionStrategyAnalysis"
+	case ProtoId_QotGetOptionStrategySpread:
+		return "ProtoId_QotGetOptionStrategySpread"
+	case ProtoId_SkillWrapTechnicalUnusual:
+		return "ProtoId_SkillWrapTechnicalUnusual"
+	case ProtoId_SkillWrapFinancialUnusual:
+		return "ProtoId_SkillWrapFinancialUnusual"
+	case ProtoId_SkillWrapDerivativeUnusual:
+		return "ProtoId_SkillWrapDerivativeUnusual"
 	case ProtoId_Unknown:
 		return "ProtoId_Unknown"
 	}

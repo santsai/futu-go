@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 message QotRequestHistoryKLRequest {
   required RehabType rehabType = 1; //Qot_Common.RehabType,复权类型
@@ -18,6 +16,7 @@ message QotRequestHistoryKLRequest {
   optional bytes nextReqKey = 8; //分页请求key
   optional bool extendedTime = 9; //是否获取美股盘前盘后数据，仅支持 60 分钟及以下级别
   optional Session session = 10; //Qot_Common.Session, 美股盘前盘后数据，仅支持 60 分钟及以下级别
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message QotRequestHistoryKLResponse {

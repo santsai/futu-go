@@ -61,21 +61,24 @@ var retMsgMappings = []retMsgMapping{
 		Id:      pb.ProtoId_QotGetUserSecurity,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"Unknown watchlists",
+			"Unknown watchlist group.",
+			"Unknown watchlists", // deprecated
 			"未知自选股分组",
 		}},
 	{Code: err_NotSupportedInSimEnv,
 		Id:      pb.ProtoId_TrdFlowSummary,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"Paper trading does not support requesting cash flow data.",
+			"Paper trading accounts do not support querying cash flow records.",
+			"Paper trading does not support requesting cash flow data.", // deprecated
 			"模拟账户不支持查询现金流水",
 		}},
 	{Code: err_NotSupportedInSimEnv,
 		Id:      pb.ProtoId_TrdGetOrderFee,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"Paper trading is not supported",
+			"Paper trading is not supported.",
+			"Paper trading is not supported",   // deprecated
 			"Simulated trade is not supported", // deprecated
 			"暂时不支持模拟交易",
 		}},
@@ -83,7 +86,8 @@ var retMsgMappings = []retMsgMapping{
 		Id:      pb.ProtoId_TrdGetHistoryOrderFillList,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"Paper trading does not support deal list",
+			"Paper trading does not support deal data.",
+			"Paper trading does not support deal list",   // deprecated
 			"Simulated trade does not support deal list", // deprecated
 			"模拟交易不支持成交数据",
 		}},
@@ -91,7 +95,8 @@ var retMsgMappings = []retMsgMapping{
 		Id:      pb.ProtoId_TrdGetOrderFillList,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"Paper trading does not support deal list",
+			"Paper trading does not support deal data.",
+			"Paper trading does not support deal list",   // deprecated
 			"Simulated trade does not support deal list", // deprecated
 			"模拟交易不支持成交数据",
 		}},
@@ -99,14 +104,16 @@ var retMsgMappings = []retMsgMapping{
 		Id:      pb.ProtoId_QotModifyUserSecurity,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"The System grouping is not supported",
+			"System groups are not supported.",
+			"The System grouping is not supported", // deprecated
 			"不支持系统分组",
 		}},
 	{Code: err_FilterMinMaxRequired,
 		Id:      pb.ProtoId_QotStockFilter,
 		RetType: pb.RetType_Failed,
 		Msgs: []string{
-			"The filter field needs to set the range",
+			"No range value assigned to the filter field.",
+			"The filter field needs to set the range", // deprecated
 			"没有给需要筛选的字段进行区间赋值",
 		}},
 	{Code: err_RateLimited,

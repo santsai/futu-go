@@ -1,11 +1,9 @@
 syntax = "proto2";
 package futupb;
 
-import "Common.proto";
-import "Qot_Common.proto";
+import "Types.proto";
 
 option go_package = "github.com/santsai/futu-go/pb";
-option java_package = "com.futu.openapi.pb";
 
 //当请求时间点数据为空时，如何返回数据
 enum NoDataMode {
@@ -30,6 +28,7 @@ message QotGetHistoryKLPointsRequest {
   repeated string timeList = 5; //时间字符串
   optional int32 maxReqSecurityNum = 6; //最多返回多少只股票的数据，如果未指定表示不限制
   optional int64 needKLFieldsFlag = 7; //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
+  optional QotHeader header = 100; //行情公共参数头
 }
 
 message HistoryPointsKL {
